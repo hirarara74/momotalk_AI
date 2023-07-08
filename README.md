@@ -13,22 +13,23 @@
   <sub>Set your Creative Idea free!</sub>
 </div>
 
-## Preview
+[中文说明](./README-zh.md)
 
-![](./assets/img5.png)
-![](./assets/img7.png)
 
 ## Feature
 
-- **Search** students with name, romaji, and nickname
-- **Chat** as Students and Sensei (or send a story box)
-- Send the **Image** in chat
-- **Delete** any chat box
-- Import **Custom** characters
-- **Download** the Conversation as an image
+- **Searchable**: search students by names, romajis, and even nicknames. 🔍️
+- **Custom role**: chat as Students, Sensei, and Custom roles. 🎅
+- **Story Event**: send Images/Story Event during the chat. ❤️
+- **Flexible Editor**: the chat box can be Inserted, Editted, Deleted, Dragged. 👍
+- **Easy to Share**: save the conversation as an image and share your friends. 🖼️
 
 [Try it!](https://u1805.github.io/momotalk)
 
+## Preview
+
+![img9](./assets/img9.png)
+![img8](./assets/img8.png)
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=U1805/momotalk)](https://star-history.com/#U1805/momotalk)
