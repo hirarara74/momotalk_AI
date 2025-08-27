@@ -8,6 +8,7 @@ await resourceInstance.loadConfig()
 const getData = <T>(file: string): Promise<T> => resourceInstance.getData(file)
 const proxy1 = (url: string) => resourceInstance.proxy(url)
 const proxy = (url: string[]) => resourceInstance.proxy(url)
+const schoolList = await getData("/api/Schools/schools.json") as string[]
 
 /*
 数据请求方法
@@ -20,22 +21,7 @@ const getSchoolIcon = (school: string) => {
     // ========================= Flag Birthday Icon Start =========================
     if (school.includes("-Birthday")) return `/momotalk/birthday.svg`
     // ========================= Flag Birthday Icon End =========================
-    if (
-        ![
-            'Abydos',
-            'Arius',
-            'ETC',
-            'Gehenna',
-            'Hyakkiyako',
-            'Millennium',
-            'RedWinter',
-            'Shanhaijing',
-            'SRT',
-            'Tokiwadai',
-            'Trinity',
-            'Valkyrie'
-        ].includes(school)
-    )
+    if (!schoolList.includes(school))
         return proxy1(`/api/Schools/ETC.png`)
     return proxy1(`/api/Schools/${school}.png`)
 }
