@@ -8,7 +8,7 @@ export const store = reactive({
     theme: 'momotalk',
     fullScreen: false,
     zoom: 1,
-    draggable: window.matchMedia('(max-width: 1150px)').matches,
+    draggable: window.matchMedia('(min-width: 1151px)').matches,
 
     typing: 0,
     text: '',
@@ -16,7 +16,7 @@ export const store = reactive({
     showPlayerDialog: false,
     showSettingDialog: false,
     storyKey: '10005',
-    storyList: {} as Record<string, string>,
+    storyList: {} as Record<string, string[]>,
     storyFile: '1000501',
 
     setData() {
@@ -35,10 +35,10 @@ export const store = reactive({
             .map((x) => localStorage.getItem(x))
         this.language  = data[0] != null ? JSON.parse(data[0]) : 'zh'
         i18n.global.locale = this.language as any
-        this.theme     = data[3] != null ? JSON.parse(data[3]) : 'momotalk'
-        this.draggable = data[4] != null ? JSON.parse(data[4]) : window.matchMedia('(max-width: 1150px)').matches
-        this.fullScreen = data[5] != null ? JSON.parse(data[5]) : false
-        this.zoom      = data[6] != null ? JSON.parse(data[6]) : 1
+        this.theme     = data[1] != null ? JSON.parse(data[1]) : 'momotalk'
+        this.draggable = data[2] != null ? JSON.parse(data[2]) : window.matchMedia('(min-width: 1151px)').matches
+        this.fullScreen = data[3] != null ? JSON.parse(data[3]) : false
+        this.zoom      = data[4] != null ? JSON.parse(data[4]) : 1
     },
     resetData() {
         talkHistory.resetData()

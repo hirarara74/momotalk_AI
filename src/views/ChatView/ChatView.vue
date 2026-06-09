@@ -230,7 +230,7 @@ onMounted(async () => {
     let id = route.query.id as string
     if (id) {
         store.storyKey = id
-        store.storyList = (await getMessage(store.storyKey, 'index')) as {}
+        store.storyList = await getMessage<Record<string, string[]>>(store.storyKey, 'index')
         if (store.storyList) {
             if (!Object.keys(store.storyList).find((ele) => ele === store.storyFile))
                 store.storyFile = Object.keys(store.storyList)[0]

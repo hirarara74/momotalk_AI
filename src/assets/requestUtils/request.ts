@@ -26,8 +26,8 @@ const getSchoolIcon = (school: string) => {
     return proxy1(`/api/Schools/${school}.png`)
 }
 
-const getMessage = async (student: string, storyid: string) => {
-    return (await getData(`/api/Stories/${student}/${storyid}.json`)) as any[]
+const getMessage = async <T = any[]>(student: string, storyid: string) => {
+    return getData<T>(`/api/Stories/${student}/${storyid}.json`)
 }
 
 const getStickers = async (student: number) => {
