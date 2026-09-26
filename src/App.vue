@@ -7,9 +7,11 @@ import ListUpIcon from './components/icons/IconListUp.vue'
 import ListDownIcon from './components/icons/IconListDown.vue'
 import ResetIcon from './components/icons/IconReset.vue'
 import LanguageIcon from './components/icons/IconLanguage.vue'
+import DownloadIcon from './components/icons/IconDownload.vue'
 import PlayerDialog from '@/views/DialogView/PlayerWindow.vue'
 import SettingDialog from '@/views/DialogView/SettingWindow.vue'
 import FilterDialog from '@/views/DialogView/FilterWindows.vue'
+import { download } from '@/assets/imgUtils/download'
 
 // true "vh" on mobile 
 let vh = window.innerHeight * 0.01
@@ -47,6 +49,9 @@ window.addEventListener('resize', () => {
                 </RouterLink>
             </div>
             <div id="sidebar__down">
+                <div style="cursor: pointer" @click="handleDownload" title="Download Screenshot">
+                    <DownloadIcon class="icon download" />
+                </div>
                 <div style="cursor: pointer" @click="store.resetData()" title="Reset">
                     <ResetIcon class="icon reset" />
                 </div>
@@ -322,6 +327,15 @@ const changeLanguage = async () => {
     processData()
     store.setData()
     deactiveStudent()
+}
+
+const handleDownload = () => {
+    if (store.zoom !== 1) {
+        if (!confirm(i18n.global.t('warnZoom', { ratio: `${Math.round(store.zoom * 100)}%` }))) {
+            return
+        }
+    }
+    download()
 }
 
 /************************* */

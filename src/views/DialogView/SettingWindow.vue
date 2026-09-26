@@ -396,15 +396,19 @@ const onProviderChange = () => {
 
                 <div class="popper-content__footer-links">
                     <a
-                        href="https://github.com/U1805/momotalk"
+                        href="https://github.com/hirarara74/momotalk_AI"
                         class="icon-link"
                         title="GITHUB"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         ><IconGithub
                     /></a>
                     <a
-                        href="https://github.com/U1805/momotalk/blob/main/docs/update_log.md"
+                        href="https://github.com/hirarara74/momotalk_AI/blob/main/docs/update_log.md"
                         class="icon-link"
                         title="LOG"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         ><IconLog
                     /></a>
                 </div>

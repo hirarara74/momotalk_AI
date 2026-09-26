@@ -56,32 +56,41 @@ An interactive AI chat application to talk in real-time with Blue Archive studen
 
 ## 💬 Chat Features
 
-- **Talk with Students**: Select any student and send messages via the bottom input bar. Students will reply in faithful accordance with their personality and speech habits.
-- **Typing Indicator**: While the student is formulating a reply, the signature "..." typing animation plays in real-time.
-- **Time, Date, Season, and Birthday Awareness**: Students know the real-world current date, time, day of the week, season, and their own birthday.
+- **Talk with Students**: Select any student and send messages via the bottom input bar. Students reply in faithful accordance with their lore, personality, relationships, and speech habits.
+- **Typing Indicator & Read Receipts**: Messages sent by Sensei display "Read" receipts, and students show the authentic "..." typing animation in real-time while generating replies.
+- **Sleep & Wake Rhythm**: Each student has their own unique personalized sleep/wake rhythm for weekdays and weekends. During sleeping hours, replies are queued and automatically delivered when the student wakes up (can be toggled in settings).
+- **Time, Date, Season, and Birthday Awareness**: Students are aware of real-world date, time, weekday, season, and their own birthdays.
 - **Message Timestamp & Date Dividers**: Each message displays its send time, with date dividers between different days.
 
 ## 📸 Multimodal Vision (Images)
 
-- **Send Photos**: Click the photo icon to send images or screenshots (including files >= 1MB).
-- **In-Character Reactions**: Students look at the actual contents of the image and share their authentic reactions.
+- **Send Photos**: Click the photo icon to send images or screenshots (large images are automatically optimized).
+- **In-Character Reactions**: Students look at the actual contents of the image and share authentic reactions.
 
 ## 💖 Kizuna (Relationship) Rank
 
-- Chatting with students raises your Kizuna relationship rank with them over time.
+- Chatting with students raises your Kizuna relationship rank (Lv.1+) with them over time.
 
-## 📚 Student Roster
+## 📚 Student Roster (23 Students Supported)
 
-- **Search** (\`/\`): Search students by name.
-- **Sorting**: Students are automatically sorted by newest interaction order.
+- **Search** (\`/\`): Search students by name or romaji.
+- **Filter**: Filter by school, rarity, release status, or "🤖 Prompt-Supported Students (23)" only.
+- **Sorting**: Students are automatically sorted by newest interaction order in the chat view.
 - **Avatar Variations**: Click on students with a "+" badge to cycle through expressions and outfits.
 
 ## ⚙️ Settings
 
 - Click the gear icon (⚙️) in the upper right to customize:
-  - **AI Provider**: Google Gemini, OpenAI-compatible, or Anthropic Claude
-  - **Model & API Key**: Configure custom endpoints and credentials
+  - **AI Provider**: Groq (fast default & recommended), Google Gemini, OpenAI-compatible, or Anthropic Claude
+  - **Model & API Key**: One-tap quick selection for 120B reasoning model (openai/gpt-oss-120b) or 27B vision model (qwen/qwen3.8-27b)
+  - **Sleep Rhythm**: Toggle student sleep and wake schedules ON/OFF
   - **Theme**: MomoTalk or YuzuTalk theme
   - **Audio Effects**: Toggle message send, receive, and rank-up sounds
+
+## ⌨️ Shortcuts
+
+- \`/\` : Focus search box
+- \`Enter\` : Send message
+- \`Shift + Enter\` : New line
 `
 }

@@ -1,115 +1,67 @@
-![banner](./assets/演示2.webp)
+![Banner](./assets/演示2.webp)
 
-# How to use
+# MomoTalk AI User Guide
 
-## 📚 Sidebar 
+MomoTalk AI is an interactive AI chat web application inspired by the MomoTalk messaging system in Blue Archive. Powered by modern Large Language Models (LLMs), it allows you to chat in real time with Kivotos students in an authentic, immersive environment.
 
-💾 Below, there are three buttons: "**Switch languages**", "**Reset**" and "**Download** as image". 
+---
 
-## 🎓 Student List 
+## 📚 Features & Layout
 
-🔍 Click on the **school icons**: Filter students by school. **Search bar** at the top(Shortcut key `/`), supports use Chinese , romaji as keywords
+### 1. Student List (Sidebar)
+- **Select Student**: Click any student in the left sidebar to start chatting.
+- **Filtering & Search**:
+  - **School Icons**: Filter students by academy (Abydos, Gehenna, Trinity, Millennium, etc.).
+  - **Search Bar** (Shortcut `/`): Search students by name, romaji, or nickname.
+- **Message Preview**: Each student item displays the latest message snippet.
+- **Sleep Status Badge (💤)**: When a student is asleep according to their personal schedule, a `💤` badge appears on their avatar.
 
-📜 Clicking the button on the right side of the search bar allows you to toggle between the "Implemented Characters" and "Unimplemented Characters" lists
+### 2. Chat View
+- **Sending Messages**: Type your message into the input field at the bottom and press `Enter` (or click Send).
+  - Use `Shift + Enter` for a line break.
+- **In-Universe Typing Indicator**: When Sensei sends a message, a realistic "..." typing animation indicates the student is replying.
+- **Read Receipts ("既読")**: Messages sent by Sensei display a "Read" status once processed.
+- **Vision & Image Upload**:
+  - Attach images using the paperclip button or drag-and-drop.
+  - Students visually inspect the image content and comment on it in-character.
 
-<p align="center">
-<img src="../public/img/switchlsit.webp" alt="switch_list" style="width:50%">
-</p>
+### 3. Life Rhythm & Sleep Simulation
+- Each student follows a lore-accurate circadian rhythm (with distinct wake-up times for weekdays vs. weekends, regular vs. irregular sleep patterns).
+- **Behavior during Sleep**:
+  - If you message a sleeping student, they will not reply immediately. Instead, they will wake up at their scheduled time and automatically respond.
+  - The sleep simulation feature can be toggled on/off at any time in Settings.
 
-🔄 Students with a `+` on their avatars: Click on the avatar to switch **appearances**.
+### 4. Kizuna Relationship System
+- Chatting regularly with students increases your Kizuna Rank (relationship level).
+- Reaching a new rank triggers the authentic Blue Archive level-up fanfare and sound effect.
 
-<p align="center">
-<img src="../public/img/appearence.webp" alt="appearence" style="width:50%">
-</p>
+### 5. Sidebar Bottom Actions
+- **🌐 Language Switcher**: Switch between Japanese, English, Korean, Simplified Chinese, and Traditional Chinese.
+- **🧹 Reset Chat**: Clear conversation history with the current student to start fresh.
+- **💾 Download Screenshot**: Save your entire chat history as a high-resolution PNG image.
 
+---
 
-📝 Upon entering the editing interface, selecting students from the list will add them to the candidate list in the bottom right corner for easy access
+## ⚙️ Settings (Gear Icon)
 
-## 🖌️ Edit
+Click the gear icon in the top right to open Settings:
 
-In the editing interface, there are the "Message Bar" and the "Candidate List" at the bottom
+1. **AI Provider**:
+   - **Groq** (Default & Recommended): Ultra-fast inference with cutting-edge open models like `openai/gpt-oss-120b` and `qwen/qwen3.8-27b`.
+   - **Google Gemini**: Google's multimodal models.
+   - **OpenAI Compatible**: Connect any OpenAI-compatible API endpoint or custom model.
+   - **Anthropic Claude**: State-of-the-art conversational Claude models.
+2. **Sleep Simulation Toggle**: Enable or disable the circadian rhythm mechanic.
+3. **Theme**: Toggle between MomoTalk and YuzuTalk themes.
+4. **Full Screen**: Toggle distraction-free full-screen mode.
 
-### 🎭 Select a Role
+---
 
-The first four items in the candidate list are "**Sensei**", "**Story Event**", "**Reply Box**", and "**System Message**". The last button is for **adding custom characters**.
+## 🌟 Support & Feedback
 
-<p align="center">
-<img src="../public/img/sendbar.webp" alt="sendbar" style="width:50%">
-</p>
+If you encounter any issues or have feature requests, please check the GitHub repository:
 
-### 🌄 Send Messages
+- GitHub: [hirarara74/momotalk_AI](https://github.com/hirarara74/momotalk_AI)
+- Issues: [Submit an Issue](https://github.com/hirarara74/momotalk_AI/issues)
 
-After selecting a role, you can **send messages or images** in the message bar (size limit is 1MB). 
-
-If the current role is a teacher or student, clicking on the avatar in the message bar allows you to send in-game chatroom **stickers**. In addition, student face variations is considered as a kind of special stickers too.
-
-<p align="center">
-<img src="../public/img/stickers.webp" alt="stickers" style="width:45%">
-<img src="../public/img/stickers2.webp" alt="face variations" style="width:45%">
-</p>
-
-
-### ✏️ Edit Messages
-
-You can use a syntax similar to [markdown](https://www.markdownguide.org/basic-syntax/) to send some **special text styles**.
-
-Try sending an "`# Here is a Biiiig text`" message ~
-
-| Usage |
-| ---- |
-| \# Heading level 1 |
-| \#\# Heading level 2 |
-| \#\#\# Heading level 3 |
-| \*\*Bold text\*\* |
-| \*Italic text\* |
-| \*\*\*Bold italic text\*\*\* |
-| \~\~Delete line\~\~ |
-| \[color:red;font-size:10px](Font style) |
-
-> The bold style of this font may not display correctly on certain browsers.
->
-> Escaping can be achieved by using the backslash character \ (for `#`, `*`, `~`). For example, `\#` will output # instead of being interpreted as a heading.
-
-
-Following the **WYSIWYG** (What you see is what you get) design philosophy, elements can still be directly edited after sending messages, such as modifying, dragging, deleting, etc. 
-
-- **Modifying**: Supports editing *text*, *character names*, and *images*.
-  - For " *Text* " and " Character name ", simply click to reveal a text box for editing.
-  - For " *Image* ", click to upload a new image.
-  - For " *Reply* ", pressing Enter will bring up the next option.
-- **Dragging**: Holding and moving messages up and down can adjust the order between messages.
-- **Deleting**: When the cursor *hovers* over an element, the delete button `x` will appear near the element.
-- **Inserting**: When the cursor is *hovering* over an element, the insert button `↲` appears, then the message will be inserted here.
-- **Shortcut key**: undo `Ctrl+Z`, redo `Ctrl+Shift+Z`, and line break `Shift+Enter`
-
-<p align="center">
-<img src="../public/img/edit.webp" alt="edit" style="width:50%">
-</p>
-
-### 📜 Interrupt the Message Flow
-
-Normally, messages from a single student are continuous. If you wish to interrupt the message flow, you can try clicking below the "avatar" in the student's message.
-
-<div align="center">
-<img src="../public/img/splitmessage.webp" alt="split" style="width:50%">
-
-<p>via <a href="https://twitter.com/YuzuTalkJP/status/1421448297030381569">Yuzutalk</a> </p>
-</div>
-
-## ⚙️ Settings Interface
-
-Click on the gear icon in the upper right corner to access the settings. You can switch to the **Yuzutalk theme**, enable **full-screen** mode, and import or export your conversations.
-
-There is also an option to export your conversations as a **sharefile**. This file allows others to watch your story in animated form.
-
-<p align="center">
-<img src="./assets/setting.webp" alt="setting" style="width:50%">
-</p>
-
-## 🌟 Others
-
-The application is adapted for mobile devices 💻📱
-
-If you notice any omissions or mistakes, **please feel free to raise an [issue](https://github.com/U1805/momotalk/issues) or submit a [pull request](https://github.com/U1805/momotalk/pulls) for correction**. Of course, ideas and optimizations for features and code are also very much welcomed ❤️
-
-![thanks](../public/img/kyk.gif)
+![Thank you](../public/img/kyk.gif)
