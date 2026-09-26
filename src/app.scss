@@ -312,25 +312,9 @@
         grid-area: 3 / 1 / 4 / 6;
         display: flex;
         flex-wrap: wrap;
-        padding-top: 14px;
-        padding-bottom: 6px;
-        gap: 12px;
+        padding-top: 16px;
         img {
-            @include circle(62px);
-            margin-right: 0;
-            border: 2px solid transparent;
-            transition: all 0.2s ease;
-            box-sizing: border-box;
-
-            &:hover {
-                transform: scale(1.08);
-                border-color: #00a0e9;
-            }
-
-            &.active {
-                border-color: #ff7b92;
-                box-shadow: 0 0 8px rgba(255, 123, 146, 0.45);
-            }
+            margin-right: 16px;
         }
     }
 }
