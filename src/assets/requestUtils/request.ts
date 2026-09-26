@@ -34,7 +34,8 @@ const getStickers = async (student: number) => {
     return (await getData(`/api/Stories/${student}/Stickers.json`)) as any[]
 }
 
-const getStudents = async (lng: string) => {
+const getStudents = async (rawLng: string) => {
+    const lng = (rawLng === 'ja' ? 'jp' : rawLng) as SupportedLanguage
     const tools = {
         initStudentObject: (localItem: LocalStudent): studentInfo => ({
             Id: localItem.Id,
@@ -42,7 +43,7 @@ const getStudents = async (lng: string) => {
             Name: tools.fixStudentField(localItem, 'Name'),
             Bio: tools.fixStudentField(localItem, 'Bio'),
             Nickname: localItem.Nickname,
-            Birthday: dateFormat(localItem.Birthday, lng as SupportedLanguage) || '???',
+            Birthday: dateFormat(localItem.Birthday, lng) || '???',
             Age: localItem.Age || '',
             School: localItem.School || 'ETC',
             Club: localItem.Club || '',
@@ -62,7 +63,7 @@ const getStudents = async (lng: string) => {
                 return localItem[field]['zh']
                     ? Traditionalized(localItem[field]['zh'])
                     : ''
-            return localItem[field][lng] || ''
+            return localItem[field][lng] || localItem[field]['jp'] || ''
         },
 
         fillNickname: (student: studentInfo, localItem: LocalStudent) => {

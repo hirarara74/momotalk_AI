@@ -25,6 +25,18 @@ export default {
     selectLanguage: 'Select a language',
     setting: 'Settings',
     basicSetting: 'Basic Settings',
+    soundEffects: 'Sound Effects (SE)',
+    soundVolume: 'SE Volume',
+    aiSetting: 'AI Settings',
+    aiEnabled: 'AI Auto-Reply',
+    aiProvider: 'AI Provider',
+    sleepRhythm: 'Student Sleep & Wake Rhythm',
+    sleepRhythmDesc: 'Replies are held during sleeping hours and sent automatically when the student wakes up according to their schedule.',
+    sleepingBadge: 'Asleep (Wakes up at {time})',
+    sleepingPlaceholder: '{name} is currently asleep (messages will be delivered upon waking)...',
+    readStatus: 'Read',
+    clearChat: 'Reset',
+    resetChatConfirm: 'Reset conversation history with {name}?',
     sharefile: 'Import & Export',
     renderStyle: 'Theme',
     fullScreen: 'Full Screen',
@@ -38,56 +50,38 @@ export default {
     warnZoom: 
         "⚠️ Your browser is currently zoomed in %ratio%. Continuing to download images may result in formatting errors. \n• If zooming is needed, please use the zoom function in the settings ⚙️ at the top right corner. \n• Do you want to continue downloading?",
     help: `
-# How to use 
+# MomoTalk AI User Guide · How to use
 
-## 📚 Sidebar 
+An interactive AI chat application to talk in real-time with Blue Archive students.
 
-Below the sidebar, there are three buttons: "**Switch Language**," "**Reset**," and "**Download** as an image."
+## 💬 Chat Features
 
-## 🎓 Student List 
+- **Talk with Students**: Select any student and send messages via the bottom input bar. Students will reply in faithful accordance with their personality and speech habits.
+- **Typing Indicator**: While the student is formulating a reply, the signature "..." typing animation plays in real-time.
+- **Time, Date, Season, and Birthday Awareness**: Students know the real-world current date, time, day of the week, season, and their own birthday.
+- **Message Timestamp & Date Dividers**: Each message displays its send time, with date dividers between different days.
 
-- Search Bar: Shortcut key \`/\`
-  
-- Button next to the search bar: Toggle between "**Implemented Characters**" and "**Unimplemented Characters**" lists.
+## 📸 Multimodal Vision (Images)
 
-![](./img/switchlsit.webp)
+- **Send Photos**: Click the photo icon to send images or screenshots (including files >= 1MB).
+- **In-Character Reactions**: Students look at the actual contents of the image and share their authentic reactions.
 
-- School Icons: Filter by school.
+## 💖 Kizuna (Relationship) Rank
 
-- Students with a \`+\` on their avatars: Click on the avatar to switch **appearances**.
+- Chatting with students raises your Kizuna relationship rank with them over time.
 
-![](./img/appearence.webp)
+## 📚 Student Roster
 
-## 🖌️ Edit
+- **Search** (\`/\`): Search students by name.
+- **Sorting**: Students are automatically sorted by newest interaction order.
+- **Avatar Variations**: Click on students with a "+" badge to cycle through expressions and outfits.
 
-- Select Identity: The first four options are "**Teacher**," "**Story Event**," "**Reply**," and "**System Message**." The last button is used to **add custom characters**.
-- For Teachers/Students, clicking on the avatar sends in-game **chat stickers** and **student face variations images**.
-- You can use [a syntax similar to markdown](https://github.com/U1805/momotalk/blob/main/docs/How-to-use.md#%EF%B8%8F-%E7%BC%96%E8%BE%91%E6%B6%88%E6%81%AF--edit-messages) to send some special text styles.
+## ⚙️ Settings
 
-![](./img/stickers.webp)
-![](./img/sendbar.webp)
-
-- **Edit**: Supports editing *text*, *character names*, and *images*.
-- **Reply**: Typing Enter will bring up the next option box.
-- **Drag and Drop**: Hold and move messages up and down to adjust their order.
-- **Delete**: When the cursor is *hovering* over an element, the delete button \`x\` appears.
-- **Insert**: When the cursor is *hovering* over an element, the insert button \`↲\` appears, then the message will be inserted here.
-- **Keyboard Shortcuts**: Undo with \`Ctrl+Z\`, redo with \`Ctrl+Shift+Z\`, line break \`Shift+Enter\`
-
-![](./img/edit.webp)
-
-- Interrupt Message Flow: Click in the area below the "avatar" in student messages.
-
-![](./img/splitmessage.webp)
-
-<p style='text-align: center'>via <a href="https://twitter.com/YuzuTalkJP/status/1421448297030381569">Yuzutalk</a> </p>
-
-## 🌟 Others
-
-This application is compatible with mobile devices 💻📱.
-
-If you find any omissions or errors, **feel free to submit an [issue](https://github.com/U1805/momotalk/issues) or [pull request](https://github.com/U1805/momotalk/pulls)**. Of course, we welcome ideas and optimizations for functionality and code ❤️.
-
-![](./img/kyk.gif)
+- Click the gear icon (⚙️) in the upper right to customize:
+  - **AI Provider**: Google Gemini, OpenAI-compatible, or Anthropic Claude
+  - **Model & API Key**: Configure custom endpoints and credentials
+  - **Theme**: MomoTalk or YuzuTalk theme
+  - **Audio Effects**: Toggle message send, receive, and rank-up sounds
 `
 }

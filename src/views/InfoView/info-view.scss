@@ -56,6 +56,37 @@
         padding: 4px;
     }
 
+    &__chat-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: #ff7b92;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 8px 20px;
+        border-radius: 20px;
+        margin: 10px auto 0;
+        text-decoration: none;
+        box-shadow: 0 2px 6px rgba(255, 123, 146, 0.35);
+        transition: all 0.2s ease;
+        cursor: pointer;
+        width: fit-content;
+
+        &:hover {
+            background: #ff6580;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(255, 123, 146, 0.45);
+        }
+
+        .chat-btn-icon {
+            width: 16px;
+            height: 16px;
+            fill: #ffffff;
+        }
+    }
+
     &__related {
         margin-top: 20px;
         overflow: hidden;

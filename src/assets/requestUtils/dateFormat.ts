@@ -5,7 +5,7 @@ const MONTHS_EN = [
     'July', 'August', 'September', 'October', 'November', 'December'
 ]
 
-export type SupportedLanguage = 'zh' | 'tw' | 'jp' | 'kr' | 'en'
+export type SupportedLanguage = 'zh' | 'tw' | 'jp' | 'kr' | 'en' | 'ja'
 
 const getOrdinalSuffix = (day: number): string => {
     if (day > 3 && day < 21) return 'th'
@@ -19,28 +19,31 @@ const getOrdinalSuffix = (day: number): string => {
 
 export const dateFormat = (birthday: string, lng: SupportedLanguage) => {
     if (!birthday || !/^\d+\/\d+$/.test(birthday)) return '???'
-    const TOOL = {
+    const TOOL: Record<string, (month: number, day: number) => string> = {
         zh: (month: number, day: number) => `${month}月${day}日`,
         tw: (month: number, day: number) => `${month}月${day}日`,
         jp: (month: number, day: number) => `${month}月${day}日`,
+        ja: (month: number, day: number) => `${month}月${day}日`,
         kr: (month: number, day: number) => `${month}월 ${day}일`,
         en: (month: number, day: number) =>
             `${MONTHS_EN[month - 1]} ${day}${getOrdinalSuffix(day)}`
     }
     const [month, day] = birthday.split('/').map(Number)
-    return TOOL[lng](month, day)
+    const formatter = TOOL[lng] || TOOL.jp
+    return formatter(month, day)
 }
 
 export const dateFormatReverse = (date: string, lng: SupportedLanguage): string => {
     if (!date) return ''
 
-    const parseDate = {
+    const parseDate: Record<string, (str: string) => number[] | null> = {
         zh: (str: string) => {
             const nums = str.match(/\d+/g)?.map(Number)
             return nums?.length === 2 ? nums : null
         },
         tw: (str: string) => parseDate.zh(str),
         jp: (str: string) => parseDate.zh(str),
+        ja: (str: string) => parseDate.zh(str),
         kr: (str: string) => parseDate.zh(str),
         en: (str: string) => {
             const monthName = MONTHS_EN.find(m => str.toLowerCase().includes(m.toLowerCase()))
@@ -51,7 +54,8 @@ export const dateFormatReverse = (date: string, lng: SupportedLanguage): string 
         }
     }
 
-    const [month, day] = parseDate[lng](date) || []
+    const parser = parseDate[lng] || parseDate.jp
+    const [month, day] = parser(date) || []
 
     if (!month || !day || month < 1 || month > 12 || day < 1 || day > 31) {
         return ''

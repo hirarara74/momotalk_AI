@@ -47,6 +47,7 @@ interface Talk extends baseStudent {
     content: string
     // 显示头像的标记 flag  0: 非同类型第一条，不显示| 1: 非同类型第一条，显示 |2: 同类型第一条，显示
     flag: number
+    time?: number // 消息时间戳 (ミリ秒)
 }
 
 interface ProxyConfig {

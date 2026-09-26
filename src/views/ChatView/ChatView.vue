@@ -1,5 +1,37 @@
 <template>
     <main class="talk-wrapper">
+        <!-- 生徒ヘッダー (MomoTalk チャット対象生徒) -->
+        <div class="chat-header-bar" v-if="activeStudentInfo">
+            <div class="chat-header-bar__left">
+                <button class="chat-header-bar__back" @click="handleGoBack" title="戻る">‹</button>
+                <img class="chat-header-bar__avatar" :src="activeStudentAvatar" :alt="activeStudentInfo.Name" />
+                <div class="chat-header-bar__meta">
+                    <div class="chat-header-bar__name-row">
+                        <span class="chat-header-bar__name">{{ activeStudentInfo.Name }}</span>
+                        <span class="chat-header-bar__rank" title="絆ランク">
+                            <HeartIcon class="rank-heart" />
+                            <span>Lv.{{ store.getRelationshipRank(activeStudentInfo.Id) }}</span>
+                        </span>
+                        <span
+                            v-if="store.sleepSimulationEnabled && studentSleepStatus.isSleeping"
+                            class="chat-header-bar__sleep-badge"
+                            :title="$t('sleepingBadge', { time: formatWakeupTime(studentSleepStatus.wakeTime) })"
+                        >
+                            💤 {{ $t('sleepingBadge', { time: formatWakeupTime(studentSleepStatus.wakeTime) }) }}
+                        </span>
+                    </div>
+                    <div class="chat-header-bar__status" v-if="activeStudentInfo.Bio">
+                        {{ activeStudentInfo.Bio }}
+                    </div>
+                </div>
+            </div>
+            <div class="chat-header-bar__right">
+                <button class="clear-chat-btn" @click="handleClearChat" :title="$t('clearChat')">
+                    {{ $t('clearChat') }}
+                </button>
+            </div>
+        </div>
+
         <!-- 聊天主界面 -->
         <div class="talk-list show-action" id="talkList">
             <chat-draggable :tasks="talkHistory.talkHistory" />
@@ -7,33 +39,24 @@
         <!-- 聊天主界面 -->
 
         <div class="add" id="sendBar">
+            <!-- 添付画像プレビュー -->
+            <div class="attachment-bar" v-if="attachedImage">
+                <div class="attachment-preview-wrapper">
+                    <img :src="attachedImage" class="attachment-preview-img" alt="添付画像" />
+                    <button class="attachment-remove-btn" @click="removeAttachedImage" title="添付画像を削除">×</button>
+                </div>
+            </div>
+
             <div class="input-bar">
                 <!-- 贴图 -->
                 <Popper placement="top">
-                    <div class="sticker" id="sticker">
-                        <div v-if="selected === 1" title="Send a Sticker">
+                    <div class="sticker" id="sticker" title="スタンプを送信">
+                        <div class="sticker-badge">
                             <ProfileIcon class="icon profile" />
-                        </div>
-                        <div v-else-if="selected === 2">
-                            <HeartIcon class="heart icon" />
-                        </div>
-                        <div v-else-if="selected === 3">
-                            <ChoiceIcon class="choice icon" />
-                        </div>
-                        <div v-else-if="selected === 4">
-                            <BellIcon class="heart bell" />
-                        </div>
-                        <div
-                            v-else-if="typeof selected != 'number'"
-                            style="padding: 0px; margin: 0px"
-                            class="item"
-                            title="Send a Sticker"
-                        >
-                            <img v-lazy="selected.Avatar" />
                         </div>
                     </div>
                     <template #content>
-                        <div class="sticker-wrapper" v-if="typeof selected !== 'number' || selected === 1">
+                        <div class="sticker-wrapper">
                             <div class="stk">
                                 <div v-for="(sticker, index) in stickerList" :key="index">
                                     <img v-lazy="sticker" @click="_sticker(sticker)" />
@@ -42,7 +65,7 @@
                             <div class="tab">
                                 <div @click="switchSticker(-1)" 
                                     :class="{ stk__active: stickerTab === 1 }" >1</div>
-                                <div @click="switchSticker(selected)" 
+                                <div @click="switchSticker(1)" 
                                     :class="{ stk__active: stickerTab === 2 }" >2</div>
                             </div>
                         </div>
@@ -51,64 +74,21 @@
                 <!-- 贴图 -->
 
                 <!-- 发送 -->
-                <textarea class="text" placeholder="Aa" v-model="store.text" id="textarea"></textarea>
-                <div class="photo" title="Send an Image">
-                    <ImageIcon @click="_image()" class="image icon" />
+                <textarea
+                    class="text"
+                    :placeholder="attachedImage ? '画像についてのメッセージを入力（省略可）...' : (store.sleepSimulationEnabled && studentSleepStatus.isSleeping ? $t('sleepingPlaceholder', { name: activeStudentInfo?.Name || '生徒' }) : (activeStudentInfo ? `${activeStudentInfo.Name}にメッセージを送信...` : 'Aa'))"
+                    v-model="store.text"
+                    id="textarea"
+                    @keydown.enter.exact.prevent="_text()"
+                    @paste="handlePaste"
+                ></textarea>
+                <div class="photo" title="画像を添付・送信" @click="_image()">
+                    <ImageIcon class="image icon" />
                 </div>
-                <div class="message" title="Send the Message">
-                    <SendIcon @click="_text()" class="send icon"/>
+                <div class="message" title="送信" @click="_text()">
+                    <SendIcon class="send icon"/>
                 </div>
                 <!-- 发送 -->
-            </div>
-            <div class="g-wrap">
-                <div class="g-scroll">
-                    <div class="g-content selected-student">
-                        <!-- 身份选择 -->
-                        <div class="item-sensei" @click="selectChar(1)">
-                            <div title="send Sensei message">
-                                <ProfileIcon class="icon profile" />
-                            </div>
-                        </div>
-                        <div class="item-sensei" @click="selectChar(2)">
-                            <div title="send Event message">
-                                <HeartIcon class="heart icon" />
-                            </div>
-                        </div>
-                        <div class="item-sensei" @click="selectChar(3)">
-                            <div title="send Reply message">
-                                <ChoiceIcon class="choice icon" />
-                            </div>
-                        </div>
-                        <div class="item-sensei" @click="selectChar(4)">
-                            <div title="send System message">
-                                <BellIcon class="heart bell" />
-                            </div>
-                        </div>
-
-                        <div
-                            class="item"
-                            v-for="(student, index) in selectList.selectList"
-                            :key="index"
-                            @click="selectChar(student)"
-                            title="Select the student"
-                        >
-                            <img v-lazy="student.Avatar" />
-                            <CloseIcon
-                                class="delete-button"
-                                @click="deleteStudent(student.Id)"
-                                @click.stop=""
-                                title="Remove from list"
-                            />
-                        </div>
-                        <div
-                            class="item-sensei"
-                            @click="addCustomStudent"
-                            title="Add a customed student"
-                        >
-                            <AddIcon class="image icon" />
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </main>
@@ -118,132 +98,270 @@
 import ProfileIcon from '@/components/icons/IconProfile.vue'
 import SendIcon from '@/components/icons/IconSend.vue'
 import ImageIcon from '@/components/icons/IconImage.vue'
-import CloseIcon from '@/components/icons/IconClose2.vue'
 import HeartIcon from '@/components/icons/IconHeart.vue'
-import AddIcon from '@/components/icons/IconAdd.vue'
-import BellIcon from '@/components/icons/IconBell.vue'
-import ChoiceIcon from '@/components/icons/IconChoice.vue'
 // ======================= Icon
 import ChatDraggable from '@/views/ChatView/ChatDraggable.vue'
 import Popper from 'vue3-popper'
 import { useRoute } from 'vue-router'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref, watch, computed } from 'vue'
 
+import { stickers, stickers2 } from '@/assets/utils/stickers'
 import i18n from '@/locales/i18n'
-import { baseStudent } from '@/assets/requestUtils/interface'
-import { stickers, stickers2, stickers3 } from '@/assets/utils/stickers'
-import { getMessage, getStickers, proxy } from '@/assets/requestUtils/request'
-import { getRole } from '@/assets/chatUtils/role'
-import { readFile } from '@/assets/imgUtils/readFile'
+import { getMessage, proxy, getStudents } from '@/assets/requestUtils/request'
 import { store } from '@/assets/storeUtils/store'
 import { talkHistory } from '@/assets/storeUtils/talkHistory'
 import { selectList } from '@/assets/storeUtils/selectList'
-import { sendText, sendImage, sendSticker } from '@/assets/chatUtils/send'
+import { sendSenseiMessage, sendImage, sendSticker, sendImagePayload, checkAndTriggerPendingWakeups } from '@/assets/chatUtils/send'
 import { insertImage, insertSticker, insertText } from '@/assets/chatUtils/insert'
+import { readFile } from '@/assets/imgUtils/readFile'
+import { isStudentSleeping } from '@/assets/ai/sleepSchedule'
 
-const props = defineProps(['student'])
+const props = defineProps(['student', 'studentInfo'])
 const emits = defineEmits(['deactive'])
+const route = useRoute()
 
-const selected = ref<baseStudent | number>(1)
-
-// 添加到尾部与插入到中间
-const _text = ()=>{
-    store.insertId === -1
-        ? sendText(selected.value, store.text)
-        : insertText(selected.value, store.text, store.insertId)
-}
-const _image = ()=>{
-    store.insertId === -1
-        ? sendImage(selected.value)
-        : insertImage(selected.value, store.insertId)
-}
-const _sticker = (sticker: string)=>{
-    store.insertId === -1
-        ? sendSticker(selected.value, sticker)
-        : insertSticker(selected.value, sticker, store.insertId)
-}
-
-// 贴图
-const stickerList = ref<string[]>(proxy(stickers))
-const stickerTab = ref<number>(1)
-const switchSticker = async (selected: baseStudent | number) => {
-    if (typeof selected === 'number') {
-        if (selected === -1) {
-            stickerTab.value = 1
-            stickerList.value = proxy(stickers)
+const syncRouteStudent = async (studentIdStr?: string) => {
+    if (!studentIdStr) return
+    const idNum = Number(studentIdStr)
+    if (!idNum) return
+    if (store.currentChatStudent && store.currentChatStudent.Id === idNum && talkHistory.currentStudentId === idNum) {
+        return
+    }
+    if (props.studentInfo && props.studentInfo.Id === idNum) {
+        store.currentChatStudent = props.studentInfo
+        talkHistory.loadStudentTalks(props.studentInfo)
+        return
+    }
+    try {
+        const students = await getStudents(store.language)
+        const match = students.find((s) => s.Id === idNum)
+        if (match) {
+            store.currentChatStudent = match
+            talkHistory.loadStudentTalks(match)
         }
-        if (selected === 1) {
-            stickerList.value = proxy(stickers2)
-            stickerTab.value = 2
-        }
-    } else {
-        stickerTab.value = 2
-        let t_sticker: string[]
-        try {
-            t_sticker = await getStickers(selected.Id)
-            stickerList.value = proxy(t_sticker)
-        } catch (err) {
-            stickerList.value = proxy(stickers3)
-            console.error('sticker file does not exist!')
-            return
-        }
+    } catch (e) {
+        console.error('Failed to sync student from route query:', e)
     }
 }
 
-// 添加到列表
-watch(props, (newProps) => {
-    if (newProps.student) {
-        selectList.pushStudent(newProps.student)
-        selectChar(newProps.student)
+watch(
+    () => route.query.id,
+    (newId) => {
+        syncRouteStudent(newId as string)
     }
+)
+
+const activeStudentInfo = computed<any>(() => {
+    const routeId = Number(route.query.id)
+    if (routeId) {
+        if (store.currentChatStudent && store.currentChatStudent.Id === routeId) return store.currentChatStudent
+        if (props.studentInfo && props.studentInfo.Id === routeId) return props.studentInfo
+        if (props.student && props.student.Id === routeId) return props.student
+    }
+    if (talkHistory.currentStudentId) {
+        if (store.currentChatStudent && store.currentChatStudent.Id === talkHistory.currentStudentId) return store.currentChatStudent
+        if (props.studentInfo && props.studentInfo.Id === talkHistory.currentStudentId) return props.studentInfo
+        if (props.student && props.student.Id === talkHistory.currentStudentId) return props.student
+    }
+    if (store.currentChatStudent) return store.currentChatStudent
+    if (props.studentInfo) return props.studentInfo
+    if (props.student) return props.student
+    if (selectList.selectList.length > 0) return selectList.selectList[0]
+    return null
 })
-const selectChar = (student: baseStudent | number) => {
-    selected.value = student
-    switchSticker(-1)
-}
-const addCustomStudent = () => {
-    let name: string | null = ''
-    while (name.length === 0) {
-        name = prompt(i18n.global.t('customRoleInfo'))
-        if (name === null) return
+
+const activeStudentAvatar = computed(() => {
+    const s = activeStudentInfo.value
+    if (!s) return ''
+    if (Array.isArray(s.Avatars)) return s.Avatars[s.cnt || 0]
+    return s.Avatar || ''
+})
+
+const studentSleepStatus = computed(() => {
+    if (!activeStudentInfo.value) {
+        return { isSleeping: false, wakeTime: new Date() }
     }
-    var reader = new FileReader()
+    return isStudentSleeping(activeStudentInfo.value)
+})
+
+const formatWakeupTime = (date?: Date) => {
+    if (!date) return ''
+    const h = String(date.getHours()).padStart(2, '0')
+    const m = String(date.getMinutes()).padStart(2, '0')
+    return `${h}:${m}`
+}
+
+const handleGoBack = () => {
+    const root = document.getElementById('root')
+    if (root) {
+        root.scrollTo({ left: 0, behavior: 'smooth' })
+    }
+}
+
+const handleClearChat = () => {
+    if (activeStudentInfo.value) {
+        const studentName = activeStudentInfo.value.Name || '生徒'
+        if (confirm(i18n.global.t('resetChatConfirm', { name: studentName }))) {
+            talkHistory.clearStudentTalks(activeStudentInfo.value)
+        }
+    }
+}
+
+watch(
+    activeStudentInfo,
+    (newStudent) => {
+        if (newStudent) {
+            talkHistory.loadStudentTalks(newStudent)
+            const avatar = Array.isArray(newStudent.Avatars)
+                ? newStudent.Avatars[newStudent.cnt || 0]
+                : newStudent.Avatar || ''
+            if (!selectList.selectList.find((s) => s.Id === newStudent.Id)) {
+                selectList.pushStudent({
+                    Id: newStudent.Id,
+                    Name: newStudent.Name,
+                    Avatar: avatar
+                })
+            }
+        }
+    },
+    { immediate: true }
+)
+
+// 添付画像
+const attachedImage = ref<string | null>(null)
+
+const removeAttachedImage = () => {
+    attachedImage.value = null
+}
+
+const handlePaste = (e: ClipboardEvent) => {
+    const items = e.clipboardData?.items
+    if (!items) return
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf('image') !== -1) {
+            const file = items[i].getAsFile()
+            if (file) {
+                const reader = new FileReader()
+                reader.onload = (event) => {
+                    attachedImage.value = event.target?.result as string
+                }
+                reader.readAsDataURL(file)
+                e.preventDefault()
+                break
+            }
+        }
+    }
+}
+
+// 送信 (先生として送信)
+const _text = () => {
+    if (attachedImage.value) {
+        const img = attachedImage.value
+        const caption = store.text ? store.text.trim() : ''
+        attachedImage.value = null
+        store.text = ''
+        sendImagePayload(1, img, 2, caption)
+        return
+    }
+
+    if (!store.text || !store.text.trim()) return
+
+    /* 【割り込み編集機能の復元用メモ】
+       割り込み機能を復活させる場合は以下に戻してください：
+       store.insertId === -1
+           ? sendSenseiMessage(store.text)
+           : insertText(1, store.text, store.insertId)
+    */
+    sendSenseiMessage(store.text)
+}
+const _image = () => {
+    /* 【割り込み編集機能の復元用メモ】
+       割り込み機能を復活させる場合は以下を有効化してください：
+       if (store.insertId !== -1) {
+           insertImage(1, store.insertId)
+           return
+       }
+    */
+    const reader = new FileReader()
     reader.addEventListener('load', () => {
-        var student: baseStudent = getRole(name!, reader.result as string)
-        selectList.pushStudent(student)
+        attachedImage.value = reader.result as string
+        const textarea = document.querySelector('textarea') as HTMLElement
+        if (textarea) textarea.focus()
     })
     readFile(reader)
 }
-
-// 从列表删除
-const deleteStudent = (id: number) => {
-    emits('deactive')
-    selectList.deleteStudent(id)
-    selectChar(1)
+const _sticker = (sticker: string) => {
+    /* 【割り込み編集機能の復元用メモ】
+       割り込み機能を復活させる場合は以下に戻してください：
+       store.insertId === -1
+           ? sendSticker(1, sticker)
+           : insertSticker(1, sticker, store.insertId)
+    */
+    sendSticker(1, sticker)
 }
+
+// 貼付スタンプ切り替え
+const stickerList = ref<string[]>(proxy(stickers))
+const stickerTab = ref<number>(1)
+const switchSticker = (tab: number) => {
+    if (tab === -1 || tab === 1) {
+        stickerTab.value = 1
+        stickerList.value = proxy(stickers)
+    } else {
+        stickerTab.value = 2
+        stickerList.value = proxy(stickers2)
+    }
+}
+
+// リスト追加監視
+watch(props, (newProps) => {
+    if (newProps.student) {
+        selectList.pushStudent(newProps.student)
+    }
+})
 
 onMounted(async () => {
     // 滚动 & 判断播放
     var scroll_to_bottom = document.getElementById('talkList') as HTMLElement
-    scroll_to_bottom.scrollTop = scroll_to_bottom.scrollHeight
-    const route = useRoute()
+    if (scroll_to_bottom) {
+        scroll_to_bottom.scrollTop = scroll_to_bottom.scrollHeight
+    }
     let id = route.query.id as string
     if (id) {
-        store.storyKey = id
-        store.storyList = await getMessage<Record<string, string[]>>(store.storyKey, 'index')
-        if (store.storyList) {
-            if (!Object.keys(store.storyList).find((ele) => ele === store.storyFile))
-                store.storyFile = Object.keys(store.storyList)[0]
-            store.showPlayerDialog = true
+        await syncRouteStudent(id)
+        if (route.query.story === 'true') {
+            store.storyKey = id
+            store.storyList = await getMessage<Record<string, string[]>>(store.storyKey, 'index')
+            if (store.storyList) {
+                if (!Object.keys(store.storyList).find((ele) => ele === store.storyFile))
+                    store.storyFile = Object.keys(store.storyList)[0]
+                store.showPlayerDialog = true
+            }
         }
     }
-    // 软换行
+    // 就寝中の保留メッセージのチェック＆定期監視
+    checkAndTriggerPendingWakeups()
+    ;(window as any).checkAndTriggerPendingWakeups = checkAndTriggerPendingWakeups
+    wakeupInterval = setInterval(() => {
+        checkAndTriggerPendingWakeups()
+    }, 30000)
+
+    // Enterキー送信
     var textarea = document.querySelector('textarea') as HTMLElement
-    textarea.onkeydown = (e) => {
-        if (!e.shiftKey && e.key === 'Enter') {
-            e.preventDefault()
-            _text()
+    if (textarea) {
+        textarea.onkeydown = (e) => {
+            if (!e.shiftKey && e.key === 'Enter') {
+                e.preventDefault()
+                _text()
+            }
         }
+    }
+})
+
+let wakeupInterval: any = null
+onUnmounted(() => {
+    if (wakeupInterval) {
+        clearInterval(wakeupInterval)
     }
 })
 </script>
@@ -252,49 +370,150 @@ onMounted(async () => {
 @import './chat-view.scss';
 @import '@/assets/css/icons.scss';
 
-// 横向滚动 https://codepen.io/Chokcoco/pen/PoRLpGO
-$bar-height: calc($chatfooter-height/2);
-
-.g-wrap {
-    position: relative;
-    margin: auto;
-    width: 100%;
-    height: $bar-height;
-    cursor: pointer;
-    background-color: white;
-}
-
-.g-scroll {
-    position: absolute;
-    left: -$bar-height;
-    width: $bar-height;
-    height: calc((var(--view-width) - $sider-width) / 2);
-    transform-origin: 100% 0;
-    transform: rotate(-90deg);
-    overflow: scroll;
-    overflow-x: hidden;
-}
-
-.g-content {
-    position: absolute;
-    top: 0;
-    left: $bar-height;
-    width: fit-content;
-    height: $bar-height;
-    padding: 10px;
-    box-sizing: border-box;
-    transform-origin: 0 0;
-    box-sizing: border-box;
-    transform: rotate(90deg);
-}
-
 /* hide scrollbar */
 ::-webkit-scrollbar {
     display: none;
 }
 
-::-webkit-scrollbar-button {
-    display: none;
+.chat-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: #ffffff;
+    border-bottom: 1px solid #e9edf0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    z-index: 10;
+    flex-shrink: 0;
+
+    &__left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+    }
+
+    &__back {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: none;
+        background: #f0f4f8;
+        color: #2b3b4c;
+        font-size: 22px;
+        font-weight: bold;
+        line-height: 1;
+        cursor: pointer;
+        padding-bottom: 2px;
+        flex-shrink: 0;
+        transition: background 0.15s ease;
+
+        &:hover {
+            background: #e2e8f0;
+        }
+
+        @media screen and (max-width: 1150px) {
+            display: inline-flex;
+        }
+    }
+
+    &__avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #ff7b92;
+        flex-shrink: 0;
+    }
+
+    &__meta {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+    }
+
+    &__name-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &__name {
+        font-size: 15px;
+        font-weight: bold;
+        color: #2b3b4c;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__rank {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        background: #fff0f3;
+        color: #ff5577;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 1px 8px;
+        border-radius: 12px;
+        border: 1px solid #ffd1dc;
+
+        .rank-heart {
+            width: 12px;
+            height: 12px;
+            fill: #ff5577;
+        }
+    }
+
+    &__sleep-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        background: #f0f2ff;
+        color: #5c6bc0;
+        border: 1px solid #d4dafa;
+        font-size: 11px;
+        font-weight: bold;
+        padding: 2px 7px;
+        border-radius: 10px;
+        white-space: nowrap;
+    }
+
+    &__status {
+        font-size: 12px;
+        color: #7b8b9a;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 320px;
+    }
+
+    &__right {
+        flex-shrink: 0;
+    }
+
+    .clear-chat-btn {
+        background: #f0f4f8;
+        color: #6a7c8f;
+        border: 1px solid #dce4ec;
+        border-radius: 6px;
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.15s ease;
+
+        &:hover {
+            background: #ffebee;
+            color: #d32f2f;
+            border-color: #ffcdd2;
+        }
+    }
 }
 
 @import '@/assets/css/mobile.scss';

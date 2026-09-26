@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import BirhdayIcon from '@/components/icons/IconBirhday.vue'
 import PlayIcon from '@/components/icons/IconPlay.vue'
+import MessageIcon from '@/components/icons/IconMessage.vue'
 const props = defineProps(['studentInfo'])
 const emits = defineEmits(['deactive'])
 </script>
@@ -8,12 +9,11 @@ const emits = defineEmits(['deactive'])
 <template>
     <main class="student-info">
         <div v-if="props.studentInfo">
-            <RouterLink class="student-info__play" :to="{ path: '/chat', query: { id: props.studentInfo.Id } }"
-                @click="emits('deactive')">
+            <RouterLink class="student-info__play" :to="{ path: '/chat', query: { id: props.studentInfo.Id } }">
                 <PlayIcon class="icon play" />
             </RouterLink>
             <div class="student-info__avatar">
-                <img v-lazy="props.studentInfo.Avatars[props.studentInfo.cnt]" />
+                <img :src="props.studentInfo.Avatars[props.studentInfo.cnt || 0]" :alt="props.studentInfo.Name" />
             </div>
             <div class="student-info__name">{{ props.studentInfo.Name }}</div>
             <div class="student-info__bio">{{ props.studentInfo.Bio }}</div>
@@ -21,6 +21,10 @@ const emits = defineEmits(['deactive'])
                 <BirhdayIcon style="margin-left: 10px" />
                 <p style="margin-right: 10px">{{ props.studentInfo.Birthday }}</p>
             </div>
+            <RouterLink class="student-info__chat-btn" :to="{ path: '/chat', query: { id: props.studentInfo.Id } }">
+                <MessageIcon class="chat-btn-icon" />
+                <span>{{ props.studentInfo.Name }} とトークする</span>
+            </RouterLink>
             <div class="student-info__related">
                 <div class="student-info__related-title">
                     {{ $t('relatedStudentTitle') }}

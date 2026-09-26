@@ -3,7 +3,6 @@ import MomoIcon from './components/icons/IconMomo.vue'
 import SettingIcon from './components/icons/IconSetting.vue'
 import StudentIcon from './components/icons/IconStudent.vue'
 import MessageIcon from './components/icons/IconMessage.vue'
-import DownloadIcon from './components/icons/IconDownload.vue'
 import ListUpIcon from './components/icons/IconListUp.vue'
 import ListDownIcon from './components/icons/IconListDown.vue'
 import ResetIcon from './components/icons/IconReset.vue'
@@ -40,19 +39,16 @@ window.addEventListener('resize', () => {
 
         <nav id="sidebar" role="navigation">
             <div id="sidebar__up">
-                <RouterLink to="/" title="Info">
+                <RouterLink :to="{ path: '/', query: { id: studentSelected?.Id || 10010 } }" title="Info">
                     <StudentIcon class="icon info" />
                 </RouterLink>
-                <RouterLink to="/chat" @click="deactiveStudent" title="Chat">
+                <RouterLink :to="{ path: '/chat', query: { id: studentSelected?.Id || 10010 } }" title="Chat">
                     <MessageIcon class="icon message" />
                 </RouterLink>
             </div>
             <div id="sidebar__down">
                 <div style="cursor: pointer" @click="store.resetData()" title="Reset">
                     <ResetIcon class="icon reset" />
-                </div>
-                <div style="cursor: pointer" @click="tryDownload(dpr)" title="Download">
-                    <DownloadIcon class="icon download" />
                 </div>
                 <div style="cursor: pointer" @click="changeLanguage" title="Switch Language">
                     <LanguageIcon class="icon language" />
@@ -89,21 +85,22 @@ window.addEventListener('resize', () => {
             <div id="listbody">
                 <div class="list-item" v-for="(item, index) in dataDisplay" :key="index" :id="item.Id.toString()"
                     :class="{ active: item === studentSelected }" @click="selectStudent(item)">
-                    <div class="list-item__avatar" @click.stop="" @click="showAvatars(item)" role="button" tabindex="0"
-                        @keydown.enter="showAvatars(item)">
-                        <img v-lazy="item.Avatars[item.cnt]" :alt="`${item.Name}'s avatar`" />
-                        <button :class="item === studentShowAvatars ? 'minus' : 'add'" v-if="item.Avatars.length > 2"
-                            aria-label="Toggle Avatar View"></button>
+                    <div class="list-item__avatar" @click.stop="selectStudent(item)" role="button" tabindex="0"
+                        @keydown.enter="selectStudent(item)">
+                        <img :src="item.Avatars[item.cnt || 0]" :alt="`${item.Name}'s avatar`" />
+                        <button :class="item === studentShowAvatars ? 'minus' : 'add'" v-if="item.Avatars && item.Avatars.length > 1"
+                            aria-label="Toggle Avatar View" @click.stop="showAvatars(item)"></button>
                     </div>
                     <span class="list-item__name">{{ item.Name }}</span>
-                    <span class="list-item__bio">{{ item.Bio }}</span>
+                    <span class="list-item__bio">{{ route?.path === '/chat' ? getStudentLatestSnippet(item) : item.Bio }}</span>
                     <div class="list-item__mark" v-if="item.School" @click.stop="" @click="filter_school(item)"
                         role="button" tabindex="0" @keydown.enter=" filter_school(item)">
                         <img v-lazy="getSchoolIcon(item.School)" :alt="`${item.School} icon`" />
                     </div>
-                    <div class="list-item__avatars" @click.stop="" v-show="item === studentShowAvatars">
-                        <img v-for="(avatar, index) in item.Avatars" :key="index" v-lazy="avatar"
-                            @click="selectAvatar(item, index)" :alt="`${item.Name}'s avatar ${index + 1}`" />
+                    <div class="list-item__avatars" @click.stop="" v-if="item === studentShowAvatars">
+                        <img v-for="(avatar, index) in item.Avatars" :key="index" :src="avatar"
+                            :class="{ active: index === (item.cnt || 0) }"
+                            @click.stop="selectAvatar(item, index)" :alt="`${item.Name}'s avatar ${index + 1}`" />
                     </div>
                 </div>
             </div>
@@ -114,24 +111,55 @@ window.addEventListener('resize', () => {
 
 <script lang="ts">
 import { ref, watch } from 'vue'
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
 import i18n from '@/locales/i18n'
 import { baseStudent, studentInfo } from '@/assets/requestUtils/interface'
 import { getStudents, getSchoolIcon } from '@/assets/requestUtils/request'
 import { birthday_sort, SupportedLanguage } from '@/assets/requestUtils/dateFormat'
-import { download } from '@/assets/imgUtils/download'
 import { store } from '@/assets/storeUtils/store'
-import { talkHistory } from '@/assets/storeUtils/talkHistory'
+import { talkHistory, getStudentLatestSnippet } from '@/assets/storeUtils/talkHistory'
 import { debounce, search } from '@/assets/utils/search'
+import { isPromptSupported } from '@/assets/ai/prompts'
 import Popper from 'vue3-popper'
 
 store.getData()
 
+const route = useRoute()
+const router = useRouter()
+
 /************************* */
 /*  student data           */
 /************************* */
+const studentSelected = ref<studentInfo | null>(null)
+const student = ref<baseStudent | null>(null)
+
 const database = ref<studentInfo[]>(await getStudents(store.language))
 const dataDisplay = ref<studentInfo[]>(database.value)
+
+// Resolve initial student from URL query id (e.g. /chat?id=10003) if present, else default to Shiroko (10010)
+let initialStudent: studentInfo | undefined
+if (typeof window !== 'undefined') {
+    const urlParams = new URLSearchParams(window.location.search)
+    const idParam = urlParams.get('id')
+    if (idParam) {
+        const idNum = parseInt(idParam, 10)
+        initialStudent = database.value.find((s) => s.Id === idNum)
+    }
+}
+if (!initialStudent && database.value && database.value.length > 0) {
+    initialStudent = database.value.find((s) => s.Id === 10010) || database.value[0]
+}
+
+if (initialStudent) {
+    studentSelected.value = initialStudent
+    student.value = {
+        Id: initialStudent.Id,
+        Name: initialStudent.Name,
+        Avatar: initialStudent.Avatars[initialStudent.cnt || 0]
+    }
+    store.currentChatStudent = initialStudent
+    talkHistory.loadStudentTalks(student.value)
+}
 
 /************************* */
 /* filter and sort popper  */
@@ -145,6 +173,7 @@ const filter_condition = ref(
         filter_released: true,  // 已实装 true false
         search_text: '',        // 搜索内容
         search_school: '',      // 搜索学校
+        only_prompt_supported: true, // プロンプト対応済みの生徒のみ表示
     }
 )
 const filter_condition_copy = ref(filter_condition.value)
@@ -164,6 +193,7 @@ const processData = debounce(() => {
     dataDisplay.value = database.value
         // filter
         .filter(item => {
+            if (filter_condition.value.only_prompt_supported && !isPromptSupported(item)) return false
             if ((filter_condition.value.filter_star > 0 && item.Star !== filter_condition.value.filter_star) ||
                 (filter_condition.value.search_school && !item.School.includes(filter_condition.value.search_school)) ||
                 (item.Released !== filter_condition.value.filter_released)) return false
@@ -174,9 +204,12 @@ const processData = debounce(() => {
         // sort
         .sort((a, b) => {
             if (filter_condition.value.sort_type === '') {
-                return filter_condition.value.sort_asc ? 
-                database.value.indexOf(a) - database.value.indexOf(b) : 
-                database.value.indexOf(b) - database.value.indexOf(a)
+                const timeA = talkHistory.getStudentLastChatTime(a.Id)
+                const timeB = talkHistory.getStudentLastChatTime(b.Id)
+                if (timeA !== timeB) {
+                    return filter_condition.value.sort_asc ? (timeB - timeA) : (timeA - timeB)
+                }
+                return database.value.indexOf(a) - database.value.indexOf(b)
             }
 
             if (filter_condition.value.sort_type === 'Birthday') {
@@ -191,14 +224,13 @@ const processData = debounce(() => {
                 aValue.localeCompare(bValue, 'zh-CN') : // "zh-CN" to fix the sort order when lng = "zh" or "tw"
                 bValue.localeCompare(aValue, 'zh-CN')
         })
-}, 300) // 防抖
+}, 100) // 防抖
 
 processData()
 watch(
-    () => filter_condition.value,
+    () => [filter_condition.value, talkHistory.lastChatUpdate],
     () => {
         processData()
-        deactiveStudent()
     },
     { deep: true }
 )
@@ -222,18 +254,43 @@ const sortOrderTrigger = () => {
 /************************* */
 /*  select student         */
 /************************* */
-const studentSelected = ref<studentInfo | null>(null)
-const student = ref<baseStudent | null>(null)
-const selectStudent = (item: studentInfo) => {
+const selectStudent = (item: studentInfo, updateRoute: boolean = true) => {
     studentSelected.value = item
     student.value = {
         Id: studentSelected.value.Id,
         Name: studentSelected.value.Name,
-        Avatar: studentSelected.value.Avatars[studentSelected.value.cnt]
+        Avatar: studentSelected.value.Avatars[studentSelected.value.cnt || 0]
+    }
+    store.currentChatStudent = item
+    talkHistory.loadStudentTalks(student.value)
+
+    if (updateRoute && router && route && route.path === '/chat') {
+        router.replace({ path: '/chat', query: { id: item.Id } }).catch(() => {})
+    }
+
+    if (typeof window !== 'undefined' && window.innerWidth <= 1150) {
+        const root = document.getElementById('root')
+        if (root) {
+            root.scrollTo({ left: window.innerWidth, behavior: 'smooth' })
+        }
     }
 }
+
+watch(
+    () => route?.query?.id,
+    (newId) => {
+        if (newId && database.value && database.value.length > 0) {
+            const targetId = Number(newId)
+            const target = database.value.find((s) => s.Id === targetId)
+            if (target && (!studentSelected.value || studentSelected.value.Id !== target.Id)) {
+                selectStudent(target, false)
+            }
+        }
+    }
+)
+
 const deactiveStudent = () => {
-    student.value = null
+    // Keep active student selection consistent across navigation
 }
 
 /************************* */
@@ -241,17 +298,21 @@ const deactiveStudent = () => {
 /************************* */
 const studentShowAvatars = ref<studentInfo | null>(null)
 const showAvatars = (item: any) => {
-    if (studentShowAvatars.value !== item) studentShowAvatars.value = item
-    else studentShowAvatars.value = null
+    if (studentShowAvatars.value !== item) {
+        studentShowAvatars.value = item
+        setTimeout(() => {
+            const el = document.getElementById(item.Id.toString())
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+            }
+        }, 50)
+    } else {
+        studentShowAvatars.value = null
+    }
 }
 const selectAvatar = (item: studentInfo, index: number) => {
-    studentSelected.value = item
-    studentSelected.value.cnt = index
-    student.value = {
-        Id: studentSelected.value.Id,
-        Name: studentSelected.value.Name,
-        Avatar: studentSelected.value.Avatars[studentSelected.value.cnt]
-    }
+    item.cnt = index
+    selectStudent(item)
 }
 
 /************************* */
@@ -299,36 +360,6 @@ document.onkeyup = (e) => {
         e.preventDefault()
         talkHistory.redo()
     }
-}
-
-/************************* */
-/*  check dpr change       */
-/*  and download           */
-/************************* */
-// initialize dpr
-let dpr = window.devicePixelRatio
-const tryDownload = (dpr:number) => {
-    const showZoomWarning = (ratio:number) => {
-        const ans = i18n.global.t('warnZoom').replace("%ratio%", (ratio * 100).toFixed(0) + "%")
-        return confirm(ans)
-    }
-    let ratio
-    let requiresWarning = false
-
-    // 检查浏览器缩放，缩放可能导致文字溢出 Check browser zoom, which may cause the last overflow
-    if (navigator.userAgent.includes('WebKit')) {
-        ratio = window.outerWidth / window.innerWidth
-        requiresWarning = Math.abs(ratio - 1) > 0.05
-    } else {
-        ratio = window.devicePixelRatio
-        requiresWarning = ratio !== dpr
-    }
-
-    if (requiresWarning && !showZoomWarning(ratio)) {
-        return
-    }
-
-    download()
 }
 </script>
 
