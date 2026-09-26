@@ -1,5 +1,11 @@
 import i18n from '@/locales/i18n'
 
+export const MAX_IMAGE_FILE_SIZE = 25 * 1024 * 1024 // 25MB
+
+export const validateImageFileSize = (size: number, maxBytes: number = MAX_IMAGE_FILE_SIZE): boolean => {
+    return size <= maxBytes
+}
+
 const fileToDataURL = (file: Blob): Promise<any> => {
     return new Promise((resolve) => {
         const reader = new FileReader()
@@ -7,6 +13,7 @@ const fileToDataURL = (file: Blob): Promise<any> => {
         reader.readAsDataURL(file)
     })
 }
+
 const dataURLToImage = (dataURL: string): Promise<HTMLImageElement> => {
     return new Promise((resolve) => {
         const img = new Image()
@@ -14,6 +21,7 @@ const dataURLToImage = (dataURL: string): Promise<HTMLImageElement> => {
         img.src = dataURL
     })
 }
+
 const canvastoFile = (
     canvas: HTMLCanvasElement,
     type: string,
@@ -22,19 +30,30 @@ const canvastoFile = (
     return new Promise((resolve) => canvas.toBlob((blob) => resolve(blob), type, quality))
 }
 
-const compressionFile = async (file:File, quality = 0.5) => {
-    const fileName = file.name
+export const compressionFile = async (file: File, quality = 0.75, maxDimension = 1600): Promise<File> => {
+    const fileName = file.name.replace(/\.[^/.]+$/, '') + '.webp'
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d') as CanvasRenderingContext2D
     const base64 = await fileToDataURL(file)
     const img = await dataURLToImage(base64)
-    canvas.width = img.width
-    canvas.height = img.height
-    context.clearRect(0, 0, img.width, img.height)
-    context.drawImage(img, 0, 0, img.width, img.height)
-    const blob = (await canvastoFile(canvas, 'image/webp', quality)) as Blob
-    const newFile = await new File([blob], fileName, { type: 'image/webp' })
-    return newFile
+
+    let { width, height } = img
+    if (width > maxDimension || height > maxDimension) {
+        if (width > height) {
+            height = Math.round((height * maxDimension) / width)
+            width = maxDimension
+        } else {
+            width = Math.round((width * maxDimension) / height)
+            height = maxDimension
+        }
+    }
+
+    canvas.width = width
+    canvas.height = height
+    context.clearRect(0, 0, width, height)
+    context.drawImage(img, 0, 0, width, height)
+    const blob = ((await canvastoFile(canvas, 'image/webp', quality)) || file) as Blob
+    return new File([blob], fileName, { type: 'image/webp' })
 }
 
 const readFile = (reader: FileReader) => {
@@ -44,14 +63,16 @@ const readFile = (reader: FileReader) => {
     input.onchange = async () => {
         const file = input.files?.[0]
         if (file) {
-            if (file.size > 1048576) {
-                // 太大容易卡
+            if (!validateImageFileSize(file.size)) {
                 alert(i18n.global.t('imageUploadAlert'))
                 return
             }
-            if (file) {
+            try {
                 const webp = await compressionFile(file)
                 reader.readAsDataURL(webp)
+            } catch (err) {
+                console.error('Image compression failed, using original file:', err)
+                reader.readAsDataURL(file)
             }
         }
     }

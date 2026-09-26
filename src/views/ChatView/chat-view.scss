@@ -1,26 +1,79 @@
 .talk-wrapper {
     height: 100%;
     width: calc((var(--view-width) - $sider-width) / 2);
+    display: flex;
+    flex-direction: column;
 }
 
 .talk-list {
     display: flex;
     flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
     width: 100%;
-    height: calc(var(--view-height) - $header-height - $chatfooter-height);
     background-color: var(--theme_bg_color);
     @include hide-scrollbar;
     overflow-x: hidden;
+    overflow-y: auto;
     scroll-behavior: smooth;
 }
 
+$bar-height: 60px;
+$bar-icon-height: calc($bar-height * 0.67);
+
 .add {
-    height: $chatfooter-height;
+    flex-shrink: 0;
+    min-height: $bar-height;
+    height: auto;
     width: 100%;
 }
 
-$bar-height: calc($chatfooter-height / 2);
-$bar-icon-height: calc($bar-height * 0.67);
+.attachment-bar {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    background: #f1f5f9;
+    border-top: 1px solid #dce5ec;
+
+    .attachment-preview-wrapper {
+        position: relative;
+        display: inline-block;
+        flex-shrink: 0;
+
+        .attachment-preview-img {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #c8d6e5;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .attachment-remove-btn {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #ff5252;
+            color: white;
+            border: none;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+            &:hover {
+                background: #e03131;
+            }
+        }
+    }
+}
 
 .input-bar {
     height: $bar-height;
@@ -34,22 +87,37 @@ $bar-icon-height: calc($bar-height * 0.67);
 .photo {
     padding: 8px;
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border: 0px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.sticker-badge {
+    @include circle($bar-icon-height);
+    @include center;
+    background-color: $chaticon-color;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+
+    &:hover {
+        opacity: 0.85;
+    }
 }
 
 .text {
-    @include font-regular(20px);
-    color: #666;
-    padding: 5px 10px;
+    font-size: 14px;
+    color: #444;
+    padding: 6px 14px;
     margin: 0 8px;
     height: $bar-icon-height;
     width: 100%;
-    line-height: 28px;
+    line-height: 22px;
     resize: none;
+    box-sizing: border-box;
     
-    font-family: sans-serif;
-    @include font-light(20px);
-    @include center;
+    font-family: inherit;
 
     background-repeat: no-repeat;
     border: 2px solid #dce5ec;
@@ -68,70 +136,6 @@ $bar-icon-height: calc($bar-height * 0.67);
     &::placeholder {
         color: #9e9ea7;
     }
-}
-
-.selected-student {
-    @include center;
-    justify-content: flex-start;
-    height: 60px;
-    width: 100%;
-}
-
-.item,
-.item-sensei,
-.item-heart {
-    @include center;
-    height: calc($bar-height * 0.83);
-    box-sizing: border-box;
-    padding: 10px 15px 10px 10px;
-    margin: 5px;
-    user-select: none;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background: white;
-    cursor: pointer;
-
-    &:hover {
-        background-color: rgba(0, 0, 0, 0.06);
-        transition: 0.4s;
-    }
-}
-
-.sticker>div,
-.item-sensei>div,
-.item-heart>div {
-    @include circle($bar-icon-height);
-    @include center;
-    background-color: $chaticon-color;
-}
-
-.item {
-    >div {
-        @include center;
-    }
-
-    img {
-        @include circle($bar-icon-height);
-    }
-
-    svg {
-        @include chat-svg;
-    }
-}
-
-.item-heart {
-    >svg {
-        @include chat-svg;
-    }
-
-    >div {
-        background-color: $pink-pale;
-    }
-}
-
-.delete-button:hover {
-    color: rgba(0, 0, 0, 0.4);
-    transition: 0.4s;
 }
 
 .sticker-wrapper {

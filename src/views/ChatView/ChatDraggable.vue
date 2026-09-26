@@ -2,105 +2,130 @@
 import TypingAnimation from '@/components/TypingAnimation.vue'
 import ChatBlock from './ChatBlock.vue'
 import ReplyBlock from './ReplyBlock.vue'
+import { isMessageTyping } from '@/assets/chatUtils/send'
+import { formatChatTime, formatChatDate, isDifferentDay } from '@/assets/storeUtils/talkHistory'
+
+const shouldShowDateDivider = (index: number, element: any, tasks: any[]) => {
+    if (!element || !element.time) return false
+    if (index === 0) return true
+    const prev = tasks?.[index - 1]
+    return isDifferentDay(prev?.time, element.time)
+}
 </script>
 
 <template>
     <draggable :list="tasks" :group="{ name: 'g1' }" item-key="id" @end="checkMove" :disabled="!store.draggable">
-        <template #item="{ element }">
-            <div
-                :class="{
-                    student: element.type === 0,
-                    sensei: element.type === 1,
-                    story: element.type === 2,
-                    choice: element.type == 3,
-                    message: element.type === 4,
-
-                    first: element.type <= 1 && element.flag > 0
-                }"
-            >
-                <!-- 学生信息 -->
-                <div
-                    class="student--split"
-                    v-if="element.type === 0 && element.flag === 0"
-                    @click="splitTalks(element)"
-                ></div>
-                <div class="avatar" v-if="element.type === 0 && element.flag > 0">
-                    <img v-lazy="element.Avatar" @click="splitTalks(element)" />
+        <template #item="{ element, index }">
+            <div class="chat-item-wrapper">
+                <div class="chat-date-divider" v-if="shouldShowDateDivider(index, element, tasks as any)">
+                    <span>{{ formatChatDate(element.time) }}</span>
                 </div>
                 <div
-                    class="name"
-                    v-if="element.type === 0 && element.flag > 0"
-                    contenteditable
-                    @blur="saveEdit($event, element.Id, 'name')"
+                    :class="{
+                        student: element.type === 0,
+                        sensei: element.type === 1,
+                        story: element.type === 2,
+                        choice: element.type == 3,
+                        message: element.type === 4,
+
+                        first: element.type <= 1 && element.flag > 0
+                    }"
                 >
-                    {{ element.Name }}
-                </div>
-
-                <div class="container">
-                    <!-- 羁绊剧情 -->
-                    <div class="box-story" v-if="element.type === 2">
-                        <div
-                            class="header"
-                            contenteditable
-                            @blur="saveEdit($event, element.Id, 'name')"
-                        >
-                            <div class="title">{{ element.Name }}</div>
-                        </div>
-                        <div class="content">
-                            <chat-block :element="element"/>
-                        </div>
-                    </div>
-                    <!-- 回复 -->
-                    <div class="box-choice" v-else-if="element.type === 3">
-                        <div
-                            class="header"
-                            contenteditable
-                            @blur="saveEdit($event, element.Id, 'name')"
-                        >
-                            <div class="title">{{ element.Name }}</div>
-                        </div>
-                        <div class="content">
-                            <span v-for="(con, index) of element.content.split('\n')" :key="index">
-                                <reply-block :element="element" :content="con" :index="index"/>
-                            </span>
-                        </div>
-                    </div>
-                    <!-- 系统通知 -->
-                    <div class="box-message" v-else-if="element.type === 4">
-                        <div class="content">
-                            <chat-block :element="element"/>
-                        </div>
-                    </div>
-                    <!-- 图片消息 -->
+                    <!-- 学生信息 -->
                     <div
-                        class="box img"
-                        v-else-if="checkImg(element.content)"
+                        class="student--split"
+                        v-if="element.type === 0 && element.flag === 0"
+                        @click="splitTalks(element)"
+                    ></div>
+                    <div class="avatar" v-if="element.type === 0 && element.flag > 0">
+                        <img v-lazy="element.Avatar" @click="splitTalks(element)" />
+                    </div>
+                    <div
+                        class="name"
+                        v-if="element.type === 0 && element.flag > 0"
+                        contenteditable
+                        @blur="saveEdit($event, element.Id, 'name')"
                     >
-                        <typing-animation
-                            class="loading"
-                            v-if="store.typing > 0 && element.Id === talkHistory.talkId - 1"
-                        ></typing-animation>
-                        <img
-                            v-else
-                            :src="element.content"
-                            class="chat-img"
-                            @click="changeImage($event, element.Id)"
-                        />
+                        {{ element.Name }}
                     </div>
-                    <!-- 文本消息 -->
-                    <div class="box" v-else>
-                        <typing-animation
-                            class="loading"
-                            v-if="store.typing > 0 && element.Id === talkHistory.talkId - 1"
-                        ></typing-animation>
-                        <chat-block v-else :element="element"/>
+
+                    <div class="container">
+                        <!-- 羁绊剧情 -->
+                        <div class="box-story" v-if="element.type === 2">
+                            <div
+                                class="header"
+                                contenteditable
+                                @blur="saveEdit($event, element.Id, 'name')"
+                            >
+                                <div class="title">{{ element.Name }}</div>
+                            </div>
+                            <div class="content">
+                                <chat-block :element="element"/>
+                            </div>
+                        </div>
+                        <!-- 回复 -->
+                        <div class="box-choice" v-else-if="element.type === 3">
+                            <div
+                                class="header"
+                                contenteditable
+                                @blur="saveEdit($event, element.Id, 'name')"
+                            >
+                                <div class="title">{{ element.Name }}</div>
+                            </div>
+                            <div class="content">
+                                <span v-for="(con, index) of element.content.split('\n')" :key="index">
+                                    <reply-block :element="element" :content="con" :index="index"/>
+                                </span>
+                            </div>
+                        </div>
+                        <!-- 系统通知 -->
+                        <div class="box-message" v-else-if="element.type === 4">
+                            <div class="content">
+                                <chat-block :element="element"/>
+                            </div>
+                        </div>
+                        <!-- 图片消息 -->
+                        <div
+                            class="box img"
+                            v-else-if="checkImg(element.content)"
+                        >
+                            <typing-animation
+                                class="loading"
+                                v-if="isMessageTyping(element)"
+                            ></typing-animation>
+                            <img
+                                v-else
+                                :src="element.content"
+                                class="chat-img"
+                                @click="changeImage($event, element.Id)"
+                            />
+                        </div>
+                        <!-- 文本消息 -->
+                        <div class="box" v-else>
+                            <typing-animation
+                                class="loading"
+                                v-if="isMessageTyping(element)"
+                            ></typing-animation>
+                            <chat-block v-else :element="element"/>
+                        </div>
+                        <div class="chat-meta" v-if="element.time && !isMessageTyping(element)">
+                            <span class="chat-read" v-if="element.type === 1">{{ $t('readStatus') }}</span>
+                            <span class="chat-time">{{ formatChatTime(element.time) }}</span>
+                        </div>
+                        <span class="action-block" >
+                            <span @click="talkHistory.deleteTalkById(element.Id)" title="削除">x</span>
+                            <!-- 【割り込み編集機能の復元用メモ】
+                                 割り込み編集機能（↲）を復活させる場合は、下記のコメントを解除し、
+                                 直下の insert-indicator および methods の setInsert を有効化してください。
+                                 <span @click="setInsert(element.Id)">↲</span>
+                            -->
+                        </span>
                     </div>
-                    <span class="action-block" >
-                        <span @click="talkHistory.deleteTalkById(element.Id)">x</span>
-                        <span @click="setInsert(element.Id)">↲</span>
-                    </span>
+                    <!-- 【割り込み編集機能の復元用メモ】
+                         割り込み挿入ガイド表示（insert here）を復活させる場合は、下記コメントを解除してください。
+                         <div class="insert-indicator" v-if="store.insertId === element.Id">insert here</div>
+                    -->
                 </div>
-                <div class="insert-indicator" v-if="store.insertId === element.Id">insert here</div>
             </div>
         </template>
     </draggable>
@@ -153,6 +178,10 @@ export default {
             var regular = new RegExp(`(data:image.*)|((http|https)://.*.${suffix})`)
             return regular.test(content)
         },
+        /* 【割り込み編集機能の復元用メモ】
+           割り込み編集機能を復活させる場合は、下記 setInsert を使用し、
+           ChatView.vue 側の insertText / insertImage / insertSticker 呼び出しを有効化してください。
+        */
         setInsert(insertId: number){
             if (store.insertId === insertId) {
                 store.insertId = -1

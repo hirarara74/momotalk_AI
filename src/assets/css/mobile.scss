@@ -47,20 +47,14 @@
 @media screen and (max-width: 1150px) {
     .talk-wrapper {
         width: 100vw;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
     }
     .talk-list {
-        height: calc(var(--vh) * 100 - $header-height - $chatfooter-height);
-    }
-    .g-scroll,
-    .g-wrap,
-    .g-content {
-        all: initial;
-    }
-    .g-content {
-        all: initial;
-        display: flex;
-        overflow: scroll;
-        background-color: white;
+        flex: 1 1 auto;
+        min-height: 0;
+        height: auto;
     }
     .sticker-wrapper .stk {
         padding: 0;

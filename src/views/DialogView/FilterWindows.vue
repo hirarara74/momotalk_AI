@@ -40,6 +40,14 @@
                     props.filter_condition_copy.filter_released ? $t('released') : $t('unreleased')
                     }}</span></button>
             </div>
+            <div>
+                <button
+                    @click="props.filter_condition_copy.only_prompt_supported = !props.filter_condition_copy.only_prompt_supported"
+                    :class="props.filter_condition_copy.only_prompt_supported ? 'active' : ''"
+                    style="width: 100%;">
+                    <span>{{ props.filter_condition_copy.only_prompt_supported ? '🤖 プロンプト対応のみ' : '👥 全生徒表示' }}</span>
+                </button>
+            </div>
         </div>
         <footer class="popper-content__footer">
             <button @click="popperConfirm"><span>OK</span></button>
