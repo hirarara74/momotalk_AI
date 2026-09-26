@@ -85,11 +85,11 @@ window.addEventListener('resize', () => {
             <div id="listbody">
                 <div class="list-item" v-for="(item, index) in dataDisplay" :key="index" :id="item.Id.toString()"
                     :class="{ active: item === studentSelected }" @click="selectStudent(item)">
-                    <div class="list-item__avatar" @click.stop="selectStudent(item)" role="button" tabindex="0"
-                        @keydown.enter="selectStudent(item)">
-                        <img :src="item.Avatars[item.cnt || 0]" :alt="`${item.Name}'s avatar`" />
-                        <button :class="item === studentShowAvatars ? 'minus' : 'add'" v-if="item.Avatars && item.Avatars.length > 1"
-                            aria-label="Toggle Avatar View" @click.stop="showAvatars(item)"></button>
+                    <div class="list-item__avatar" @click.stop="" @click="showAvatars(item)" role="button" tabindex="0"
+                        @keydown.enter="showAvatars(item)">
+                        <img v-lazy="item.Avatars[item.cnt]" :alt="`${item.Name}'s avatar`" />
+                        <button :class="item === studentShowAvatars ? 'minus' : 'add'" v-if="item.Avatars.length > 2"
+                            aria-label="Toggle Avatar View"></button>
                     </div>
                     <span class="list-item__name">{{ item.Name }}</span>
                     <span class="list-item__bio">{{ route?.path === '/chat' ? getStudentLatestSnippet(item) : item.Bio }}</span>
@@ -97,10 +97,9 @@ window.addEventListener('resize', () => {
                         role="button" tabindex="0" @keydown.enter=" filter_school(item)">
                         <img v-lazy="getSchoolIcon(item.School)" :alt="`${item.School} icon`" />
                     </div>
-                    <div class="list-item__avatars" @click.stop="" v-if="item === studentShowAvatars">
-                        <img v-for="(avatar, index) in item.Avatars" :key="index" :src="avatar"
-                            :class="{ active: index === (item.cnt || 0) }"
-                            @click.stop="selectAvatar(item, index)" :alt="`${item.Name}'s avatar ${index + 1}`" />
+                    <div class="list-item__avatars" @click.stop="" v-show="item === studentShowAvatars">
+                        <img v-for="(avatar, index) in item.Avatars" :key="index" v-lazy="avatar"
+                            @click="selectAvatar(item, index)" :alt="`${item.Name}'s avatar ${index + 1}`" />
                     </div>
                 </div>
             </div>
@@ -298,21 +297,17 @@ const deactiveStudent = () => {
 /************************* */
 const studentShowAvatars = ref<studentInfo | null>(null)
 const showAvatars = (item: any) => {
-    if (studentShowAvatars.value !== item) {
-        studentShowAvatars.value = item
-        setTimeout(() => {
-            const el = document.getElementById(item.Id.toString())
-            if (el) {
-                el.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-            }
-        }, 50)
-    } else {
-        studentShowAvatars.value = null
-    }
+    if (studentShowAvatars.value !== item) studentShowAvatars.value = item
+    else studentShowAvatars.value = null
 }
 const selectAvatar = (item: studentInfo, index: number) => {
-    item.cnt = index
-    selectStudent(item)
+    studentSelected.value = item
+    studentSelected.value.cnt = index
+    student.value = {
+        Id: studentSelected.value.Id,
+        Name: studentSelected.value.Name,
+        Avatar: studentSelected.value.Avatars[studentSelected.value.cnt]
+    }
 }
 
 /************************* */

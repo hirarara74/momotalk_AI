@@ -63,6 +63,32 @@ describe('Student Greetings & System Prompts (TDD)', () => {
         const neru: baseStudent = { Id: 10021, Name: '美甘ネル', Avatar: 'neru.webp' }
         expect(buildSystemPrompt(neru)).toContain('ぶっ飛ばすぞ')
     })
+
+    it('verifies all 23 students have comprehensive student relationships, Sensei relationship, and dialogue examples', () => {
+        const studentNames = [
+            '砂狼シロコ', '小鳥遊ホシノ', '空崎ヒナ', '天雨アコ', '陸八魔アル', '早瀬ユウカ', '阿慈谷ヒフミ',
+            '伊落マリー', '白洲アズサ', '銀鏡イオリ', '角楯カリン', '聖園ミカ', '飛鳥馬トキ', '黒舘ハルナ',
+            '浅黄ムツキ', '生塩ノア', '黒崎コユキ', '下江コハル', '一之瀬アスナ', '美甘ネル', '杏山カズサ',
+            '錠前サオリ', '春原シュン'
+        ]
+
+        for (const name of studentNames) {
+            const student: baseStudent = { Id: 99999, Name: name, Avatar: 'test.webp' }
+            const prompt = buildSystemPrompt(student)
+
+            expect(prompt).toContain('先生')
+
+            if (name === '砂狼シロコ') {
+                expect(prompt).toContain('対策委員会')
+                expect(prompt).toContain('romantic feelings toward her teacher')
+                expect(prompt).toContain('ん、準備は出来てる。')
+            } else {
+                expect(prompt).toContain('他の生徒との関係性')
+                expect(prompt).toContain('先生との関係性')
+                expect(prompt).toContain('セリフ例')
+            }
+        }
+    })
 })
 
 describe('Per-Student Conversation Thread Isolation & Persistence (TDD)', () => {
