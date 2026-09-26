@@ -1,6 +1,13 @@
 {
-  "name": "momotalk",
-  "version": "0.0.0",
+  "name": "momotalk-ai",
+  "version": "1.0.0",
+  "description": "Blue Archive MomoTalk Interactive AI Chat Application with Multi-student Roleplay, Groq/Gemini, and Life Rhythm Simulation",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hirarara74/momotalk_AI.git"
+  },
+  "author": "hirarara74",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "vite --host",

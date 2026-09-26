@@ -24,7 +24,8 @@ export default defineConfig({
   },
   base: '/momotalk/',
   build: {
-    outDir: 'docs'
+    outDir: 'docs',
+    emptyOutDir: false
   },
   css: {
     // css预处理器

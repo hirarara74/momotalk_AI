@@ -1,64 +1,90 @@
-<h1 align="center">モモトークエディター</h1>
+<h1 align="center">MomoTalk AI</h1>
 
 <div align="center">
-    <img src="https://img.shields.io/github/last-commit/u1805/momotalk/main">
-    <img src="https://img.shields.io/github/languages/top/U1805/momotalk" >
-    <a href="https://star-history.com/#U1805/momotalk"> 
-      <img src="https://img.shields.io/github/stars/U1805/momotalk" alt="stars"> 
-    </a>
+    <img src="https://img.shields.io/github/last-commit/hirarara74/momotalk_AI/main">
+    <img src="https://img.shields.io/github/languages/top/hirarara74/momotalk_AI">
+    <img src="https://img.shields.io/badge/AI-Groq%20%7C%20Gemini%20%7C%20OpenAI%20%7C%20Claude-blue">
+    <img src="https://img.shields.io/badge/%E7%94%9F%E5%BE%92%E6%95%B0-23%E4%BA%BA-pink">
 </div>
 
 <div align="center">
-  <strong>ブルーアーカイブの見た目のWebのチャット作成ツールです。</strong><br>
-  <sub>自由なアイデアで創作しよう！</sub>
+  <strong>ブルーアーカイブの「モモトーク」を再現した対話型AIチャットWebアプリケーション</strong><br>
+  <sub>キヴォトスの生徒たちと最新LLMでリアルタイムに会話しよう！</sub>
 </div>
+
+<br>
 
 [English](../README.md) | [简体中文](./README-zh_cn.md) | [繁體中文](./README-zh_tw.md) | [日本語](./README-ja.md)
 
+---
 
-## 機能
+## 🌟 主な機能
 
-- **検索**: 名前やローマ字、ニックネームで生徒を検索できます。🔍️
-- **ロールのカスタマイズ**: 生徒、先生、独自の役割でチャットができます。🎅
-- **色々なイベント**: チャット中に画像、ステッカー(チャットルーム & キャラクター)、返信ボックス、ストーリーイベントを送信できます。❤️
-- **柔軟なエディタ**: チャットボックスを挿入、編集、削除、ドラッグできます。👍
-- **かんたんにシェア**: 会話を画像で保存して友達と共有できます。🖼️
-- **高速な再起動**: ブラウザを再度開いても、会話は失われません。📌
-- **多言語対応**: 中国語(簡体字&繁体字)、日本語、韓国語、英語に対応。🌐
-- **モモトークを再生**: ゲームからモモトークのストーリーを読むためにも使用できます。▶️
+- 🤖 **23人の生徒との原作再現チャット**: キヴォトスの生徒23名に対応。他生徒との関係性、先生への呼び方・距離感、口癖や台本サンプルに基づく高精度ロールプレイ。
+- ⚡ **超高速＆切り替え可能なAIエンジン**: 超高速推論 **Groq** を標準搭載（`openai/gpt-oss-120b`, `qwen/qwen3.8-27b` など）。さらに **Google Gemini**, **OpenAI互換**, **Anthropic Claude** APIへ設定画面から自由に切り替え可能。
+- 🌙 **生活リズム＆睡眠シミュレーション**: 生徒個別の就寝・起床リズム（平日・休日で異なる起床時間や、規則正しい生徒・不規則な生徒の違い）を再現。就寝中のメッセージは保留され、起床時に自動で返信されます（設定でオン/オフ可能）。
+- 💬 **本格的なMomoTalk体験**: 「...」入力中アニメーション、先生のメッセージへの「既読」表示、送信タイムスタンプ、日付区切り線。
+- 📸 **画像認識（マルチモーダル）対応**: 先生から写真や画像を送信すると、生徒が画像の内容を見てコメントを返します。
+- 💖 **絆ランク機能**: 会話を重ねることで生徒との絆ランクが上昇。おなじみの絆アップ演出・効果音を搭載。
+- 🌐 **5言語対応**: 日本語、英語、韓国語、簡体字中国語、繁体字中国語の完全UI・ヘルプ対応。
+- 🖼️ **会話画像のワンクリック保存**: サイドバーのダウンロードボタンから、チャット履歴を高解像度画像として保存可能。
+- 📱 **レスポンシブデザイン**: PCの大画面からスマートフォンの縦画面まで快適に操作可能。
 
-[試してみる！](https://u1805.github.io/momotalk)
+---
 
-## プレビュー
+## 📸 プレビュー
 
-![生徒](./assets/演示1.webp)
-![チャット](./assets/演示2.webp)
+![生徒選択](./assets/演示1.webp)
+![チャット画面](./assets/演示2.webp)
 
-## 使い方
+---
 
-[クイックスタート](./How-to-use-jp.md)
+## 🚀 クイックスタート
 
-## Starの推移
+### リポジトリ
+- GitHub: [hirarara74/momotalk_AI](https://github.com/hirarara74/momotalk_AI)
 
-[![スターの推移チャート](https://api.star-history.com/svg?repos=U1805/momotalk)](https://star-history.com/#U1805/momotalk)
+### ローカルでの起動方法
 
-## クレジット
+```bash
+# リポジトリのクローン
+git clone https://github.com/hirarara74/momotalk_AI.git
+cd momotalk_AI
 
-このプロジェクトは以下にインスパイアされています:
+# 依存パッケージのインストール
+npm install
 
-- [Yuzutalk](https://www.yuzutalk.net/)
-- [Slouchwind/momotalk-editor](https://github.com/Slouchwind/momotalk-editor)
-- [blacktunes/juus-maker](https://github.com/blacktunes/juus-maker)
-- [ClosureTalk/closure-talk](https://github.com/ClosureTalk/closure-talk)
+# 開発サーバーの起動
+npm run dev
 
-キャラクターのメタデータとアセットは以下を用いています:
+# ユニットテストの実行
+npm test
 
+# プロダクションビルド
+npm run build
+```
+
+---
+
+## 📖 使い方
+
+詳細な操作方法やショートカットについては、[使い方ガイド](./How-to-use-jp.md) またはアプリヘッダー右上の **`?`**（ヘルプボタン）をご覧ください。
+
+---
+
+## 💖 クレジット
+
+本プロジェクトは、U1805氏が制作したオープンソースプロジェクト [U1805/momotalk](https://github.com/U1805/momotalk) をベースにAI対話機能を追加・発展させたものです。
+
+キャラクターのメタデータとアセット:
 - [kivo.wiki](https://kivo.wiki/)
 - [ba.gamekee](https://ba.gamekee.com/)
 - [bluearchive.fandom](https://bluearchive.fandom.com)
 
-## Copyrights
+---
 
-このアプリケーションはYostar & NEXON Gamesとは関連がありません。
+## ⚖️ 著作権と免責事項
 
-使用されている全ての情報と素材は、それぞれの著者の財産および著作権に属します。
+本アプリケーションはファンによる非公式のオープンソースプロジェクトであり、**株式会社YostarおよびNEXON Gamesとは一切関係ありません**。
+
+『ブルーアーカイブ』に関するすべてのキャラクター、画像、音声、商標等の知的財産権は、NEXON GamesおよびYostarに帰属します。

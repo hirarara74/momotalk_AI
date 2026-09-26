@@ -1,63 +1,90 @@
-<h1 align="center">MomoTalk 編輯器</h1>
+<h1 align="center">MomoTalk AI</h1>
 
 <div align="center">
-    <img src="https://img.shields.io/github/last-commit/u1805/momotalk/main">
-    <img src="https://img.shields.io/github/languages/top/U1805/momotalk" >
-    <a href="https://star-history.com/#U1805/momotalk"> 
-      <img src="https://img.shields.io/github/stars/U1805/momotalk" alt="stars"> 
-    </a>
+    <img src="https://img.shields.io/github/last-commit/hirarara74/momotalk_AI/main">
+    <img src="https://img.shields.io/github/languages/top/hirarara74/momotalk_AI">
+    <img src="https://img.shields.io/badge/AI-Groq%20%7C%20Gemini%20%7C%20OpenAI%20%7C%20Claude-blue">
+    <img src="https://img.shields.io/badge/%E5%AD%B8%E7%94%9F%E6%95%B8-23%E4%BD%8D-pink">
 </div>
 
 <div align="center">
-  <strong>一個網頁端的蔚藍檔案聊天對話生成器</strong><br>
-  <sub>來創造腦洞大開的故事吧！</sub>
+  <strong>基於《蔚藍檔案》MomoTalk 界面的沉浸式 AI 對話 Web 應用程式</strong><br>
+  <sub>與奇普托斯的 23 位學生在最新大語言模型驅動下展開即時互動！</sub>
 </div>
+
+<br>
 
 [English](../README.md) | [简体中文](./README-zh_cn.md) | [繁體中文](./README-zh_tw.md) | [日本語](./README-ja.md)
 
-## 特點
+---
 
-- **可搜尋學生**: 能夠透過學生名字、名字羅馬音，甚至暱稱快速搜尋學生. 🔍️
-- **自訂角色**: 發言角色包括老師、學生，也可以上傳圖片自訂角色. 🎅
-- **訊息類型豐富**: 除了文字還能發送圖片、貼圖(聊天室&角色差分)、選項框和羈絆劇情框. ❤️
-- **靈活的編輯**: 聊天框可隨意插入、刪除、編輯、拖曳. 👍
-- **方便分享**: 對話可以保存為圖片方便分享給小夥伴. 🖼️
-- **保留歷史記錄**: 重啟瀏覽器也可以繼續上一次的對話. 📌
-- **多語言支援**: 支援中文（簡體和繁體）、日文、韓文和英文. 🌐
-- **MomoTalk 播放器**: 能夠播放遊戲中的 Momotalk 對話劇情. ▶️
+## 🌟 主要特色
 
-[快來試試看！](https://u1805.github.io/momotalk)
+- 🤖 **23 位學生深度角色扮演**: 支援 23 位《蔚藍檔案》學生，深度還原第一人稱口吻、對老師的稱呼與距離感、學生人際關係網絡與口癖。
+- ⚡ **超高速可插拔 AI 引擎**: 預設搭載超快速推論 **Groq**（支援 `openai/gpt-oss-120b`、`qwen/qwen3.8-27b` 等），並可在設定中一鍵切換至 **Google Gemini**、**OpenAI 相容介面** 或 **Anthropic Claude**。
+- 🌙 **真實作息與睡眠節律模擬**: 模擬學生獨特的作息時間（區分工作日/例假日起床時間，以及規律/作息不規律習慣）。學生入睡後訊息自動排隊，醒來時主動回覆（可在設定中自由開關）。
+- 💬 **還原原版 MomoTalk 體驗**: 逼真的「...」正在輸入動效、自然打字節奏、老師訊息的「已讀」狀態標記、時間戳記與日期分割線。
+- 📸 **多模態圖像辨識**: 支援向學生發送圖片或截圖，學生能辨識圖像內容並做出貼合人設的個人化反應。
+- 💖 **羈絆等級系統**: 與學生日常對話累積親密度提升羈絆等級，伴有專屬羈絆升級音效。
+- 🌐 **五國語言國際化**: 完整支援繁體中文、簡體中文、日語、英語、韓語的介面與說明。
+- 🖼️ **長截圖一鍵匯出**: 側邊欄專屬保存按鈕，一鍵將聊天記錄匯出為高畫質 PNG 圖片。
+- 📱 **響應式適配**: 完美自適應桌面寬螢幕與行動裝置直螢幕操作。
 
-## 預覽
+---
 
-![student](./assets/演示1.webp)
-![chat](./assets/演示2.webp)
+## 📸 預覽
 
-## 使用方法
+![學生選擇](./assets/演示1.webp)
+![聊天介面](./assets/演示2.webp)
 
-[HOW TO USE](./How-to-use-zh_tw.md)
+---
 
-## 給個星星
+## 🚀 快速開始
 
-[![星星歷史圖表](https://api.star-history.com/svg?repos=U1805/momotalk)](https://star-history.com/#U1805/momotalk)
+### 原始碼倉庫
+- GitHub: [hirarara74/momotalk_AI](https://github.com/hirarara74/momotalk_AI)
 
-## 感謝
+### 本地部署與執行
 
-專案參考自:
+```bash
+# 複製倉庫
+git clone https://github.com/hirarara74/momotalk_AI.git
+cd momotalk_AI
 
-- [Yuzutalk](https://www.yuzutalk.net/)
-- [Slouchwind/momotalk-editor](https://github.com/Slouchwind/momotalk-editor)
-- [blacktunes/juus-maker](https://github.com/blacktunes/juus-maker)
-- [ClosureTalk/closure-talk](https://github.com/ClosureTalk/closure-talk)
+# 安裝依賴套件
+npm install
 
-角色數據來源:
+# 啟動本地開發服務
+npm run dev
 
+# 執行單元測試
+npm test
+
+# 生產環境打包
+npm run build
+```
+
+---
+
+## 📖 使用說明
+
+詳細操作與鍵盤快速鍵請查閱 [使用說明](./How-to-use-zh_tw.md) 或點擊網頁右上角的 **`?`** 說明按鈕。
+
+---
+
+## 💖 鳴謝
+
+本專案基於 U1805 創作的開源對話生成器 [U1805/momotalk](https://github.com/U1805/momotalk) 架構發展並擴充了 AI 即時互動功能。
+
+學生資料與素材來源:
 - [kivo.wiki](https://kivo.wiki/)
 - [ba.gamekee](https://ba.gamekee.com/)
 - [bluearchive.fandom](https://bluearchive.fandom.com)
 
-## 版權聲明
+---
 
-本專案與 Yostar & NEXON Games 無關。
+## ⚖️ 版權與免責聲明
 
-專案中使用的所有角色信息和素材版權均屬於各自作者。
+本專案為粉絲自製的非官方開源專案，**與 Yostar 及 NEXON Games 無任何官方關聯**。
+
+《蔚藍檔案》的所有角色、圖像、音訊、商標等智慧財產權均歸屬 NEXON Games 及 Yostar 所有。
