@@ -27,6 +27,10 @@ export default defineConfig({
     outDir: 'docs',
     emptyOutDir: false
   },
+  server: {
+    port: 5174,
+    host: true
+  },
   css: {
     // css预处理器
     preprocessorOptions: {
