@@ -30,7 +30,7 @@ const changeTheme = () => {
 const onProviderChange = () => {
     if (store.aiProvider === 'groq') {
         if (!store.aiApiKey || store.aiApiKey.startsWith('AIzaSy')) {
-            store.aiApiKey = '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'
+            store.aiApiKey = ''
         }
         if (!store.aiModel || store.aiModel.includes('gemini') || store.aiModel.includes('gpt-')) {
             store.aiModel = 'qwen/qwen3.8-27b'
@@ -279,6 +279,14 @@ const onProviderChange = () => {
                                     @change="store.setData()"
                                     style="width: 100%; box-sizing: border-box; padding: 8px 12px; border: 1px solid #dce5ec; border-radius: 6px; font-size: 14px; outline: none;"
                                 />
+                                <div class="api-key-hint" style="font-size: 12px; color: #8899a6; margin-top: 2px;">
+                                    <span v-if="store.aiProvider === 'groq'">
+                                        ※ Groq API Key は <a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer" style="color: #2888e2; text-decoration: underline;">Groq Console</a> で無料取得できます。
+                                    </span>
+                                    <span v-else-if="store.aiProvider === 'gemini'">
+                                        ※ Gemini API Key は <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer" style="color: #2888e2; text-decoration: underline;">Google AI Studio</a> で取得できます。
+                                    </span>
+                                </div>
                             </div>
 
                             <div class="settings-row" style="flex-direction: column; align-items: flex-start; gap: 6px;">

@@ -22,7 +22,7 @@ export const store = reactive({
     // AI Chat Extension Settings
     aiEnabled: true,
     aiProvider: 'groq' as 'gemini' | 'openai' | 'claude' | 'groq',
-    aiApiKey: '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',
+    aiApiKey: '',
     aiModel: 'qwen/qwen3.8-27b',
     aiBaseUrl: 'https://api.groq.com/openai/v1',
     isAiResponding: false,
@@ -76,15 +76,16 @@ export const store = reactive({
         this.fullScreen = data[3] != null ? JSON.parse(data[3]) : false
         this.zoom      = data[4] != null ? JSON.parse(data[4]) : 1
         this.aiEnabled = data[5] != null ? JSON.parse(data[5]) : true
+        const defaultKey = ''
         const parsedProvider = data[6] != null ? JSON.parse(data[6]) : 'groq'
-        const parsedApiKey = data[7] != null ? JSON.parse(data[7]) : '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'
+        const parsedApiKey = data[7] != null ? JSON.parse(data[7]) : defaultKey
         const parsedModel = data[8] != null ? JSON.parse(data[8]) : 'qwen/qwen3.8-27b'
         const parsedBaseUrl = data[9] != null ? JSON.parse(data[9]) : 'https://api.groq.com/openai/v1'
 
         // Migration to Groq: if previously on gemini, or if using default/old Gemini key
         if (parsedProvider === 'gemini' || !parsedProvider) {
             this.aiProvider = 'groq'
-            this.aiApiKey = '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'
+            this.aiApiKey = parsedApiKey && !parsedApiKey.startsWith('AIzaSy') ? parsedApiKey : defaultKey
             this.aiModel = 'qwen/qwen3.8-27b'
             this.aiBaseUrl = 'https://api.groq.com/openai/v1'
             localStorage.setItem('ai-provider', JSON.stringify('groq'))
@@ -94,7 +95,7 @@ export const store = reactive({
         } else {
             this.aiProvider = parsedProvider
             if (this.aiProvider === 'groq' && (!parsedApiKey || parsedApiKey.startsWith('AIzaSy'))) {
-                this.aiApiKey = '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'
+                this.aiApiKey = defaultKey
                 localStorage.setItem('ai-api-key', JSON.stringify(this.aiApiKey))
             } else {
                 this.aiApiKey = parsedApiKey

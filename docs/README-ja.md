@@ -81,6 +81,18 @@ npm run build
 - [ba.gamekee](https://ba.gamekee.com/)
 - [bluearchive.fandom](https://bluearchive.fandom.com)
 
+## 🤝 コントリビューション（貢献方法）
+
+バグ報告、生徒プロンプトの拡充、多言語翻訳の提案は大歓迎です！  
+ガイドラインや開発手順の詳細は [CONTRIBUTING.md](../CONTRIBUTING.md) をご覧ください。
+
+---
+
+## 📄 ライセンス
+
+本ソフトウェアは [MIT License](../LICENSE) の下で公開されています。  
+『ブルーアーカイブ』に関するキャラクター等の権利帰属については [LICENSE 内の免責条項](../LICENSE#third-party-intellectual-property-notice--disclaimer--知的財産権に関する免責事項) をご確認ください。
+
 ---
 
 ## ⚖️ 著作権と免責事項

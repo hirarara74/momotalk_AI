@@ -81,6 +81,18 @@ Character metadata and assets from:
 - [ba.gamekee](https://ba.gamekee.com/)
 - [bluearchive.fandom](https://bluearchive.fandom.com)
 
+## 🤝 Contributing
+
+Contributions, bug reports, and student prompt enrichments are warmly welcome!  
+Please review [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines, development setup, and etiquette.
+
+---
+
+## 📄 License
+
+This software is released under the [MIT License](./LICENSE).  
+Please read the [Third-Party IP Notice in LICENSE](./LICENSE#third-party-intellectual-property-notice--disclaimer--知的財産権に関する免責事項) regarding rights of Blue Archive assets.
+
 ---
 
 ## ⚖️ Copyrights & Disclaimer

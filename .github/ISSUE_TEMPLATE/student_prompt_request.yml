@@ -1,0 +1,32 @@
+name: 🎓 生徒プロンプト改善・追加提案 / Student Prompt Proposal
+description: 新しい生徒のAIプロンプト追加や、既存生徒の口調・関係性・セリフの改善を提案する
+labels: ["enhancement", "prompt"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        キヴォトスの生徒たちの個性やセリフの充実に向けたご提案ありがとうございます！
+  - type: input
+    id: student_name
+    attributes:
+      label: 対象生徒名 / Student Name
+      placeholder: 例: 砂狼シロコ / 陸八魔アル
+    validations:
+      required: true
+  - type: textarea
+    id: speech_pattern
+    attributes:
+      label: 口調・一人称・先生の呼び方 / Tone & First-person
+      placeholder: 一人称: 私、先生の呼び方: 先生、口癖: 「ん、」「〜だよ」
+    validations:
+      required: true
+  - type: textarea
+    id: relationships
+    attributes:
+      label: 他の生徒や先生との関係性 / Relationships
+      placeholder: アビドス対策委員会の仲間たちとの関係や、先生に対する距離感
+  - type: textarea
+    id: sample_dialogues
+    attributes:
+      label: 代表的なセリフ・MomoTalk会話例 / Dialogue Examples
+      placeholder: 原作での印象的なセリフやMomoTalkでのやり取り例

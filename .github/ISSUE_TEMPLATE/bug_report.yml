@@ -1,0 +1,38 @@
+name: 🐛 バグ報告 / Bug Report
+description: MomoTalk AI の不具合や表示崩れを報告する
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        不具合の報告ありがとうございます！以下の項目に可能な範囲でご記入ください。
+  - type: textarea
+    id: description
+    attributes:
+      label: 不具合の概要 / Bug Description
+      description: どのような問題が発生しましたか？
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 再現手順 / Reproduction Steps
+      description: 1. 〇〇をクリック 2. 〇〇を送信 ...
+    validations:
+      required: true
+  - type: dropdown
+    id: provider
+    attributes:
+      label: 使用したAIプロバイダー / AI Provider
+      options:
+        - Groq (デフォルト)
+        - Google Gemini
+        - OpenAI Compatible
+        - Anthropic Claude
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: ご利用環境 / Environment
+      placeholder: OS (Windows / macOS / iOS / Android), ブラウザ (Chrome / Safari / Firefox)

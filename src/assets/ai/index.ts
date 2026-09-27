@@ -7,7 +7,7 @@ import { store } from '../storeUtils/store'
 
 export function getAIProvider(): AIProvider {
     const provider = store.aiProvider || 'groq'
-    const apiKey = store.aiApiKey || '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'
+    const apiKey = (store.aiApiKey || '').trim()
     const model = store.aiModel || undefined
 
     if (provider === 'groq') {

@@ -14,6 +14,11 @@ dist-ssr
 coverage
 *.local
 
+# Environment variables
+.env
+.env.*
+!.env.example
+
 /cypress/videos/
 /cypress/screenshots/
 
@@ -28,4 +33,4 @@ coverage
 *.sw?
 
 /.vscode/
-scratch/
+scratch/
