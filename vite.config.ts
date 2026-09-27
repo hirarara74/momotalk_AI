@@ -22,7 +22,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  base: '/momotalk/',
+  base: process.env.VITE_BASE || (process.env.GITHUB_REPOSITORY ? `/${process.env.GITHUB_REPOSITORY.split('/')[1]}/` : '/momotalk/'),
   build: {
     outDir: 'docs',
     emptyOutDir: false

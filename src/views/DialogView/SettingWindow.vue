@@ -287,6 +287,10 @@ const onProviderChange = () => {
                                         ※ Gemini API Key は <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer" style="color: #2888e2; text-decoration: underline;">Google AI Studio</a> で取得できます。
                                     </span>
                                 </div>
+                                <div class="api-key-security-badge" style="font-size: 11px; color: #2e7d32; background: #e8f5e9; padding: 6px 10px; border-radius: 6px; margin-top: 6px; display: flex; align-items: flex-start; gap: 6px; line-height: 1.4;">
+                                    <span style="font-size: 13px; line-height: 1;">🔒</span>
+                                    <span>{{ $t('keySecurityReassurance') }}</span>
+                                </div>
                             </div>
 
                             <div class="settings-row" style="flex-direction: column; align-items: flex-start; gap: 6px;">
