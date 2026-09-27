@@ -978,9 +978,8 @@ describe('Groq AI Provider Integration (TDD)', () => {
         expect(content).toContain('openai/gpt-oss-120b')
     })
 
-    it('store defaults to Groq provider with user-provided key', () => {
+    it('store defaults to Groq provider with appropriate config', () => {
         expect(store.aiProvider).toBe('groq')
-        expect(store.aiApiKey).toBe('REMOVED_SECRET')
         expect(store.aiModel).toBe('qwen/qwen3.8-27b')
         expect(store.aiBaseUrl).toBe('https://api.groq.com/openai/v1')
     })
@@ -993,14 +992,24 @@ describe('Groq AI Provider Integration (TDD)', () => {
 
     it('automatically migrates legacy Gemini localStorage settings to Groq', () => {
         localStorage.setItem('ai-provider', JSON.stringify('gemini'))
-        localStorage.setItem('ai-api-key', JSON.stringify('REMOVED_SECRET'))
+        localStorage.setItem('ai-api-key', JSON.stringify('AIzaSy_mock_legacy_key'))
 
         store.getData()
 
         expect(store.aiProvider).toBe('groq')
-        expect(store.aiApiKey).toBe('REMOVED_SECRET')
         expect(store.aiModel).toBe('qwen/qwen3.8-27b')
         expect(store.aiBaseUrl).toBe('https://api.groq.com/openai/v1')
+    })
+
+    it('shows polite guidance when API key is not configured', async () => {
+        const { triggerAIReply } = await import('../assets/chatUtils/send')
+        store.aiApiKey = ''
+        const initialTalkCount = talkHistory.talkHistory.length
+        await triggerAIReply('こんにちは', { student: { Id: 10010, Name: 'シロコ', Avatar: '' } })
+        expect(talkHistory.talkHistory.length).toBe(initialTalkCount + 1)
+        const lastTalk = talkHistory.talkHistory[talkHistory.talkHistory.length - 1]
+        expect(lastTalk.content).toContain('APIキーが未設定です')
+        expect(lastTalk.content).toContain('https://console.groq.com/keys')
     })
 
     describe('formatAiErrorMessage (TDD)', () => {

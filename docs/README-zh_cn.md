@@ -81,6 +81,18 @@ npm run build
 - [ba.gamekee](https://ba.gamekee.com/)
 - [bluearchive.fandom](https://bluearchive.fandom.com)
 
+## 🤝 参与贡献
+
+欢迎提交 Issue 反馈缺陷、扩充学生 AI 提示词与润色多语言翻译！  
+详细贡献指南与本地开发流程请参阅 [CONTRIBUTING.md](../CONTRIBUTING.md)。
+
+---
+
+## 📄 开源许可证
+
+本项目基于 [MIT License](../LICENSE) 开源。  
+关于《蔚蓝档案》相关角色的知识产权归属，请参阅 [LICENSE 中的第三方免责声明](../LICENSE#third-party-intellectual-property-notice--disclaimer--知的財産権に関する免責事項)。
+
 ---
 
 ## ⚖️ 版权与免责声明

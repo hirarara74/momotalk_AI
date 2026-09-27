@@ -325,6 +325,23 @@ export async function triggerAIReply(
         return
     }
 
+    const apiKey = (store.aiApiKey || '').trim()
+    if (!apiKey) {
+        const replyTalk: Talk = {
+            Id: talkHistory.talkId++,
+            Name: targetStudent.Name,
+            Avatar: targetStudent.Avatar,
+            type: 0,
+            flag: 2,
+            content: '（APIキーが未設定です。画面右上の設定 ⚙️ からAPIキーを入力してください。※Groq API Key は https://console.groq.com/keys から無料で取得できます）'
+        }
+        talkHistory.pushTalk(replyTalk)
+        store.typing = 0
+        store.isAiResponding = false
+        talkHistory.saveCurrentStudentTalks()
+        return
+    }
+
     const replyingStudentId = targetStudent.Id
     store.isAiResponding = true
 
