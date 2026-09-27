@@ -30,6 +30,7 @@ export default {
     aiSetting: 'AI 설정',
     aiEnabled: 'AI 자동 답장',
     aiProvider: 'AI 모델',
+    keySecurityReassurance: 'API 키는 브라우저 내부(localStorage)에만 안전하게 보관되며 외부 서버로 전송되지 않습니다.',
     sleepRhythm: '생활 리듬 (취침 및 기상 시간)',
     sleepRhythmDesc: '심야 등 취침 중에는 답장을 보류하고, 아침 기상 시간(학생별 개성 및 평일/휴일)에 맞춰 자동으로 답장합니다',
     sleepingBadge: '취침 중 ({time} 기상 예정)',

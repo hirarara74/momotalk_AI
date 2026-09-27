@@ -30,6 +30,7 @@ export default {
     aiSetting: 'AI Settings',
     aiEnabled: 'AI Auto-Reply',
     aiProvider: 'AI Provider',
+    keySecurityReassurance: 'Your API key is stored locally in your browser (localStorage) and is never sent to any external server.',
     sleepRhythm: 'Student Sleep & Wake Rhythm',
     sleepRhythmDesc: 'Replies are held during sleeping hours and sent automatically when the student wakes up according to their schedule.',
     sleepingBadge: 'Asleep (Wakes up at {time})',

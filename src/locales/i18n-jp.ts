@@ -30,6 +30,7 @@ export default {
     aiSetting: 'AI設定',
     aiEnabled: 'AI自動返信',
     aiProvider: 'AIモデル',
+    keySecurityReassurance: 'APIキーはお使いのブラウザ内（localStorage）にのみ安全に保存され、外部サーバーへ送信・収集されることはありません。',
     sleepRhythm: '生活リズム（就寝・起床時間）',
     sleepRhythmDesc: '深夜などの睡眠中は返信を保留し、朝の起床時間（生徒の個性・平日/休日の時間）に自動返信します',
     sleepingBadge: '就寝中 ({time} 起床予定)',

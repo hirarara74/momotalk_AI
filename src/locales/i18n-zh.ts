@@ -29,6 +29,7 @@ export default {
     aiSetting: 'AI设置',
     aiEnabled: 'AI自动回复',
     aiProvider: 'AI模型',
+    keySecurityReassurance: 'API 密钥仅保存在本地浏览器（localStorage）中，绝不上传任何第三方服务器。',
     sleepRhythm: '作息时间（就寝与起床时间）',
     sleepRhythmDesc: '在深夜等就寝时间内保留消息，并在早晨起床时间（根据学生个性与工作日/休息日）自动回复',
     sleepingBadge: '就寝中 (预计 {time} 起床)',
