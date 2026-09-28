@@ -261,6 +261,11 @@ export const talkHistory = reactive({
                 if (this.talkHistory.length > 0) {
                     const maxId = Math.max(...this.talkHistory.map((t) => t.Id || 0))
                     this.talkId = maxId + 1
+                    if (this.talkHistory.length === 1 && this.talkHistory[0].type === 0) {
+                        this.talkHistory[0].content = getStudentGreeting(student.Name)
+                        this.talkHistory[0].Name = student.Name
+                        this.saveCurrentStudentTalks()
+                    }
                 }
                 return
             } catch (e) {
@@ -334,7 +339,19 @@ export function recordStudentInteraction(studentId: number, timestamp: number = 
     talkHistory.lastChatUpdate = Date.now()
 }
 
-const WEEKDAY_NAMES = ['日', '月', '火', '水', '木', '金', '土']
+const WEEKDAY_NAMES_BY_LANG: Record<string, string[]> = {
+    jp: ['日', '月', '火', '水', '木', '金', '土'],
+    ja: ['日', '月', '火', '水', '木', '金', '土'],
+    kr: ['일', '월', '화', '수', '목', '금', '토'],
+    zh: ['日', '一', '二', '三', '四', '五', '六'],
+    tw: ['日', '一', '二', '三', '四', '五', '六'],
+    en: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+}
+
+const MONTHS_EN = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+]
 
 export function formatChatTime(timestamp?: number): string {
     if (!timestamp) return ''
@@ -344,13 +361,32 @@ export function formatChatTime(timestamp?: number): string {
     return `${hours}:${minutes}`
 }
 
-export function formatChatDate(timestamp?: number): string {
+export function formatChatDate(timestamp?: number, lang?: string): string {
     if (!timestamp) return ''
+    let currentLang = lang
+    if (!currentLang && typeof localStorage !== 'undefined') {
+        try {
+            const raw = localStorage.getItem('language')
+            if (raw) currentLang = JSON.parse(raw)
+        } catch {}
+    }
+    currentLang = currentLang || 'jp'
+    if (currentLang === 'ja') currentLang = 'jp'
+
     const d = new Date(timestamp)
     const year = d.getFullYear()
     const month = d.getMonth() + 1
     const day = d.getDate()
-    const weekday = WEEKDAY_NAMES[d.getDay()]
+    const dayOfWeek = d.getDay()
+    const weekdays = WEEKDAY_NAMES_BY_LANG[currentLang] || WEEKDAY_NAMES_BY_LANG.jp
+    const weekday = weekdays[dayOfWeek]
+
+    if (currentLang === 'kr') {
+        return `${year}년 ${month}월 ${day}일 (${weekday})`
+    }
+    if (currentLang === 'en') {
+        return `${MONTHS_EN[month - 1]} ${day}, ${year} (${weekday})`
+    }
     return `${year}年${month}月${day}日 (${weekday})`
 }
 

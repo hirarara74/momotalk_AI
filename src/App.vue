@@ -122,6 +122,7 @@ import { getStudents, getSchoolIcon } from '@/assets/requestUtils/request'
 import { birthday_sort, SupportedLanguage } from '@/assets/requestUtils/dateFormat'
 import { store } from '@/assets/storeUtils/store'
 import { talkHistory, getStudentLatestSnippet } from '@/assets/storeUtils/talkHistory'
+import { selectList } from '@/assets/storeUtils/selectList'
 import { debounce, search } from '@/assets/utils/search'
 import { isPromptSupported } from '@/assets/ai/prompts'
 import Popper from 'vue3-popper'
@@ -325,6 +326,30 @@ const changeLanguage = async () => {
     i18n.global.locale = store.language as any
     database.value = await getStudents(store.language)
     processData()
+
+    // Sync selected student with new language data
+    if (studentSelected.value) {
+        const updated = database.value.find((s) => s.Id === studentSelected.value?.Id)
+        if (updated) {
+            studentSelected.value = updated
+            student.value = {
+                Id: updated.Id,
+                Name: updated.Name,
+                Avatar: updated.Avatars[updated.cnt || 0]
+            }
+            store.currentChatStudent = updated
+        }
+    }
+
+    // Sync selectList student names with new language data
+    for (const item of selectList.selectList) {
+        const match = database.value.find((s) => s.Id === item.Id)
+        if (match) {
+            item.Name = match.Name
+        }
+    }
+    selectList.setData()
+
     store.setData()
     deactiveStudent()
 }

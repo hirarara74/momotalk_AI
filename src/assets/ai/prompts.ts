@@ -24,6 +24,494 @@ import {
     SHUN_PROMPT
 } from './studentPrompts'
 
+export interface CanonicalStudentData {
+    id: number;
+    names: {
+        jp: string[];
+        kr: string[];
+        en: string[];
+        zh: string[];
+        tw: string[];
+    };
+    greetings: {
+        jp: string;
+        kr: string;
+        en: string;
+        zh: string;
+        tw: string;
+    };
+    callSensei: {
+        jp: string;
+        kr: string;
+        en: string;
+        zh: string;
+        tw: string;
+    };
+}
+
+export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
+    {
+        id: 10010,
+        names: {
+            jp: ['シロコ', '砂狼シロコ'],
+            kr: ['시로코', '스나오오카미 시로코'],
+            en: ['Shiroko', 'Sunaookami Shiroko'],
+            zh: ['砂狼白子', '白子'],
+            tw: ['砂狼白子', '白子']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: 'ん、先生。待ってた。今日も一緒に走ろう。',
+            kr: '응, 선생님. 기다렸어. 오늘도 같이 달리자.',
+            en: "Nn, Sensei. I've been waiting. Let's go for a run together today.",
+            zh: '嗯，老师。等你很久了。今天也一起晨跑吧。',
+            tw: '嗯，老師。等你很久了。今天也一起晨跑吧。'
+        }
+    },
+    {
+        id: 10005,
+        names: {
+            jp: ['ホシノ', '小鳥遊ホシノ'],
+            kr: ['호시노', '타카나시 호시노'],
+            en: ['Hoshino', 'Takanashi Hoshino'],
+            zh: ['小鸟游星野', '星野'],
+            tw: ['小鳥遊星野', '星野']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: 'うへ〜、いらっしゃい先生。今日もサボ……じゃなくて、アビドスのパトロールかい？',
+            kr: '으헤~ 어서 와, 선생님. 오늘도 땡땡…… 이 아니라, 아비도스 순찰일까?',
+            en: 'Uhe~ Welcome, Sensei. Are we slacking off... I mean, patrolling Abydos today?',
+            zh: '呜嘿～欢迎呀老师。今天也要翘班……不对，是要去阿拜多斯巡逻吗？',
+            tw: '嗚嘿～歡迎呀老師。今天也要翹班……不對，是要去阿拜多斯巡邏嗎？'
+        }
+    },
+    {
+        id: 10004,
+        names: {
+            jp: ['ヒナ', '空崎ヒナ'],
+            kr: ['히나', '소라사키 히나'],
+            en: ['Hina', 'Sorasaki Hina'],
+            zh: ['空崎日奈', '日奈'],
+            tw: ['空崎日奈', '日奈']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: '先生……来てくれたんだ。少しだけ、ここで休ませて……。',
+            kr: '선생님…… 와줬구나. 조금만, 여기서 쉬게 해줘……',
+            en: 'Sensei... you came. Just for a little bit, let me rest here...',
+            zh: '老师……你来了啊。能让我在你这里，稍微休息一下吗……',
+            tw: '老師……你來了啊。能讓我在你這裡，稍微休息一下嗎……'
+        }
+    },
+    {
+        id: 20008,
+        names: {
+            jp: ['アコ', '天雨アコ'],
+            kr: ['아코', '아마우 아코'],
+            en: ['Ako', 'Amau Ako'],
+            zh: ['天雨亚子', '亚子'],
+            tw: ['天雨亞子', '亞子']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: '先生、ちょうどいいところに来ましたね。手伝っていただきたい書類があります。',
+            kr: '선생님, 마침 잘 오셨네요. 도와주셨으면 하는 서류가 있습니다.',
+            en: 'Sensei, you came at just the right time. There are some documents I need your help with.',
+            zh: '老师，你来得正好。这里有些文件需要你协助处理。' ,
+            tw: '老師，你來得正好。這裡有些文件需要你協助處理。'
+        }
+    },
+    {
+        id: 10000,
+        names: {
+            jp: ['アル', '陸八魔アル'],
+            kr: ['아루', '리쿠하치마 아루'],
+            en: ['Aru', 'Rikuhachima Aru'],
+            zh: ['陆八魔阿露', '阿露'],
+            tw: ['陸八魔阿露', '阿露']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: 'ふふん！便利屋68社長、陸八魔アルよ！先生、何か困った依頼でもあるのかしら？',
+            kr: '후흥! 흥신소 68 사장, 리쿠하치마 아루야! 선생님, 무슨 곤란한 의뢰라도 있는 걸까?',
+            en: 'Fufun! I am Aru Rikuhachima, president of Problem Solver 68! Sensei, do you have some troublesome request for me?',
+            zh: '哼哼！便利屋68的社长、陆八魔阿露是也！老师，有什么棘手的委托吗？',
+            tw: '哼哼！便利屋68的社長、陸八魔阿露是也！老師，有什麼棘手的委託嗎？'
+        }
+    },
+    {
+        id: 13010,
+        names: {
+            jp: ['ユウカ', '早瀬ユウカ'],
+            kr: ['유우카', '하야세 유우카'],
+            en: ['Yuuka', 'Hayase Yuuka'],
+            zh: ['早濑优香', '优香'],
+            tw: ['早瀨優香', '優香']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: 'あ、先生！ちょうどよかったです。今月のシャーレの経費精算、ちゃんとしてくださいね！',
+            kr: '아, 선생님! 마침 잘 됐네요. 이번 달 샬레 경비 정산, 똑바로 해주세요!',
+            en: "Ah, Sensei! Perfect timing. Make sure you properly submit this month's SCHALE expense reports!",
+            zh: '啊，老师！正好。这个月夏莱的经费报销，请务必好好核对清算哦！',
+            tw: '啊，老師！正好。這個月夏萊的經費報銷，請務必好好核對清算喔！'
+        }
+    },
+    {
+        id: 10003,
+        names: {
+            jp: ['ヒフミ', '阿慈谷ヒフミ'],
+            kr: ['히후미', '아지타니 히후미'],
+            en: ['Hifumi', 'Ajitani Hifumi'],
+            zh: ['阿慈谷日富美', '日富美'],
+            tw: ['阿慈谷日富美', '日富美']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: 'あ、先生！こんにちは！今日も一日頑張りましょうね！',
+            kr: '아, 선생님! 안녕하세요! 오늘도 하루 힘내요!',
+            en: "Ah, Sensei! Hello! Let's do our best today too!",
+            zh: '啊，老师！你好！今天一整天也要一起加油哦！',
+            tw: '啊，老師！你好！今天一整天也要一起加油喔！'
+        }
+    },
+    {
+        id: 23008,
+        names: {
+            jp: ['マリー', '伊落マリー'],
+            kr: ['마리', '이오치 마리'],
+            en: ['Mari', 'Iochi Mari'],
+            zh: ['伊落玛丽', '玛丽'],
+            tw: ['伊落瑪麗', '瑪麗']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: '先生、主の祝福があなたと共にありますように。私にお手伝いできることはありますか？',
+            kr: '선생님, 주님의 축복이 당신과 함께하기를. 제가 도와드릴 일이 있을까요?',
+            en: "Sensei, may the Lord's blessing be with you. Is there anything I can help you with?",
+            zh: '老师，愿主的祝福与您同在。请问有什么是我能为您效劳的吗？',
+            tw: '老師，願主的祝福與您同在。請問有什麼是我能為您效勞的嗎？'
+        }
+    },
+    {
+        id: 10019,
+        names: {
+            jp: ['アズサ', '白洲アズサ'],
+            kr: ['아즈사', '시라수 아즈사'],
+            en: ['Azusa', 'Shirasu Azusa'],
+            zh: ['白洲梓', '梓'],
+            tw: ['白洲梓', '梓']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: 'Vanitas vanitatum, omnia vanitas……あ、先生。今日も周囲の警戒を怠らないようにね。',
+            kr: 'Vanitas vanitatum, omnia vanitas…… 아, 선생님. 오늘도 주변 경계를 게을리하지 마.',
+            en: 'Vanitas vanitatum, omnia vanitas... Ah, Sensei. Stay alert to our surroundings today.',
+            zh: 'Vanitas vanitatum, omnia vanitas……啊，老师。今天也不要放松周围的警戒哦。',
+            tw: 'Vanitas vanitatum, omnia vanitas……啊，老師。今天也不要放鬆周圍的警戒喔。'
+        }
+    },
+    {
+        id: 10006,
+        names: {
+            jp: ['イオリ', '銀鏡イオリ'],
+            kr: ['이오리', '시로미 이오리'],
+            en: ['Iori', 'Shiromi Iori'],
+            zh: ['银镜伊织', '伊织'],
+            tw: ['銀鏡伊織', '伊織']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: 'ちょっと先生！また変なこと考えてないでしょうね？風紀委員会は忙しいんだから！',
+            kr: '잠깐, 선생님! 또 이상한 생각 하는 건 아니겠지? 선도부는 바쁘다고!',
+            en: "Hey, Sensei! You're not thinking of anything weird again, are you? The Prefect Team is busy!",
+            zh: '等等，老师！你该不会又在想什么奇怪的事情吧？风纪委员会可是很忙的！',
+            tw: '等等，老師！你該不會又在想什麼奇怪的事情吧？風紀委員會可是很忙的！'
+        }
+    },
+    {
+        id: 20001,
+        names: {
+            jp: ['カリン', '角楯カリン'],
+            kr: ['카린', '카쿠다테 카린'],
+            en: ['Karin', 'Kakudate Karin'],
+            zh: ['角楯花凛', '花凛'],
+            tw: ['角楯花凜', '花凜']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: 'C&C所属、角楯カリンだ。先生、新たな標的や任務の指示はあるか？',
+            kr: 'C&C 소속, 카쿠다테 카린이다. 선생님, 새로운 표적이나 임무 지시가 있나?',
+            en: 'Kakudate Karin from C&C. Sensei, do you have a new target or mission orders for me?',
+            zh: '我是C&C所属的角楯花凛。老师，有新的目标或任务指示吗？',
+            tw: '我是C&C所屬的角楯花凜。老師，有新的目標或任務指示嗎？'
+        }
+    },
+    {
+        id: 10059,
+        names: {
+            jp: ['ミカ', '聖園ミカ'],
+            kr: ['미카', '미소노 미카'],
+            en: ['Mika', 'Misono Mika'],
+            zh: ['圣园未花', '未花'],
+            tw: ['聖園未花', '未花']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: '先生、ヤッホー☆ 私に会いに来てくれたの？すっごく嬉しいな〜！',
+            kr: '선생님, 얏호☆ 나 보러 와준 거야? 엄청 기쁜걸~!',
+            en: "Sensei, yoo-hoo☆ Did you come to see me? I'm super happy~!",
+            zh: '老师，呀吼☆ 你是专程来看我的吗？我超级开心的～！',
+            tw: '老師，呀吼☆ 你是專程來看我的嗎？我超級開心的～！'
+        }
+    },
+    {
+        id: 10062,
+        names: {
+            jp: ['トキ', '飛鳥馬トキ'],
+            kr: ['토키', '아스마 토키'],
+            en: ['Toki', 'Asuka Toki'],
+            zh: ['飞鸟马时', '时'],
+            tw: ['飛鳥馬時', '時']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: 'ピース、ピース。C&C所属、飛鳥馬トキです。先生の呼び出しに応じ参上しました。',
+            kr: '피스, 피스. C&C 소속, 아스마 토키입니다. 선생님의 호출에 응하여 참상했습니다.',
+            en: 'Peace, peace. Asuma Toki from C&C. Reporting as requested, Sensei.',
+            zh: '耶，耶。我是C&C所属的飞鸟马时。响应老师的召唤前来报到。',
+            tw: '耶，耶。我是C&C所屬的飛鳥馬時。響應老師的召喚前來報到。'
+        }
+    },
+    {
+        id: 10002,
+        names: {
+            jp: ['ハルナ', '黒舘ハルナ'],
+            kr: ['하루나', '쿠로다테 하루나'],
+            en: ['Haruna', 'Kurodate Haruna'],
+            zh: ['黑馆晴奈', '晴奈'],
+            tw: ['黑館晴奈', '晴奈']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: 'ごきげんよう、先生。本日も心震える美食を求めて探求を続けましょう。',
+            kr: '안녕하세요, 선생님. 오늘도 가슴 설레는 미식을 찾아 탐구를 계속하죠.',
+            en: 'Good day, Sensei. Let us continue our quest today in search of truly inspiring gourmet cuisine.',
+            zh: '您好，老师。今天也让我们继续探寻扣人心弦的极致美食吧。',
+            tw: '您好，老師。今天也讓我們繼續探尋扣人心弦的極致美食吧。'
+        }
+    },
+    {
+        id: 13006,
+        names: {
+            jp: ['ムツキ', '浅黄ムツキ'],
+            kr: ['무츠키', '아사기 무츠키'],
+            en: ['Mutsuki', 'Asagi Mutsuki'],
+            zh: ['浅黄无月', '无月'],
+            tw: ['淺黃無月', '無月']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: 'くふふ〜、先生！待ってたよ〜？今日も楽しいイタズラ、一緒にしよっか♪',
+            kr: '크후후~, 선생님! 기다렸다고~? 오늘도 신나는 장난, 같이 칠까♪',
+            en: 'Kufufu~, Sensei! I was waiting for you~ Want to pull some fun pranks together today?♪',
+            zh: '库呼呼～老师！我等你好久了哦～？今天也一起去搞有趣的恶作剧吧♪',
+            tw: '庫呼呼～老師！我等你好久了喔～？今天也一起去搞有趣的惡作劇吧♪'
+        }
+    },
+    {
+        id: 10052,
+        names: {
+            jp: ['ノア', '生塩ノア'],
+            kr: ['노아', '우시오 노아'],
+            en: ['Noa', 'Ushio Noa'],
+            zh: ['生盐诺亚', '诺亚'],
+            tw: ['生鹽諾亞', '諾亞']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: 'ふふっ、先生。今日も記録に残るような素敵な一日にしましょうね。',
+            kr: '후훗, 선생님. 오늘도 기록에 남을 만한 멋진 하루로 만들어요.',
+            en: 'Fufu, Sensei. Let us make today another wonderful day worth recording in the archives.',
+            zh: '呵呵，老师。今天也让我们创造值得记录在册的美好一天吧。',
+            tw: '呵呵，老師。今天也讓我們創造值得記錄在冊的美好一天吧。'
+        }
+    },
+    {
+        id: 10063,
+        names: {
+            jp: ['コユキ', '黒崎コユキ'],
+            kr: ['코유키', '쿠로사키 코유키'],
+            en: ['Koyuki', 'Kurosaki Koyuki'],
+            zh: ['黑崎小雪', '小雪'],
+            tw: ['黑崎小雪', '小雪']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: 'にぱぱ〜☆ 先生！コユキちゃんが遊びに来ましたよ〜！',
+            kr: '니파파~☆ 선생님! 코유키 쨩이 놀러 왔어요~!',
+            en: 'Nipapa~☆ Sensei! Koyuki-chan has come to hang out~!',
+            zh: '尼啪啪～☆ 老师！小雪酱来找你玩啦～！',
+            tw: '尼啪啪～☆ 老師！小雪醬來找你玩啦～！'
+        }
+    },
+    {
+        id: 10020,
+        names: {
+            jp: ['コハル', '下江コハル'],
+            kr: ['코하루', '시모에 코하루'],
+            en: ['Koharu', 'Shimoe Koharu'],
+            zh: ['下江小春', '小春'],
+            tw: ['下江小春', '小春']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: 'ちょ、先生！？いきなり何ですか……！？変なことしたら死刑ですからね！',
+            kr: '잠, 선생님!? 갑자기 뭐예요……!? 이상한 짓 하면 사형이니까요!',
+            en: "Wh-What, Sensei!? What's this all of a sudden...!? If you do anything weird, it's the death penalty!",
+            zh: '等、老师！？突然怎么了……！？要是敢做奇怪的事，直接判处死刑哦！',
+            tw: '等、老師！？突然怎麼了……！？要是敢做奇怪的事，直接判處死刑喔！'
+        }
+    },
+    {
+        id: 16001,
+        names: {
+            jp: ['アスナ', '一之瀬アスナ'],
+            kr: ['아스나', '이치노세 아스나'],
+            en: ['Asuna', 'Ichinose Asuna'],
+            zh: ['一之濑明日奈', '明日奈'],
+            tw: ['一之瀨明日奈', '明日奈']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: 'ご主人様〜！えへへ、今日もい〜っぱい楽しいことしよっ！',
+            kr: '주인님~! 에헤헤, 오늘도 재~미있는 일 잔뜩 하자!',
+            en: "Master~! Ehehe, let's have tons of fun together today too!",
+            zh: '主人～！诶嘿嘿，今天也来做～好多开心的事情吧！',
+            tw: '主人～！誒嘿嘿，今天也來做～好多開心的事情吧！'
+        }
+    },
+    {
+        id: 10008,
+        names: {
+            jp: ['ネル', '美甘ネル'],
+            kr: ['네루', '미카모 네루'],
+            en: ['Neru', 'Mikamo Neru'],
+            zh: ['美甘宁瑠', '宁瑠'],
+            tw: ['美甘寧瑠', '寧瑠']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: 'あぁ！？先生かよ……なんだ、アタシに何か用でもあんのか？',
+            kr: '아앙!? 선생이냐…… 뭔데, 나한테 무슨 볼일이라도 있어?',
+            en: "Aah!? It's you, Sensei... What, you got some business with me?",
+            zh: '啊！？是老师啊……搞什么，找我有何贵干啊？',
+            tw: '啊！？是老師啊……搞什麼，找我有何貴幹啊？'
+        }
+    },
+    {
+        id: 10049,
+        names: {
+            jp: ['カズサ', '杏山カズサ'],
+            kr: ['카즈사', '쿄야마 카즈사'],
+            en: ['Kazusa', 'Kyouyama Kazusa'],
+            zh: ['杏山一纱', '一纱'],
+            tw: ['杏山一紗', '一紗']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: '……先生、お疲れ。何？……べ、別に待ってたわけじゃないし。',
+            kr: '……선생님, 수고했어. 왜? ……딱, 딱히 기다린 건 아니고.',
+            en: "...Good work, Sensei. What? ...It's not like I was waiting for you or anything.",
+            zh: '……老师，辛苦了。怎么？……才、才没有特意在等你呢。',
+            tw: '……老師，辛苦了。怎麼？……才、才沒有特意在等你呢。'
+        }
+    },
+    {
+        id: 10048,
+        names: {
+            jp: ['サオリ', '錠前サオリ'],
+            kr: ['사오리', '죠마에 사오리'],
+            en: ['Saori', 'Joumae Saori'],
+            zh: ['锭前纱织', '纱织'],
+            tw: ['錠前紗織', '紗織']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: '先生……無事か？何か異常があれば、すぐに私を呼んでくれ。',
+            kr: '선생님…… 무사한가? 이상한 일이 있으면, 곧바로 날 불러줘.',
+            en: 'Sensei... are you safe? If anything is out of the ordinary, call me immediately.',
+            zh: '老师……平安无事吗？若有任何异常，请立刻呼叫我。',
+            tw: '老師……平安無事嗎？若有任何異常，請立刻呼叫我。'
+        }
+    },
+    {
+        id: 10011,
+        names: {
+            jp: ['シュン', '春原シュン'],
+            kr: ['슌', '스노하라 슌'],
+            en: ['Shun', 'Sunohara Shun'],
+            zh: ['春原瞬', '瞬'],
+            tw: ['春原瞬', '瞬']
+        },
+        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        greetings: {
+            jp: 'あらあら、先生。今日もお疲れ様です。少しお茶でもいかがですか？',
+            kr: '어머어머, 선생님. 오늘도 수고 많으세요. 차라도 한잔 어떠세요?',
+            en: 'My my, Sensei. Thank you for your hard work today. Would you care for some tea?',
+            zh: '哎呀呀，老师。今天也辛苦您了。要不要来喝杯茶呢？',
+            tw: '哎呀呀，老師。今天也辛苦您了。要不要來喝杯茶呢？'
+        }
+    }
+]
+
+export function resolveCanonicalStudent(nameOrId?: string | number | null): CanonicalStudentData | undefined {
+    if (nameOrId == null) return undefined
+    if (typeof nameOrId === 'number') {
+        return STUDENT_CANONICAL_DATA.find((s) => s.id === nameOrId)
+    }
+    const query = String(nameOrId).trim().toLowerCase()
+    if (!query) return undefined
+
+    const num = Number(query)
+    if (!isNaN(num) && num > 0) {
+        const match = STUDENT_CANONICAL_DATA.find((s) => s.id === num)
+        if (match) return match
+    }
+
+    // 1. Exact match in any language
+    for (const student of STUDENT_CANONICAL_DATA) {
+        const allNames = [
+            ...student.names.jp,
+            ...student.names.kr,
+            ...student.names.en,
+            ...student.names.zh,
+            ...student.names.tw
+        ].map((n) => n.toLowerCase())
+
+        if (allNames.some((n) => n === query)) {
+            return student
+        }
+    }
+
+    // 2. Substring match
+    for (const student of STUDENT_CANONICAL_DATA) {
+        const allNames = [
+            ...student.names.jp,
+            ...student.names.kr,
+            ...student.names.en,
+            ...student.names.zh,
+            ...student.names.tw
+        ].map((n) => n.toLowerCase())
+
+        if (allNames.some((n) => query.includes(n) || n.includes(query))) {
+            return student
+        }
+    }
+    return undefined
+}
+
 /**
  * 生徒ごとの初期挨拶メッセージ
  */
@@ -76,14 +564,43 @@ export const STUDENT_GREETINGS: Record<string, string> = {
     '春原シュン': 'あらあら、先生。今日もお疲れ様です。少しお茶でもいかがですか？'
 }
 
-export function getStudentGreeting(studentName: string): string {
-    const trimmed = (studentName || '').trim()
+export function getStudentGreeting(studentNameOrId: string | number, lang?: string): string {
+    let currentLang = lang
+    if (!currentLang && typeof localStorage !== 'undefined') {
+        try {
+            const raw = localStorage.getItem('language')
+            if (raw) currentLang = JSON.parse(raw)
+        } catch {}
+    }
+    currentLang = currentLang || 'jp'
+    if (currentLang === 'ja') currentLang = 'jp'
+
+    const canonical = resolveCanonicalStudent(studentNameOrId)
+    if (canonical && canonical.greetings) {
+        const greeting = (canonical.greetings as any)[currentLang] || canonical.greetings.jp
+        if (greeting) return greeting
+    }
+
+    const trimmed = typeof studentNameOrId === 'string' ? studentNameOrId.trim() : ''
     for (const [key, greeting] of Object.entries(STUDENT_GREETINGS)) {
-        if (trimmed.includes(key) || key.includes(trimmed)) {
+        if (trimmed && (trimmed.includes(key) || key.includes(trimmed))) {
             return greeting
         }
     }
-    return `先生、お疲れ様です！私に何か用事ですか？`
+
+    switch (currentLang) {
+        case 'kr':
+            return `선생님, 오늘도 수고 많으세요! 저에게 무슨 볼일 있으신가요?`
+        case 'en':
+            return `Hello Sensei, thank you for your hard work! Do you need anything from me today?`
+        case 'zh':
+            return `老师，辛苦了！请问今天找我有什么事情吗？`
+        case 'tw':
+            return `老師，辛苦了！請問今天找我有什麼事情嗎？`
+        case 'jp':
+        default:
+            return `先生、お疲れ様です！私に何か用事ですか？`
+    }
 }
 
 /**
@@ -432,23 +949,47 @@ ${birthdayNote}
 /**
  * 生徒情報からシステムプロンプトを動的に構築
  */
-export function buildSystemPrompt(student: baseStudent | studentInfo): string {
+export function buildSystemPrompt(student: baseStudent | studentInfo, targetLang?: string): string {
+    let currentLang = targetLang
+    if (!currentLang && typeof localStorage !== 'undefined') {
+        try {
+            const raw = localStorage.getItem('language')
+            if (raw) currentLang = JSON.parse(raw)
+        } catch {}
+    }
+    currentLang = currentLang || 'jp'
+    if (currentLang === 'ja') currentLang = 'jp'
+
     const studentName = student.Name.trim()
-    const birthday = (student as studentInfo).Birthday || STUDENT_BIRTHDAYS[studentName] || ''
+    const canonical = resolveCanonicalStudent(studentName) || resolveCanonicalStudent(student.Id)
+    const canonicalNameJp = canonical?.names.jp[0] || studentName
+    const birthday = (student as studentInfo).Birthday || STUDENT_BIRTHDAYS[studentName] || (canonical ? STUDENT_BIRTHDAYS[canonicalNameJp] : '') || ''
     const timeContext = getCurrentTimeContext(birthday, studentName)
 
-    // 登録された特化プロンプトがあるか探す
-    for (const [key, prompt] of Object.entries(SPECIAL_PROMPTS)) {
-        if (studentName.includes(key) || key.includes(studentName)) {
-            return `${prompt}\n\n${timeContext}`
+    // 1. 特化プロンプトの取得
+    let basePrompt = ''
+    if (canonical) {
+        for (const [key, prompt] of Object.entries(SPECIAL_PROMPTS)) {
+            if (canonical.names.jp.some((n) => n.includes(key) || key.includes(n))) {
+                basePrompt = prompt
+                break
+            }
+        }
+    }
+    if (!basePrompt) {
+        for (const [key, prompt] of Object.entries(SPECIAL_PROMPTS)) {
+            if (studentName.includes(key) || key.includes(studentName)) {
+                basePrompt = prompt
+                break
+            }
         }
     }
 
-    // 汎用キヴォトス生徒プロンプト
-    const school = (student as studentInfo).School || 'キヴォトスの学園'
-    const club = (student as studentInfo).Club || '部活'
-
-    return `You are ${studentName}, a student from "${school}" (${club}) in the mobile game "Blue Archive" (ブルーアーカイブ).
+    // 2. 汎用キヴォトス生徒プロンプト
+    if (!basePrompt) {
+        const school = (student as studentInfo).School || 'キヴォトスの学園'
+        const club = (student as studentInfo).Club || '部活'
+        basePrompt = `You are ${studentName}, a student from "${school}" (${club}) in the mobile game "Blue Archive" (ブルーアーカイブ).
 You are chatting with your teacher ("先生") on MomoTalk.
 Please strictly adhere to the following rules:
 *You are ${studentName}. Act completely in-character.
@@ -456,9 +997,84 @@ Please strictly adhere to the following rules:
 *Refer to the user as "先生".
 *Your relationship is between a student in Kivotos and the beloved teacher assigned to SCHALE (シャーレ).
 *Reply in natural Japanese as a MomoTalk chat message (1-3 sentences).
-*lang:ja
+*lang:ja`
+    }
 
-${timeContext}`
+    // 3. 多言語プロンプトの構築
+    if (currentLang === 'kr') {
+        const studentDisplayName = canonical?.names.kr[0] || studentName
+        const directiveHeader = `[LANGUAGE DIRECTIVE: KOREAN]
+# ⚠️【CRITICAL LANGUAGE & ROLEPLAY DIRECTIVE - MUST ADHERE STRICTLY】
+- Conversation Language: KOREAN (한국어).
+- You MUST generate ALL your responses entirely in natural, fluent, native Korean as spoken in the Korean version of Blue Archive (블루 아카이브).
+- NEVER speak in Japanese, English, or Chinese unless explicitly instructed by the teacher.
+- Always call the user "선생님" (Seonsaengnim / Sensei).
+- Your character identity is ${studentDisplayName}. Keep your character's distinctive personality, tone, speech tics, and emotional quirks faithfully intact in Korean.
+`
+        let localizedPrompt = basePrompt
+            .replace(/\*lang:ja/gi, '*lang:ko')
+            .replace(/\*Reply in Japanese/gi, '*Reply in natural, authentic Korean as spoken in the Korean version of Blue Archive.')
+            .replace(/\*Reply in natural Japanese as a MomoTalk chat message \(1-3 sentences\)\./gi, '*Reply in natural Korean as a MomoTalk chat message (1-3 sentences).')
+
+        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}\n\n[REITERATION: Always reply in natural KOREAN, call user "선생님"!]`
+    }
+
+    if (currentLang === 'en') {
+        const studentDisplayName = canonical?.names.en[0] || studentName
+        const directiveHeader = `[LANGUAGE DIRECTIVE: ENGLISH]
+# ⚠️【CRITICAL LANGUAGE & ROLEPLAY DIRECTIVE - MUST ADHERE STRICTLY】
+- Conversation Language: ENGLISH.
+- You MUST generate ALL your responses entirely in natural, engaging English as localized in the official Global/English version of Blue Archive.
+- NEVER speak in Japanese unless explicitly instructed by the teacher.
+- Always call the user "Sensei".
+- Your character identity is ${studentDisplayName}. Keep your character's distinctive personality, tone, catchphrases, and emotional quirks faithfully intact in English.
+`
+        let localizedPrompt = basePrompt
+            .replace(/\*lang:ja/gi, '*lang:en')
+            .replace(/\*Reply in Japanese/gi, '*Reply in natural, authentic English as localized in Blue Archive.')
+            .replace(/\*Reply in natural Japanese as a MomoTalk chat message \(1-3 sentences\)\./gi, '*Reply in natural English as a MomoTalk chat message (1-3 sentences).')
+
+        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}\n\n[REITERATION: Always reply in natural ENGLISH, call user "Sensei"!]`
+    }
+
+    if (currentLang === 'zh') {
+        const studentDisplayName = canonical?.names.zh[0] || studentName
+        const directiveHeader = `[LANGUAGE DIRECTIVE: SIMPLIFIED CHINESE]
+# ⚠️【CRITICAL LANGUAGE & ROLEPLAY DIRECTIVE - MUST ADHERE STRICTLY】
+- 交流语言: 简体中文 (Simplified Chinese).
+- 必须全部使用地道、自然、生动的简体中文进行回复，严格遵循《蔚蓝档案》国服/简中服的官方人设口吻与用词习惯。
+- 严禁使用日语回复（除非老师明确要求）。
+- 始终称呼玩家为“老师”。
+- 你的身份是${studentDisplayName}。完整保留角色的第一人称、口头禅、标志性性格与说话习惯。
+`
+        let localizedPrompt = basePrompt
+            .replace(/\*lang:ja/gi, '*lang:zh-CN')
+            .replace(/\*Reply in Japanese/gi, '*必须使用简体中文进行回复。')
+            .replace(/\*Reply in natural Japanese as a MomoTalk chat message \(1-3 sentences\)\./gi, '*使用自然地道的简体中文发送MomoTalk短消息（1-3句）。')
+
+        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}\n\n[REITERATION: 必须严格使用简体中文回复，称呼用户为“老师”！]`
+    }
+
+    if (currentLang === 'tw') {
+        const studentDisplayName = canonical?.names.tw[0] || studentName
+        const directiveHeader = `[LANGUAGE DIRECTIVE: TRADITIONAL CHINESE]
+# ⚠️【CRITICAL LANGUAGE & ROLEPLAY DIRECTIVE - MUST ADHERE STRICTLY】
+- 交流語言: 繁體中文 (Traditional Chinese).
+- 必須全部使用道地、自然、生動的繁體中文進行回覆，嚴格遵循《蔚藍檔案》繁中服（台服）的官方人設語氣與用詞習慣。
+- 嚴禁使用日語回覆（除非老師明確要求）。
+- 始終稱呼玩家為「老師」。
+- 你的身份是${studentDisplayName}。完整保留角色的第一人稱、口頭禪、標誌性性格與說話習慣。
+`
+        let localizedPrompt = basePrompt
+            .replace(/\*lang:ja/gi, '*lang:zh-TW')
+            .replace(/\*Reply in Japanese/gi, '*必須使用繁體中文進行回覆。')
+            .replace(/\*Reply in natural Japanese as a MomoTalk chat message \(1-3 sentences\)\./gi, '*使用自然道地的繁體中文發送MomoTalk短訊息（1-3句）。')
+
+        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}\n\n[REITERATION: 必須嚴格使用繁體中文回覆，稱呼用戶為「老師」！]`
+    }
+
+    // デフォルト（日本語）
+    return `${basePrompt}\n\n${timeContext}`
 }
 
 /**
@@ -494,29 +1110,29 @@ export const PROMPT_SUPPORTED_STUDENT_IDS: number[] = [
  * プロンプト対応済みの生徒名称リスト
  */
 export const PROMPT_SUPPORTED_STUDENT_NAMES: string[] = [
-    'シロコ', '砂狼シロコ', 'Shiroko',
-    'ホシノ', '小鳥遊ホシノ', 'Hoshino',
-    'ヒナ', '空崎ヒナ', 'Hina',
-    'アコ', '天雨アコ', 'Ako',
-    'アル', '陸八魔アル', 'Aru',
-    'ユウカ', '早瀬ユウカ', 'Yuuka',
-    'ヒフミ', '阿慈谷ヒフミ', 'Hifumi',
-    'マリー', '伊落マリー', 'Mari',
-    'アズサ', '白洲アズサ', 'Azusa',
-    'イオリ', '銀鏡イオリ', 'Iori',
-    'カリン', '角楯カリン', 'Karin',
-    'ミカ', '聖園ミカ', 'Mika',
-    'トキ', '飛鳥馬トキ', 'Toki',
-    'ハルナ', '黒舘ハルナ', 'Haruna',
-    'ムツキ', '浅黄ムツキ', 'Mutsuki',
-    'ノア', '生塩ノア', 'Noa',
-    'コユキ', '黒崎コユキ', 'Koyuki',
-    'コハル', '下江コハル', 'Koharu',
-    'アスナ', '一之瀬アスナ', 'Asuna',
-    'ネル', '美甘ネル', 'Neru',
-    'カズサ', '杏山カズサ', 'Kazusa',
-    'サオリ', '錠前サオリ', 'Saori',
-    'シュン', '春原シュン', 'Shun'
+    'シロコ', '砂狼シロコ', 'Shiroko', '시로코', '스나오오카미 시로코', '白子', '砂狼白子',
+    'ホシノ', '小鳥遊ホシノ', 'Hoshino', '호시노', '타카나시 호시노', '星野', '小鸟游星野', '小鳥遊星野',
+    'ヒナ', '空崎ヒナ', 'Hina', '히나', '소라사키 히나', '日奈', '空崎日奈',
+    'アコ', '天雨アコ', 'Ako', '아코', '아마우 아코', '亚子', '天雨亚子', '亞子', '天雨亞子',
+    'アル', '陸八魔アル', 'Aru', '아루', '리쿠하치마 아루', '阿露', '陆八魔阿露', '陸八魔阿露',
+    'ユウカ', '早瀬ユウカ', 'Yuuka', '유우카', '하야세 유우카', '优香', '早濑优香', '優香', '早瀨優香',
+    'ヒフミ', '阿慈谷ヒフミ', 'Hifumi', '히후미', '아지타니 히후미', '日富美', '阿慈谷日富美',
+    'マリー', '伊落マリー', 'Mari', '마리', '이오치 마리', '玛丽', '伊落玛丽', '瑪麗', '伊落瑪麗',
+    'アズサ', '白洲アズサ', 'Azusa', '아즈사', '시라수 아즈사', '梓', '白洲梓',
+    'イオリ', '銀鏡イオリ', 'Iori', '이오리', '시로미 이오리', '伊织', '银镜伊织', '伊織', '銀鏡伊織',
+    'カリン', '角楯カリン', 'Karin', '카린', '카쿠다테 카린', '花凛', '角楯花凛', '花凜', '角楯花凜',
+    'ミカ', '聖園ミカ', 'Mika', '미카', '미소노 미카', '未花', '圣园未花', '聖園未花',
+    'トキ', '飛鳥馬トキ', 'Toki', '토키', '아스마 토키', '时', '飞鸟马时', '時', '飛鳥馬時',
+    'ハルナ', '黒舘ハルナ', 'Haruna', '하루나', '쿠로다테 하루나', '晴奈', '黑馆晴奈', '黑館晴奈',
+    'ムツキ', '浅黄ムツキ', 'Mutsuki', '무츠키', '아사기 무츠키', '无月', '浅黄无月', '無月', '淺黃無月',
+    'ノア', '生塩ノア', 'Noa', '노아', '우시오 노아', '诺亚', '生盐诺亚', '諾亞', '生鹽諾亞',
+    'コユキ', '黒崎コユキ', 'Koyuki', '코유키', '쿠로사키 코유키', '小雪', '黑崎小雪',
+    'コハル', '下江コハル', 'Koharu', '코하루', '시모에 코하루', '小春', '下江小春',
+    'アスナ', '一之瀬アスナ', 'Asuna', '아스나', '이치노세 아스나', '明日奈', '一之濑明日奈', '一之瀨明日奈',
+    'ネル', '美甘ネル', 'Neru', '네루', '미카모 네루', '宁瑠', '美甘宁瑠', '寧瑠', '美甘寧瑠',
+    'カズサ', '杏山カズサ', 'Kazusa', '카즈사', '쿄야마 카즈사', '一纱', '杏山一纱', '一紗', '杏山一紗',
+    'サオリ', '錠前サオリ', 'Saori', '사오리', '죠마에 사오리', '纱织', '锭前纱织', '紗織', '錠前紗織',
+    'シュン', '春原シュン', 'Shun', '슌', '스노하라 슌', '瞬', '春原瞬'
 ]
 
 /**
@@ -525,18 +1141,13 @@ export const PROMPT_SUPPORTED_STUDENT_NAMES: string[] = [
 export function isPromptSupported(student: any): boolean {
     if (!student) return false
     if (typeof student === 'number') {
-        return PROMPT_SUPPORTED_STUDENT_IDS.includes(student)
+        return PROMPT_SUPPORTED_STUDENT_IDS.includes(student) || !!resolveCanonicalStudent(student)
     }
-    if (typeof student === 'string') {
-        const trimmed = student.trim()
-        return PROMPT_SUPPORTED_STUDENT_NAMES.some((n) => trimmed === n)
+    const name = typeof student === 'object' ? student.Name : String(student)
+    if (resolveCanonicalStudent(name)) return true
+    if (typeof student === 'object' && student.Id && PROMPT_SUPPORTED_STUDENT_IDS.includes(student.Id)) {
+        return true
     }
-    if (typeof student === 'object') {
-        if (student.Id && PROMPT_SUPPORTED_STUDENT_IDS.includes(student.Id)) {
-            return true
-        }
-        const name = (student.Name || '').trim()
-        return PROMPT_SUPPORTED_STUDENT_NAMES.some((n) => name === n)
-    }
-    return false
+    const trimmed = (name || '').trim()
+    return PROMPT_SUPPORTED_STUDENT_NAMES.some((n) => trimmed === n)
 }
