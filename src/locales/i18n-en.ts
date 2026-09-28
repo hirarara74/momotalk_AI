@@ -121,5 +121,24 @@ An interactive AI chat application to talk in real-time with Blue Archive studen
 - \`/\` : Focus search box
 - \`Enter\` : Send message
 - \`Shift + Enter\` : New line
+
+## 📜 Credits & Disclaimer
+
+### 1. Intellectual Property & Copyright Notice
+- All characters, imagery, lore, trademarks, and intellectual property related to **Blue Archive** belong to **NEXON Games Co., Ltd.**, **Yostar, Inc.**, and their respective publishers and affiliates.
+- This web application is an **unofficial, non-commercial fan creation (derivative work)** made out of love for Blue Archive under the official fan creation guidelines.
+- This application is not affiliated with, endorsed by, or sponsored by NEXON Games or Yostar.
+
+### 2. Open Source Attribution & Gratitude
+- The user interface and foundational structure of this project are based on the open-source repository **[U1805/momotalk](https://github.com/U1805/momotalk)** (MIT License by @U1805), modified and extended to integrate pluggable real-time LLM chat and vision multimodal intelligence. We express our deepest gratitude to @U1805 and all contributors for their wonderful MomoTalk web simulator.
+- Student metadata and asset references are supported by the community database **[SchaleDB](https://schaledb.com/)** ([lonqix/SchaleDB](https://github.com/lonqix/SchaleDB)).
+
+### 3. Built with Vibe Coding
+- This project was developed through interactive AI pair programming (**Vibe Coding**) powered by Google DeepMind's autonomous AI coding assistant, **Antigravity**.
+- From requirement decompilation, character system prompt design, and Test-Driven Development (TDD) to continuous self-refinement loops (\`//loop\`), this application serves as an experimental showcase of AI-native software engineering.
+
+### 4. Privacy & Disclaimer
+- **API Key Security**: User API keys are stored solely within your local browser storage (\`localStorage\`) and are never sent to, logged by, or collected on any intermediary server. Requests are dispatched directly and securely over HTTPS to official AI providers (Groq, Google, etc.).
+- **Disclaimer**: The developer assumes no responsibility or liability for any consequences arising from the use of this application. If requested by copyright holders, this project will be promptly modified or taken down.
 `
 }
