@@ -8,6 +8,7 @@ import { myReExp } from '../utils/markdown'
 import { getAIProvider, buildSystemPrompt, type ChatMessage } from '../ai'
 import { isStudentSleeping, getWakeupSystemPromptModifier } from '../ai/sleepSchedule'
 import { playMomoTalkSound } from '../utils/sound'
+import { getStickerDescription } from '../utils/stickers'
 
 const re = new myReExp()
 
@@ -103,7 +104,8 @@ const sendText = (char: baseStudent | number, text: string, flag: number = 2) =>
     if (char === 1) {
         playMomoTalkSound('send')
         if (store.aiEnabled && !store.isAiResponding) {
-            handleAIReplyTrigger(text)
+            const stickerDesc = getStickerDescription(text)
+            handleAIReplyTrigger(stickerDesc ? `[スタンプを送信] ${stickerDesc}` : text)
         }
     }
 }
