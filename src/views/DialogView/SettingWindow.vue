@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { store } from '@/assets/storeUtils/store'
 import { importJson, exportJson } from '@/assets/storeUtils/file'
 import { importCard, exportCard } from '@/assets/chatUtils/play'
@@ -6,17 +7,10 @@ import IconClose from '@/components/icons/IconClose.vue'
 import IconGithub from '@/components/icons/IconGithub.vue'
 import IconLog from '@/components/icons/IconLog.vue'
 
+const activePage = computed(() => store.settingDialogPage || 1)
+
 const showPage = (num: number) => {
-    const pageElements = document.querySelectorAll('.page')
-    pageElements.forEach((element) => {
-        element.setAttribute('style', `transform: translateX(${(num - 1) * -100}%);`)
-    })
-    const btnElements = document.querySelectorAll('.page-btn')
-    btnElements.forEach((element) => {
-        element.classList.remove('active')
-    })
-    const selectedPage = document.getElementById(`page-${num}`)
-    if (selectedPage) selectedPage.classList.add('active')
+    store.settingDialogPage = num
 }
 
 const changeTheme = () => {
@@ -61,22 +55,22 @@ const onProviderChange = () => {
                 </div>
 
                 <ul class="popper-content__tabs">
-                    <li @click="showPage(1)" class="page-btn active" id="page-1">
+                    <li @click="showPage(1)" class="page-btn" :class="{ active: activePage === 1 }" id="page-1">
                         {{ $t('basicSetting') }}
                     </li>
                     <li class="divider">/</li>
-                    <li @click="showPage(2)" class="page-btn" id="page-2">
+                    <li @click="showPage(2)" class="page-btn" :class="{ active: activePage === 2 }" id="page-2">
                         {{ $t('aiSetting') || 'AI' }}
                     </li>
                     <li class="divider">/</li>
-                    <li @click="showPage(3)" class="page-btn" id="page-3">
+                    <li @click="showPage(3)" class="page-btn" :class="{ active: activePage === 3 }" id="page-3">
                         {{ $t('sharefile') }}
                     </li>
                 </ul>
 
                 <div class="featured">
                     <!-- Page 1: 基本設定 -->
-                    <div class="page">
+                    <div class="page" :style="{ transform: `translateX(${(activePage - 1) * -100}%)` }">
                         <div class="dialog-content left-align" style="padding-top: 25px">
                             <div class="settings-row">
                                 <span class="row-label">{{ $t('renderStyle') }}</span>
@@ -201,7 +195,7 @@ const onProviderChange = () => {
                     </div>
 
                     <!-- Page 2: AI設定 -->
-                    <div class="page">
+                    <div class="page" :style="{ transform: `translateX(${(activePage - 1) * -100}%)` }">
                         <div class="dialog-content left-align" style="padding-top: 20px">
                             <div class="settings-row">
                                 <span class="row-label">{{ $t('aiEnabled') }}</span>
@@ -375,7 +369,7 @@ const onProviderChange = () => {
                     </div>
 
                     <!-- Page 3: 共有ファイル -->
-                    <div class="page">
+                    <div class="page" :style="{ transform: `translateX(${(activePage - 1) * -100}%)` }">
                         <div class="popper-content__line">
                             <span>{{ $t('importAndExport') }}</span>
                         </div>

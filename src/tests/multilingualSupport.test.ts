@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import {
     getStudentGreeting,
     buildSystemPrompt,
@@ -13,6 +13,8 @@ import i18nKr from '../locales/i18n-kr'
 import i18nEn from '../locales/i18n-en'
 import i18nZh from '../locales/i18n-zh'
 import i18nTw from '../locales/i18n-tw'
+import i18n from '../locales/i18n'
+import { store, resolveAccessLanguage, normalizeLanguageCode } from '../assets/storeUtils/store'
 import type { baseStudent } from '../assets/requestUtils/interface'
 
 describe('Multilingual AI Prompts & UI Localization (TDD)', () => {
@@ -235,6 +237,124 @@ describe('Multilingual AI Prompts & UI Localization (TDD)', () => {
                 // Must mention vibe coding
                 expect(helpText.toLowerCase()).toMatch(/vibe coding|バイブコーディング|바이브 코딩/)
             }
+        })
+    })
+
+    describe('5. Automatic Language Resolution from Access Destination & Locale (TDD)', () => {
+        beforeEach(() => {
+            localStorage.clear()
+        })
+
+        afterEach(() => {
+            store.language = 'jp'
+            i18n.global.locale = 'jp' as any
+            localStorage.clear()
+        })
+
+        it('normalizes language codes accurately', () => {
+            expect(normalizeLanguageCode('en')).toBe('en')
+            expect(normalizeLanguageCode('en-US')).toBe('en')
+            expect(normalizeLanguageCode('ja')).toBe('jp')
+            expect(normalizeLanguageCode('jp')).toBe('jp')
+            expect(normalizeLanguageCode('ja-JP')).toBe('jp')
+            expect(normalizeLanguageCode('ko')).toBe('kr')
+            expect(normalizeLanguageCode('kr')).toBe('kr')
+            expect(normalizeLanguageCode('ko-KR')).toBe('kr')
+            expect(normalizeLanguageCode('zh-CN')).toBe('zh')
+            expect(normalizeLanguageCode('zh')).toBe('zh')
+            expect(normalizeLanguageCode('zh-TW')).toBe('tw')
+            expect(normalizeLanguageCode('zh-HK')).toBe('tw')
+            expect(normalizeLanguageCode('tw')).toBe('tw')
+            expect(normalizeLanguageCode('unknown')).toBe(null)
+        })
+
+        it('resolves language with highest priority given to URL query parameters (?lang, ?lng, ?locale)', () => {
+            // URL parameter takes precedence over storedLang and browser locale
+            expect(resolveAccessLanguage({ urlSearch: '?lang=kr', storedLang: '"en"', navigatorLang: 'ja-JP' })).toBe('kr')
+            expect(resolveAccessLanguage({ urlSearch: '?lng=en', storedLang: '"jp"' })).toBe('en')
+            expect(resolveAccessLanguage({ urlSearch: '?locale=zh-TW', storedLang: '"zh"' })).toBe('tw')
+            expect(resolveAccessLanguage({ urlSearch: '?language=zh-CN' })).toBe('zh')
+            expect(resolveAccessLanguage({ urlSearch: '?lang=ja' })).toBe('jp')
+        })
+
+        it('falls back to stored language when no URL parameter is provided', () => {
+            expect(resolveAccessLanguage({ urlSearch: '', storedLang: '"kr"', navigatorLang: 'ja-JP' })).toBe('kr')
+            expect(resolveAccessLanguage({ urlSearch: '', storedLang: 'en', navigatorLang: 'ko-KR' })).toBe('en')
+            expect(resolveAccessLanguage({ urlSearch: '', storedLang: '"tw"', navigatorLang: 'en-US' })).toBe('tw')
+        })
+
+        it('detects from browser navigator.language when neither URL param nor stored language exists', () => {
+            expect(resolveAccessLanguage({ urlSearch: '', storedLang: null, navigatorLang: 'ko-KR' })).toBe('kr')
+            expect(resolveAccessLanguage({ urlSearch: '', storedLang: null, navigatorLang: 'en-US' })).toBe('en')
+            expect(resolveAccessLanguage({ urlSearch: '', storedLang: null, navigatorLang: 'zh-TW' })).toBe('tw')
+            expect(resolveAccessLanguage({ urlSearch: '', storedLang: null, navigatorLang: 'zh-CN' })).toBe('zh')
+            expect(resolveAccessLanguage({ urlSearch: '', storedLang: null, navigatorLang: 'ja-JP' })).toBe('jp')
+            expect(resolveAccessLanguage({ urlSearch: '', storedLang: null, navigatorLang: 'fr-FR' })).toBe('jp')
+        })
+
+        it('store.getData automatically applies detected language from access destination', () => {
+            // If accessed with ?lang=en and no previous storage
+            store.getData({ urlSearch: '?lang=en', navigatorLang: 'ja-JP' })
+            expect(store.language).toBe('en')
+
+            // If accessed with ?lng=kr
+            store.getData({ urlSearch: '?lng=kr' })
+            expect(store.language).toBe('kr')
+        })
+    })
+
+    describe('6. Automatic API Key Setup Dialog Prompt on Access (TDD)', () => {
+        beforeEach(() => {
+            localStorage.clear()
+            store.showSettingDialog = false
+            store.settingDialogPage = 1
+        })
+
+        it('checkAndPromptApiKey returns true and opens dialog to API settings page (page 2) when apiKey is empty', () => {
+            store.aiApiKey = ''
+            const prompted = store.checkAndPromptApiKey()
+            expect(prompted).toBe(true)
+            expect(store.showSettingDialog).toBe(true)
+            expect(store.settingDialogPage).toBe(2)
+        })
+
+        it('checkAndPromptApiKey opens dialog when apiKey contains only whitespace', () => {
+            store.aiApiKey = '   '
+            const prompted = store.checkAndPromptApiKey()
+            expect(prompted).toBe(true)
+            expect(store.showSettingDialog).toBe(true)
+            expect(store.settingDialogPage).toBe(2)
+        })
+
+        it('checkAndPromptApiKey opens dialog when apiKey is an old Gemini key (starts with AIzaSy)', () => {
+            store.aiApiKey = 'AIzaSyTestKey'
+            const prompted = store.checkAndPromptApiKey()
+            expect(prompted).toBe(true)
+            expect(store.showSettingDialog).toBe(true)
+            expect(store.settingDialogPage).toBe(2)
+        })
+
+        it('checkAndPromptApiKey returns false and does not open dialog when valid apiKey exists', () => {
+            store.aiApiKey = 'gsk_valid_api_key_12345'
+            store.showSettingDialog = false
+            store.settingDialogPage = 1
+            const prompted = store.checkAndPromptApiKey()
+            expect(prompted).toBe(false)
+            expect(store.showSettingDialog).toBe(false)
+            expect(store.settingDialogPage).toBe(1)
+        })
+
+        it('store.getData() automatically triggers API setup prompt on fresh access without API key', () => {
+            store.getData()
+            expect(store.showSettingDialog).toBe(true)
+            expect(store.settingDialogPage).toBe(2)
+        })
+
+        it('store.getData() does not open setting dialog when API key is already configured in localStorage', () => {
+            localStorage.setItem('ai-api-key', JSON.stringify('gsk_existing_key'))
+            store.getData()
+            expect(store.showSettingDialog).toBe(false)
+            expect(store.aiApiKey).toBe('gsk_existing_key')
         })
     })
 })
