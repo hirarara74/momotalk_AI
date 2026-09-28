@@ -23,7 +23,7 @@ const emits = defineEmits(['deactive'])
             </div>
             <RouterLink class="student-info__chat-btn" :to="{ path: '/chat', query: { id: props.studentInfo.Id } }">
                 <MessageIcon class="chat-btn-icon" />
-                <span>{{ props.studentInfo.Name }} とトークする</span>
+                <span>{{ $t('talkWith', { name: props.studentInfo.Name }) }}</span>
             </RouterLink>
             <div class="student-info__related">
                 <div class="student-info__related-title">

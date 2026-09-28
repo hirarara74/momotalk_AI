@@ -76,7 +76,7 @@
                 <!-- 发送 -->
                 <textarea
                     class="text"
-                    :placeholder="attachedImage ? '画像についてのメッセージを入力（省略可）...' : (store.sleepSimulationEnabled && studentSleepStatus.isSleeping ? $t('sleepingPlaceholder', { name: activeStudentInfo?.Name || '生徒' }) : (activeStudentInfo ? `${activeStudentInfo.Name}にメッセージを送信...` : 'Aa'))"
+                    :placeholder="attachedImage ? $t('imageMessagePlaceholder') : (store.sleepSimulationEnabled && studentSleepStatus.isSleeping ? $t('sleepingPlaceholder', { name: activeStudentInfo?.Name || '生徒' }) : (activeStudentInfo ? $t('chatInputPlaceholder', { name: activeStudentInfo.Name }) : 'Aa'))"
                     v-model="store.text"
                     id="textarea"
                     @keydown.enter.exact.prevent="_text()"
@@ -148,6 +148,24 @@ watch(
     () => route.query.id,
     (newId) => {
         syncRouteStudent(newId as string)
+    }
+)
+
+watch(
+    () => store.language,
+    async (newLang) => {
+        const targetId = Number(route.query.id) || talkHistory.currentStudentId || (activeStudentInfo.value ? activeStudentInfo.value.Id : 0)
+        if (targetId) {
+            try {
+                const students = await getStudents(newLang)
+                const match = students.find((s) => s.Id === targetId)
+                if (match) {
+                    store.currentChatStudent = match
+                }
+            } catch (e) {
+                console.error('Failed to sync student on language switch:', e)
+            }
+        }
     }
 )
 

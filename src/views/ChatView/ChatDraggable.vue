@@ -4,6 +4,18 @@ import ChatBlock from './ChatBlock.vue'
 import ReplyBlock from './ReplyBlock.vue'
 import { isMessageTyping } from '@/assets/chatUtils/send'
 import { formatChatTime, formatChatDate, isDifferentDay } from '@/assets/storeUtils/talkHistory'
+import { resolveCanonicalStudent } from '@/assets/ai/prompts'
+
+const getLocalizedStudentName = (name: string): string => {
+    if (!name || name === 'sensei') return name
+    const canonical = resolveCanonicalStudent(name)
+    if (canonical && canonical.names) {
+        const lang = store.language || 'jp'
+        const names = (canonical.names as any)[lang] || canonical.names.jp
+        if (names && names[0]) return names[0]
+    }
+    return name
+}
 
 const shouldShowDateDivider = (index: number, element: any, tasks: any[]) => {
     if (!element || !element.time) return false
@@ -18,7 +30,7 @@ const shouldShowDateDivider = (index: number, element: any, tasks: any[]) => {
         <template #item="{ element, index }">
             <div class="chat-item-wrapper">
                 <div class="chat-date-divider" v-if="shouldShowDateDivider(index, element, tasks as any)">
-                    <span>{{ formatChatDate(element.time) }}</span>
+                    <span>{{ formatChatDate(element.time, store.language) }}</span>
                 </div>
                 <div
                     :class="{
@@ -46,7 +58,7 @@ const shouldShowDateDivider = (index: number, element: any, tasks: any[]) => {
                         contenteditable
                         @blur="saveEdit($event, element.Id, 'name')"
                     >
-                        {{ element.Name }}
+                        {{ getLocalizedStudentName(element.Name) }}
                     </div>
 
                     <div class="container">

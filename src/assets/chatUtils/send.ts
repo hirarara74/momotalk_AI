@@ -312,6 +312,32 @@ if (typeof window !== 'undefined') {
     }, 10000)
 }
 
+export function getApiKeyWarningNotice(lang?: string): string {
+    let currentLang = lang
+    if (!currentLang && typeof localStorage !== 'undefined') {
+        try {
+            const raw = localStorage.getItem('language')
+            if (raw) currentLang = JSON.parse(raw)
+        } catch {}
+    }
+    currentLang = currentLang || store.language || 'jp'
+    if (currentLang === 'ja') currentLang = 'jp'
+
+    switch (currentLang) {
+        case 'kr':
+            return '（API 키가 설정되지 않았습니다. 화면 우측 상단의 설정 ⚙️ 에서 API 키를 입력해 주세요. ※ Groq API Key는 https://console.groq.com/keys 에서 무료로 발급받을 수 있습니다）'
+        case 'en':
+            return '（API Key is not configured. Please enter your API Key from the top-right Settings ⚙️. ※ You can get a free Groq API Key at https://console.groq.com/keys）'
+        case 'zh':
+            return '（API密钥尚未设置。请点击右上角设置 ⚙️ 输入API密钥。※ 免费的 Groq API Key 可在 https://console.groq.com/keys 申请）'
+        case 'tw':
+            return '（API金鑰尚未設定。請點擊右上角設定 ⚙️ 輸入API金鑰。※ 免費的 Groq API Key 可在 https://console.groq.com/keys 申請）'
+        case 'jp':
+        default:
+            return '（APIキーが未設定です。画面右上の設定 ⚙️ からAPIキーを入力してください。※Groq API Key は https://console.groq.com/keys から無料で取得できます）'
+    }
+}
+
 /**
  * 先生の発言に対して選択中または直近の生徒が返信する処理
  */
@@ -333,7 +359,7 @@ export async function triggerAIReply(
             Avatar: targetStudent.Avatar,
             type: 0,
             flag: 2,
-            content: '（APIキーが未設定です。画面右上の設定 ⚙️ からAPIキーを入力してください。※Groq API Key は https://console.groq.com/keys から無料で取得できます）'
+            content: getApiKeyWarningNotice(store.language)
         }
         talkHistory.pushTalk(replyTalk)
         store.typing = 0
@@ -378,7 +404,7 @@ export async function triggerAIReply(
 
     try {
         const aiProvider = getAIProvider()
-        let systemPrompt = buildSystemPrompt(targetStudent)
+        let systemPrompt = buildSystemPrompt(targetStudent, store.language)
         if (options?.isWakeUp && options?.userMessages) {
             systemPrompt += `\n\n${getWakeupSystemPromptModifier(targetStudent.Name, options.userMessages)}`
         }
