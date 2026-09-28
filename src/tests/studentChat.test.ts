@@ -12,6 +12,8 @@ import { parseImageDataUrl, buildGeminiUserParts, extractTextAndImage, GEMINI_SA
 import { GroqProvider, DEFAULT_GROQ_MODEL, DEFAULT_GROQ_BASE_URL, GROQ_CANDIDATE_MODELS, getAIProvider } from '../assets/ai'
 import {
     getStudentLatestSnippet,
+    getStudentSubline,
+    isChatPath,
     sortStudentsByInteraction,
     formatChatTime,
     formatChatDate,
@@ -1106,6 +1108,94 @@ describe('Groq AI Provider Integration (TDD)', () => {
         })
     })
 })
+
+describe('Route-Aware Sidebar Sublines: Bio on Root/Info, Latest Snippet on Chat (TDD)', () => {
+    beforeEach(() => {
+        localStorage.clear()
+        talkHistory.talkHistory = []
+        talkHistory.currentStudentId = 0
+    })
+
+    describe('isChatPath path recognition', () => {
+        it('identifies non-chat paths correctly', () => {
+            expect(isChatPath('/')).toBe(false)
+            expect(isChatPath('/?id=10004')).toBe(false)
+            expect(isChatPath('/momotalk_AI/')).toBe(false)
+            expect(isChatPath('/momotalk_AI/?id=10004')).toBe(false)
+            expect(isChatPath('/help')).toBe(false)
+            expect(isChatPath('')).toBe(false)
+            expect(isChatPath(undefined)).toBe(false)
+        })
+
+        it('identifies chat paths correctly', () => {
+            expect(isChatPath('/chat')).toBe(true)
+            expect(isChatPath('/chat?id=10000')).toBe(true)
+            expect(isChatPath('/momotalk_AI/chat')).toBe(true)
+            expect(isChatPath('/momotalk_AI/chat?id=10000')).toBe(true)
+        })
+    })
+
+    describe('getStudentSubline behavior', () => {
+        const aru: studentInfo = {
+            Id: 10000,
+            Name: '陸八魔アル',
+            Bio: 'なんでも解決するわよ！',
+            Nickname: ['Aru'],
+            Birthday: '3月12日',
+            Age: '16歳',
+            School: 'Gehenna',
+            Club: 'Handyman 68',
+            Star: 3,
+            Released: true,
+            Avatars: ['aru.webp'],
+            RelatedStudent: [],
+            cnt: 0
+        }
+
+        it('always returns student.Bio when path is info/root even if chat history exists', () => {
+            const chatTalks: Talk[] = [
+                { Id: 1, type: 0, flag: 2, Name: '陸八魔アル', Avatar: 'aru.webp', content: '先生、手伝って！', time: 1000 },
+                { Id: 2, type: 1, flag: 2, Name: 'Sensei', Avatar: '', content: '了解、アル社長。', time: 1001 }
+            ]
+            localStorage.setItem('momotalk_chat_10000', JSON.stringify(chatTalks))
+
+            // Root / info path should show Bio
+            expect(getStudentSubline(aru, '/')).toBe('なんでも解決するわよ！')
+            expect(getStudentSubline(aru, '/?id=10004')).toBe('なんでも解決するわよ！')
+            expect(getStudentSubline(aru, '/momotalk_AI/?id=10004')).toBe('なんでも解決するわよ！')
+            expect(getStudentSubline(aru, '/help')).toBe('なんでも解決するわよ！')
+        })
+
+        it('returns latest chat snippet when path is chat', () => {
+            const chatTalks: Talk[] = [
+                { Id: 1, type: 0, flag: 2, Name: '陸八魔アル', Avatar: 'aru.webp', content: '先生、手伝って！', time: 1000 },
+                { Id: 2, type: 1, flag: 2, Name: 'Sensei', Avatar: '', content: '了解、アル社長。', time: 1001 }
+            ]
+            localStorage.setItem('momotalk_chat_10000', JSON.stringify(chatTalks))
+
+            // Chat path should show latest snippet
+            expect(getStudentSubline(aru, '/chat')).toBe('了解、アル社長。')
+            expect(getStudentSubline(aru, '/chat?id=10000')).toBe('了解、アル社長。')
+            expect(getStudentSubline(aru, '/momotalk_AI/chat?id=10000')).toBe('了解、アル社長。')
+        })
+
+        it('returns [画像] on chat path when latest message is an image', () => {
+            const chatTalks: Talk[] = [
+                { Id: 1, type: 1, flag: 2, Name: 'Sensei', Avatar: '', content: 'data:image/png;base64,xxxx', time: 1000 }
+            ]
+            localStorage.setItem('momotalk_chat_10000', JSON.stringify(chatTalks))
+
+            expect(getStudentSubline(aru, '/chat')).toBe('[画像]')
+            expect(getStudentSubline(aru, '/')).toBe('なんでも解決するわよ！')
+        })
+
+        it('falls back to student.Bio on chat path when no chat history exists', () => {
+            expect(getStudentSubline(aru, '/chat')).toBe('なんでも解決するわよ！')
+            expect(getStudentSubline(aru, '/')).toBe('なんでも解決するわよ！')
+        })
+    })
+})
+
 
 
 

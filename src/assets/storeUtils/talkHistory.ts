@@ -436,6 +436,20 @@ export function getStudentLatestSnippet(student: { Id: number; Bio?: string }): 
     return student.Bio || ''
 }
 
+export function isChatPath(path?: string): boolean {
+    if (!path) return false
+    const clean = path.split('?')[0].split('#')[0]
+    return clean === '/chat' || clean.endsWith('/chat')
+}
+
+export function getStudentSubline(student: { Id: number; Bio?: string }, currentPath?: string): string {
+    if (!student) return ''
+    if (isChatPath(currentPath)) {
+        return getStudentLatestSnippet(student)
+    }
+    return student.Bio || ''
+}
+
 export function sortStudentsByInteraction<T extends { Id: number }>(students: T[], newestFirst: boolean = true): T[] {
     return [...students].sort((a, b) => {
         const timeA = talkHistory.getStudentLastChatTime(a.Id)
