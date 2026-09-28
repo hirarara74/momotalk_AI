@@ -15,6 +15,7 @@ import i18nZh from '../locales/i18n-zh'
 import i18nTw from '../locales/i18n-tw'
 import i18n from '../locales/i18n'
 import { store, resolveAccessLanguage, normalizeLanguageCode } from '../assets/storeUtils/store'
+import { getHelpMarkdown } from '../assets/storeUtils/helpContent'
 import type { baseStudent } from '../assets/requestUtils/interface'
 
 describe('Multilingual AI Prompts & UI Localization (TDD)', () => {
@@ -392,6 +393,27 @@ describe('Multilingual AI Prompts & UI Localization (TDD)', () => {
                 expect(title, `helpTitle missing in ${code}`).toBeDefined()
                 expect(typeof title).toBe('string')
                 expect(title.length).toBeGreaterThan(0)
+            }
+        })
+    })
+
+    describe('8. Safe Help Markdown Delivery without Compiler Crashes (TDD)', () => {
+        it('getHelpMarkdown returns markdown for all supported languages', () => {
+            const langs = ['jp', 'kr', 'en', 'zh', 'tw'] as const
+            for (const lang of langs) {
+                const md = getHelpMarkdown(lang)
+                expect(md).toBeDefined()
+                expect(typeof md).toBe('string')
+                expect(md.length).toBeGreaterThan(50)
+            }
+        })
+
+        it('help markdown contains no raw @ mentions that crash vue-i18n compiler', () => {
+            const langs = ['jp', 'kr', 'en', 'zh', 'tw'] as const
+            for (const lang of langs) {
+                const md = getHelpMarkdown(lang)
+                // vue-i18n linked message syntax error trigger is @ followed by identifier
+                expect(md).not.toMatch(/@[A-Za-z0-9_-]+/)
             }
         })
     })

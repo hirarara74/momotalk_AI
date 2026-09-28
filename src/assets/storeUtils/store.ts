@@ -32,7 +32,7 @@ export const store = reactive({
     studentRanks: {} as Record<number, number>,
     soundEnabled: true,
     soundVolume: 0.7,
-    sleepSimulationEnabled: true,
+    sleepSimulationEnabled: false,
 
     openSettingDialog(page: number = 1) {
         this.settingDialogPage = page
@@ -65,6 +65,14 @@ export const store = reactive({
         this.studentRanks[studentId] = (this.studentRanks[studentId] || 1) + 1
         localStorage.setItem('student-ranks', JSON.stringify(this.studentRanks))
         return this.studentRanks[studentId]
+    },
+    decreaseRelationshipRank(studentId: number): number {
+        if (!this.studentRanks) this.studentRanks = {}
+        const current = this.studentRanks[studentId] || 1
+        const updated = Math.max(1, current - 1)
+        this.studentRanks[studentId] = updated
+        localStorage.setItem('student-ranks', JSON.stringify(this.studentRanks))
+        return updated
     },
 
     setData() {
@@ -143,6 +151,8 @@ export const store = reactive({
         const sleepSimData = localStorage.getItem('sleep-simulation-enabled')
         if (sleepSimData != null) {
             try { this.sleepSimulationEnabled = JSON.parse(sleepSimData) } catch {}
+        } else {
+            this.sleepSimulationEnabled = false
         }
         const savedRanks = localStorage.getItem('student-ranks')
         if (savedRanks != null) {
@@ -155,6 +165,7 @@ export const store = reactive({
     resetData() {
         talkHistory.resetData()
         selectList.resetData()
+        this.sleepSimulationEnabled = false
         this.setData()
     }
 })

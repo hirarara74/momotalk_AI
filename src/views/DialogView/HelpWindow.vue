@@ -2,6 +2,7 @@
 import { onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { store } from '@/assets/storeUtils/store'
+import { getHelpMarkdown } from '@/assets/storeUtils/helpContent'
 import IconClose from '@/components/icons/IconClose.vue'
 
 const router = useRouter()
@@ -47,7 +48,7 @@ onUnmounted(() => {
                     </button>
                 </div>
                 <div class="popper-content__body help-body">
-                    <v-md-preview :text="$t('help')"></v-md-preview>
+                    <v-md-preview :text="getHelpMarkdown(store.language)"></v-md-preview>
                 </div>
             </div>
         </div>

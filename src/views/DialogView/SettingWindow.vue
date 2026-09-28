@@ -263,8 +263,8 @@ const onProviderChange = () => {
                                 </div>
                             </div>
 
-                            <div class="settings-row" style="flex-direction: column; align-items: flex-start; gap: 6px;">
-                                <span class="row-label" style="font-size: 15px;">API Key</span>
+                            <div class="settings-row settings-row--column">
+                                <span class="row-label">API Key</span>
                                 <input
                                     type="password"
                                     class="ai-input"
@@ -287,8 +287,8 @@ const onProviderChange = () => {
                                 </div>
                             </div>
 
-                            <div class="settings-row" style="flex-direction: column; align-items: flex-start; gap: 6px;">
-                                <span class="row-label" style="font-size: 15px;">{{ $t('modelLabel') }}</span>
+                            <div class="settings-row settings-row--column">
+                                <span class="row-label">{{ $t('modelLabel') }}</span>
                                 <input
                                     type="text"
                                     class="ai-input"
@@ -337,8 +337,8 @@ const onProviderChange = () => {
                                 </div>
                             </div>
 
-                            <div v-if="store.aiProvider !== 'gemini'" class="settings-row" style="flex-direction: column; align-items: flex-start; gap: 6px;">
-                                <span class="row-label" style="font-size: 15px;">{{ $t('customBaseUrlLabel') }}</span>
+                            <div v-if="store.aiProvider !== 'gemini'" class="settings-row settings-row--column">
+                                <span class="row-label">{{ $t('customBaseUrlLabel') }}</span>
                                 <input
                                     type="text"
                                     class="ai-input"
@@ -349,9 +349,9 @@ const onProviderChange = () => {
                                 />
                             </div>
 
-                            <div class="settings-row" style="margin-top: 8px; justify-content: space-between; align-items: center;">
+                            <div class="settings-row settings-row--sleep" style="margin-top: 8px; justify-content: space-between; align-items: center;">
                                 <div style="display: flex; flex-direction: column; gap: 3px; max-width: 80%;">
-                                    <span class="row-label" style="font-size: 14px;">{{ $t('sleepRhythm') }}</span>
+                                    <span class="row-label sleep-label" style="font-size: 14px;">{{ $t('sleepRhythm') }}</span>
                                     <span style="font-size: 11px; color: #7f8c8d; line-height: 1.4;">{{ $t('sleepRhythmDesc') }}</span>
                                 </div>
                                 <div class="row-controls" style="justify-content: flex-end; flex: 0 0 auto;">

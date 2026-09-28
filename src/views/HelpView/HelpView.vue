@@ -1,6 +1,11 @@
+<script setup lang="ts">
+import { store } from '@/assets/storeUtils/store'
+import { getHelpMarkdown } from '@/assets/storeUtils/helpContent'
+</script>
+
 <template>
     <main>
-        <v-md-preview :text="$t('help')"></v-md-preview>
+        <v-md-preview :text="getHelpMarkdown(store.language)"></v-md-preview>
     </main>
 </template>
 

@@ -341,6 +341,89 @@ export function getApiKeyWarningNotice(lang?: string): string {
 }
 
 /**
+ * Detects whether the user interaction was pleasant/friendly or negative/offensive.
+ * If negative, student Kizuna (relationship) rank decreases.
+ */
+export function detectInteractionSentiment(
+    userText: string,
+    studentReply: string = '',
+    studentId?: number
+): 'positive' | 'negative' | 'neutral' {
+    const normUser = (userText || '').toLowerCase().trim()
+    const normReply = (studentReply || '').toLowerCase().trim()
+
+    // 1. Direct offensive keywords in user message across Japanese, English, Korean, Chinese
+    const offensivePatterns: (string | RegExp)[] = [
+        // Japanese
+        /バカ|ばか|馬鹿/,
+        /死ね|しね|逝って/,
+        /最低/,
+        /気持ち悪い|きもちわるい|キモい|きもい/,
+        /大嫌い|嫌い/,
+        /クソ|くそ|糞/,
+        /消えろ|邪魔|うざい|ウザい/,
+        /デブ|ブス/,
+        // English
+        /\bshut up\b/,
+        /\bhate you\b/,
+        /\bidiot\b/,
+        /\bstupid\b/,
+        /\bget lost\b/,
+        /\bdisgusting\b/,
+        /\bkill yourself\b/,
+        /\bfuck\b/,
+        /\bgarbage\b/,
+        // Korean
+        /꺼져/,
+        /바보/,
+        /싫어/,
+        /짜증/,
+        /죽어/,
+        /재수없/,
+        // Chinese
+        /去死/,
+        /讨厌你|大讨厌/,
+        /白痴|傻子|滚开|恶心/
+    ]
+
+    for (const pattern of offensivePatterns) {
+        if (typeof pattern === 'string' ? normUser.includes(pattern) : pattern.test(normUser)) {
+            return 'negative'
+        }
+    }
+
+    // 2. Student response indicates anger, feeling hurt, shock, or resentment
+    const hurtOrAngryReplyPatterns: (string | RegExp)[] = [
+        /💢|😡|🤬|👿/,
+        /大嫌い/,
+        /信じられません|信じられない/,
+        /許せません|許せない/,
+        /ひどい|酷い/,
+        /最低/,
+        /傷つきまし|傷つく/,
+        /もう口をききません|もう話しかけないで/,
+        /怒り|怒って/,
+        /\bi hate you\b/,
+        /\bhow dare you\b/,
+        /\bunforgivable\b/,
+        /\bcruel\b/,
+        /너무해요/,
+        /대단히 실망/,
+        /용서 못해요/,
+        /太过分了/,
+        /不可原谅/
+    ]
+
+    for (const pattern of hurtOrAngryReplyPatterns) {
+        if (typeof pattern === 'string' ? normReply.includes(pattern) : pattern.test(normReply)) {
+            return 'negative'
+        }
+    }
+
+    return 'positive'
+}
+
+/**
  * 先生の発言に対して選択中または直近の生徒が返信する処理
  */
 export async function triggerAIReply(
@@ -458,11 +541,21 @@ export async function triggerAIReply(
         talkHistory.setTalkContent(replyTalk.Id, re.md2html(accumulatedText))
         talkHistory.saveCurrentStudentTalks()
         recordStudentInteraction(replyingStudentId, Date.now())
-        store.increaseRelationshipRank(targetStudent.Id)
-        playMomoTalkSound('receive')
-        setTimeout(() => {
-            playMomoTalkSound('rankup')
-        }, 250)
+
+        const sentiment = detectInteractionSentiment(promptInput, accumulatedText, targetStudent.Id)
+        if (sentiment === 'negative') {
+            store.decreaseRelationshipRank(targetStudent.Id)
+            playMomoTalkSound('receive')
+            setTimeout(() => {
+                playMomoTalkSound('rankdown')
+            }, 250)
+        } else {
+            store.increaseRelationshipRank(targetStudent.Id)
+            playMomoTalkSound('receive')
+            setTimeout(() => {
+                playMomoTalkSound('rankup')
+            }, 250)
+        }
     } catch (err: any) {
         if (err.name === 'AbortError' || err.message === 'Aborted' || signal.aborted) {
             console.log('[AI] Stream aborted.')
