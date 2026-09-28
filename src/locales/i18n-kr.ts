@@ -17,6 +17,7 @@ export default {
     storyEvent: '이야기 이벤트',
     reply: '답장',
     playerTitle: 'MomoTalk 스토리 플레이어',
+    helpTitle: 'MomoTalk AI 이용 가이드',
     playerContent:
         '학생 MomoTalk 이벤트를 시작하려면 `확인`을 클릭하세요\n💥참고: 이로 인해 대화 기록이 지워집니다',
     confirm: '확인',

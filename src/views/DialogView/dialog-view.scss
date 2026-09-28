@@ -37,6 +37,9 @@ $radius-sm: 5px;
     @include font-regular(22px);
     width: 420px;
     max-width: 90vw;
+    max-height: min(90vh, 760px);
+    display: flex;
+    flex-direction: column;
     background-color: #fff;
     border-radius: $radius-lg;
     box-shadow: rgb(45 35 66 / 15%) 0 0 4px 2px;
@@ -409,12 +412,15 @@ $radius-sm: 5px;
         display: flex;
         flex-wrap: nowrap;
         overflow: hidden;
+        flex: 1 1 auto;
+        min-height: 0;
         .page {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             width: 100%;
             flex-shrink: 0;
+            overflow-y: auto;
+            max-height: calc(min(90vh, 760px) - 130px);
             transition: transform cubic-bezier(0.18, 0.89, 0.32, 1.28) 512ms;
             padding-bottom: 10px;
         }

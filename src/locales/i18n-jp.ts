@@ -17,6 +17,7 @@ export default {
     storyEvent: '絆イベント',
     reply: '返信する',
     playerTitle: 'MomoTalk ストーリー',
+    helpTitle: 'MomoTalk AI 利用ガイド',
     playerContent:
         '確認ボタンを押して\n生徒の MomoTalk イベントを再生します\n💥注意：会話履歴が削除されます',
     confirm: '確認',

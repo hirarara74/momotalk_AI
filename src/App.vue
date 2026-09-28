@@ -22,6 +22,7 @@ import LanguageIcon from './components/icons/IconLanguage.vue'
 import DownloadIcon from './components/icons/IconDownload.vue'
 import PlayerDialog from '@/views/DialogView/PlayerWindow.vue'
 import SettingDialog from '@/views/DialogView/SettingWindow.vue'
+import HelpDialog from '@/views/DialogView/HelpWindow.vue'
 import FilterDialog from '@/views/DialogView/FilterWindows.vue'
 import { download } from '@/assets/imgUtils/download'
 import i18n from '@/locales/i18n'
@@ -281,6 +282,16 @@ watch(
     { immediate: true }
 )
 
+watch(
+    () => route?.path,
+    (path) => {
+        if (path && (path === '/help' || path.endsWith('/help'))) {
+            store.openHelpDialog()
+        }
+    },
+    { immediate: true }
+)
+
 const handleDownload = () => {
     if (store.zoom !== 1) {
         if (!confirm(i18n.global.t('warnZoom', { ratio: `${Math.round(store.zoom * 100)}%` }))) {
@@ -327,14 +338,13 @@ document.onkeyup = (e) => {
 <template>
     <PlayerDialog></PlayerDialog>
     <SettingDialog></SettingDialog>
+    <HelpDialog></HelpDialog>
     <div id="root">
         <header id="header" role="banner">
             <div id="header__left">
                 <MomoIcon class="icon momo" />
                 <span id="header__title">MomoTalk</span>
-                <RouterLink to="/help" title="Help">
-                    <button class="help">?</button>
-                </RouterLink>
+                <button class="help" @click="store.openHelpDialog()" title="Help" aria-label="Help">?</button>
             </div>
             <div id="header__right">
                 <SettingIcon class="icon setting" @click="store.openSettingDialog(store.aiApiKey ? 1 : 2)" />

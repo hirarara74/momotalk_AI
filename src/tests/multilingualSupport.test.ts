@@ -357,4 +357,43 @@ describe('Multilingual AI Prompts & UI Localization (TDD)', () => {
             expect(store.aiApiKey).toBe('gsk_existing_key')
         })
     })
+
+    describe('7. Help Dialog & Application Guide Display (//loop //tdd)', () => {
+        beforeEach(() => {
+            store.showHelpDialog = false
+        })
+
+        it('has showHelpDialog boolean defaulting to false', () => {
+            expect(store.showHelpDialog).toBe(false)
+        })
+
+        it('store.openHelpDialog() sets showHelpDialog to true', () => {
+            expect(store.showHelpDialog).toBe(false)
+            store.openHelpDialog()
+            expect(store.showHelpDialog).toBe(true)
+        })
+
+        it('store.closeHelpDialog() sets showHelpDialog to false', () => {
+            store.showHelpDialog = true
+            store.closeHelpDialog()
+            expect(store.showHelpDialog).toBe(false)
+        })
+
+        it('helpTitle is translated across all 5 supported locales', () => {
+            const locales = [
+                { code: 'jp', data: i18nJp },
+                { code: 'kr', data: i18nKr },
+                { code: 'en', data: i18nEn },
+                { code: 'zh', data: i18nZh },
+                { code: 'tw', data: i18nTw }
+            ]
+            for (const { code, data } of locales) {
+                const title = (data as any).helpTitle
+                expect(title, `helpTitle missing in ${code}`).toBeDefined()
+                expect(typeof title).toBe('string')
+                expect(title.length).toBeGreaterThan(0)
+            }
+        })
+    })
 })
+
