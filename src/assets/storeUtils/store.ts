@@ -40,6 +40,7 @@ export const store = reactive({
     },
 
     openHelpDialog() {
+        this.showSettingDialog = false
         this.showHelpDialog = true
     },
 
@@ -76,10 +77,11 @@ export const store = reactive({
     },
 
     setData() {
+        if (this.theme !== 'momotalk') this.theme = 'momotalk'
         talkHistory.setData()
         selectList.setData()
         localStorage.setItem('language', JSON.stringify(this.language))
-        localStorage.setItem('render-theme', JSON.stringify(this.theme))
+        localStorage.setItem('render-theme', JSON.stringify('momotalk'))
         localStorage.setItem('draggable', JSON.stringify(this.draggable))
         localStorage.setItem('full-screen', JSON.stringify(this.fullScreen))
         localStorage.setItem('zoom', JSON.stringify(this.zoom))
@@ -108,7 +110,8 @@ export const store = reactive({
         i18n.global.locale = this.language as any
         localStorage.setItem('language', JSON.stringify(this.language))
 
-        this.theme     = data[1] != null ? JSON.parse(data[1]) : 'momotalk'
+        this.theme     = 'momotalk'
+        localStorage.setItem('render-theme', JSON.stringify('momotalk'))
         this.draggable = data[2] != null ? JSON.parse(data[2]) : (typeof window !== 'undefined' && typeof window.matchMedia === 'function' ? window.matchMedia('(min-width: 1151px)').matches : true)
         this.fullScreen = data[3] != null ? JSON.parse(data[3]) : false
         this.zoom      = data[4] != null ? JSON.parse(data[4]) : 1

@@ -14,7 +14,7 @@ const showPage = (num: number) => {
 }
 
 const changeTheme = () => {
-    if (store.theme !== 'momotalk' && store.theme !== 'yuzutalk') store.theme = 'momotalk'
+    if (store.theme !== 'momotalk') store.theme = 'momotalk'
     if (store.zoom < 0.5 || store.zoom > 1.5) store.zoom = 1
     var fullScreen = store.fullScreen ? 'full-screen' : 'not-full-screen'
     document.body.className = store.theme + ' ' + fullScreen
@@ -72,34 +72,6 @@ const onProviderChange = () => {
                     <!-- Page 1: 基本設定 -->
                     <div class="page" :style="{ transform: `translateX(${(activePage - 1) * -100}%)` }">
                         <div class="dialog-content left-align" style="padding-top: 25px">
-                            <div class="settings-row">
-                                <span class="row-label">{{ $t('renderStyle') }}</span>
-                                <div class="row-controls">
-                                    <label class="custom-radio">
-                                        <input
-                                            type="radio"
-                                            value="momotalk"
-                                            name="style"
-                                            v-model="store.theme"
-                                            @change="store.setData(); changeTheme()"
-                                        />
-                                        <span class="radio-mark"></span>
-                                        <span class="radio-text">momotalk</span>
-                                    </label>
-                                    <label class="custom-radio">
-                                        <input
-                                            type="radio"
-                                            value="yuzutalk"
-                                            name="style"
-                                            v-model="store.theme"
-                                            @change="store.setData(); changeTheme()"
-                                        />
-                                        <span class="radio-mark"></span>
-                                        <span class="radio-text">yuzutalk</span>
-                                    </label>
-                                </div>
-                            </div>
-
                             <div class="settings-row">
                                 <span class="row-label">{{ $t('zoom') }}</span>
                                 <div class="row-controls custom-range">

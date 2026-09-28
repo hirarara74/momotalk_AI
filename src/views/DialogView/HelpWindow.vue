@@ -58,6 +58,10 @@ onUnmounted(() => {
 <style scoped lang="scss">
 @import './dialog-view.scss';
 
+.help-dialog-mask {
+    z-index: 2000 !important;
+}
+
 .popper-content--help {
     width: 680px;
     max-width: 92vw;
