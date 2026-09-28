@@ -91,6 +91,15 @@ describe('Student Greetings & System Prompts (TDD)', () => {
             }
         }
     })
+
+    it('verifies Hayase Yuuka prompt avoids repetitive "計算通り、完璧〜♪" verbal tic', () => {
+        const yuuka: baseStudent = { Id: 13010, Name: '早瀬ユウカ', Avatar: 'yuuka.webp' }
+        const prompt = buildSystemPrompt(yuuka)
+        // Must NOT list "計算通り" as an unconditional repeated catchphrase (*口癖)
+        expect(prompt).not.toMatch(/\*口癖:[^\n]*計算通り/)
+        // Must explicitly restrict repetitiveness of battle quotes
+        expect(prompt).toContain('戦闘勝利時のセリフ「計算通り、完璧〜♪」などの戦闘ボイスを毎回言うのは厳禁')
+    })
 })
 
 describe('Per-Student Conversation Thread Isolation & Persistence (TDD)', () => {
