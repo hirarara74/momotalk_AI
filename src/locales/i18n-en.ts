@@ -97,6 +97,11 @@ An interactive AI chat application to talk in real-time with Blue Archive studen
 - **Send Photos**: Click the photo icon to send images or screenshots (large images are automatically optimized).
 - **In-Character Reactions**: Students look at the actual contents of the image and share authentic reactions.
 
+## 😊 Stickers
+
+- **Send Stickers**: Open the sticker list from the icon on the left of the input bar and tap one to send it. Use the "1" / "2" buttons below to switch pages.
+- **Students Understand Them**: Students understand what each sticker means ("OK", "Congratulations", "Thank you", or feelings like surprise, embarrassment, or a sigh) and reply accordingly.
+
 ## 💖 Kizuna (Relationship) Rank
 
 - Chatting with students raises your Kizuna relationship rank (Lv.1+) with them over time.

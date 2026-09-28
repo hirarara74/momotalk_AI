@@ -239,6 +239,12 @@ describe('Multilingual AI Prompts & UI Localization (TDD)', () => {
                 expect(helpText.toLowerCase()).toMatch(/vibe coding|バイブコーディング|바이브 코딩/)
             }
         })
+
+        it('help guide in all locales has a sticker section', () => {
+            for (const { code, data } of locales) {
+                expect(data.help, `sticker section missing in ${code}`).toMatch(/^## 😊 /m)
+            }
+        })
     })
 
     describe('5. Automatic Language Resolution from Access Destination & Locale (TDD)', () => {
