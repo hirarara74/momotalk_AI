@@ -6,37 +6,42 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import topLevelAwait from "vite-plugin-top-level-await";
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    vue(),
-    vueJsx(),
-    topLevelAwait({
-      // The export name of top-level await promise for each chunk module
-      promiseExportName: "__tla",
-      // The function to generate import names of top-level await promise in each chunk module
-      promiseImportName: i => `__tla_${i}`
-    })
-  ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-  },
-  base: process.env.VITE_BASE || (process.env.GITHUB_REPOSITORY ? `/${process.env.GITHUB_REPOSITORY.split('/')[1]}/` : '/momotalk/'),
-  build: {
-    outDir: 'docs',
-    emptyOutDir: false
-  },
-  server: {
-    port: 5174,
-    host: true
-  },
-  css: {
-    // css预处理器
-    preprocessorOptions: {
-      scss: {
-        additionalData: '@import "@/assets/css/mixin.scss";'
+export default defineConfig(({ command }) => {
+  const isDev = command === 'serve'
+  const base = process.env.VITE_BASE || (isDev ? '/momotalk/' : '/momotalk_AI/')
+
+  return {
+    plugins: [
+      vue(),
+      vueJsx(),
+      topLevelAwait({
+        // The export name of top-level await promise for each chunk module
+        promiseExportName: "__tla",
+        // The function to generate import names of top-level await promise in each chunk module
+        promiseImportName: i => `__tla_${i}`
+      })
+    ],
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url))
       }
     },
+    base,
+    build: {
+      outDir: 'docs',
+      emptyOutDir: false
+    },
+    server: {
+      port: 5174,
+      host: true
+    },
+    css: {
+      // css预处理器
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@import "@/assets/css/mixin.scss";'
+        }
+      },
+    }
   }
 })

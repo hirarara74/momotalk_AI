@@ -832,44 +832,56 @@ describe('Sending Image Together with Accompanying Message (TDD)', () => {
     })
 
     it('sendImagePayload sends both image talk and text talk when caption is provided', () => {
-        const shiroko: baseStudent = { Id: 10010, Name: '砂狼シロコ', Avatar: 'shiroko.webp' }
-        talkHistory.loadStudentTalks(shiroko)
-        const initialCount = talkHistory.talkHistory.length
+        const prevAi = store.aiEnabled
+        store.aiEnabled = false
+        try {
+            const shiroko: baseStudent = { Id: 10010, Name: '砂狼シロコ', Avatar: 'shiroko.webp' }
+            talkHistory.loadStudentTalks(shiroko)
+            const initialCount = talkHistory.talkHistory.length
 
-        const sampleUrl = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='
-        sendImagePayload(1, sampleUrl, 2, 'この写真どう思う？')
+            const sampleUrl = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='
+            sendImagePayload(1, sampleUrl, 2, 'この写真どう思う？')
 
-        // Must have added 2 talks: 1 for image, 1 for text
-        expect(talkHistory.talkHistory.length).toBe(initialCount + 2)
+            // Must have added 2 talks: 1 for image, 1 for text
+            expect(talkHistory.talkHistory.length).toBe(initialCount + 2)
 
-        const imgTalk = talkHistory.talkHistory[initialCount]
-        const textTalk = talkHistory.talkHistory[initialCount + 1]
+            const imgTalk = talkHistory.talkHistory[initialCount]
+            const textTalk = talkHistory.talkHistory[initialCount + 1]
 
-        expect(imgTalk.type).toBe(1)
-        expect(imgTalk.content).toBe(sampleUrl)
-        expect(imgTalk.time).toBeDefined()
+            expect(imgTalk.type).toBe(1)
+            expect(imgTalk.content).toBe(sampleUrl)
+            expect(imgTalk.time).toBeDefined()
 
-        expect(textTalk.type).toBe(1)
-        expect(textTalk.content).toContain('この写真どう思う？')
-        expect(textTalk.time).toBeDefined()
+            expect(textTalk.type).toBe(1)
+            expect(textTalk.content).toContain('この写真どう思う？')
+            expect(textTalk.time).toBeDefined()
 
-        // Latest snippet of student conversation should reflect the text
-        const snippet = getStudentLatestSnippet(shiroko as any)
-        expect(snippet).toContain('この写真どう思う？')
+            // Latest snippet of student conversation should reflect the text
+            const snippet = getStudentLatestSnippet(shiroko as any)
+            expect(snippet).toContain('この写真どう思う？')
+        } finally {
+            store.aiEnabled = prevAi
+        }
     })
 
     it('sendImagePayload clears store.text when sending message alongside image', () => {
-        const shiroko: baseStudent = { Id: 10010, Name: '砂狼シロコ', Avatar: 'shiroko.webp' }
-        talkHistory.loadStudentTalks(shiroko)
+        const prevAi = store.aiEnabled
+        store.aiEnabled = false
+        try {
+            const shiroko: baseStudent = { Id: 10010, Name: '砂狼シロコ', Avatar: 'shiroko.webp' }
+            talkHistory.loadStudentTalks(shiroko)
 
-        store.text = '添付テストメッセージ'
-        const sampleUrl = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='
+            store.text = '添付テストメッセージ'
+            const sampleUrl = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='
 
-        sendImagePayload(1, sampleUrl, 2)
+            sendImagePayload(1, sampleUrl, 2)
 
-        expect(store.text).toBe('')
-        const lastTalk = talkHistory.talkHistory[talkHistory.talkHistory.length - 1]
-        expect(lastTalk.content).toContain('添付テストメッセージ')
+            expect(store.text).toBe('')
+            const lastTalk = talkHistory.talkHistory[talkHistory.talkHistory.length - 1]
+            expect(lastTalk.content).toContain('添付テストメッセージ')
+        } finally {
+            store.aiEnabled = prevAi
+        }
     })
 })
 
