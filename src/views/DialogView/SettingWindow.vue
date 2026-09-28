@@ -161,7 +161,7 @@ const onProviderChange = () => {
                             </div>
 
                             <div class="settings-row">
-                                <span class="row-label">{{ $t('soundEffects') || '効果音 (SE)' }}</span>
+                                <span class="row-label">{{ $t('soundEffects') }}</span>
                                 <div class="row-controls">
                                     <label class="custom-switch">
                                         <input
@@ -177,7 +177,7 @@ const onProviderChange = () => {
                             </div>
 
                             <div class="settings-row" v-if="store.soundEnabled">
-                                <span class="row-label">{{ $t('soundVolume') || 'SE音量' }}</span>
+                                <span class="row-label">{{ $t('soundVolume') }}</span>
                                 <div class="row-controls custom-range">
                                     <input
                                         type="range"
@@ -204,7 +204,7 @@ const onProviderChange = () => {
                     <div class="page">
                         <div class="dialog-content left-align" style="padding-top: 20px">
                             <div class="settings-row">
-                                <span class="row-label">{{ $t('aiEnabled') || 'AI自動返信' }}</span>
+                                <span class="row-label">{{ $t('aiEnabled') }}</span>
                                 <div class="row-controls">
                                     <label class="custom-switch">
                                         <input
@@ -220,7 +220,7 @@ const onProviderChange = () => {
                             </div>
 
                             <div class="settings-row">
-                                <span class="row-label">{{ $t('aiProvider') || 'AIプロバイダー' }}</span>
+                                <span class="row-label">{{ $t('aiProvider') }}</span>
                                 <div class="row-controls">
                                     <label class="custom-radio">
                                         <input
@@ -274,17 +274,17 @@ const onProviderChange = () => {
                                 <input
                                     type="password"
                                     class="ai-input"
-                                    :placeholder="store.aiProvider === 'groq' ? 'gsk_... を入力' : 'API Key を入力'"
+                                    :placeholder="store.aiProvider === 'groq' ? $t('apiKeyPlaceholderGroq') : $t('apiKeyPlaceholder')"
                                     v-model="store.aiApiKey"
                                     @change="store.setData()"
                                     style="width: 100%; box-sizing: border-box; padding: 8px 12px; border: 1px solid #dce5ec; border-radius: 6px; font-size: 14px; outline: none;"
                                 />
                                 <div class="api-key-hint" style="font-size: 12px; color: #8899a6; margin-top: 2px;">
                                     <span v-if="store.aiProvider === 'groq'">
-                                        ※ Groq API Key は <a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer" style="color: #2888e2; text-decoration: underline;">Groq Console</a> で無料取得できます。
+                                        {{ $t('groqKeyNoticePrefix') }}<a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer" style="color: #2888e2; text-decoration: underline;">Groq Console</a>{{ $t('groqKeyNoticeSuffix') }}
                                     </span>
                                     <span v-else-if="store.aiProvider === 'gemini'">
-                                        ※ Gemini API Key は <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer" style="color: #2888e2; text-decoration: underline;">Google AI Studio</a> で取得できます。
+                                        {{ $t('geminiKeyNoticePrefix') }}<a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer" style="color: #2888e2; text-decoration: underline;">Google AI Studio</a>{{ $t('geminiKeyNoticeSuffix') }}
                                     </span>
                                 </div>
                                 <div class="api-key-security-badge" style="font-size: 11px; color: #2e7d32; background: #e8f5e9; padding: 6px 10px; border-radius: 6px; margin-top: 6px; display: flex; align-items: flex-start; gap: 6px; line-height: 1.4;">
@@ -294,11 +294,11 @@ const onProviderChange = () => {
                             </div>
 
                             <div class="settings-row" style="flex-direction: column; align-items: flex-start; gap: 6px;">
-                                <span class="row-label" style="font-size: 15px;">Model (空欄で推奨デフォルト)</span>
+                                <span class="row-label" style="font-size: 15px;">{{ $t('modelLabel') }}</span>
                                 <input
                                     type="text"
                                     class="ai-input"
-                                    :placeholder="store.aiProvider === 'groq' ? '推奨: qwen/qwen3.8-27b または openai/gpt-oss-120b' : (store.aiProvider === 'gemini' ? '例: gemini-3.5-flash-lite' : '例: gpt-4o-mini')"
+                                    :placeholder="store.aiProvider === 'groq' ? $t('modelPlaceholderGroq') : (store.aiProvider === 'gemini' ? $t('modelPlaceholderGemini') : $t('modelPlaceholderOpenai'))"
                                     v-model="store.aiModel"
                                     @change="store.setData()"
                                     style="width: 100%; box-sizing: border-box; padding: 8px 12px; border: 1px solid #dce5ec; border-radius: 6px; font-size: 14px; outline: none;"
@@ -309,18 +309,18 @@ const onProviderChange = () => {
                                         class="model-chip"
                                         :class="{ active: store.aiModel === 'openai/gpt-oss-120b' }"
                                         @click="store.aiModel = 'openai/gpt-oss-120b'; store.setData()"
-                                        title="超大型120B思考型モデル（CoT推論・じっくり高精度）"
+                                        :title="$t('modelChipTop120bTitle')"
                                     >
-                                        ★ 最上位モデル (120B)
+                                        {{ $t('modelChipTop120b') }}
                                     </button>
                                     <button
                                         type="button"
                                         class="model-chip"
                                         :class="{ active: store.aiModel === 'qwen/qwen3.8-27b' || !store.aiModel }"
                                         @click="store.aiModel = 'qwen/qwen3.8-27b'; store.setData()"
-                                        title="標準モデル（画像認識対応・軽快）"
+                                        :title="$t('modelChipStd27bTitle')"
                                     >
-                                        標準・画像対応 (27B)
+                                        {{ $t('modelChipStd27b') }}
                                     </button>
                                 </div>
                                 <div v-if="store.aiProvider === 'gemini'" style="display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
@@ -330,7 +330,7 @@ const onProviderChange = () => {
                                         :class="{ active: store.aiModel === 'gemini-3.5-flash' }"
                                         @click="store.aiModel = 'gemini-3.5-flash'; store.setData()"
                                     >
-                                        上位 (3.5-flash)
+                                        {{ $t('modelChipGeminiPro') }}
                                     </button>
                                     <button
                                         type="button"
@@ -338,13 +338,13 @@ const onProviderChange = () => {
                                         :class="{ active: store.aiModel === 'gemini-3.5-flash-lite' || !store.aiModel }"
                                         @click="store.aiModel = 'gemini-3.5-flash-lite'; store.setData()"
                                     >
-                                        標準 (3.5-flash-lite)
+                                        {{ $t('modelChipGeminiLite') }}
                                     </button>
                                 </div>
                             </div>
 
                             <div v-if="store.aiProvider !== 'gemini'" class="settings-row" style="flex-direction: column; align-items: flex-start; gap: 6px;">
-                                <span class="row-label" style="font-size: 15px;">Custom Base URL (任意)</span>
+                                <span class="row-label" style="font-size: 15px;">{{ $t('customBaseUrlLabel') }}</span>
                                 <input
                                     type="text"
                                     class="ai-input"
