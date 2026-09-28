@@ -361,7 +361,9 @@ const onProviderChange = () => {
                                             v-model="store.sleepSimulationEnabled"
                                             @change="store.setData()"
                                         />
-                                        <span class="switch-track"></span>
+                                        <div class="switch-track">
+                                            <div class="switch-thumb"></div>
+                                        </div>
                                     </label>
                                 </div>
                             </div>
