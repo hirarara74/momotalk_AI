@@ -63,9 +63,9 @@
                                 </div>
                             </div>
                             <div class="tab">
-                                <div @click="switchSticker(-1)" 
+                                <div @click="switchSticker(1)"
                                      :class="{ stk__active: stickerTab === 1 }" >1</div>
-                                <div @click="switchSticker(1)" 
+                                <div @click="switchSticker(2)"
                                      :class="{ stk__active: stickerTab === 2 }" >2</div>
                             </div>
                         </div>
@@ -322,7 +322,7 @@ const _sticker = (sticker: string) => {
 const stickerList = ref<string[]>(proxy(stickers))
 const stickerTab = ref<number>(1)
 const switchSticker = (tab: number) => {
-    if (tab === -1 || tab === 1) {
+    if (tab === 1) {
         stickerTab.value = 1
         stickerList.value = proxy(stickers)
     } else {
