@@ -79,4 +79,16 @@ describe('Web App Public Deployment & API Key Safety (TDD)', () => {
             expect(appCode).not.toContain('DownloadIcon')
         })
     })
+
+    describe('4. Sleep Rhythm Toggle Switch UI Verification (TDD)', () => {
+        it('verifies sleep simulation switch has switch-track and switch-thumb', async () => {
+            const fs = await import('fs')
+            const settingCode = fs.readFileSync('src/views/DialogView/SettingWindow.vue', 'utf-8')
+            const sleepRowRegex = /store\.sleepSimulationEnabled[\s\S]*?<\/label>/
+            const match = settingCode.match(sleepRowRegex)
+            expect(match).not.toBeNull()
+            expect(match![0]).toContain('switch-track')
+            expect(match![0]).toContain('switch-thumb')
+        })
+    })
 })
