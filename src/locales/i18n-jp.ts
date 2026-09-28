@@ -67,7 +67,7 @@ export default {
     removeImage: '添付画像を削除',
     sendSticker: 'スタンプを送信',
     sendImage: '画像を添付・送信',
-    sharefile: 'インポート & エクスポート',
+    sharefile: 'データ管理',
     renderStyle: 'テーマ',
     fullScreen: '全画面',
     zoom: 'ズーム',
@@ -131,7 +131,7 @@ Blue Archiveの生徒たちとリアルタイムに対話できるインタラ�
 - 公式運営会社様および関係各社様とは一切の関係がございません。
 
 ### 2. ベースリポジトリへの謝辞
-- 本アプリのUIおよび基本フレームワークは、オープンソースプロジェクト **[U1805/momotalk](https://github.com/U1805/momotalk)**（MIT License / 作者: @U1805 氏）をフォーク・改変し、AI対話エンジンおよびマルチモーダル機能を組み込んで制作されています。素晴らしいMomoTalk再現UIとオープンソースコミュニティへの貢献に心より感謝申し上げます。
+- 本アプリのUIおよび基本フレームワークは、オープンソースプロジェクト **[U1805/momotalk](https://github.com/U1805/momotalk)**（MIT License / 作者: U1805 氏）をフォーク・改変し、AI対話エンジンおよびマルチモーダル機能を組み込んで制作されています。素晴らしいMomoTalk再現UIとオープンソースコミュニティへの貢献に心より感謝申し上げます。
 - 生徒データおよびアセットの一部は、ファンコミュニティプロジェクト **[SchaleDB](https://schaledb.com/)**（[lonqix/SchaleDB](https://github.com/lonqix/SchaleDB)）のデータを活用・参照させていただいております。
 
 ### 3. バイブコーディング（Vibe Coding）による開発

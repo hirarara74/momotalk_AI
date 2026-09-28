@@ -66,7 +66,7 @@ export default {
     removeImage: '删除附加图片',
     sendSticker: '发送贴图',
     sendImage: '附加并发送图片',
-    sharefile: '导入&导出',
+    sharefile: '数据管理',
     renderStyle: '主题样式',
     fullScreen: '窗口全屏',
     zoom: '字体缩放',
@@ -130,7 +130,7 @@ export default {
 - 本项目与 NEXON Games、Yostar 及任何官方运营方均无关联。
 
 ### 2. 开源项目致谢
-- 本应用的 UI 界面与交互基础框架 Fork 自开源项目 **[U1805/momotalk](https://github.com/U1805/momotalk)**（MIT License / 作者: @U1805），在此基础上整合了多模型大语言模型（LLM）对话引擎与多模态视觉识别能力。衷心感谢 @U1805 优秀的 MomoTalk 原作还原工程及开源贡献！
+- 本应用的 UI 界面与交互基础框架 Fork 自开源项目 **[U1805/momotalk](https://github.com/U1805/momotalk)**（MIT License / 作者: U1805），在此基础上整合了多模型大语言模型（LLM）对话引擎与多模态视觉识别能力。衷心感谢 U1805 优秀的 MomoTalk 原作还原工程及开源贡献！
 - 部分学生数据与素材资源引用自同人数据库项目 **[SchaleDB](https://schaledb.com/)**（[lonqix/SchaleDB](https://github.com/lonqix/SchaleDB)）。
 
 ### 3. 基于 Vibe Coding（氛围编程）打造

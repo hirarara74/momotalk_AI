@@ -20,7 +20,7 @@ function getAudioContext(): AudioContext | null {
     return audioCtx
 }
 
-export type MomoSoundType = 'send' | 'receive' | 'rankup'
+export type MomoSoundType = 'send' | 'receive' | 'rankup' | 'rankdown'
 
 /**
  * Play synthesized MomoTalk sound effects using Web Audio API
@@ -97,6 +97,29 @@ export function playMomoTalkSound(type: MomoSoundType) {
 
                 const duration = idx === freqs.length - 1 ? 0.35 : 0.1
                 gain.gain.setValueAtTime(volume * 0.4, toneStart)
+                gain.gain.exponentialRampToValueAtTime(0.001, toneStart + duration)
+
+                osc.connect(gain)
+                gain.connect(ctx.destination)
+
+                osc.start(toneStart)
+                osc.stop(toneStart + duration)
+            })
+            break
+        }
+        case 'rankdown': {
+            // Descending minor/sad arpeggio (A5 -> F5 -> D5 -> A4)
+            const freqs = [880.0, 698.46, 587.33, 440.0]
+            freqs.forEach((freq, idx) => {
+                const toneStart = now + idx * 0.09
+                const osc = ctx.createOscillator()
+                const gain = ctx.createGain()
+
+                osc.type = 'sine'
+                osc.frequency.setValueAtTime(freq, toneStart)
+
+                const duration = idx === freqs.length - 1 ? 0.38 : 0.12
+                gain.gain.setValueAtTime(volume * 0.35, toneStart)
                 gain.gain.exponentialRampToValueAtTime(0.001, toneStart + duration)
 
                 osc.connect(gain)

@@ -157,9 +157,9 @@ describe('Student Sleep & Wakeup Schedule (TDD)', () => {
     })
 
     describe('6. Store & TalkHistory Sleep Queue Management (TDD)', () => {
-        it('store defaults sleepSimulationEnabled to true', async () => {
+        it('store defaults sleepSimulationEnabled to false', async () => {
             const { store } = await import('../assets/storeUtils/store')
-            expect(store.sleepSimulationEnabled).toBe(true)
+            expect(store.sleepSimulationEnabled).toBe(false)
         })
 
         it('talkHistory can enqueue, retrieve, and remove pending wakeup replies', async () => {

@@ -67,7 +67,7 @@ export default {
     removeImage: 'Remove attached image',
     sendSticker: 'Send sticker',
     sendImage: 'Attach and send image',
-    sharefile: 'Import & Export',
+    sharefile: 'Data',
     renderStyle: 'Theme',
     fullScreen: 'Full Screen',
     zoom: 'Font zoom',
@@ -131,7 +131,7 @@ An interactive AI chat application to talk in real-time with Blue Archive studen
 - This application is not affiliated with, endorsed by, or sponsored by NEXON Games or Yostar.
 
 ### 2. Open Source Attribution & Gratitude
-- The user interface and foundational structure of this project are based on the open-source repository **[U1805/momotalk](https://github.com/U1805/momotalk)** (MIT License by @U1805), modified and extended to integrate pluggable real-time LLM chat and vision multimodal intelligence. We express our deepest gratitude to @U1805 and all contributors for their wonderful MomoTalk web simulator.
+- The user interface and foundational structure of this project are based on the open-source repository **[U1805/momotalk](https://github.com/U1805/momotalk)** (MIT License by U1805), modified and extended to integrate pluggable real-time LLM chat and vision multimodal intelligence. We express our deepest gratitude to U1805 and all contributors for their wonderful MomoTalk web simulator.
 - Student metadata and asset references are supported by the community database **[SchaleDB](https://schaledb.com/)** ([lonqix/SchaleDB](https://github.com/lonqix/SchaleDB)).
 
 ### 3. Built with Vibe Coding

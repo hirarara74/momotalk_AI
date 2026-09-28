@@ -70,4 +70,13 @@ describe('Web App Public Deployment & API Key Safety (TDD)', () => {
             expect(base).toBe('/custom-momo/')
         })
     })
+
+    describe('3. Deprecated Chat Download Feature Removal (TDD)', () => {
+        it('verifies download feature removal from UI', async () => {
+            const fs = await import('fs')
+            const appCode = fs.readFileSync('src/App.vue', 'utf-8')
+            expect(appCode).not.toContain('handleDownload')
+            expect(appCode).not.toContain('DownloadIcon')
+        })
+    })
 })

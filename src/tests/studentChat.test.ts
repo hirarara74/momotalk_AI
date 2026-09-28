@@ -5,7 +5,7 @@ import { getStudentGreeting, SPECIAL_PROMPTS, buildSystemPrompt, isPromptSupport
 import { talkHistory } from '../assets/storeUtils/talkHistory'
 import { store } from '../assets/storeUtils/store'
 import { selectList } from '../assets/storeUtils/selectList'
-import { resolveReplyStudent, abortStreaming, sendSenseiMessage, isMessageTyping, sendImagePayload } from '../assets/chatUtils/send'
+import { resolveReplyStudent, abortStreaming, sendSenseiMessage, isMessageTyping, sendImagePayload, detectInteractionSentiment } from '../assets/chatUtils/send'
 import { playMomoTalkSound } from '../assets/utils/sound'
 import { validateImageFileSize } from '../assets/imgUtils/readFile'
 import { parseImageDataUrl, buildGeminiUserParts, extractTextAndImage, GEMINI_SAFETY_SETTINGS, DEFAULT_GEMINI_MODELS } from '../assets/ai/gemini'
@@ -172,6 +172,40 @@ describe('Store Kizuna Relationship & Active Student (TDD)', () => {
         expect(store.getRelationshipRank(10010)).toBe(2)
         // Check another student remains 1
         expect(store.getRelationshipRank(10003)).toBe(1)
+    })
+
+    it('decrements relationship rank on unpleasant interactions and enforces minimum rank of 1', () => {
+        store.studentRanks[10010] = 3
+        expect(store.getRelationshipRank(10010)).toBe(3)
+        store.decreaseRelationshipRank(10010)
+        expect(store.getRelationshipRank(10010)).toBe(2)
+        store.decreaseRelationshipRank(10010)
+        expect(store.getRelationshipRank(10010)).toBe(1)
+        // Minimum boundary check: cannot fall below 1
+        store.decreaseRelationshipRank(10010)
+        expect(store.getRelationshipRank(10010)).toBe(1)
+    })
+
+    it('detectInteractionSentiment detects offensive or hateful user messages as negative', () => {
+        const negativeInputs = [
+            'バカ', '死ね', '最低', '気持ち悪い', '大嫌い', 'クソ',
+            'shut up', 'hate you', 'stupid', 'idiot',
+            '꺼져', '바보', '싫어'
+        ]
+        for (const input of negativeInputs) {
+            const sentiment = detectInteractionSentiment(input, '……ひどいよ')
+            expect(sentiment).toBe('negative')
+        }
+    })
+
+    it('detectInteractionSentiment detects student hurt/angry reaction as negative', () => {
+        const sentiment = detectInteractionSentiment('今日はどう？', '先生なんて大嫌いです！信じられません！💢')
+        expect(sentiment).toBe('negative')
+    })
+
+    it('detectInteractionSentiment detects friendly or constructive messages as positive', () => {
+        const sentiment = detectInteractionSentiment('今日も頑張ろうね！', 'はい、先生！今日も一日頑張ります！')
+        expect(sentiment).toBe('positive')
     })
 
     it('resolves active student from store.currentChatStudent for AI reply', () => {
