@@ -32,6 +32,7 @@ import { talkHistory, getStudentLatestSnippet, getStudentSubline } from '@/asset
 import { selectList } from '@/assets/storeUtils/selectList'
 import { debounce, search } from '@/assets/utils/search'
 import { isPromptSupported } from '@/assets/ai/prompts'
+import { normalizeLanguageCode } from '@/assets/storeUtils/store'
 import Popper from 'vue3-popper'
 
 // true "vh" on mobile 
@@ -226,11 +227,9 @@ const selectAvatar = (item: studentInfo, index: number) => {
 /************************* */
 /*  switch language        */
 /************************* */
-const changeLanguage = async () => {
-    const languageList = i18n.global.availableLocales
-    const currentLngIdx = languageList.findIndex((ele) => ele === store.language)
-    store.language = languageList[(currentLngIdx + 1) % languageList.length]
-    i18n.global.locale = store.language as any
+const changeLanguageTo = async (targetLang: SupportedLanguage) => {
+    store.language = targetLang
+    i18n.global.locale = targetLang as any
     database.value = await getStudents(store.language)
     processData()
 
@@ -260,6 +259,27 @@ const changeLanguage = async () => {
     store.setData()
     deactiveStudent()
 }
+
+const changeLanguage = async () => {
+    const languageList = i18n.global.availableLocales
+    const currentLngIdx = languageList.findIndex((ele) => ele === store.language)
+    const nextLang = languageList[(currentLngIdx + 1) % languageList.length] as SupportedLanguage
+    await changeLanguageTo(nextLang)
+}
+
+watch(
+    () => [route?.query?.lang, route?.query?.lng, route?.query?.locale, route?.query?.language],
+    ([newLang, newLng, newLocale, newLanguage]) => {
+        const queryLang = (newLang || newLng || newLocale || newLanguage) as string
+        if (queryLang) {
+            const detected = normalizeLanguageCode(queryLang)
+            if (detected && detected !== store.language) {
+                changeLanguageTo(detected as SupportedLanguage)
+            }
+        }
+    },
+    { immediate: true }
+)
 
 const handleDownload = () => {
     if (store.zoom !== 1) {
@@ -317,7 +337,7 @@ document.onkeyup = (e) => {
                 </RouterLink>
             </div>
             <div id="header__right">
-                <SettingIcon class="icon setting" @click="store.showSettingDialog = true" />
+                <SettingIcon class="icon setting" @click="store.openSettingDialog(store.aiApiKey ? 1 : 2)" />
             </div>
         </header>
 

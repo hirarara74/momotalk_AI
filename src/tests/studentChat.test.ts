@@ -1017,6 +1017,7 @@ describe('Groq AI Provider Integration (TDD)', () => {
 
     it('shows polite guidance when API key is not configured', async () => {
         const { triggerAIReply } = await import('../assets/chatUtils/send')
+        store.language = 'jp'
         store.aiApiKey = ''
         const initialTalkCount = talkHistory.talkHistory.length
         await triggerAIReply('こんにちは', { student: { Id: 10010, Name: 'シロコ', Avatar: '' } })
