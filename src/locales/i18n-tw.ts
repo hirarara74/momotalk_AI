@@ -139,8 +139,7 @@ export default {
 - 部分學生資料與素材資源引用自社群專案 **[SchaleDB](https://schaledb.com/)**（[lonqix/SchaleDB](https://github.com/lonqix/SchaleDB)）。
 
 ### 3. 基於 Vibe Coding（氛圍編程）打造
-- 本專案由人類開發者與 Google DeepMind 自主型智慧代理 AI **Antigravity** 深度協同，透過互動式結對編程（**Vibe Coding**）完成了架構設計、角色深度提示詞構建、測試驅動開發（TDD）及自我修正循環（\`//loop\`）。
-- 這是一個結合人類創意構想與 AI 智慧代理工程閉環的實驗性 AI-Native 軟體範例。
+- 本專案由人類開發者與 Google DeepMind 自主型智慧代理 AI **Antigravity** 深度協同，透過互動式結對編程（**Vibe Coding**）完成了架構設計、角色深度提示詞構建、測試驅動開發（TDD）及程式碼實現。
 
 ### 4. 隱私安全與免責聲明
 - **API 金鑰安全**：您在設定中填寫的 API Key 僅儲存在您本機瀏覽器的 \`localStorage\` 中，絕不會上傳或儲存到任何開發者中繼伺服器，直接透過 HTTPS 加密連線直連官方 AI 服務商（如 Groq、Google 等）。

@@ -295,8 +295,7 @@ watch(
 /*  switch theme           */
 /************************* */
 const changeTheme = () => {
-    if (store.theme !== 'momotalk' && store.theme !== 'yuzutalk')
-        store.theme = 'momotalk'
+    store.theme = 'momotalk'
     if (store.zoom < 0.5 || store.zoom > 1.5)
         store.zoom = 1
     var fullScreen = store.fullScreen ? 'full-screen' : 'not-full-screen'
@@ -334,7 +333,15 @@ document.onkeyup = (e) => {
             <div id="header__left">
                 <MomoIcon class="icon momo" />
                 <span id="header__title">MomoTalk</span>
-                <button class="help" @click="store.openHelpDialog()" title="Help" aria-label="Help">?</button>
+                <button
+                    class="help"
+                    @click.stop="store.openHelpDialog()"
+                    @touchend.prevent.stop="store.openHelpDialog()"
+                    title="Help"
+                    aria-label="Help"
+                >
+                    ?
+                </button>
             </div>
             <div id="header__right">
                 <SettingIcon class="icon setting" @click="store.openSettingDialog(store.aiApiKey ? 1 : 2)" />

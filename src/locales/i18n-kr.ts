@@ -119,7 +119,6 @@ export default {
   - **AI 모델 제공자**: Groq (기본 고속·추천) / Google Gemini / OpenAI 호환 / Anthropic Claude
   - **모델 및 API 키**: 최상위 120B 모델(openai/gpt-oss-120b) 및 표준 이미지 지원 27B 모델(qwen/qwen3.8-27b) 원클릭 전환
   - **생활 리듬**: 학생의 취침 및 기상 스케줄 적용 여부 (ON/OFF)
-  - **테마 전환**: MomoTalk 테마 / YuzuTalk 테마
   - **효과음 (SE)**: 알림음, 랭크업 사운드 ON/OFF 및 볼륨 조절
 
 ## ⌨️ 단축키 · Shortcuts
@@ -141,7 +140,6 @@ export default {
 
 ### 3. 바이브 코딩 (Vibe Coding)을 통한 제작
 - 본 프로젝트는 Google DeepMind의 자율형 에이전트 AI인 **Antigravity**를 페어 프로그래밍 파트너로 삼아, 대화형 코딩(**바이브 코딩 / Vibe Coding**) 방식으로 기능 기획, 프롬프트 엔지니어링, TDD(테스트 주도 개발), 코드 구현 및 성능 최적화를 진행하였습니다.
-- 인간의 창의적 비전과 AI 에이전트의 자가 수정 루프(\`//loop\`)가 결합된 실험적 AI 네이티브 개발 프로젝트입니다.
 
 ### 4. 보안 및 면책 조항
 - **API 키 보안**: 사용자가 입력한 API 키는 사용자의 브라우저 로컬 저장소(\`localStorage\`)에만 안전하게 보관되며, 개발자나 외부 서버로 수집·전송되지 않습니다.

@@ -91,4 +91,40 @@ describe('Web App Public Deployment & API Key Safety (TDD)', () => {
             expect(match![0]).toContain('switch-thumb')
         })
     })
+
+    describe('5. YuzuTalk Feature Removal from Settings (TDD)', () => {
+        it('verifies SettingWindow has completely removed yuzutalk theme option', async () => {
+            const fs = await import('fs')
+            const settingCode = fs.readFileSync('src/views/DialogView/SettingWindow.vue', 'utf-8')
+            expect(settingCode).not.toContain('value="yuzutalk"')
+            expect(settingCode).not.toContain('yuzutalk')
+        })
+
+        it('store enforces momotalk theme and resets yuzutalk if present', () => {
+            store.theme = 'yuzutalk' as any
+            store.setData()
+            expect(store.theme).toBe('momotalk')
+        })
+    })
+
+    describe('6. Help Button Touch & Visibility Reliability (TDD)', () => {
+        it('verifies button.help in App.vue supports both click and touchend events', async () => {
+            const fs = await import('fs')
+            const appCode = fs.readFileSync('src/App.vue', 'utf-8')
+            const helpBtnRegex = /<button[^>]*class="help"[^>]*>/
+            const match = appCode.match(helpBtnRegex)
+            expect(match).not.toBeNull()
+            expect(match![0]).toContain('@click')
+            expect(match![0]).toContain('@touchend')
+        })
+
+        it('store.openHelpDialog closes setting dialog to avoid modal conflict', () => {
+            store.showSettingDialog = true
+            store.showHelpDialog = false
+            store.openHelpDialog()
+            expect(store.showHelpDialog).toBe(true)
+            expect(store.showSettingDialog).toBe(false)
+        })
+    })
 })
+

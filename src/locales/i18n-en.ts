@@ -119,7 +119,6 @@ An interactive AI chat application to talk in real-time with Blue Archive studen
   - **AI Provider**: Groq (fast default & recommended), Google Gemini, OpenAI-compatible, or Anthropic Claude
   - **Model & API Key**: One-tap quick selection for 120B reasoning model (openai/gpt-oss-120b) or 27B vision model (qwen/qwen3.8-27b)
   - **Sleep Rhythm**: Toggle student sleep and wake schedules ON/OFF
-  - **Theme**: MomoTalk or YuzuTalk theme
   - **Audio Effects**: Toggle message send, receive, and rank-up sounds
 
 ## ⌨️ Shortcuts
@@ -141,7 +140,6 @@ An interactive AI chat application to talk in real-time with Blue Archive studen
 
 ### 3. Built with Vibe Coding
 - This project was developed through interactive AI pair programming (**Vibe Coding**) powered by Google DeepMind's autonomous AI coding assistant, **Antigravity**.
-- From requirement decompilation, character system prompt design, and Test-Driven Development (TDD) to continuous self-refinement loops (\`//loop\`), this application serves as an experimental showcase of AI-native software engineering.
 
 ### 4. Privacy & Disclaimer
 - **API Key Security**: User API keys are stored solely within your local browser storage (\`localStorage\`) and are never sent to, logged by, or collected on any intermediary server. Requests are dispatched directly and securely over HTTPS to official AI providers (Groq, Google, etc.).
