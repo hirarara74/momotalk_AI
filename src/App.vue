@@ -1,4 +1,16 @@
+<script lang="ts">
+import { ref } from 'vue'
+import type { studentInfo } from '@/assets/requestUtils/interface'
+import { getStudents } from '@/assets/requestUtils/request'
+import { store } from '@/assets/storeUtils/store'
+
+store.getData()
+export const database = ref<studentInfo[]>(await getStudents(store.language))
+</script>
+
 <script setup lang="ts">
+import { watch } from 'vue'
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
 import MomoIcon from './components/icons/IconMomo.vue'
 import SettingIcon from './components/icons/IconSetting.vue'
 import StudentIcon from './components/icons/IconStudent.vue'
@@ -12,6 +24,15 @@ import PlayerDialog from '@/views/DialogView/PlayerWindow.vue'
 import SettingDialog from '@/views/DialogView/SettingWindow.vue'
 import FilterDialog from '@/views/DialogView/FilterWindows.vue'
 import { download } from '@/assets/imgUtils/download'
+import i18n from '@/locales/i18n'
+import type { baseStudent, studentInfo as StudentInfoType } from '@/assets/requestUtils/interface'
+import { getSchoolIcon } from '@/assets/requestUtils/request'
+import { birthday_sort, SupportedLanguage } from '@/assets/requestUtils/dateFormat'
+import { talkHistory, getStudentLatestSnippet, getStudentSubline } from '@/assets/storeUtils/talkHistory'
+import { selectList } from '@/assets/storeUtils/selectList'
+import { debounce, search } from '@/assets/utils/search'
+import { isPromptSupported } from '@/assets/ai/prompts'
+import Popper from 'vue3-popper'
 
 // true "vh" on mobile 
 let vh = window.innerHeight * 0.01
@@ -20,114 +41,6 @@ window.addEventListener('resize', () => {
     let vh = window.innerHeight * 0.01
     document.documentElement.style.setProperty('--vh', `${vh}px`)
 })
-</script>
-
-<template>
-    <PlayerDialog></PlayerDialog>
-    <SettingDialog></SettingDialog>
-    <div id="root">
-        <header id="header" role="banner">
-            <div id="header__left">
-                <MomoIcon class="icon momo" />
-                <span id="header__title">MomoTalk</span>
-                <RouterLink to="/help" title="Help">
-                    <button class="help">?</button>
-                </RouterLink>
-            </div>
-            <div id="header__right">
-                <SettingIcon class="icon setting" @click="store.showSettingDialog = true" />
-            </div>
-        </header>
-
-        <nav id="sidebar" role="navigation">
-            <div id="sidebar__up">
-                <RouterLink :to="{ path: '/', query: { id: studentSelected?.Id || 10010 } }" title="Info">
-                    <StudentIcon class="icon info" />
-                </RouterLink>
-                <RouterLink :to="{ path: '/chat', query: { id: studentSelected?.Id || 10010 } }" title="Chat">
-                    <MessageIcon class="icon message" />
-                </RouterLink>
-            </div>
-            <div id="sidebar__down">
-                <div style="cursor: pointer" @click="handleDownload" title="Download Screenshot">
-                    <DownloadIcon class="icon download" />
-                </div>
-                <div style="cursor: pointer" @click="store.resetData()" title="Reset">
-                    <ResetIcon class="icon reset" />
-                </div>
-                <div style="cursor: pointer" @click="changeLanguage" title="Switch Language">
-                    <LanguageIcon class="icon language" />
-                </div>
-            </div>
-        </nav>
-
-        <section id="listcard">
-            <header id="listcard__header">
-                <Popper placement="bottom" :show="showPopper" style="width: 100%;">
-                    <span id="listcard__header-content">
-                        <div class="search-group">
-                            <input type="text" placeholder="Type / to search" class="search-group__text"
-                                v-model="filter_condition.search_text" id="searchBox" aria-label="Search" />
-                        </div>
-                        <button class="student-list__button button1" title="Filter" aria-label="Filter"
-                            @click="popperTrigger">
-                            <span>{{ filter_condition.sort_type ? $t(filter_condition.sort_type.toLowerCase()) :
-                                $t('default') }}</span>
-                        </button>
-                        <button class="student-list__button button2" title="Sort" aria-label="Sort"
-                            @click="sortOrderTrigger">
-                            <ListUpIcon v-if="filter_condition.sort_asc" class="icon list" />
-                            <ListDownIcon v-else class="icon list" />
-                        </button>
-                    </span>
-                    <template #content>
-                        <FilterDialog :filter_condition="filter_condition"
-                            :filter_condition_copy="filter_condition_copy" @popperConfirm="popperConfirm"
-                            @popperTrigger="popperTrigger"></FilterDialog>
-                    </template>
-                </Popper>
-            </header>
-            <div id="listbody">
-                <div class="list-item" v-for="(item, index) in dataDisplay" :key="index" :id="item.Id.toString()"
-                    :class="{ active: item === studentSelected }" @click="selectStudent(item)">
-                    <div class="list-item__avatar" @click.stop="" @click="showAvatars(item)" role="button" tabindex="0"
-                        @keydown.enter="showAvatars(item)">
-                        <img v-lazy="item.Avatars[item.cnt]" :alt="`${item.Name}'s avatar`" />
-                        <button :class="item === studentShowAvatars ? 'minus' : 'add'" v-if="item.Avatars.length > 2"
-                            aria-label="Toggle Avatar View"></button>
-                    </div>
-                    <span class="list-item__name">{{ item.Name }}</span>
-                    <span class="list-item__bio">{{ route?.path === '/chat' ? getStudentLatestSnippet(item) : item.Bio }}</span>
-                    <div class="list-item__mark" v-if="item.School" @click.stop="" @click="filter_school(item)"
-                        role="button" tabindex="0" @keydown.enter=" filter_school(item)">
-                        <img v-lazy="getSchoolIcon(item.School)" :alt="`${item.School} icon`" />
-                    </div>
-                    <div class="list-item__avatars" @click.stop="" v-show="item === studentShowAvatars">
-                        <img v-for="(avatar, index) in item.Avatars" :key="index" v-lazy="avatar"
-                            @click="selectAvatar(item, index)" :alt="`${item.Name}'s avatar ${index + 1}`" />
-                    </div>
-                </div>
-            </div>
-        </section>
-        <RouterView id="chatcard" @deactive="deactiveStudent()" :studentInfo="studentSelected" :student="student" />
-    </div>
-</template>
-
-<script lang="ts">
-import { ref, watch } from 'vue'
-import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
-import i18n from '@/locales/i18n'
-import { baseStudent, studentInfo } from '@/assets/requestUtils/interface'
-import { getStudents, getSchoolIcon } from '@/assets/requestUtils/request'
-import { birthday_sort, SupportedLanguage } from '@/assets/requestUtils/dateFormat'
-import { store } from '@/assets/storeUtils/store'
-import { talkHistory, getStudentLatestSnippet } from '@/assets/storeUtils/talkHistory'
-import { selectList } from '@/assets/storeUtils/selectList'
-import { debounce, search } from '@/assets/utils/search'
-import { isPromptSupported } from '@/assets/ai/prompts'
-import Popper from 'vue3-popper'
-
-store.getData()
 
 const route = useRoute()
 const router = useRouter()
@@ -138,7 +51,6 @@ const router = useRouter()
 const studentSelected = ref<studentInfo | null>(null)
 const student = ref<baseStudent | null>(null)
 
-const database = ref<studentInfo[]>(await getStudents(store.language))
 const dataDisplay = ref<studentInfo[]>(database.value)
 
 // Resolve initial student from URL query id (e.g. /chat?id=10003) if present, else default to Shiroko (10010)
@@ -307,13 +219,8 @@ const showAvatars = (item: any) => {
     else studentShowAvatars.value = null
 }
 const selectAvatar = (item: studentInfo, index: number) => {
-    studentSelected.value = item
-    studentSelected.value.cnt = index
-    student.value = {
-        Id: studentSelected.value.Id,
-        Name: studentSelected.value.Name,
-        Avatar: studentSelected.value.Avatars[studentSelected.value.cnt]
-    }
+    item.cnt = index
+    selectStudent(item)
 }
 
 /************************* */
@@ -396,6 +303,97 @@ document.onkeyup = (e) => {
     }
 }
 </script>
+
+<template>
+    <PlayerDialog></PlayerDialog>
+    <SettingDialog></SettingDialog>
+    <div id="root">
+        <header id="header" role="banner">
+            <div id="header__left">
+                <MomoIcon class="icon momo" />
+                <span id="header__title">MomoTalk</span>
+                <RouterLink to="/help" title="Help">
+                    <button class="help">?</button>
+                </RouterLink>
+            </div>
+            <div id="header__right">
+                <SettingIcon class="icon setting" @click="store.showSettingDialog = true" />
+            </div>
+        </header>
+
+        <nav id="sidebar" role="navigation">
+            <div id="sidebar__up">
+                <RouterLink :to="{ path: '/', query: { id: studentSelected?.Id || 10010 } }" title="Info">
+                    <StudentIcon class="icon info" />
+                </RouterLink>
+                <RouterLink :to="{ path: '/chat', query: { id: studentSelected?.Id || 10010 } }" title="Chat">
+                    <MessageIcon class="icon message" />
+                </RouterLink>
+            </div>
+            <div id="sidebar__down">
+                <div style="cursor: pointer" @click="handleDownload" title="Download Screenshot">
+                    <DownloadIcon class="icon download" />
+                </div>
+                <div style="cursor: pointer" @click="store.resetData()" title="Reset">
+                    <ResetIcon class="icon reset" />
+                </div>
+                <div style="cursor: pointer" @click="changeLanguage" title="Switch Language">
+                    <LanguageIcon class="icon language" />
+                </div>
+            </div>
+        </nav>
+
+        <section id="listcard">
+            <header id="listcard__header">
+                <Popper placement="bottom" :show="showPopper" style="width: 100%;">
+                    <span id="listcard__header-content">
+                        <div class="search-group">
+                            <input type="text" placeholder="Type / to search" class="search-group__text"
+                                v-model="filter_condition.search_text" id="searchBox" aria-label="Search" />
+                        </div>
+                        <button class="student-list__button button1" title="Filter" aria-label="Filter"
+                            @click="popperTrigger">
+                            <span>{{ filter_condition.sort_type ? $t(filter_condition.sort_type.toLowerCase()) :
+                                $t('default') }}</span>
+                        </button>
+                        <button class="student-list__button button2" title="Sort" aria-label="Sort"
+                            @click="sortOrderTrigger">
+                            <ListUpIcon v-if="filter_condition.sort_asc" class="icon list" />
+                            <ListDownIcon v-else class="icon list" />
+                        </button>
+                    </span>
+                    <template #content>
+                        <FilterDialog :filter_condition="filter_condition"
+                            :filter_condition_copy="filter_condition_copy" @popperConfirm="popperConfirm"
+                            @popperTrigger="popperTrigger"></FilterDialog>
+                    </template>
+                </Popper>
+            </header>
+            <div id="listbody">
+                <div class="list-item" v-for="(item, index) in dataDisplay" :key="index" :id="item.Id.toString()"
+                    :class="{ active: item === studentSelected }" @click="selectStudent(item)">
+                    <div class="list-item__avatar" @click.stop="" @click="showAvatars(item)" role="button" tabindex="0"
+                        @keydown.enter="showAvatars(item)">
+                        <img v-lazy="item.Avatars[item.cnt]" :alt="`${item.Name}'s avatar`" />
+                        <button :class="item === studentShowAvatars ? 'minus' : 'add'" v-if="item.Avatars.length > 2"
+                            aria-label="Toggle Avatar View"></button>
+                    </div>
+                    <span class="list-item__name">{{ item.Name }}</span>
+                    <span class="list-item__bio">{{ getStudentSubline(item, route?.path || $route?.path) }}</span>
+                    <div class="list-item__mark" v-if="item.School" @click.stop="" @click="filter_school(item)"
+                        role="button" tabindex="0" @keydown.enter=" filter_school(item)">
+                        <img v-lazy="getSchoolIcon(item.School)" :alt="`${item.School} icon`" />
+                    </div>
+                    <div class="list-item__avatars" @click.stop="" v-show="item === studentShowAvatars">
+                        <img v-for="(avatar, index) in item.Avatars" :key="index" v-lazy="avatar"
+                            @click="selectAvatar(item, index)" :alt="`${item.Name}'s avatar ${index + 1}`" />
+                    </div>
+                </div>
+            </div>
+        </section>
+        <RouterView id="chatcard" @deactive="deactiveStudent()" :studentInfo="studentSelected" :student="student" />
+    </div>
+</template>
 
 <style scoped lang="scss">
 @import './app.scss';
