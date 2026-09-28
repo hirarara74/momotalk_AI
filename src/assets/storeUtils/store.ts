@@ -35,7 +35,7 @@ export const store = reactive({
     sleepSimulationEnabled: false,
 
     openSettingDialog(page: number = 1) {
-        this.settingDialogPage = page
+        this.settingDialogPage = Math.min(Math.max(1, page), 2)
         this.showSettingDialog = true
     },
 
@@ -87,8 +87,9 @@ export const store = reactive({
         localStorage.setItem('zoom', JSON.stringify(this.zoom))
         localStorage.setItem('sound-enabled', JSON.stringify(this.soundEnabled))
         localStorage.setItem('sound-volume', JSON.stringify(this.soundVolume))
+        this.aiEnabled = true
         localStorage.setItem('sleep-simulation-enabled', JSON.stringify(this.sleepSimulationEnabled))
-        localStorage.setItem('ai-enabled', JSON.stringify(this.aiEnabled))
+        localStorage.setItem('ai-enabled', JSON.stringify(true))
         localStorage.setItem('ai-provider', JSON.stringify(this.aiProvider))
         localStorage.setItem('ai-api-key', JSON.stringify(this.aiApiKey))
         localStorage.setItem('ai-model', JSON.stringify(this.aiModel))
@@ -115,7 +116,8 @@ export const store = reactive({
         this.draggable = data[2] != null ? JSON.parse(data[2]) : (typeof window !== 'undefined' && typeof window.matchMedia === 'function' ? window.matchMedia('(min-width: 1151px)').matches : true)
         this.fullScreen = data[3] != null ? JSON.parse(data[3]) : false
         this.zoom      = data[4] != null ? JSON.parse(data[4]) : 1
-        this.aiEnabled = data[5] != null ? JSON.parse(data[5]) : true
+        this.aiEnabled = true
+        localStorage.setItem('ai-enabled', JSON.stringify(true))
         const defaultKey = ''
         const parsedProvider = data[6] != null ? JSON.parse(data[6]) : 'groq'
         const parsedApiKey = data[7] != null ? JSON.parse(data[7]) : defaultKey

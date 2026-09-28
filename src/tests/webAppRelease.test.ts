@@ -126,5 +126,33 @@ describe('Web App Public Deployment & API Key Safety (TDD)', () => {
             expect(store.showSettingDialog).toBe(false)
         })
     })
+
+    describe('7. AI Auto-Reply Toggle Removal & Always ON Enforcement (TDD)', () => {
+        it('verifies SettingWindow does not contain aiEnabled toggle switch', async () => {
+            const fs = await import('fs')
+            const settingCode = fs.readFileSync('src/views/DialogView/SettingWindow.vue', 'utf-8')
+            expect(settingCode).not.toContain('v-model="store.aiEnabled"')
+            expect(settingCode).not.toContain('$t(\'aiEnabled\')')
+        })
+
+        it('store enforces aiEnabled is always true in setData and getData', () => {
+            store.aiEnabled = false
+            store.setData()
+            expect(store.aiEnabled).toBe(true)
+        })
+    })
+
+    describe('8. Data Management Tab Complete Removal (TDD)', () => {
+        it('verifies SettingWindow completely removes Tab 3 and its features', async () => {
+            const fs = await import('fs')
+            const settingCode = fs.readFileSync('src/views/DialogView/SettingWindow.vue', 'utf-8')
+            expect(settingCode).not.toContain('id="page-3"')
+            expect(settingCode).not.toContain('$t(\'sharefile\')')
+            expect(settingCode).not.toContain('exportJson')
+            expect(settingCode).not.toContain('importJson')
+            expect(settingCode).not.toContain('exportCard')
+            expect(settingCode).not.toContain('importCard')
+        })
+    })
 })
 

@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { store } from '@/assets/storeUtils/store'
-import { importJson, exportJson } from '@/assets/storeUtils/file'
-import { importCard, exportCard } from '@/assets/chatUtils/play'
 import IconClose from '@/components/icons/IconClose.vue'
 import IconGithub from '@/components/icons/IconGithub.vue'
 import IconLog from '@/components/icons/IconLog.vue'
@@ -61,10 +59,6 @@ const onProviderChange = () => {
                     <li class="divider">/</li>
                     <li @click="showPage(2)" class="page-btn" :class="{ active: activePage === 2 }" id="page-2">
                         {{ $t('aiSetting') || 'AI' }}
-                    </li>
-                    <li class="divider">/</li>
-                    <li @click="showPage(3)" class="page-btn" :class="{ active: activePage === 3 }" id="page-3">
-                        {{ $t('sharefile') }}
                     </li>
                 </ul>
 
@@ -169,22 +163,6 @@ const onProviderChange = () => {
                     <!-- Page 2: AI設定 -->
                     <div class="page" :style="{ transform: `translateX(${(activePage - 1) * -100}%)` }">
                         <div class="dialog-content left-align" style="padding-top: 20px">
-                            <div class="settings-row">
-                                <span class="row-label">{{ $t('aiEnabled') }}</span>
-                                <div class="row-controls">
-                                    <label class="custom-switch">
-                                        <input
-                                            type="checkbox"
-                                            v-model="store.aiEnabled"
-                                            @change="store.setData()"
-                                        />
-                                        <div class="switch-track">
-                                            <div class="switch-thumb"></div>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-
                             <div class="settings-row">
                                 <span class="row-label">{{ $t('aiProvider') }}</span>
                                 <div class="row-controls">
@@ -338,37 +316,6 @@ const onProviderChange = () => {
                                         </div>
                                     </label>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Page 3: 共有ファイル -->
-                    <div class="page" :style="{ transform: `translateX(${(activePage - 1) * -100}%)` }">
-                        <div class="popper-content__line">
-                            <span>{{ $t('importAndExport') }}</span>
-                        </div>
-                        <div class="popper-content__button-group">
-                            <div>
-                                <button @click="exportJson">
-                                    <span>{{ $t('exportButton') }}</span>
-                                </button>
-                                <button class="active" @click="importJson">
-                                    <span>{{ $t('importButton') }}</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="popper-content__line">
-                            <span>{{ $t('sharedFile') }}</span>
-                        </div>
-                        <div class="popper-content__button-group">
-                            <div>
-                                <button @click="exportCard">
-                                    <span>{{ $t('exportButton') }}</span>
-                                </button>
-                                <button class="active" @click="importCard">
-                                    <span>{{ $t('importButton') }}</span>
-                                </button>
                             </div>
                         </div>
                     </div>
