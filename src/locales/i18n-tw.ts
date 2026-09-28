@@ -118,7 +118,6 @@ export default {
   - **AI 服務商**：Groq（預設高速推薦）/ Google Gemini / OpenAI 相容 / Anthropic Claude
   - **模型與金鑰**：一鍵切換頂級 120B 推理模型（openai/gpt-oss-120b）或標準圖像支援 27B 模型（qwen/qwen3.8-27b）
   - **生活作息**：開啟或關閉學生的作息模擬
-  - **主題切換**：MomoTalk 原生主題 / YuzuTalk 主題
   - **音效設定**：提示音、升級音效開關及音量調節
 
 ## ⌨️ 快捷鍵 · Shortcuts
