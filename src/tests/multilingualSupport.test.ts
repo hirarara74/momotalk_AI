@@ -222,5 +222,19 @@ describe('Multilingual AI Prompts & UI Localization (TDD)', () => {
                 }
             }
         })
+
+        it('help guide in all locales contains credits, original repo attribution, vibe coding, and copyright disclaimers', () => {
+            for (const { code, data } of locales) {
+                const helpText = data.help
+                expect(helpText, `help missing in ${code}`).toBeDefined()
+                // Must attribute original repository
+                expect(helpText).toContain('U1805/momotalk')
+                // Must attribute copyright holders
+                expect(helpText).toContain('NEXON Games')
+                expect(helpText).toContain('Yostar')
+                // Must mention vibe coding
+                expect(helpText.toLowerCase()).toMatch(/vibe coding|バイブコーディング|바이브 코딩/)
+            }
+        })
     })
 })

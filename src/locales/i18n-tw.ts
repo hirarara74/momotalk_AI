@@ -120,5 +120,24 @@ export default {
 - \`/\` : 聚焦搜尋框
 - \`Enter\` : 發送訊息
 - \`Shift + Enter\` : 換行
+
+## 📜 致謝與免責聲明 · Credits & Disclaimer
+
+### 1. 原作版權與智慧財產權歸屬
+- 本應用涉及的《蔚藍檔案》（Blue Archive）所有角色、立繪圖片、世界觀設定、商標及智慧財產權均歸 **NEXON Games** 及 **Yostar**（以及各地區發行商）所有。
+- 本專案嚴格遵守官方二次創作規範，是由粉絲出於愛好製作的**非官方、非營利性同人衍生作品**。
+- 本專案與 NEXON Games、Yostar 及任何官方營運團隊均無任何關聯。
+
+### 2. 開源專案致謝
+- 本應用的 UI 介面與基本框架 Fork 自開源專案 **[U1805/momotalk](https://github.com/U1805/momotalk)**（MIT License / 作者: @U1805），並在此基礎上整合了多模型大語言模型（LLM）對話引擎與多模態視覺識別能力。衷心感謝 @U1805 優秀的 MomoTalk 原作還原工程及對開源社群的貢獻！
+- 部分學生資料與素材資源引用自社群專案 **[SchaleDB](https://schaledb.com/)**（[lonqix/SchaleDB](https://github.com/lonqix/SchaleDB)）。
+
+### 3. 基於 Vibe Coding（氛圍編程）打造
+- 本專案由人類開發者與 Google DeepMind 自主型智慧代理 AI **Antigravity** 深度協同，透過互動式結對編程（**Vibe Coding**）完成了架構設計、角色深度提示詞構建、測試驅動開發（TDD）及自我修正循環（\`//loop\`）。
+- 這是一個結合人類創意構想與 AI 智慧代理工程閉環的實驗性 AI-Native 軟體範例。
+
+### 4. 隱私安全與免責聲明
+- **API 金鑰安全**：您在設定中填寫的 API Key 僅儲存在您本機瀏覽器的 \`localStorage\` 中，絕不會上傳或儲存到任何開發者中繼伺服器，直接透過 HTTPS 加密連線直連官方 AI 服務商（如 Groq、Google 等）。
+- **免責聲明**：作者不承擔因使用本應用產生的任何損失或爭議。如版權方提出任何合規要求，本專案將第一時間積極配合調整或下線。
 `
 }

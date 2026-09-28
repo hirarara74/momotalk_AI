@@ -120,5 +120,24 @@ export default {
 - \`/\` : 聚焦搜索框
 - \`Enter\` : 发送消息
 - \`Shift + Enter\` : 换行
+
+## 📜 致谢与免责声明 · Credits & Disclaimer
+
+### 1. 原作版权与知识产权归属
+- 本应用涉及的《碧蓝档案》（Blue Archive）所有角色、立绘图片、世界观设定、商标及知识产权均归 **NEXON Games** 及 **Yostar（上海悠星网络）**（以及各地区发行商）所有。
+- 本项目严格遵守官方二次创作指引，是由玩家出于纯粹热爱制作的**非官方、非营利性同人衍生作品**。
+- 本项目与 NEXON Games、Yostar 及任何官方运营方均无关联。
+
+### 2. 开源项目致谢
+- 本应用的 UI 界面与交互基础框架 Fork 自开源项目 **[U1805/momotalk](https://github.com/U1805/momotalk)**（MIT License / 作者: @U1805），在此基础上整合了多模型大语言模型（LLM）对话引擎与多模态视觉识别能力。衷心感谢 @U1805 优秀的 MomoTalk 原作还原工程及开源贡献！
+- 部分学生数据与素材资源引用自同人数据库项目 **[SchaleDB](https://schaledb.com/)**（[lonqix/SchaleDB](https://github.com/lonqix/SchaleDB)）。
+
+### 3. 基于 Vibe Coding（氛围编程）打造
+- 本项目由人类开发者与 Google DeepMind 自主型智能体 AI **Antigravity** 深度协同，通过交互式结对编程（**Vibe Coding**）完成了架构设计、角色深度提示词构建、测试驱动开发（TDD）及自我修正循环（\`//loop\`）。
+- 这是一个结合人类创意构想与 AI 智能体工程闭环的实验性 AI-Native 软件范例。
+
+### 4. 隐私安全与免责声明
+- **API 密钥安全**：您在设置中填写的 API Key 仅保存在您本地浏览器的 \`localStorage\` 中，绝不会上传或存储到任何开发者中转服务器，直接通过 HTTPS 加密通信直连官方 AI 服务商（如 Groq、Google 等）。
+- **免责声明**：作者不承担因使用本应用产生的任何损失或争议。如版权方提出任何合规要求，本项目将第一时间积极配合调整或下线。
 `
 }
