@@ -188,5 +188,39 @@ describe('Multilingual AI Prompts & UI Localization (TDD)', () => {
                 expect(data.imageMessagePlaceholder, `imageMessagePlaceholder missing in ${code}`).toBeDefined()
             }
         })
+
+        it('all locale files contain settings modal and AI tab localization keys', () => {
+            const requiredSettingsKeys = [
+                'apiKeyPlaceholderGroq',
+                'apiKeyPlaceholder',
+                'groqKeyNoticePrefix',
+                'groqKeyNoticeSuffix',
+                'geminiKeyNoticePrefix',
+                'geminiKeyNoticeSuffix',
+                'modelLabel',
+                'modelPlaceholderGroq',
+                'modelPlaceholderGemini',
+                'modelPlaceholderOpenai',
+                'modelChipTop120b',
+                'modelChipTop120bTitle',
+                'modelChipStd27b',
+                'modelChipStd27bTitle',
+                'modelChipGeminiPro',
+                'modelChipGeminiLite',
+                'customBaseUrlLabel',
+                'filterPromptSupportedOnly',
+                'filterAllStudents',
+                'back',
+                'kizunaRankTitle',
+                'removeImage',
+                'sendSticker',
+                'sendImage'
+            ]
+            for (const { code, data } of locales) {
+                for (const key of requiredSettingsKeys) {
+                    expect((data as any)[key], `Key "${key}" missing in locale "${code}"`).toBeDefined()
+                }
+            }
+        })
     })
 })

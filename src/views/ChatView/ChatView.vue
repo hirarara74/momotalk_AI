@@ -3,12 +3,12 @@
         <!-- 生徒ヘッダー (MomoTalk チャット対象生徒) -->
         <div class="chat-header-bar" v-if="activeStudentInfo">
             <div class="chat-header-bar__left">
-                <button class="chat-header-bar__back" @click="handleGoBack" title="戻る">‹</button>
+                <button class="chat-header-bar__back" @click="handleGoBack" :title="$t('back')">‹</button>
                 <img class="chat-header-bar__avatar" :src="activeStudentAvatar" :alt="activeStudentInfo.Name" />
                 <div class="chat-header-bar__meta">
                     <div class="chat-header-bar__name-row">
                         <span class="chat-header-bar__name">{{ activeStudentInfo.Name }}</span>
-                        <span class="chat-header-bar__rank" title="絆ランク">
+                        <span class="chat-header-bar__rank" :title="$t('kizunaRankTitle')">
                             <HeartIcon class="rank-heart" />
                             <span>Lv.{{ store.getRelationshipRank(activeStudentInfo.Id) }}</span>
                         </span>
@@ -43,14 +43,14 @@
             <div class="attachment-bar" v-if="attachedImage">
                 <div class="attachment-preview-wrapper">
                     <img :src="attachedImage" class="attachment-preview-img" alt="添付画像" />
-                    <button class="attachment-remove-btn" @click="removeAttachedImage" title="添付画像を削除">×</button>
+                    <button class="attachment-remove-btn" @click="removeAttachedImage" :title="$t('removeImage')">×</button>
                 </div>
             </div>
 
             <div class="input-bar">
                 <!-- 贴图 -->
                 <Popper placement="top">
-                    <div class="sticker" id="sticker" title="スタンプを送信">
+                    <div class="sticker" id="sticker" :title="$t('sendSticker')">
                         <div class="sticker-badge">
                             <ProfileIcon class="icon profile" />
                         </div>
@@ -64,9 +64,9 @@
                             </div>
                             <div class="tab">
                                 <div @click="switchSticker(-1)" 
-                                    :class="{ stk__active: stickerTab === 1 }" >1</div>
+                                     :class="{ stk__active: stickerTab === 1 }" >1</div>
                                 <div @click="switchSticker(1)" 
-                                    :class="{ stk__active: stickerTab === 2 }" >2</div>
+                                     :class="{ stk__active: stickerTab === 2 }" >2</div>
                             </div>
                         </div>
                     </template>
@@ -82,10 +82,10 @@
                     @keydown.enter.exact.prevent="_text()"
                     @paste="handlePaste"
                 ></textarea>
-                <div class="photo" title="画像を添付・送信" @click="_image()">
+                <div class="photo" :title="$t('sendImage')" @click="_image()">
                     <ImageIcon class="image icon" />
                 </div>
-                <div class="message" title="送信" @click="_text()">
+                <div class="message" :title="$t('reply')" @click="_text()">
                     <SendIcon class="send icon"/>
                 </div>
                 <!-- 发送 -->

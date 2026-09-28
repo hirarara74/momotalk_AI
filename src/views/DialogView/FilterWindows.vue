@@ -45,7 +45,7 @@
                     @click="props.filter_condition_copy.only_prompt_supported = !props.filter_condition_copy.only_prompt_supported"
                     :class="props.filter_condition_copy.only_prompt_supported ? 'active' : ''"
                     style="width: 100%;">
-                    <span>{{ props.filter_condition_copy.only_prompt_supported ? '🤖 プロンプト対応のみ' : '👥 全生徒表示' }}</span>
+                    <span>{{ props.filter_condition_copy.only_prompt_supported ? $t('filterPromptSupportedOnly') : $t('filterAllStudents') }}</span>
                 </button>
             </div>
         </div>
