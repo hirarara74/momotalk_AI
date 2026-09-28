@@ -33,4 +33,5 @@ coverage
 *.sw?
 
 /.vscode/
+.claude/
 scratch/
