@@ -16,6 +16,7 @@ export const store = reactive({
     showPlayerDialog: false,
     showSettingDialog: false,
     settingDialogPage: 1,
+    showHelpDialog: false,
     storyKey: '10005',
     storyList: {} as Record<string, string[]>,
     storyFile: '1000501',
@@ -36,6 +37,14 @@ export const store = reactive({
     openSettingDialog(page: number = 1) {
         this.settingDialogPage = page
         this.showSettingDialog = true
+    },
+
+    openHelpDialog() {
+        this.showHelpDialog = true
+    },
+
+    closeHelpDialog() {
+        this.showHelpDialog = false
     },
 
     checkAndPromptApiKey(): boolean {

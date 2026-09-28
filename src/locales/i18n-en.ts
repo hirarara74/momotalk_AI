@@ -17,6 +17,7 @@ export default {
     storyEvent: 'Story Event',
     reply: 'Reply',
     playerTitle: 'MomoTalk Story Player',
+    helpTitle: 'MomoTalk AI User Guide',
     playerContent:
         "Click 'Confirm' to start playing the student MomoTalk event\n💥Note: This will clear the conversation history",
     confirm: 'Confirm',

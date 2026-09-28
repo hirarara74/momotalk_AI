@@ -17,6 +17,7 @@ export default {
     storyEvent: '羈絆劇情',
     reply: '回覆',
     playerTitle: 'MomoTalk 劇情播放器',
+    helpTitle: 'MomoTalk AI 使用指南',
     playerContent: "點選 '確認' 開始播放學生 MomoTalk 劇情\n💥注意：此功能將清空對話記錄",
     confirm: '確認',
     cancel: '取消',
