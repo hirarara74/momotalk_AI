@@ -154,5 +154,34 @@ describe('Web App Public Deployment & API Key Safety (TDD)', () => {
             expect(settingCode).not.toContain('importCard')
         })
     })
+
+    describe('9. Mobile Chat Layout & Compact Avatar Optimization (TDD)', () => {
+        it('verifies chat-draggable.scss defines mobile media query with compact avatar and spacious layout', async () => {
+            const fs = await import('fs')
+            const scssCode = fs.readFileSync('src/views/ChatView/chat-draggable.scss', 'utf-8')
+            
+            // 1. Mobile media query must exist in chat-draggable.scss
+            expect(scssCode).toMatch(/@media\s+screen\s+and\s+\(max-width:\s*1150px\)/)
+
+            // Extract the mobile media query block
+            const mediaMatch = scssCode.match(/@media\s+screen\s+and\s+\(max-width:\s*1150px\)[\s\S]*$/)
+            expect(mediaMatch).not.toBeNull()
+            const mediaBlock = mediaMatch![0]
+
+            // 2. Avatar must be scaled down to compact size (<= 48px, e.g. 44px)
+            expect(mediaBlock).toMatch(/\.avatar[\s\S]*?circle\(\s*44px\s*\)/)
+
+            // 3. Grid template columns must use compact avatar width (44px) and smaller gap
+            expect(mediaBlock).toMatch(/grid-template-columns:\s*44px\s+8px\s+1fr/)
+
+            // 4. Student and sensei padding must be reduced from 50px/25px to compact mobile margins (<= 16px)
+            expect(mediaBlock).toMatch(/\.student[\s\S]*?padding:\s*0\s+16px\s+0\s+12px/)
+            expect(mediaBlock).toMatch(/\.sensei[\s\S]*?padding:\s*0\s+12px\s+0\s+16px/)
+
+            // 5. Font sizes on mobile should be balanced (<= 16px instead of 20px)
+            expect(mediaBlock).toMatch(/\.name[\s\S]*?font-size:\s*13\.5px/)
+            expect(mediaBlock).toMatch(/\.box[\s\S]*?font-size:\s*15\.5px/)
+        })
+    })
 })
 
