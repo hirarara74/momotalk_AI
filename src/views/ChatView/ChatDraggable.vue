@@ -187,7 +187,7 @@ export default {
         },
         checkImg(content: string){
             const suffix = `(bmp|jpg|png|tif|gif|svg|webp|jpeg)`
-            var regular = new RegExp(`(data:image.*)|((http|https)://.*.${suffix})`)
+            var regular = new RegExp(`(data:image.*)|((http|https)://.*\\.${suffix})|(/.*\\.${suffix})`)
             return regular.test(content)
         },
         /* 【割り込み編集機能の復元用メモ】

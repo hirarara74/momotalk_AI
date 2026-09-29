@@ -946,6 +946,22 @@ ${birthdayNote}
 `
 }
 
+export function getStickerDirective(lang?: string): string {
+    switch (lang) {
+        case 'kr':
+            return `\n\n【MomoTalk 스티커(스탬フ) 반응 지침】\n선생님이 「[スタンプを送信] ...」 또는 스티커를 보낸 경우, 선생님이 MomoTalk 메신저에서 해당 이모티콘을 전송한 것입니다. 스티커에 묘사된 캐릭터, 표정, 대사, 감정(칭찬, 감사, 인사, 당황, 분노, 격무의 피로, 장난 등)을 자연스럽게 파악하여 당신의 캐릭터답게 귀엽고 생생하게 반응해 주세요.`
+        case 'en':
+            return `\n\n【MomoTalk Sticker Interpretation Rule】\nWhen Sensei sends "[スタンプを送信] (sticker description)", Sensei has sent a MomoTalk sticker. Naturally interpret the emotion, facial expression, dialogue, or reaction depicted in the sticker (e.g., praise, gratitude, greeting, teasing, panic, fatigue, etc.) and respond authentically and charmingly in-character.`
+        case 'zh':
+            return `\n\n【MomoTalk表情包/印章识别准则】\n当老师发送「[スタンプを送信] （表情说明）」时，表示老师在MomoTalk中发送了该表情包。请充分理解表情中所表达的情感、台词与角色动作（例如夸奖、感谢、打招呼、吐槽、疲惫、害羞、慌乱等），并以你独特的角色性格给出鲜活生动的回应。`
+        case 'tw':
+            return `\n\n【MomoTalk貼圖/印章識別準則】\n當老師發送「[スタンプを送信] （貼圖說明）」時，代表老師在MomoTalk中發送了該表情貼圖。請充分理解貼圖所表達的情感、台詞與動作（例如誇獎、感謝、打招呼、吐槽、疲倦、害羞、慌亂等），並以你獨特的角色性格給予生動活潑的回應。`
+        case 'jp':
+        default:
+            return `\n\n【MomoTalkスタンプの解釈ルール】\n先生が「[スタンプを送信] （スタンプの説明）」を送ってきた場合、先生はMomoTalkアプリ上でそのスタンプを押して感情や意思を伝えています。スタンプの絵柄・セリフ・キャラクターの表情や文脈（例: 労い、褒め言葉、感謝、挨拶、ツッコミ、慌て、激務の疲れ、照れ、企みなど）を的確に汲み取り、あなたのキャラクターとして自然で魅力的なリアクションを返してください。`
+    }
+}
+
 /**
  * 生徒情報からシステムプロンプトを動的に構築
  */
@@ -1016,7 +1032,7 @@ Please strictly adhere to the following rules:
             .replace(/\*Reply in Japanese/gi, '*Reply in natural, authentic Korean as spoken in the Korean version of Blue Archive.')
             .replace(/\*Reply in natural Japanese as a MomoTalk chat message \(1-3 sentences\)\./gi, '*Reply in natural Korean as a MomoTalk chat message (1-3 sentences).')
 
-        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}\n\n[REITERATION: Always reply in natural KOREAN, call user "선생님"!]`
+        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('kr')}\n\n[REITERATION: Always reply in natural KOREAN, call user "선생님"!]`
     }
 
     if (currentLang === 'en') {
@@ -1034,7 +1050,7 @@ Please strictly adhere to the following rules:
             .replace(/\*Reply in Japanese/gi, '*Reply in natural, authentic English as localized in Blue Archive.')
             .replace(/\*Reply in natural Japanese as a MomoTalk chat message \(1-3 sentences\)\./gi, '*Reply in natural English as a MomoTalk chat message (1-3 sentences).')
 
-        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}\n\n[REITERATION: Always reply in natural ENGLISH, call user "Sensei"!]`
+        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('en')}\n\n[REITERATION: Always reply in natural ENGLISH, call user "Sensei"!]`
     }
 
     if (currentLang === 'zh') {
@@ -1052,7 +1068,7 @@ Please strictly adhere to the following rules:
             .replace(/\*Reply in Japanese/gi, '*必须使用简体中文进行回复。')
             .replace(/\*Reply in natural Japanese as a MomoTalk chat message \(1-3 sentences\)\./gi, '*使用自然地道的简体中文发送MomoTalk短消息（1-3句）。')
 
-        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}\n\n[REITERATION: 必须严格使用简体中文回复，称呼用户为“老师”！]`
+        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('zh')}\n\n[REITERATION: 必须严格使用简体中文回复，称呼用户为“老师”！]`
     }
 
     if (currentLang === 'tw') {
@@ -1070,11 +1086,11 @@ Please strictly adhere to the following rules:
             .replace(/\*Reply in Japanese/gi, '*必須使用繁體中文進行回覆。')
             .replace(/\*Reply in natural Japanese as a MomoTalk chat message \(1-3 sentences\)\./gi, '*使用自然道地的繁體中文發送MomoTalk短訊息（1-3句）。')
 
-        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}\n\n[REITERATION: 必須嚴格使用繁體中文回覆，稱呼用戶為「老師」！]`
+        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('tw')}\n\n[REITERATION: 必須嚴格使用繁體中文回覆，稱呼用戶為「老師」！]`
     }
 
     // デフォルト（日本語）
-    return `${basePrompt}\n\n${timeContext}`
+    return `${basePrompt}\n\n${timeContext}${getStickerDirective('jp')}`
 }
 
 /**

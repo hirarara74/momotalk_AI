@@ -1238,7 +1238,125 @@ describe('Route-Aware Sidebar Sublines: Bio on Root/Info, Latest Snippet on Chat
             expect(getStudentSubline(aru, '/')).toBe('なんでも解決するわよ！')
         })
     })
+
+    describe('MomoTalk Page 2 Stickers & AI Recognition High-Fidelity Support (TDD)', () => {
+        it('verifies all 29 stickers exist in public/stickers2 and are valid non-empty files', async () => {
+            const fs = await import('fs')
+            const path = await import('path')
+            const dir = path.resolve('public/stickers2')
+            expect(fs.existsSync(dir)).toBe(true)
+            const files = fs.readdirSync(dir).filter(f => f.endsWith('.png'))
+            expect(files.length).toBe(29)
+            for (const f of files) {
+                const stat = fs.statSync(path.join(dir, f))
+                expect(stat.size).toBeGreaterThan(10000)
+            }
+        })
+
+        it('verifies stickers2 list points to local stickers2 assets', async () => {
+            const { stickers2 } = await import('../assets/utils/stickers')
+            expect(stickers2.length).toBe(29)
+            for (const s of stickers2) {
+                expect(s).toContain('stickers2/ClanChat_Emoji_')
+                expect(s).not.toContain('/kivo/')
+            }
+        })
+
+        it('verifies all 29 stickers have precise, authentic Blue Archive descriptions', async () => {
+            const { getStickerDescription } = await import('../assets/utils/stickers')
+            
+            // 85: Aris "仲間になってください！"
+            expect(getStickerDescription('ClanChat_Emoji_85_Jp.png')).toContain('仲間になってください！')
+            // 86: Neru "ありがとな！"
+            expect(getStickerDescription('ClanChat_Emoji_86_Jp.png')).toContain('ありがとな！')
+            expect(getStickerDescription('ClanChat_Emoji_86_Jp.png')).toContain('ネル')
+            // 87: Yuuka "はぁ…"
+            expect(getStickerDescription('ClanChat_Emoji_87_Jp.png')).toContain('ユウカ')
+            expect(getStickerDescription('ClanChat_Emoji_87_Jp.png')).toContain('はぁ…')
+            // 88: Ako "えらいです"
+            expect(getStickerDescription('ClanChat_Emoji_88_Jp.png')).toContain('アコ')
+            expect(getStickerDescription('ClanChat_Emoji_88_Jp.png')).toContain('えらいです')
+            // 91: Fubuki "いいね〜"
+            expect(getStickerDescription('ClanChat_Emoji_91_Jp.png')).toContain('フブキ')
+            expect(getStickerDescription('ClanChat_Emoji_91_Jp.png')).toContain('いいね〜')
+            // 92: Koharu "はい、どうぞ"
+            expect(getStickerDescription('ClanChat_Emoji_92_Jp.png')).toContain('はい、どうぞ')
+            // 93: Izuna "サササッ！"
+            expect(getStickerDescription('ClanChat_Emoji_93_Jp.png')).toContain('イズナ')
+            expect(getStickerDescription('ClanChat_Emoji_93_Jp.png')).toContain('サササッ！')
+            // 96: Saki "怪しい…"
+            expect(getStickerDescription('ClanChat_Emoji_96_Jp.png')).toContain('サキ')
+            expect(getStickerDescription('ClanChat_Emoji_96_Jp.png')).toContain('怪しい…')
+            // 103: Aris "神ゲーです！"
+            expect(getStickerDescription('ClanChat_Emoji_103_Jp.png')).toContain('アリス')
+            expect(getStickerDescription('ClanChat_Emoji_103_Jp.png')).toContain('神ゲーです！')
+            // 104: Aru "そうよ"
+            expect(getStickerDescription('ClanChat_Emoji_104_Jp.png')).toContain('アル')
+            expect(getStickerDescription('ClanChat_Emoji_104_Jp.png')).toContain('そうよ')
+            // 105: Aru "そんなぁ！"
+            expect(getStickerDescription('ClanChat_Emoji_105_Jp.png')).toContain('アル')
+            expect(getStickerDescription('ClanChat_Emoji_105_Jp.png')).toContain('そんなぁ！')
+            // 106: Hifumi "ありがとうございます！"
+            expect(getStickerDescription('ClanChat_Emoji_106_Jp.png')).toContain('ヒフミ')
+            expect(getStickerDescription('ClanChat_Emoji_106_Jp.png')).toContain('ありがとうございます！')
+            // 107: Shiroko Santa
+            expect(getStickerDescription('ClanChat_Emoji_107_Jp.png')).toContain('シロコ')
+            expect(getStickerDescription('ClanChat_Emoji_107_Jp.png')).toContain('サンタ')
+            // 109: Tsurugi "ぎゃあああ"
+            expect(getStickerDescription('ClanChat_Emoji_109_Jp.png')).toContain('ツルギ')
+            expect(getStickerDescription('ClanChat_Emoji_109_Jp.png')).toContain('ぎゃあああ')
+            // 110: Mine "あの、先生……？"
+            expect(getStickerDescription('ClanChat_Emoji_110_Jp.png')).toContain('ミネ')
+            expect(getStickerDescription('ClanChat_Emoji_110_Jp.png')).toContain('あの、先生……？')
+            // 111: Fuuka crying
+            expect(getStickerDescription('ClanChat_Emoji_111_Jp.png')).toContain('フウカ')
+            // 141: Mika "こんにちは"
+            expect(getStickerDescription('ClanChat_Emoji_141_Jp.png')).toContain('ミカ')
+            expect(getStickerDescription('ClanChat_Emoji_141_Jp.png')).toContain('こんにちは')
+            // 143: Koharu angry
+            expect(getStickerDescription('ClanChat_Emoji_143_Jp.png')).toContain('コハル')
+            // 144: Seia "そうか…"
+            expect(getStickerDescription('ClanChat_Emoji_144_Jp.png')).toContain('セイア')
+            expect(getStickerDescription('ClanChat_Emoji_144_Jp.png')).toContain('そうか…')
+        })
+
+        it('verifies getStickerDescription matches local URLs and embedded HTML', async () => {
+            const { getStickerDescription } = await import('../assets/utils/stickers')
+            const direct = getStickerDescription('/momotalk/stickers2/ClanChat_Emoji_85_Jp.png')
+            expect(direct).toContain('仲間になってください！')
+
+            const html = getStickerDescription('<p><img src="/momotalk/stickers2/ClanChat_Emoji_85_Jp.png" /></p>')
+            expect(html).toContain('仲間になってください！')
+        })
+
+        it('verifies buildSystemPrompt contains MomoTalk sticker interpretation directives', async () => {
+            const { buildSystemPrompt } = await import('../assets/ai/prompts')
+            const aruPromptJp = buildSystemPrompt({ Name: 'アル', Id: 10000 } as any, 'jp')
+            expect(aruPromptJp).toContain('【MomoTalkスタンプの解釈ルール】')
+            expect(aruPromptJp).toContain('[スタンプを送信]')
+
+            const aruPromptKr = buildSystemPrompt({ Name: '알', Id: 10000 } as any, 'kr')
+            expect(aruPromptKr).toContain('【MomoTalk 스티커(스탬フ) 반응 지침】')
+
+            const aruPromptEn = buildSystemPrompt({ Name: 'Aru', Id: 10000 } as any, 'en')
+            expect(aruPromptEn).toContain('【MomoTalk Sticker Interpretation Rule】')
+        })
+
+        it('verifies talkHistory sticker message converts to descriptive text for AI context', async () => {
+            const { getStickerDescription } = await import('../assets/utils/stickers')
+            const historyItem = {
+                type: 1,
+                content: '<p><img src="/momotalk/stickers2/ClanChat_Emoji_104_Jp.png" /></p>'
+            }
+            const sDesc = getStickerDescription(historyItem.content)
+            const formatted = sDesc ? `[スタンプを送信] ${sDesc}` : historyItem.content
+            expect(formatted).toContain('[スタンプを送信]')
+            expect(formatted).toContain('アル')
+            expect(formatted).toContain('そうよ')
+        })
+    })
 })
+
 
 
 

@@ -502,10 +502,11 @@ export async function triggerAIReply(
         const history: ChatMessage[] = []
         const relevantTalks = talkHistory.talkHistory.slice(-12, -2) // 直前の発言まで
         for (const t of relevantTalks) {
+            const sDesc = getStickerDescription(t.content)
             if (t.type === 1) {
-                history.push({ role: 'user', content: t.content })
+                history.push({ role: 'user', content: sDesc ? `[スタンプを送信] ${sDesc}` : t.content })
             } else if (t.type === 0) {
-                history.push({ role: 'assistant', content: t.content })
+                history.push({ role: 'assistant', content: sDesc ? `[スタンプ] ${sDesc}` : t.content })
             }
         }
 
