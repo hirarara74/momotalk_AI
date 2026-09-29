@@ -374,6 +374,16 @@ onMounted(async () => {
             }
         }
     }
+
+    // モバイル環境でChatViewが表示された場合、自動的にチャット画面へスクロール
+    if (typeof window !== 'undefined' && window.innerWidth <= 1150) {
+        setTimeout(() => {
+            const root = document.getElementById('root')
+            if (root) {
+                root.scrollTo({ left: window.innerWidth, behavior: 'auto' })
+            }
+        }, 100)
+    }
 })
 
 let wakeupInterval: any = null
