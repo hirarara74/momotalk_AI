@@ -1,0 +1,24 @@
+{
+  "imageGenSetting": "圖片生成",
+  "imageGenEnabled": "允許學生發送照片",
+  "imageGenEnabledDesc": "聊天中請求自拍或照片時，學生將生成並發送符合情境的照片。",
+  "imageGenProvider": "圖片生成服務商",
+  "imageGenApiKey": "API金鑰 (BYOK)",
+  "imageGenApiKeyPlaceholder": "請輸入API金鑰",
+  "imageGenModel": "模型",
+  "pollinationsDesc": "完全免費·無需註冊 (Pollinations.ai)",
+  "falDesc": "超高速·高品質 (Fal.ai Flux Schnell)",
+  "togetherDesc": "FLUX.1 Schnell (Together AI)",
+  "openaiDesc": "畫質極高·高度穩定 (OpenAI DALL-E 3)",
+  "stabilityDesc": "動畫特化SDXL (Stability AI)",
+  "takingPhotoPlaceholder": "📷 拍攝中...",
+  "savePhoto": "保存圖片",
+  "photoGenerationFailed": "圖片生成失敗",
+  "imageGenKeyNoticePrefix": "※ API金鑰可從 ",
+  "imageGenKeyNoticeSuffix": " 獲取。",
+  "imageGenKeySecurityReassurance": "API金鑰僅保存在您的瀏覽器（localStorage）中，絕不會發送或收集至外部伺服器。",
+  "testConnection": "測試連線 (查詢餘額)",
+  "testingConnection": "測試中...",
+  "creditChargeLink": "儲值 Stability AI 餘額"
+}
+

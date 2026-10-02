@@ -204,15 +204,18 @@ export const talkHistory = reactive({
     
     setTalkContent(id: number, content: string) {
         const index: number = this.getTalkIndexById(id)
+        if (index === -1) return
         this.talkHistory[index].content = content
         this.setData()
     },
     setTalkName(id: number, name: string) {
         const index: number = this.getTalkIndexById(id)
+        if (index === -1) return
         this.talkHistory[index].Name = name
         this.setData()
     },
     setTalkFlag(index: number, flag: number) {
+        if (index < 0 || !this.talkHistory[index]) return
         this.talkHistory[index].flag = flag
         this.setData()
     },

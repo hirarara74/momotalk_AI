@@ -1,0 +1,24 @@
+{
+  "imageGenSetting": "写真・画像",
+  "imageGenEnabled": "生徒の写真送信を許可",
+  "imageGenEnabledDesc": "会話中に「自撮り送って」「今何してるの？」とお願いした際、生徒がシチュエーションに応じた写真を自動生成して返信します。",
+  "imageGenProvider": "画像生成プロバイダー",
+  "imageGenApiKey": "APIキー (BYOK)",
+  "imageGenApiKeyPlaceholder": "APIキーを入力してください",
+  "imageGenModel": "モデル",
+  "pollinationsDesc": "完全無料・登録不要（Pollinations.ai）",
+  "falDesc": "超高速・高品質（要APIキー: Fal.ai Flux Schnell）",
+  "togetherDesc": "FLUX.1 Schnell（要APIキー: Together AI）",
+  "openaiDesc": "超美麗・高安定（要APIキー: OpenAI DALL-E 3）",
+  "stabilityDesc": "アニメ特化SDXL（要APIキー: Stability AI）",
+  "takingPhotoPlaceholder": "📷 撮影中...",
+  "savePhoto": "画像を保存",
+  "photoGenerationFailed": "画像の生成に失敗しました",
+  "imageGenKeyNoticePrefix": "※ APIキーは ",
+  "imageGenKeyNoticeSuffix": " で取得できます。",
+  "imageGenKeySecurityReassurance": "APIキーはお使いのブラウザ内（localStorage）にのみ安全に保存され、外部サーバーへ送信・収集されることはありません。",
+  "testConnection": "接続テスト (残高確認)",
+  "testingConnection": "テスト中...",
+  "creditChargeLink": "Stability AI クレジットをチャージ"
+}
+

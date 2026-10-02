@@ -2,13 +2,21 @@ import { readFile } from '../imgUtils/readFile'
 import i18n from '@/locales/i18n'
 import { baseStudent, Talk } from '../requestUtils/interface'
 import { store } from '../storeUtils/store'
-import { talkHistory, recordStudentInteraction } from '../storeUtils/talkHistory'
+import { talkHistory, recordStudentInteraction, type PendingWakeupItem } from '../storeUtils/talkHistory'
 import { selectList } from '../storeUtils/selectList'
 import { myReExp } from '../utils/markdown'
 import { getAIProvider, buildSystemPrompt, type ChatMessage } from '../ai'
 import { isStudentSleeping, getWakeupSystemPromptModifier } from '../ai/sleepSchedule'
 import { playMomoTalkSound } from '../utils/sound'
 import { getStickerDescription } from '../utils/stickers'
+import {
+    detectPhotoIntent,
+    extractPhotoDirective,
+    buildPhotoPromptDirective,
+    generateStudentPhoto,
+    getStudentApologyMessage,
+    isPhotoUrl
+} from '../imageGen'
 
 const re = new myReExp()
 
@@ -282,10 +290,127 @@ export async function handleAIReplyTrigger(
 }
 
 /**
+ * バックグラウンド（現在チャットを開いていない）生徒の起床返信を非同期に生成・保存
+ */
+export async function triggerBackgroundWakeupReply(
+    item: PendingWakeupItem,
+    userMessages: string[]
+): Promise<void> {
+    const studentId = item.studentId
+    const apiKey = (store.aiApiKey || '').trim()
+
+    // 生徒の既存の保存済みチャット履歴を取得
+    const storageKey = 'momotalk_chat_' + studentId
+    let talks: Talk[] = []
+    if (typeof localStorage !== 'undefined') {
+        const saved = localStorage.getItem(storageKey)
+        if (saved) {
+            try {
+                talks = JSON.parse(saved)
+            } catch (e) {
+                console.error('[Wakeup] Failed to parse talks for student ' + studentId, e)
+            }
+        }
+    }
+
+    let avatar = ''
+    if (Array.isArray(talks)) {
+        const lastStudentTalk = [...talks].reverse().find(t => t.type === 0 && t.Avatar)
+        if (lastStudentTalk) {
+            avatar = lastStudentTalk.Avatar
+        }
+    }
+    if (!avatar && Array.isArray(selectList?.selectList)) {
+        const matchedStudent = selectList.selectList.find(s => s.Id === studentId)
+        if (matchedStudent) {
+            avatar = matchedStudent.Avatar || (Array.isArray(matchedStudent.Avatars) ? matchedStudent.Avatars[matchedStudent.cnt || 0] : '')
+        }
+    }
+
+    let finalDialogue = ''
+    if (!apiKey) {
+        finalDialogue = getApiKeyWarningNotice(store.language)
+    } else {
+        try {
+            const studentTarget: baseStudent = {
+                Id: studentId,
+                Name: item.studentName,
+                Avatar: avatar
+            }
+            const aiProvider = getAIProvider()
+            let systemPrompt = buildSystemPrompt(studentTarget, store.language)
+            systemPrompt += `\n\n${getWakeupSystemPromptModifier(item.studentName, userMessages)}`
+
+            // 過去のチャット履歴から直近のコンテキストを構築
+            const history: ChatMessage[] = []
+            const relevantTalks = talks.slice(-10)
+            for (const t of relevantTalks) {
+                const sDesc = getStickerDescription(t.content)
+                if (t.type === 1) {
+                    history.push({ role: 'user', content: sDesc ? `[スタンプを送信] ${sDesc}` : t.content })
+                } else if (t.type === 0) {
+                    history.push({ role: 'assistant', content: sDesc ? `[スタンプ] ${sDesc}` : t.content })
+                }
+            }
+
+            const promptInput = `（先生からの昨晩のメッセージ: 「${userMessages.join('」「')}」。朝起きたあなたのキャラクターとして、朝の挨拶と返信をしてください）`
+
+            let fullResponse = ''
+            await aiProvider.streamChat(
+                systemPrompt,
+                history,
+                promptInput,
+                (chunk) => {
+                    fullResponse = chunk
+                }
+            )
+
+            const { cleanText } = extractPhotoDirective(fullResponse)
+            finalDialogue = cleanText || fullResponse
+        } catch (error) {
+            console.error(`[Wakeup] Background AI reply failed for ${item.studentName}:`, error)
+            finalDialogue = '……ん、先生？（通信エラーが発生しました）'
+        }
+    }
+
+    // 返信メッセージを作成してチャット履歴に追加
+    const maxId = talks.length > 0 ? Math.max(...talks.map(t => t.Id || 0)) : 0
+    const replyTalk: Talk = {
+        Id: maxId + 1,
+        Name: item.studentName,
+        Avatar: avatar,
+        type: 0,
+        flag: 2,
+        content: re.md2html(finalDialogue),
+        time: Date.now()
+    }
+    talks.push(replyTalk)
+
+    if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(storageKey, JSON.stringify(talks))
+    }
+
+    // 生徒との最終対話時刻を記録（生徒一覧の並び順・未読通知を更新）
+    recordStudentInteraction(studentId, replyTalk.time)
+
+    // 受信音を再生
+    playMomoTalkSound('receive')
+
+    // 絆ランクの更新
+    const promptInput = userMessages.join(' ')
+    const sentiment = detectInteractionSentiment(promptInput, finalDialogue, studentId)
+    if (sentiment === 'negative') {
+        store.decreaseRelationshipRank(studentId)
+    } else {
+        store.increaseRelationshipRank(studentId)
+    }
+}
+
+/**
  * 保留中の就寝メッセージの起床時間をチェックし、起床返信をトリガー
  */
-export function checkAndTriggerPendingWakeups(now: Date = new Date()): void {
-    if (!store.aiEnabled || store.isAiResponding) return
+export async function checkAndTriggerPendingWakeups(now: Date = new Date()): Promise<void> {
+    if (!store.aiEnabled) return
 
     const nowTime = now.getTime()
     const activeStudentId = talkHistory.currentStudentId
@@ -293,15 +418,21 @@ export function checkAndTriggerPendingWakeups(now: Date = new Date()): void {
     for (const [studentIdStr, item] of Object.entries(talkHistory.pendingWakeups)) {
         const studentId = Number(studentIdStr)
         if (nowTime >= item.scheduledWakeTime) {
+            const userMessages = [...item.userMessages]
+            talkHistory.removePendingWakeup(studentId)
+
             if (activeStudentId === studentId) {
-                const userMessages = [...item.userMessages]
-                talkHistory.removePendingWakeup(studentId)
-                triggerAIReply(userMessages[userMessages.length - 1], {
-                    isWakeUp: true,
-                    userMessages,
-                    student: { Id: studentId, Name: item.studentName, Avatar: '' }
-                })
-                break
+                // 現在開いているチャットの生徒
+                if (!store.isAiResponding) {
+                    triggerAIReply(userMessages[userMessages.length - 1], {
+                        isWakeUp: true,
+                        userMessages,
+                        student: { Id: studentId, Name: item.studentName, Avatar: '' }
+                    })
+                }
+            } else {
+                // バックグラウンドの生徒：開いていなくても起床返信を生成・保存
+                await triggerBackgroundWakeupReply(item, userMessages)
             }
         }
     }
@@ -488,10 +619,18 @@ export async function triggerAIReply(
     let accumulatedText = ''
 
     try {
+        const isPhotoFeatureActive = store.imageGenEnabled !== false
+        const photoIntent = isPhotoFeatureActive
+            ? detectPhotoIntent(userMessageText)
+            : { isPhotoRequested: false, triggerType: 'none' as const }
+
         const aiProvider = getAIProvider()
         let systemPrompt = buildSystemPrompt(targetStudent, store.language)
         if (options?.isWakeUp && options?.userMessages) {
             systemPrompt += `\n\n${getWakeupSystemPromptModifier(targetStudent.Name, options.userMessages)}`
+        }
+        if (isPhotoFeatureActive && photoIntent.isPhotoRequested) {
+            systemPrompt += `\n\n【重要：写真/自撮りリクエスト時の注意事項】\nあなたは「${targetStudent.Name}」です。写真や自撮りを求められても、定型文を喋らず、あなた自身の口調・一人称・二人称・性格設定を100%厳格に守って反応してください。\n` + buildPhotoPromptDirective(store.language)
         }
 
         const promptInput = options?.isWakeUp
@@ -528,7 +667,8 @@ export async function triggerAIReply(
             (chunk) => {
                 if (signal.aborted || talkHistory.currentStudentId !== replyingStudentId) return
                 accumulatedText = chunk
-                talkHistory.setTalkContent(replyTalk.Id, re.md2html(accumulatedText))
+                const { cleanText } = extractPhotoDirective(accumulatedText)
+                talkHistory.setTalkContent(replyTalk.Id, re.md2html(cleanText || accumulatedText))
                 if (scroll_to_bottom) {
                     scroll_to_bottom.scrollTop = scroll_to_bottom.scrollHeight
                 }
@@ -538,12 +678,15 @@ export async function triggerAIReply(
 
         if (signal.aborted || talkHistory.currentStudentId !== replyingStudentId) return
 
+        const { cleanText, photoTags } = extractPhotoDirective(accumulatedText)
+        const finalDialogue = cleanText || accumulatedText
+
         // 完了
-        talkHistory.setTalkContent(replyTalk.Id, re.md2html(accumulatedText))
+        talkHistory.setTalkContent(replyTalk.Id, re.md2html(finalDialogue))
         talkHistory.saveCurrentStudentTalks()
         recordStudentInteraction(replyingStudentId, Date.now())
 
-        const sentiment = detectInteractionSentiment(promptInput, accumulatedText, targetStudent.Id)
+        const sentiment = detectInteractionSentiment(promptInput, finalDialogue, targetStudent.Id)
         if (sentiment === 'negative') {
             store.decreaseRelationshipRank(targetStudent.Id)
             playMomoTalkSound('receive')
@@ -556,6 +699,101 @@ export async function triggerAIReply(
             setTimeout(() => {
                 playMomoTalkSound('rankup')
             }, 250)
+        }
+
+        // Two-Stage Photo Generation (Perceived Latency UX Flow)
+        if (isPhotoFeatureActive && photoIntent.isPhotoRequested) {
+            const placeholderTalk: Talk = {
+                Id: talkHistory.talkId++,
+                Name: targetStudent.Name,
+                Avatar: targetStudent.Avatar,
+                type: 0,
+                flag: 0,
+                content: '📷 撮影中...',
+                time: Date.now()
+            }
+            talkHistory.pushTalk(placeholderTalk)
+            talkHistory.saveCurrentStudentTalks()
+
+            if (scroll_to_bottom) {
+                scroll_to_bottom.scrollTop = scroll_to_bottom.scrollHeight
+            }
+
+            const sceneTagsList: string[] = []
+            if (photoTags) {
+                const parsed = photoTags.split(',').map((t: string) => t.trim()).filter(Boolean)
+                sceneTagsList.push(...parsed)
+            } else if (photoIntent.sceneHint) {
+                sceneTagsList.push(photoIntent.sceneHint)
+            }
+
+            generateStudentPhoto(
+                targetStudent.Id,
+                {
+                    userMessage: userMessageText,
+                    studentReplyText: finalDialogue,
+                    sceneTags: sceneTagsList.length > 0 ? sceneTagsList : undefined,
+                    locale: store.language
+                },
+                {
+                    enabled: store.imageGenEnabled !== false,
+                    provider: store.imageGenProvider || 'pollinations',
+                    apiKey: store.imageGenApiKey,
+                    model: store.imageGenModel
+                }
+            ).then((imageUrl) => {
+                if (imageUrl) {
+                    if (talkHistory.currentStudentId === replyingStudentId) {
+                        if (talkHistory.getTalkIndexById(placeholderTalk.Id) !== -1) {
+                            talkHistory.setTalkContent(placeholderTalk.Id, imageUrl)
+                            talkHistory.saveCurrentStudentTalks()
+                        }
+                        if (isPhotoUrl(imageUrl)) {
+                            playMomoTalkSound('receive')
+                        }
+                        if (scroll_to_bottom) {
+                            scroll_to_bottom.scrollTop = scroll_to_bottom.scrollHeight
+                        }
+                    } else {
+                        try {
+                            const key = 'momotalk_chat_' + replyingStudentId
+                            const raw = localStorage.getItem(key)
+                            if (raw) {
+                                const talks: Talk[] = JSON.parse(raw)
+                                const target = talks.find(t => t.Id === placeholderTalk.Id)
+                                if (target) {
+                                    target.content = imageUrl
+                                    localStorage.setItem(key, JSON.stringify(talks))
+                                }
+                            }
+                        } catch (e) {
+                            console.warn('[ImageGen] Failed to update background student talks:', e)
+                        }
+                    }
+                }
+            }).catch((err) => {
+                console.error('[ImageGen] Photo generation failed:', err)
+                const apology = getStudentApologyMessage(targetStudent.Id, store.language)
+                if (talkHistory.currentStudentId === replyingStudentId) {
+                    if (talkHistory.getTalkIndexById(placeholderTalk.Id) !== -1) {
+                        talkHistory.setTalkContent(placeholderTalk.Id, apology)
+                        talkHistory.saveCurrentStudentTalks()
+                    }
+                } else {
+                    try {
+                        const key = 'momotalk_chat_' + replyingStudentId
+                        const raw = localStorage.getItem(key)
+                        if (raw) {
+                            const talks: Talk[] = JSON.parse(raw)
+                            const target = talks.find(t => t.Id === placeholderTalk.Id)
+                            if (target) {
+                                target.content = apology
+                                localStorage.setItem(key, JSON.stringify(talks))
+                            }
+                        }
+                    } catch (e) {}
+                }
+            })
         }
     } catch (err: any) {
         if (err.name === 'AbortError' || err.message === 'Aborted' || signal.aborted) {
@@ -655,6 +893,26 @@ const sendSticker = (char: baseStudent | number, url: string, flag: number = 2) 
  */
 const sendSenseiMessage = (text: string, flag: number = 2) => {
     sendText(1, text, flag)
+}
+
+/**
+ * 生徒の撮影中プレースホルダーメッセージをtalkHistoryに追加する
+ */
+export function pushStudentPlaceholderTalk(
+    student: baseStudent,
+    content: string = '📷 撮影中...'
+): Talk {
+    const placeholderTalk: Talk = {
+        Id: talkHistory.talkId++,
+        Name: student.Name,
+        Avatar: student.Avatar,
+        type: 0,
+        flag: 0,
+        content: content,
+        time: Date.now()
+    }
+    talkHistory.pushTalk(placeholderTalk)
+    return placeholderTalk
 }
 
 export { sendText, sendImage, sendSticker, sendSenseiMessage }

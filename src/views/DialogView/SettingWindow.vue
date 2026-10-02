@@ -1,14 +1,66 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { store } from '@/assets/storeUtils/store'
 import IconClose from '@/components/icons/IconClose.vue'
 import IconGithub from '@/components/icons/IconGithub.vue'
 import IconLog from '@/components/icons/IconLog.vue'
+import { testImageProviderConnection } from '@/assets/imageGen'
 
 const activePage = computed(() => store.settingDialogPage || 1)
 
 const showPage = (num: number) => {
-    store.settingDialogPage = num
+    store.setSettingDialogPage(num)
+}
+
+const showImageApiKey = ref(false)
+const isTestingImageKey = ref(false)
+const imageKeyTestResult = ref<{ success: boolean; warning?: boolean; message: string; details?: any } | null>(null)
+
+const runImageKeyTest = async () => {
+    if (isTestingImageKey.value) return
+    isTestingImageKey.value = true
+    imageKeyTestResult.value = null
+    try {
+        const result = await testImageProviderConnection(
+            store.imageGenProvider || 'pollinations',
+            store.imageGenApiKey,
+            store.imageGenModel
+        )
+        imageKeyTestResult.value = result
+    } catch (err: any) {
+        imageKeyTestResult.value = {
+            success: false,
+            message: `テスト失敗: ${err?.message || String(err)}`
+        }
+    } finally {
+        isTestingImageKey.value = false
+    }
+}
+
+
+const onImageProviderChange = () => {
+    if (store.imageGenProvider === 'pollinations') {
+        if (!store.imageGenModel || store.imageGenModel.includes('fal-ai') || store.imageGenModel.includes('black-forest-labs')) {
+            store.imageGenModel = 'flux'
+        }
+    } else if (store.imageGenProvider === 'fal') {
+        if (!store.imageGenModel || store.imageGenModel === 'flux' || store.imageGenModel.includes('black-forest-labs')) {
+            store.imageGenModel = 'fal-ai/flux/schnell'
+        }
+    } else if (store.imageGenProvider === 'together') {
+        if (!store.imageGenModel || store.imageGenModel === 'flux' || store.imageGenModel.includes('fal-ai')) {
+            store.imageGenModel = 'black-forest-labs/FLUX.1-schnell'
+        }
+    } else if (store.imageGenProvider === 'openai') {
+        if (!store.imageGenModel || !store.imageGenModel.startsWith('dall-e')) {
+            store.imageGenModel = 'dall-e-3'
+        }
+    } else if (store.imageGenProvider === 'stability') {
+        if (!store.imageGenModel || !store.imageGenModel.includes('stable-diffusion')) {
+            store.imageGenModel = 'stable-diffusion-xl-1024-v1-0'
+        }
+    }
+    store.setData()
 }
 
 const changeTheme = () => {
@@ -59,6 +111,10 @@ const onProviderChange = () => {
                     <li class="divider">/</li>
                     <li @click="showPage(2)" class="page-btn" :class="{ active: activePage === 2 }" id="page-2">
                         {{ $t('aiSetting') || 'AI' }}
+                    </li>
+                    <li class="divider">/</li>
+                    <li class="page-btn" :class="{ active: activePage === 3 }">
+                        <button class="tab-button" :class="{ active: activePage === 3 }" @click="store.setSettingDialogPage(3)">{{ $t('imageGenSetting') }}</button>
                     </li>
                 </ul>
 
@@ -319,6 +375,308 @@ const onProviderChange = () => {
                             </div>
                         </div>
                     </div>
+
+                    <!-- Page 3: 写真・画像設定 -->
+                    <div class="page" :style="{ transform: `translateX(${(activePage - 1) * -100}%)` }">
+                        <div class="dialog-content left-align" style="padding-top: 20px">
+                            <!-- 1. Enable / Disable Photo Generation Switch -->
+                            <div class="settings-row" style="justify-content: space-between; align-items: center;">
+                                <div style="display: flex; flex-direction: column; gap: 3px; max-width: 80%;">
+                                    <span class="row-label" style="font-size: 14px;">{{ $t('imageGenEnabled') }}</span>
+                                    <span style="font-size: 11px; color: #7f8c8d; line-height: 1.4;">{{ $t('imageGenEnabledDesc') }}</span>
+                                </div>
+                                <div class="row-controls" style="justify-content: flex-end; flex: 0 0 auto;">
+                                    <label class="custom-switch">
+                                        <input
+                                            type="checkbox"
+                                            v-model="store.imageGenEnabled"
+                                            @change="store.setData()"
+                                        />
+                                        <div class="switch-track">
+                                            <div class="switch-thumb"></div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- 2. Provider Selection -->
+                            <div class="settings-row settings-row--column" style="margin-top: 10px;">
+                                <span class="row-label">{{ $t('imageGenProvider') }}</span>
+                                <div class="row-controls" style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px;">
+                                    <label class="custom-radio" style="align-items: flex-start;">
+                                        <input
+                                            type="radio"
+                                            value="pollinations"
+                                            name="imageGenProvider"
+                                            v-model="store.imageGenProvider"
+                                            @change="onImageProviderChange()"
+                                        />
+                                        <span class="radio-mark" style="margin-top: 2px;"></span>
+                                        <div style="display: flex; flex-direction: column; gap: 2px;">
+                                            <span class="radio-text" style="font-weight: 500;">Pollinations.ai</span>
+                                            <span style="font-size: 11px; color: #7f8c8d;">{{ $t('pollinationsDesc') }}</span>
+                                        </div>
+                                    </label>
+
+                                    <label class="custom-radio" style="align-items: flex-start;">
+                                        <input
+                                            type="radio"
+                                            value="fal"
+                                            name="imageGenProvider"
+                                            v-model="store.imageGenProvider"
+                                            @change="onImageProviderChange()"
+                                        />
+                                        <span class="radio-mark" style="margin-top: 2px;"></span>
+                                        <div style="display: flex; flex-direction: column; gap: 2px;">
+                                            <span class="radio-text" style="font-weight: 500;">Fal.ai (BYOK)</span>
+                                            <span style="font-size: 11px; color: #7f8c8d;">{{ $t('falDesc') }}</span>
+                                        </div>
+                                    </label>
+
+                                    <label class="custom-radio" style="align-items: flex-start;">
+                                        <input
+                                            type="radio"
+                                            value="together"
+                                            name="imageGenProvider"
+                                            v-model="store.imageGenProvider"
+                                            @change="onImageProviderChange()"
+                                        />
+                                        <span class="radio-mark" style="margin-top: 2px;"></span>
+                                        <div style="display: flex; flex-direction: column; gap: 2px;">
+                                            <span class="radio-text" style="font-weight: 500;">Together AI (BYOK)</span>
+                                            <span style="font-size: 11px; color: #7f8c8d;">{{ $t('togetherDesc') }}</span>
+                                        </div>
+                                    </label>
+
+                                    <label class="custom-radio" style="align-items: flex-start;">
+                                        <input
+                                            type="radio"
+                                            value="openai"
+                                            name="imageGenProvider"
+                                            v-model="store.imageGenProvider"
+                                            @change="onImageProviderChange()"
+                                        />
+                                        <span class="radio-mark" style="margin-top: 2px;"></span>
+                                        <div style="display: flex; flex-direction: column; gap: 2px;">
+                                            <span class="radio-text" style="font-weight: 500;">OpenAI DALL-E (BYOK)</span>
+                                            <span style="font-size: 11px; color: #7f8c8d;">{{ $t('openaiDesc') }}</span>
+                                        </div>
+                                    </label>
+
+                                    <label class="custom-radio" style="align-items: flex-start;">
+                                        <input
+                                            type="radio"
+                                            value="stability"
+                                            name="imageGenProvider"
+                                            v-model="store.imageGenProvider"
+                                            @change="onImageProviderChange()"
+                                        />
+                                        <span class="radio-mark" style="margin-top: 2px;"></span>
+                                        <div style="display: flex; flex-direction: column; gap: 2px;">
+                                            <span class="radio-text" style="font-weight: 500;">Stability AI (BYOK)</span>
+                                            <span style="font-size: 11px; color: #7f8c8d;">{{ $t('stabilityDesc') }}</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- 3. BYOK API Key Input (when non-pollinations is selected) -->
+                            <div v-if="store.imageGenProvider !== 'pollinations'" class="settings-row settings-row--column" style="margin-top: 10px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span class="row-label">{{ $t('imageGenApiKey') }}</span>
+                                    <button
+                                        type="button"
+                                        class="key-toggle-btn"
+                                        @click="showImageApiKey = !showImageApiKey"
+                                        style="background: none; border: none; cursor: pointer; font-size: 12px; color: #2888e2; padding: 2px 4px;"
+                                    >
+                                        {{ showImageApiKey ? 'Hide' : 'Show' }}
+                                    </button>
+                                </div>
+                                <div style="position: relative; width: 100%;">
+                                    <input
+                                        :type="showImageApiKey ? 'text' : 'password'"
+                                        class="ai-input"
+                                        :placeholder="$t('imageGenApiKeyPlaceholder')"
+                                        v-model="store.imageGenApiKey"
+                                        @change="store.setData()"
+                                        style="width: 100%; box-sizing: border-box; padding: 8px 12px; border: 1px solid #dce5ec; border-radius: 6px; font-size: 14px; outline: none;"
+                                    />
+                                </div>
+                                <div class="api-key-hint" style="font-size: 12px; color: #8899a6; margin-top: 4px;">
+                                    <span v-if="store.imageGenProvider === 'fal'">
+                                        {{ $t('imageGenKeyNoticePrefix') }}<a href="https://fal.ai/dashboard/keys" target="_blank" rel="noopener noreferrer" style="color: #2888e2; text-decoration: underline;">Fal.ai Dashboard</a>{{ $t('imageGenKeyNoticeSuffix') }}
+                                    </span>
+                                    <span v-else-if="store.imageGenProvider === 'together'">
+                                        {{ $t('imageGenKeyNoticePrefix') }}<a href="https://api.together.ai/settings/api-keys" target="_blank" rel="noopener noreferrer" style="color: #2888e2; text-decoration: underline;">Together AI Settings</a>{{ $t('imageGenKeyNoticeSuffix') }}
+                                    </span>
+                                    <span v-else-if="store.imageGenProvider === 'openai'">
+                                        {{ $t('imageGenKeyNoticePrefix') }}<a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" style="color: #2888e2; text-decoration: underline;">OpenAI API Keys</a>{{ $t('imageGenKeyNoticeSuffix') }}
+                                    </span>
+                                    <span v-else-if="store.imageGenProvider === 'stability'">
+                                        {{ $t('imageGenKeyNoticePrefix') }}<a href="https://platform.stability.ai/account/keys" target="_blank" rel="noopener noreferrer" style="color: #2888e2; text-decoration: underline;">Stability AI Keys</a>{{ $t('imageGenKeyNoticeSuffix') }}
+                                    </span>
+                                </div>
+                                <div class="api-key-security-badge" style="font-size: 11px; color: #2e7d32; background: #e8f5e9; padding: 6px 10px; border-radius: 6px; margin-top: 6px; display: flex; align-items: flex-start; gap: 6px; line-height: 1.4;">
+                                    <span style="font-size: 13px; line-height: 1;">🔒</span>
+                                    <span>{{ $t('imageGenKeySecurityReassurance') }}</span>
+                                </div>
+
+                                <!-- Connection & Balance Test Action -->
+                                <div style="display: flex; gap: 8px; margin-top: 8px; align-items: center; flex-wrap: wrap;">
+                                    <button
+                                        type="button"
+                                        class="test-key-btn"
+                                        @click="runImageKeyTest"
+                                        :disabled="isTestingImageKey || !store.imageGenApiKey"
+                                        style="padding: 5px 12px; font-size: 12px; font-weight: 500; background: #2888e2; color: #fff; border: none; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 4px;"
+                                        :style="{ opacity: (!store.imageGenApiKey || isTestingImageKey) ? 0.6 : 1, cursor: (!store.imageGenApiKey || isTestingImageKey) ? 'not-allowed' : 'pointer' }"
+                                    >
+                                        <span v-if="isTestingImageKey">⏳ {{ $t('testingConnection') }}</span>
+                                        <span v-else>🔍 {{ $t('testConnection') }}</span>
+                                    </button>
+                                    <span v-if="store.imageGenProvider === 'stability'" style="font-size: 11px;">
+                                        <a href="https://platform.stability.ai/account/credits" target="_blank" rel="noopener noreferrer" style="color: #e67e22; text-decoration: underline;">
+                                            💳 {{ $t('creditChargeLink') }}
+                                        </a>
+                                    </span>
+                                </div>
+
+                                <!-- Test Result Card -->
+                                <div
+                                    v-if="imageKeyTestResult"
+                                    style="margin-top: 8px; padding: 8px 10px; border-radius: 6px; font-size: 12px; line-height: 1.4; display: flex; flex-direction: column; gap: 4px;"
+                                    :style="{
+                                        background: imageKeyTestResult.warning ? '#fff8e1' : (imageKeyTestResult.success ? '#e8f5e9' : '#ffebee'),
+                                        color: imageKeyTestResult.warning ? '#f57c00' : (imageKeyTestResult.success ? '#2e7d32' : '#c62828'),
+                                        border: `1px solid ${imageKeyTestResult.warning ? '#ffe082' : (imageKeyTestResult.success ? '#c8e6c9' : '#ffcdd2')}`
+                                    }"
+                                >
+                                    <div style="display: flex; align-items: center; gap: 6px; font-weight: 600;">
+                                        <span>{{ imageKeyTestResult.warning ? '⚠️' : (imageKeyTestResult.success ? '✅' : '❌') }}</span>
+                                        <span>{{ imageKeyTestResult.message }}</span>
+                                    </div>
+                                    <div v-if="imageKeyTestResult.warning && store.imageGenProvider === 'stability'" style="margin-top: 2px;">
+                                        <span>👉 </span>
+                                        <a href="https://platform.stability.ai/account/credits" target="_blank" rel="noopener noreferrer" style="color: #d84315; text-decoration: underline; font-weight: 500;">
+                                            Stability AI ダッシュボードでクレジットを購入する
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 4. Model Selection & Chips -->
+                            <div class="settings-row settings-row--column" style="margin-top: 10px;">
+                                <span class="row-label">{{ $t('imageGenModel') }}</span>
+                                <input
+                                    type="text"
+                                    class="ai-input"
+                                    :placeholder="store.imageGenProvider === 'fal' ? 'fal-ai/flux/schnell' : (store.imageGenProvider === 'together' ? 'black-forest-labs/FLUX.1-schnell' : (store.imageGenProvider === 'openai' ? 'dall-e-3' : (store.imageGenProvider === 'stability' ? 'stable-diffusion-xl-1024-v1-0' : 'flux')))"
+                                    v-model="store.imageGenModel"
+                                    @change="store.setData()"
+                                    style="width: 100%; box-sizing: border-box; padding: 8px 12px; border: 1px solid #dce5ec; border-radius: 6px; font-size: 14px; outline: none;"
+                                />
+                                <div v-if="store.imageGenProvider === 'pollinations'" style="display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
+                                    <button
+                                        type="button"
+                                        class="model-chip"
+                                        :class="{ active: store.imageGenModel === 'flux' || !store.imageGenModel }"
+                                        @click="store.imageGenModel = 'flux'; store.setData()"
+                                    >
+                                        flux (推奨・安定アニメ)
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="model-chip"
+                                        :class="{ active: store.imageGenModel === 'sana' }"
+                                        @click="store.imageGenModel = 'sana'; store.setData()"
+                                    >
+                                        sana (イラスト調)
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="model-chip"
+                                        :class="{ active: store.imageGenModel === 'turbo' }"
+                                        @click="store.imageGenModel = 'turbo'; store.setData()"
+                                    >
+                                        turbo (超高速)
+                                    </button>
+                                </div>
+                                <div v-else-if="store.imageGenProvider === 'fal'" style="display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
+                                    <button
+                                        type="button"
+                                        class="model-chip"
+                                        :class="{ active: store.imageGenModel === 'fal-ai/illustrious' || (!store.imageGenModel && store.imageGenProvider === 'fal') }"
+                                        @click="store.imageGenModel = 'fal-ai/illustrious'; store.setData()"
+                                    >
+                                        illustrious (★ アニメ最高峰)
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="model-chip"
+                                        :class="{ active: store.imageGenModel === 'fal-ai/animagine-xl-3.1' }"
+                                        @click="store.imageGenModel = 'fal-ai/animagine-xl-3.1'; store.setData()"
+                                    >
+                                        animagine-xl-3.1 (アニメ特化)
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="model-chip"
+                                        :class="{ active: store.imageGenModel === 'fal-ai/flux/schnell' }"
+                                        @click="store.imageGenModel = 'fal-ai/flux/schnell'; store.setData()"
+                                    >
+                                        flux/schnell (超高速)
+                                    </button>
+                                </div>
+                                <div v-else-if="store.imageGenProvider === 'together'" style="display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
+                                    <button
+                                        type="button"
+                                        class="model-chip"
+                                        :class="{ active: store.imageGenModel === 'black-forest-labs/FLUX.1-schnell' || !store.imageGenModel }"
+                                        @click="store.imageGenModel = 'black-forest-labs/FLUX.1-schnell'; store.setData()"
+                                    >
+                                        FLUX.1-schnell (Recommended)
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="model-chip"
+                                        :class="{ active: store.imageGenModel === 'stabilityai/stable-diffusion-xl-base-1.0' }"
+                                        @click="store.imageGenModel = 'stabilityai/stable-diffusion-xl-base-1.0'; store.setData()"
+                                    >
+                                        SDXL 1.0 (イラスト調)
+                                    </button>
+                                </div>
+                                <div v-else-if="store.imageGenProvider === 'openai'" style="display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
+                                    <button
+                                        type="button"
+                                        class="model-chip"
+                                        :class="{ active: store.imageGenModel === 'dall-e-3' || !store.imageGenModel }"
+                                        @click="store.imageGenModel = 'dall-e-3'; store.setData()"
+                                    >
+                                        dall-e-3 (★ 超美麗・高精細)
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="model-chip"
+                                        :class="{ active: store.imageGenModel === 'dall-e-2' }"
+                                        @click="store.imageGenModel = 'dall-e-2'; store.setData()"
+                                    >
+                                        dall-e-2 (標準/高速)
+                                    </button>
+                                </div>
+                                <div v-else-if="store.imageGenProvider === 'stability'" style="display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
+                                    <button
+                                        type="button"
+                                        class="model-chip"
+                                        :class="{ active: store.imageGenModel === 'stable-diffusion-xl-1024-v1-0' || !store.imageGenModel }"
+                                        @click="store.imageGenModel = 'stable-diffusion-xl-1024-v1-0'; store.setData()"
+                                    >
+                                        SDXL 1.0 (★ アニメプリセット)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="popper-content__footer-links">
@@ -349,5 +707,27 @@ const onProviderChange = () => {
 
 .ai-input:focus {
     border-color: var(--theme_title_color) !important;
+}
+
+.tab-button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    outline: none;
+
+    &.active {
+        color: var(--theme_title_color);
+        font-weight: bold;
+    }
+}
+
+.featured .page {
+    width: 100%;
+    min-width: 100%;
+    flex-shrink: 0;
 }
 </style>

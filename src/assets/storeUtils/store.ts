@@ -2,6 +2,21 @@ import { reactive } from 'vue'
 import i18n from '@/locales/i18n'
 import { talkHistory } from './talkHistory'
 import { selectList } from './selectList'
+import i18nJpJson from '../i18n/i18n-jp.json'
+import i18nEnJson from '../i18n/i18n-en.json'
+import i18nKrJson from '../i18n/i18n-kr.json'
+import i18nZhJson from '../i18n/i18n-zh.json'
+import i18nTwJson from '../i18n/i18n-tw.json'
+
+try {
+    i18n.global.mergeLocaleMessage('jp', i18nJpJson)
+    i18n.global.mergeLocaleMessage('en', i18nEnJson)
+    i18n.global.mergeLocaleMessage('kr', i18nKrJson)
+    i18n.global.mergeLocaleMessage('zh', i18nZhJson)
+    i18n.global.mergeLocaleMessage('tw', i18nTwJson)
+} catch (e) {
+    console.warn('Failed to merge imageGen locale messages:', e)
+}
 
 export const store = reactive({
     language: 'jp',
@@ -34,8 +49,21 @@ export const store = reactive({
     soundVolume: 0.7,
     sleepSimulationEnabled: false,
 
+    // Image Generation Extension Settings
+    imageGenEnabled: true,
+    imageGenProvider: 'pollinations' as 'pollinations' | 'fal' | 'together' | 'openai' | 'stability',
+    imageGenApiKey: '',
+    imageGenModel: '',
+    showImageModal: false,
+    modalImageUrl: '',
+    modalStudentName: '',
+
+    setSettingDialogPage(page: number) {
+        this.settingDialogPage = Math.min(Math.max(1, page), 3)
+    },
+
     openSettingDialog(page: number = 1) {
-        this.settingDialogPage = Math.min(Math.max(1, page), 2)
+        this.settingDialogPage = Math.min(Math.max(1, page), 3)
         this.showSettingDialog = true
     },
 
@@ -95,6 +123,10 @@ export const store = reactive({
         localStorage.setItem('ai-model', JSON.stringify(this.aiModel))
         localStorage.setItem('ai-base-url', JSON.stringify(this.aiBaseUrl))
         localStorage.setItem('student-ranks', JSON.stringify(this.studentRanks))
+        localStorage.setItem('image-gen-enabled', JSON.stringify(this.imageGenEnabled))
+        localStorage.setItem('image-gen-provider', JSON.stringify(this.imageGenProvider))
+        localStorage.setItem('image-gen-api-key', JSON.stringify(this.imageGenApiKey))
+        localStorage.setItem('image-gen-model', JSON.stringify(this.imageGenModel))
     },
     getData(options?: { urlSearch?: string, navigatorLang?: string }) {
         talkHistory.getData()
@@ -164,6 +196,43 @@ export const store = reactive({
             try { this.studentRanks = JSON.parse(savedRanks) } catch {}
         }
 
+        const imageGenEnabledData = localStorage.getItem('image-gen-enabled')
+        if (imageGenEnabledData != null) {
+            try { this.imageGenEnabled = JSON.parse(imageGenEnabledData) } catch { this.imageGenEnabled = true }
+        } else {
+            this.imageGenEnabled = true
+        }
+
+        const imageGenProviderData = localStorage.getItem('image-gen-provider')
+        if (imageGenProviderData != null) {
+            try {
+                const parsed = JSON.parse(imageGenProviderData)
+                if (parsed === 'pollinations' || parsed === 'fal' || parsed === 'together' || parsed === 'openai' || parsed === 'stability') {
+                    this.imageGenProvider = parsed
+                } else {
+                    this.imageGenProvider = 'pollinations'
+                }
+            } catch {
+                this.imageGenProvider = 'pollinations'
+            }
+        } else {
+            this.imageGenProvider = 'pollinations'
+        }
+
+        const imageGenApiKeyData = localStorage.getItem('image-gen-api-key')
+        if (imageGenApiKeyData != null) {
+            try { this.imageGenApiKey = JSON.parse(imageGenApiKeyData) } catch { this.imageGenApiKey = '' }
+        } else {
+            this.imageGenApiKey = ''
+        }
+
+        const imageGenModelData = localStorage.getItem('image-gen-model')
+        if (imageGenModelData != null) {
+            try { this.imageGenModel = JSON.parse(imageGenModelData) } catch { this.imageGenModel = '' }
+        } else {
+            this.imageGenModel = ''
+        }
+
         // Automatic API key check: if not configured, prompt API settings dialog immediately
         this.checkAndPromptApiKey()
     },
@@ -171,6 +240,10 @@ export const store = reactive({
         talkHistory.resetData()
         selectList.resetData()
         this.sleepSimulationEnabled = false
+        this.imageGenEnabled = true
+        this.imageGenProvider = 'pollinations'
+        this.imageGenApiKey = ''
+        this.imageGenModel = ''
         this.setData()
     }
 })

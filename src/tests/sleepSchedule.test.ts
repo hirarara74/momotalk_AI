@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import {
     STUDENT_SLEEP_SCHEDULES,
     getStudentSleepSchedule,
@@ -250,6 +250,113 @@ describe('Student Sleep & Wakeup Schedule (TDD)', () => {
             checkAndTriggerPendingWakeups(afterWake)
             // Pending wakeup should be consumed
             expect(talkHistory.getPendingWakeup(10010)).toBeUndefined()
+        })
+
+        it('checkAndTriggerPendingWakeups triggers reply for background student even if another chat is active', async () => {
+            const { checkAndTriggerPendingWakeups } = await import('../assets/chatUtils/send')
+            const { talkHistory } = await import('../assets/storeUtils/talkHistory')
+            const { store } = await import('../assets/storeUtils/store')
+            const { getAIProvider } = await import('../assets/ai')
+
+            store.aiEnabled = true
+            store.aiApiKey = 'mock_api_key'
+
+            const { GroqProvider } = await import('../assets/ai/groq')
+            vi.spyOn(GroqProvider.prototype, 'streamChat').mockImplementation(async (_sys, _hist, _prompt, onChunk) => {
+                const reply = 'うへ〜、先生おはよ〜。よく寝た〜'
+                onChunk?.(reply)
+                return reply
+            })
+
+            // Set current chat to another student (e.g. Arona: 9999)
+            talkHistory.currentStudentId = 9999
+            talkHistory.talkHistory = [
+                { Id: 1, Name: 'アロナ', Avatar: '', type: 0, flag: 2, content: '先生、こんにちは！', time: Date.now() }
+            ]
+
+            // Setup Hoshino (10005) with previous messages in localStorage
+            const hoshinoId = 10005
+            const hoshinoInitialTalks = [
+                { Id: 10, Name: '小鳥遊ホシノ', Avatar: '', type: 0, flag: 2, content: 'うへ〜、おやすみ〜', time: Date.now() - 36000000 },
+                { Id: 11, Name: '先生', Avatar: '', type: 1, flag: 2, content: 'ホシノ、明日朝起こしてね', time: Date.now() - 30000000 }
+            ]
+            localStorage.setItem('momotalk_chat_' + hoshinoId, JSON.stringify(hoshinoInitialTalks))
+
+            const wakeTime = new Date(2026, 8, 28, 8, 30).getTime()
+            talkHistory.enqueuePendingWakeup(hoshinoId, '小鳥遊ホシノ', 'ホシノ、明日朝起こしてね', wakeTime)
+
+            // Current time reaches Hoshino's wake-up time (08:35 AM)
+            const afterWake = new Date(2026, 8, 28, 8, 35)
+            await checkAndTriggerPendingWakeups(afterWake)
+
+            // 1. Pending wakeup must be consumed
+            expect(talkHistory.getPendingWakeup(hoshinoId)).toBeUndefined()
+
+            // 2. Active chat (Arona) should NOT be polluted with Hoshino's reply
+            expect(talkHistory.talkHistory.length).toBe(1)
+            expect(talkHistory.talkHistory[0].Name).toBe('アロナ')
+
+            // 3. Background student (Hoshino)'s chat in localStorage must contain the wakeup reply
+            const updatedHoshinoData = localStorage.getItem('momotalk_chat_' + hoshinoId)
+            expect(updatedHoshinoData).toBeDefined()
+            const hoshinoTalks = JSON.parse(updatedHoshinoData!)
+            expect(hoshinoTalks.length).toBeGreaterThan(2)
+            const lastHoshinoTalk = hoshinoTalks[hoshinoTalks.length - 1]
+            expect(lastHoshinoTalk.type).toBe(0) // Student reply
+            expect(lastHoshinoTalk.Name).toBe('小鳥遊ホシノ')
+        })
+
+        it('checkAndTriggerPendingWakeups handles multiple background students when no chat is open (currentStudentId = 0)', async () => {
+            const { checkAndTriggerPendingWakeups } = await import('../assets/chatUtils/send')
+            const { talkHistory } = await import('../assets/storeUtils/talkHistory')
+            const { store } = await import('../assets/storeUtils/store')
+            const { GroqProvider } = await import('../assets/ai/groq')
+
+            store.aiEnabled = true
+            store.aiApiKey = 'mock_api_key'
+
+            vi.spyOn(GroqProvider.prototype, 'streamChat').mockImplementation(async (sys, _hist, _prompt, onChunk) => {
+                const reply = sys.includes('シロコ') ? 'ん、先生おはよ。' : '……おはよう、先生。'
+                onChunk?.(reply)
+                return reply
+            })
+
+            // No chat open
+            talkHistory.currentStudentId = 0
+            talkHistory.talkHistory = []
+
+            // Setup Shiroko (10010) and Hina (10004)
+            const shirokoId = 10010
+            const hinaId = 10004
+            localStorage.setItem('momotalk_chat_' + shirokoId, JSON.stringify([
+                { Id: 1, Name: '砂狼シロコ', Avatar: '', type: 0, flag: 2, content: 'ん、おやすみ', time: Date.now() - 36000000 },
+                { Id: 2, Name: '先生', Avatar: '', type: 1, flag: 2, content: 'シロコ、明日走ろう', time: Date.now() - 30000000 }
+            ]))
+            localStorage.setItem('momotalk_chat_' + hinaId, JSON.stringify([
+                { Id: 1, Name: '空崎ヒナ', Avatar: '', type: 0, flag: 2, content: '……おやすみなさい', time: Date.now() - 36000000 },
+                { Id: 2, Name: '先生', Avatar: '', type: 1, flag: 2, content: 'ヒナ、お疲れ様', time: Date.now() - 30000000 }
+            ]))
+
+            const wakeTime = new Date(2026, 8, 28, 6, 0).getTime()
+            talkHistory.enqueuePendingWakeup(shirokoId, '砂狼シロコ', 'シロコ、明日走ろう', wakeTime)
+            talkHistory.enqueuePendingWakeup(hinaId, '空崎ヒナ', 'ヒナ、お疲れ様', wakeTime)
+
+            // Trigger wakeups at 06:10 AM
+            const afterWake = new Date(2026, 8, 28, 6, 10)
+            await checkAndTriggerPendingWakeups(afterWake)
+
+            // Both wakeups should be consumed
+            expect(talkHistory.getPendingWakeup(shirokoId)).toBeUndefined()
+            expect(talkHistory.getPendingWakeup(hinaId)).toBeUndefined()
+
+            // Both students should have received their replies in localStorage
+            const shirokoTalks = JSON.parse(localStorage.getItem('momotalk_chat_' + shirokoId)!)
+            expect(shirokoTalks.length).toBe(3)
+            expect(shirokoTalks[2].content).toContain('ん、先生おはよ')
+
+            const hinaTalks = JSON.parse(localStorage.getItem('momotalk_chat_' + hinaId)!)
+            expect(hinaTalks.length).toBe(3)
+            expect(hinaTalks[2].content).toContain('おはよう、先生')
         })
     })
 })
