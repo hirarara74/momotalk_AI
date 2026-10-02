@@ -1,0 +1,24 @@
+{
+  "imageGenSetting": "Photo Gen",
+  "imageGenEnabled": "Enable Student Photos",
+  "imageGenEnabledDesc": "When asking students for photos or selfies in chat, they will generate and send situational photos.",
+  "imageGenProvider": "Image Generation Provider",
+  "imageGenApiKey": "API Key (BYOK)",
+  "imageGenApiKeyPlaceholder": "Enter API Key",
+  "imageGenModel": "Model",
+  "pollinationsDesc": "Free & No Key Required (Pollinations.ai)",
+  "falDesc": "Ultra Fast & High Quality (Fal.ai Flux Schnell)",
+  "togetherDesc": "FLUX.1 Schnell (Together AI)",
+  "openaiDesc": "High Quality & Highly Reliable (OpenAI DALL-E 3)",
+  "stabilityDesc": "Anime SDXL (Stability AI)",
+  "takingPhotoPlaceholder": "📷 Taking photo...",
+  "savePhoto": "Save Photo",
+  "photoGenerationFailed": "Failed to generate photo",
+  "imageGenKeyNoticePrefix": "Get API key from ",
+  "imageGenKeyNoticeSuffix": ".",
+  "imageGenKeySecurityReassurance": "API key is stored locally in your browser (localStorage) and never transmitted to external servers.",
+  "testConnection": "Test Connection / Balance",
+  "testingConnection": "Testing...",
+  "creditChargeLink": "Buy Stability AI Credits"
+}
+

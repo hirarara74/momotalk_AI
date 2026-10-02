@@ -1,0 +1,24 @@
+{
+  "imageGenSetting": "사진 생성",
+  "imageGenEnabled": "학생 사진 전송 허용",
+  "imageGenEnabledDesc": "채팅에서 사진이나 셀카를 요청하면 학생이 상황에 맞는 사진을 생성하여 전송합니다.",
+  "imageGenProvider": "이미지 생성 제공자",
+  "imageGenApiKey": "API 키 (BYOK)",
+  "imageGenApiKeyPlaceholder": "API 키를 입력하세요",
+  "imageGenModel": "모델",
+  "pollinationsDesc": "완전 무료·등록 불필요 (Pollinations.ai)",
+  "falDesc": "초고속·고품질 (Fal.ai Flux Schnell)",
+  "togetherDesc": "FLUX.1 Schnell (Together AI)",
+  "openaiDesc": "초고품질·안정적 (OpenAI DALL-E 3)",
+  "stabilityDesc": "애니메이션 특화 SDXL (Stability AI)",
+  "takingPhotoPlaceholder": "📷 촬영 중...",
+  "savePhoto": "사진 저장",
+  "photoGenerationFailed": "이미지 생성 실패",
+  "imageGenKeyNoticePrefix": "※ API 키는 ",
+  "imageGenKeyNoticeSuffix": " 에서 발급받을 수 있습니다.",
+  "imageGenKeySecurityReassurance": "API 키는 브라우저(localStorage)에만 안전하게 저장되며 외부 서버로 전송되지 않습니다.",
+  "testConnection": "연결 테스트 (잔액 확인)",
+  "testingConnection": "테스트 중...",
+  "creditChargeLink": "Stability AI 크레딧 충전"
+}
+

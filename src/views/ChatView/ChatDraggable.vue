@@ -1,10 +1,21 @@
 <script setup lang="ts">
 import TypingAnimation from '@/components/TypingAnimation.vue'
+import ImageModalViewer from '@/components/ImageModalViewer.vue'
 import ChatBlock from './ChatBlock.vue'
 import ReplyBlock from './ReplyBlock.vue'
 import { isMessageTyping } from '@/assets/chatUtils/send'
 import { formatChatTime, formatChatDate, isDifferentDay } from '@/assets/storeUtils/talkHistory'
 import { resolveCanonicalStudent } from '@/assets/ai/prompts'
+import { isPhotoUrl, isPhotoFailed } from '@/assets/imageGen'
+
+const isShootingPlaceholder = (content: string): boolean => {
+    if (!content || typeof content !== 'string') return false
+    return (
+        content === '📷 撮影中...' ||
+        content === '[SHOOTING_PHOTO]' ||
+        content === '📷 撮影中'
+    )
+}
 
 const getLocalizedStudentName = (name: string): string => {
     if (!name || name === 'sensei') return name
@@ -26,6 +37,7 @@ const shouldShowDateDivider = (index: number, element: any, tasks: any[]) => {
 </script>
 
 <template>
+    <image-modal-viewer />
     <draggable :list="tasks" :group="{ name: 'g1' }" item-key="id" @end="checkMove" :disabled="!store.draggable">
         <template #item="{ element, index }">
             <div class="chat-item-wrapper">
@@ -96,10 +108,21 @@ const shouldShowDateDivider = (index: number, element: any, tasks: any[]) => {
                                 <chat-block :element="element"/>
                             </div>
                         </div>
+                        <!-- 撮影中プレースホルダー -->
+                        <div
+                            class="box shooting-box"
+                            v-else-if="isShootingPlaceholder(element.content)"
+                        >
+                            <div class="shooting-indicator">
+                                <span class="camera-icon">📷</span>
+                                <span class="shooting-text">{{ $t('takingPhotoPlaceholder') || '📷 撮影中...' }}</span>
+                                <typing-animation class="shooting-dots" />
+                            </div>
+                        </div>
                         <!-- 图片消息 -->
                         <div
                             class="box img"
-                            v-else-if="checkImg(element.content)"
+                            v-else-if="checkImg(element.content) || isPhotoUrl(element.content)"
                         >
                             <typing-animation
                                 class="loading"
@@ -109,7 +132,9 @@ const shouldShowDateDivider = (index: number, element: any, tasks: any[]) => {
                                 v-else
                                 :src="element.content"
                                 class="chat-img"
-                                @click="changeImage($event, element.Id)"
+                                referrerpolicy="no-referrer"
+                                @click="handleImageClick($event, element)"
+                                @error="handleImageError($event, element)"
                             />
                         </div>
                         <!-- 文本消息 -->
@@ -118,7 +143,17 @@ const shouldShowDateDivider = (index: number, element: any, tasks: any[]) => {
                                 class="loading"
                                 v-if="isMessageTyping(element)"
                             ></typing-animation>
-                            <chat-block v-else :element="element"/>
+                            <template v-else>
+                                <chat-block :element="element"/>
+                                <div
+                                    v-if="element.type === 0 && element._originalUrl && isPhotoFailedText(element.content)"
+                                    class="photo-retry-banner"
+                                    @click="retryPhoto(element)"
+                                    style="margin-top: 6px; font-size: 11px; color: #2888e2; cursor: pointer; display: flex; align-items: center; gap: 4px; user-select: none;"
+                                >
+                                    <span>🔄 写真を再読み込みする</span>
+                                </div>
+                            </template>
                         </div>
                         <div class="chat-meta" v-if="element.time && !isMessageTyping(element)">
                             <span class="chat-read" v-if="element.type === 1">{{ $t('readStatus') }}</span>
@@ -159,11 +194,12 @@ export default {
         }
     },
     components: {
-    draggable,
-    TypingAnimation,
-    ChatBlock,
-    ReplyBlock
-},
+        draggable,
+        TypingAnimation,
+        ChatBlock,
+        ReplyBlock,
+        ImageModalViewer
+    },
     methods: {
         changeImage(evt: Event, id: number) {
             var reader = new FileReader()
@@ -173,6 +209,80 @@ export default {
                 talkHistory.setTalkContent(id, reader.result as string)
             })
             readFile(reader)
+        },
+        handleImageClick(evtOrElement: any, elementOrNone?: any) {
+            let evt: Event | undefined
+            let element: any
+            if (elementOrNone && typeof elementOrNone === 'object' && 'content' in elementOrNone) {
+                evt = evtOrElement as Event
+                element = elementOrNone
+            } else {
+                element = evtOrElement
+            }
+            if (!element) return
+
+            if (element.type === 0) {
+                store.showImageModal = true
+                store.modalImageUrl = element.content
+                store.modalStudentName = element.Name
+            } else if (element.type === 1) {
+                if (evt) {
+                    this.changeImage(evt, element.Id)
+                } else {
+                    const fakeEvt = { target: document.querySelector(`img[src="${element.content}"]`) } as any
+                    this.changeImage(fakeEvt, element.Id)
+                }
+            }
+        },
+        handleImageError(evt: Event, element: any) {
+            console.warn('[ChatDraggable] Image failed to load:', element?.content)
+            if (element && element.type === 0) {
+                element._retryCount = (element._retryCount || 0) + 1
+                if (!element._originalUrl && isPhotoUrl(element.content)) {
+                    element._originalUrl = element.content
+                }
+
+                if (element._retryCount <= 2 && element._originalUrl && isPhotoUrl(element._originalUrl)) {
+                    console.log(`[ChatDraggable] Retrying photo load (attempt ${element._retryCount}/2)...`)
+                    const base = element._originalUrl.replace(/[?&]retry=\d+/g, '')
+                    const newSeed = Math.floor(Math.random() * 1000000)
+                    let newUrl = base.replace(/([?&]seed=)\d+/g, `$1${newSeed}`)
+                    if (!newUrl.includes('seed=')) {
+                        newUrl += `${newUrl.includes('?') ? '&' : '?'}seed=${newSeed}`
+                    }
+                    newUrl += `&retry=${element._retryCount}`
+                    element.content = newUrl
+                    return
+                }
+
+                const studentName = element.Name || ''
+                element.content = `（📷 ${studentName}: 写真の送受信に失敗しました。カメラまたは回線の調子が悪いようです）`
+                talkHistory.setData()
+            }
+        },
+        isPhotoUrl(content: string) {
+            return isPhotoUrl(content)
+        },
+        isPhotoFailedText(content: string) {
+            return isPhotoFailed(content)
+        },
+        retryPhoto(element: any) {
+            if (element && element._originalUrl) {
+                element._retryCount = 0
+                const newSeed = Math.floor(Math.random() * 1000000)
+                const base = element._originalUrl.replace(/[?&]retry=\d+/g, '').replace(/([?&]seed=)\d+/g, '')
+                const sep = base.includes('?') ? '&' : '?'
+                element.content = `${base}${sep}seed=${newSeed}`
+                talkHistory.setData()
+            }
+        },
+        isShootingPlaceholder(content: string) {
+            if (!content || typeof content !== 'string') return false
+            return (
+                content === '📷 撮影中...' ||
+                content === '[SHOOTING_PHOTO]' ||
+                content === '📷 撮影中'
+            )
         },
         checkMove(e: any) {
             // 拖动后设置 flag => 样式

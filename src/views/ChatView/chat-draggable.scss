@@ -216,6 +216,13 @@
     max-width: 100%;
     max-height: zoom(200px);
     width: auto;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: opacity 0.15s ease;
+
+    &:hover {
+        opacity: 0.94;
+    }
 }
 
 .box {
@@ -233,6 +240,58 @@
             border-right: 10px solid transparent !important;
             border-left: 10px solid transparent !important;
         }
+    }
+    &.shooting-box {
+        display: inline-flex;
+        align-items: center;
+        background: $grey;
+        padding: zoom(6px) zoom(12px);
+        user-select: none;
+
+        .shooting-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: zoom(6px);
+            color: #ecf2fb;
+            @include font-regular(zoom-int(18px));
+
+            .camera-icon {
+                font-size: zoom(18px);
+                display: inline-block;
+                animation: camera-pulse 1.2s ease-in-out infinite;
+            }
+
+            .shooting-text {
+                color: #ffffff;
+                font-weight: 500;
+                animation: text-pulse 1.8s ease-in-out infinite;
+            }
+
+            .shooting-dots {
+                margin-left: zoom(2px);
+                color: #ffffff;
+            }
+        }
+    }
+}
+
+@keyframes camera-pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.85;
+    }
+    50% {
+        transform: scale(1.15);
+        opacity: 1;
+    }
+}
+
+@keyframes text-pulse {
+    0%, 100% {
+        opacity: 0.85;
+    }
+    50% {
+        opacity: 1;
     }
 }
 
