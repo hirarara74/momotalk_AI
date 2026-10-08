@@ -1,4 +1,5 @@
 import { talkHistory } from './talkHistory'
+import { isImeComposing } from '../utils/ime'
 
 function saveEdit(event: Event, id: number, type: string) {
     var span = event.target as HTMLElement
@@ -18,7 +19,7 @@ function keyHandle(event:KeyboardEvent, id:number, index:number){
     const div = event.target as HTMLElement
     let split = talkHistory.getTalkById(id).content.split('\n')
 
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && !isImeComposing(event)) {
         event.preventDefault()
         split.splice(index+1, 0, '')
         div.blur()
