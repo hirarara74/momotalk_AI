@@ -217,6 +217,7 @@ describe('Multilingual AI Prompts & UI Localization (TDD)', () => {
                 'kizunaRankTitle',
                 'removeImage',
                 'sendSticker',
+                'resetAllConfirm',
                 'openProfile',
                 'sendImage'
             ]
