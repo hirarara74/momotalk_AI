@@ -79,7 +79,7 @@
                     :placeholder="attachedImage ? $t('imageMessagePlaceholder') : (store.sleepSimulationEnabled && studentSleepStatus.isSleeping ? $t('sleepingPlaceholder', { name: activeStudentInfo?.Name || '生徒' }) : (activeStudentInfo ? $t('chatInputPlaceholder', { name: activeStudentInfo.Name }) : 'Aa'))"
                     v-model="store.text"
                     id="textarea"
-                    @keydown.enter.exact.prevent="_text()"
+                    @keydown.enter.exact="onEnter"
                     @paste="handlePaste"
                 ></textarea>
                 <div class="photo" :title="$t('sendImage')" @click="_image()">
@@ -115,6 +115,7 @@ import { sendSenseiMessage, sendImage, sendSticker, sendImagePayload, checkAndTr
 import { insertImage, insertSticker, insertText } from '@/assets/chatUtils/insert'
 import { readFile } from '@/assets/imgUtils/readFile'
 import { isStudentSleeping } from '@/assets/ai/sleepSchedule'
+import { isImeComposing } from '@/assets/utils/ime'
 
 const props = defineProps(['student', 'studentInfo'])
 const emits = defineEmits(['deactive'])
@@ -271,6 +272,12 @@ const handlePaste = (e: ClipboardEvent) => {
     }
 }
 
+const onEnter = (e: KeyboardEvent) => {
+    if (isImeComposing(e)) return
+    e.preventDefault()
+    _text()
+}
+
 // 送信 (先生として送信)
 const _text = () => {
     if (attachedImage.value) {
@@ -363,17 +370,6 @@ onMounted(async () => {
     wakeupInterval = setInterval(() => {
         checkAndTriggerPendingWakeups()
     }, 30000)
-
-    // Enterキー送信
-    var textarea = document.querySelector('textarea') as HTMLElement
-    if (textarea) {
-        textarea.onkeydown = (e) => {
-            if (!e.shiftKey && e.key === 'Enter') {
-                e.preventDefault()
-                _text()
-            }
-        }
-    }
 
     // モバイル環境でChatViewが表示された場合、自動的にチャット画面へスクロール
     if (typeof window !== 'undefined' && window.innerWidth <= 1150) {
