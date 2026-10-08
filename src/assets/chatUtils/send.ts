@@ -321,7 +321,10 @@ export async function triggerBackgroundWakeupReply(
         }
     }
     if (!avatar && Array.isArray(selectList?.selectList)) {
-        const matchedStudent = selectList.selectList.find(s => s.Id === studentId)
+        // Entries are typed as baseStudent, but full student records (with Avatars/cnt) can be stored too
+        const matchedStudent = selectList.selectList.find(s => s.Id === studentId) as
+            | (baseStudent & { Avatars?: string[]; cnt?: number })
+            | undefined
         if (matchedStudent) {
             avatar = matchedStudent.Avatar || (Array.isArray(matchedStudent.Avatars) ? matchedStudent.Avatars[matchedStudent.cnt || 0] : '')
         }
