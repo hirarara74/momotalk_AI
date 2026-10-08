@@ -1,4 +1,8 @@
 export default {
+    messageActions: 'Message actions',
+    editMessage: 'Edit',
+    deleteMessage: 'Unsend (delete)',
+    saveMessage: 'Save',
     selectInfo: 'Please select a student',
     relatedStudentTitle: 'Related Student',
     noRelatedStudent: 'No related student',

@@ -1,3 +1,4 @@
+import { KAYOKO_PROMPT, KISAKI_PROMPT, RIO_PROMPT, ARIS_PROMPT, WAKAMO_PROMPT, HIMARI_PROMPT, SERIKA_PROMPT, NONOMI_PROMPT } from './additionalStudentPrompts'
 import type { baseStudent, studentInfo } from '../requestUtils/interface'
 import {
     HOSHINO_PROMPT,
@@ -50,6 +51,144 @@ export interface CanonicalStudentData {
 }
 
 export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
+    {
+      id: 13005,
+      names: {
+        jp: [ 'カヨコ', '鬼方カヨコ' ],
+        en: [ 'Kayoko', 'Onikata Kayoko' ],
+        kr: [ '카요코' ],
+        zh: [ '佳代子' ],
+        tw: [ '佳世子' ]
+      },
+      callSensei: { jp: '先生', en: 'Sensei', kr: '선생님', zh: '老师', tw: '老師' },
+      greetings: {
+        jp: '先生、お疲れ。少し休んだら？',
+        en: 'Sensei, take a break. You have worked hard.',
+        kr: '선생님, 수고했어. 조금 쉬는 게 어때?',
+        zh: '老师，辛苦了。稍微休息一下吧。',
+        tw: '老師，辛苦了。稍微休息一下吧。'
+      }
+    },
+    {
+      id: 20039,
+      names: {
+        jp: [ 'キサキ', '竜華キサキ' ],
+        en: [ 'Kisaki', 'Ryuuge Kisaki' ],
+        kr: [ '키사키' ],
+        zh: [ '妃咲' ],
+        tw: [ '妃姬' ]
+      },
+      callSensei: { jp: '先生', en: 'Sensei', kr: '선생님', zh: '老师', tw: '老師' },
+      greetings: {
+        jp: '先生、来てくれたか。茶でも飲みながら話そうかの。',
+        en: 'You have come, Sensei. Shall we talk over tea?',
+        kr: '선생, 와 주었느냐. 차를 마시며 이야기하자꾸나.',
+        zh: '老师，你来了。不妨与妾一同品茶聊聊。',
+        tw: '老師，你來了。不妨與妾一同品茶聊聊。'
+      }
+    },
+    {
+      id: 20041,
+      names: { jp: [ 'リオ', '調月リオ' ], en: [ 'Rio', 'Tsukatsuki Rio' ], kr: [ '리오' ], zh: [ '莉音' ], tw: [ '莉央' ] },
+      callSensei: { jp: '先生', en: 'Sensei', kr: '선생님', zh: '老师', tw: '老師' },
+      greetings: {
+        jp: '先生、今少し時間をもらえるかしら。相談したいことがあるの。',
+        en: 'Sensei, do you have a moment? I would like your advice.',
+        kr: '선생님, 잠시 시간을 내줄 수 있을까? 의논하고 싶은 게 있어.',
+        zh: '老师，能占用你一点时间吗？我有件事想和你商量。',
+        tw: '老師，能占用你一點時間嗎？我有件事想和你商量。'
+      }
+    },
+    {
+      id: 10015,
+      names: {
+        jp: [ 'アリス', '天童アリス' ],
+        en: [ 'Aris', 'Tendou Aris', 'Alice', 'Tendou Alice' ],
+        kr: [ '아리스' ],
+        zh: [ '爱丽丝' ],
+        tw: [ '愛麗絲' ]
+      },
+      callSensei: { jp: '先生', en: 'Sensei', kr: '선생님', zh: '老师', tw: '老師' },
+      greetings: {
+        jp: '先生、アリスと一緒に今日のクエストに出かけませんか？',
+        en: 'Sensei, would you join Aris on today’s quest?',
+        kr: '선생님, 아리스와 함께 오늘의 퀘스트를 하러 가시겠어요?',
+        zh: '老师，要和爱丽丝一起去完成今天的任务吗？',
+        tw: '老師，要和愛麗絲一起去完成今天的任務嗎？'
+      }
+    },
+    {
+      id: 10033,
+      names: {
+        jp: [ 'ワカモ', '狐坂ワカモ' ],
+        en: [ 'Wakamo', 'Kosaka Wakamo' ],
+        kr: [ '와카모' ],
+        zh: [ '若藻' ],
+        tw: [ '若藻' ]
+      },
+      callSensei: { jp: 'あなた様', en: 'Sensei', kr: '선생님', zh: '老师', tw: '老師' },
+      greetings: {
+        jp: 'あなた様、お待ちしておりました。今日はどのように過ごしましょうか？',
+        en: 'My dear Sensei, I have been waiting. How shall we spend today?',
+        kr: '당신을 기다리고 있었답니다. 오늘은 어떻게 보낼까요?',
+        zh: '亲爱的老师，我一直在等您。今天想怎么度过呢？',
+        tw: '親愛的老師，我一直在等您。今天想怎麼度過呢？'
+      }
+    },
+    {
+      id: 20020,
+      names: {
+        jp: [ 'ヒマリ', '明星ヒマリ' ],
+        en: [ 'Himari', 'Akeboshi Himari' ],
+        kr: [ '히마리' ],
+        zh: [ '日鞠' ],
+        tw: [ '陽葵' ]
+      },
+      callSensei: { jp: '先生', en: 'Sensei', kr: '선생님', zh: '老师', tw: '老師' },
+      greetings: {
+        jp: '先生、お困りですか？この超天才清楚系病弱美少女にお任せください。',
+        en: 'Sensei, need a hand? Leave it to this delicate, beautiful supergenius.',
+        kr: '선생님, 곤란한 일이 있나요? 이 초천재 청초계 병약 미소녀에게 맡겨 주세요.',
+        zh: '老师，遇到困难了吗？就交给我这位超天才清纯系病弱美少女吧。',
+        tw: '老師，遇到困難了嗎？就交給我這位超天才清純系病弱美少女吧。'
+      }
+    },
+    {
+      id: 13008,
+      names: {
+        jp: [ 'セリカ', '黒見セリカ' ],
+        en: [ 'Serika', 'Kuromi Serika' ],
+        kr: [ '세리카' ],
+        zh: [ '芹香' ],
+        tw: [ '茜香' ]
+      },
+      callSensei: { jp: '先生', en: 'Sensei', kr: '선생님', zh: '老师', tw: '老師' },
+      greetings: {
+        jp: '先生、ちゃんと休んでる？忙しいからって無理しないでよね。',
+        en: 'Sensei, are you resting enough? Don’t overdo it just because you’re busy.',
+        kr: '선생님, 제대로 쉬고 있어? 바쁘다고 무리하지 마.',
+        zh: '老师，有好好休息吗？再忙也不要勉强自己。',
+        tw: '老師，有好好休息嗎？再忙也不要勉強自己。'
+      }
+    },
+    {
+      id: 13004,
+      names: {
+        jp: [ 'ノノミ', '十六夜ノノミ' ],
+        en: [ 'Nonomi', 'Izayoi Nonomi' ],
+        kr: [ '노노미' ],
+        zh: [ '野宫' ],
+        tw: [ '野乃美' ]
+      },
+      callSensei: { jp: '先生', en: 'Sensei', kr: '선생님', zh: '老师', tw: '老師' },
+      greetings: {
+        jp: '先生、お疲れ様です。みんなと一緒にお茶にしませんか？',
+        en: 'Sensei, thank you for your hard work. Shall we have tea with everyone?',
+        kr: '선생님, 수고하셨어요. 다 같이 차 한잔 하지 않을래요?',
+        zh: '老师，辛苦了。要和大家一起喝杯茶吗？',
+        tw: '老師，辛苦了。要和大家一起喝杯茶嗎？'
+      }
+    },
     {
         id: 10010,
         names: {
@@ -495,7 +634,7 @@ export function resolveCanonicalStudent(nameOrId?: string | number | null): Cano
         }
     }
 
-    // 2. Substring match
+    // 2. Outfit suffixes may reuse a student's identity; partial names may not.
     for (const student of STUDENT_CANONICAL_DATA) {
         const allNames = [
             ...student.names.jp,
@@ -505,7 +644,7 @@ export function resolveCanonicalStudent(nameOrId?: string | number | null): Cano
             ...student.names.tw
         ].map((n) => n.toLowerCase())
 
-        if (allNames.some((n) => query.includes(n) || n.includes(query))) {
+        if (allNames.some((n) => query.startsWith(n) && /^[（(＊*]/.test(query.slice(n.length).trimStart()))) {
             return student
         }
     }
@@ -583,7 +722,7 @@ export function getStudentGreeting(studentNameOrId: string | number, lang?: stri
 
     const trimmed = typeof studentNameOrId === 'string' ? studentNameOrId.trim() : ''
     for (const [key, greeting] of Object.entries(STUDENT_GREETINGS)) {
-        if (trimmed && (trimmed.includes(key) || key.includes(trimmed))) {
+        if (trimmed === key) {
             return greeting
         }
     }
@@ -704,6 +843,30 @@ MomoTalkチャットのメッセージとして返信してください。長文
  * 主要生徒の特化プロンプトマップ
  */
 export const SPECIAL_PROMPTS: Record<string, string> = {
+    'カヨコ': KAYOKO_PROMPT,
+    '鬼方カヨコ': KAYOKO_PROMPT,
+    'Kayoko': KAYOKO_PROMPT,
+    'キサキ': KISAKI_PROMPT,
+    '竜華キサキ': KISAKI_PROMPT,
+    'Kisaki': KISAKI_PROMPT,
+    'リオ': RIO_PROMPT,
+    '調月リオ': RIO_PROMPT,
+    'Rio': RIO_PROMPT,
+    'アリス': ARIS_PROMPT,
+    '天童アリス': ARIS_PROMPT,
+    'Aris': ARIS_PROMPT,
+    'ワカモ': WAKAMO_PROMPT,
+    '狐坂ワカモ': WAKAMO_PROMPT,
+    'Wakamo': WAKAMO_PROMPT,
+    'ヒマリ': HIMARI_PROMPT,
+    '明星ヒマリ': HIMARI_PROMPT,
+    'Himari': HIMARI_PROMPT,
+    'セリカ': SERIKA_PROMPT,
+    '黒見セリカ': SERIKA_PROMPT,
+    'Serika': SERIKA_PROMPT,
+    'ノノミ': NONOMI_PROMPT,
+    '十六夜ノノミ': NONOMI_PROMPT,
+    'Nonomi': NONOMI_PROMPT,
     // 砂狼シロコ
     'シロコ': SHIROKO_PROMPT,
     '砂狼シロコ': SHIROKO_PROMPT,
@@ -824,6 +987,14 @@ export const SPECIAL_PROMPTS: Record<string, string> = {
  * 主要生徒の誕生日マスター
  */
 export const STUDENT_BIRTHDAYS: Record<string, string> = {
+    'カヨコ': '3/17',
+    'キサキ': '2/19',
+    'リオ': '6/6',
+    'アリス': '3/25',
+    'ワカモ': '4/3',
+    'ヒマリ': '12/10',
+    'セリカ': '6/25',
+    'ノノミ': '9/1',
     'シロコ': '5月16日',
     '砂狼シロコ': '5月16日',
     'Shiroko': '5月16日',
@@ -986,7 +1157,7 @@ export function buildSystemPrompt(student: baseStudent | studentInfo, targetLang
     let basePrompt = ''
     if (canonical) {
         for (const [key, prompt] of Object.entries(SPECIAL_PROMPTS)) {
-            if (canonical.names.jp.some((n) => n.includes(key) || key.includes(n))) {
+            if (canonical.names.jp.includes(key)) {
                 basePrompt = prompt
                 break
             }
@@ -994,7 +1165,7 @@ export function buildSystemPrompt(student: baseStudent | studentInfo, targetLang
     }
     if (!basePrompt) {
         for (const [key, prompt] of Object.entries(SPECIAL_PROMPTS)) {
-            if (studentName.includes(key) || key.includes(studentName)) {
+            if (studentName === key) {
                 basePrompt = prompt
                 break
             }
@@ -1015,6 +1186,8 @@ Please strictly adhere to the following rules:
 *Reply in natural Japanese as a MomoTalk chat message (1-3 sentences).
 *lang:ja`
     }
+
+    basePrompt += '\n\n[OUTPUT FORMAT — applies to every student and language]\nSend only the actual MomoTalk message in 1–3 natural sentences. Do not wrap your reply or individual sentences in Japanese corner brackets, double corner brackets, or quotation marks. Do not add speaker names, stage directions, narration, or Markdown/code fences. Dialogue examples demonstrate voice; never copy their list markers or surrounding punctuation. Quotation marks are allowed only when quoting someone or a title inside your message. Preserve any requested [PHOTO: ...] directive. Use the selected language while preserving character voice.'
 
     // 3. 多言語プロンプトの構築
     if (currentLang === 'kr') {
@@ -1094,9 +1267,17 @@ Please strictly adhere to the following rules:
 }
 
 /**
- * プロンプト対応済みの生徒（23名）ID一覧
+ * プロンプト対応済みの生徒（31名）ID一覧
  */
 export const PROMPT_SUPPORTED_STUDENT_IDS: number[] = [
+    13005, // 鬼方カヨコ
+    20039, // 竜華キサキ
+    20041, // 調月リオ
+    10015, // 天童アリス
+    10033, // 狐坂ワカモ
+    20020, // 明星ヒマリ
+    13008, // 黒見セリカ
+    13004, // 十六夜ノノミ
     10010, // 砂狼シロコ
     10005, // 小鳥遊ホシノ
     10004, // 空崎ヒナ
@@ -1126,6 +1307,14 @@ export const PROMPT_SUPPORTED_STUDENT_IDS: number[] = [
  * プロンプト対応済みの生徒名称リスト
  */
 export const PROMPT_SUPPORTED_STUDENT_NAMES: string[] = [
+    "カヨコ", "鬼方カヨコ", "Kayoko", "Onikata Kayoko", "카요코", "佳代子", "佳世子",
+    "キサキ", "竜華キサキ", "Kisaki", "Ryuuge Kisaki", "키사키", "妃咲", "妃姬",
+    "リオ", "調月リオ", "Rio", "Tsukatsuki Rio", "리오", "莉音", "莉央",
+    "アリス", "天童アリス", "Aris", "Tendou Aris", "Alice", "Tendou Alice", "아리스", "爱丽丝", "愛麗絲",
+    "ワカモ", "狐坂ワカモ", "Wakamo", "Kosaka Wakamo", "와카모", "若藻", "若藻",
+    "ヒマリ", "明星ヒマリ", "Himari", "Akeboshi Himari", "히마리", "日鞠", "陽葵",
+    "セリカ", "黒見セリカ", "Serika", "Kuromi Serika", "세리카", "芹香", "茜香",
+    "ノノミ", "十六夜ノノミ", "Nonomi", "Izayoi Nonomi", "노노미", "野宫", "野乃美",
     'シロコ', '砂狼シロコ', 'Shiroko', '시로코', '스나오오카미 시로코', '白子', '砂狼白子',
     'ホシノ', '小鳥遊ホシノ', 'Hoshino', '호시노', '타카나시 호시노', '星野', '小鸟游星野', '小鳥遊星野',
     'ヒナ', '空崎ヒナ', 'Hina', '히나', '소라사키 히나', '日奈', '空崎日奈',

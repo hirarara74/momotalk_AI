@@ -1,4 +1,8 @@
 export default {
+    messageActions: 'メッセージの操作',
+    editMessage: '編集',
+    deleteMessage: '送信取り消し（削除）',
+    saveMessage: '保存',
     selectInfo: '生徒を選択してください',
     relatedStudentTitle: '関連する生徒',
     noRelatedStudent: '関連する生徒なし',

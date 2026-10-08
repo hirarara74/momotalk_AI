@@ -1,11 +1,75 @@
 import type { CharacterVisualProfile } from './types'
 
 /**
- * Danbooru visual profile dictionary for all 23 prompt-supported Blue Archive students + Arona.
+ * Danbooru visual profile dictionary for all 31 prompt-supported Blue Archive students + Arona.
  * Each entry provides canonical tags for character copyright, halo geometry, hair, eyes,
  * unique anatomical traits (kemomimi, wings, horns), and outfits.
  */
 export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
+  13005: {
+    characterTag: 'onikata_kayoko_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["white_hair","black_hair","two_tone_hair","ponytail"],
+    eyes: ["red_eyes"],
+    features: ["horns"],
+    outfits: { default: ["black_hoodie","white_shirt","black_skirt"] }
+  },
+  20039: {
+    characterTag: 'ryuuge_kisaki_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","long_hair"],
+    eyes: ["purple_eyes"],
+    features: ["hair_ornament"],
+    outfits: { default: ["black_qipao","long_sleeves","gold_trim"] }
+  },
+  20041: {
+    characterTag: 'tsukatsuki_rio_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","long_hair"],
+    eyes: ["red_eyes"],
+    features: ["hairclip"],
+    outfits: { default: ["black_blazer","black_skirt","red_necktie"] }
+  },
+  10015: {
+    characterTag: 'tendou_arisu_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","very_long_hair"],
+    eyes: ["blue_eyes"],
+    features: ["hairclip"],
+    outfits: { default: ["white_shirt","blue_skirt","blue_cardigan"] }
+  },
+  10033: {
+    characterTag: 'kosaka_wakamo_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","long_hair"],
+    eyes: ["red_eyes"],
+    features: ["fox_ears","fox_tail","fox_mask"],
+    outfits: { default: ["black_kimono","red_flower_pattern","obi"] }
+  },
+  20020: {
+    characterTag: 'akeboshi_himari_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["white_hair","long_hair"],
+    eyes: ["blue_eyes"],
+    features: ["wheelchair","hair_flower"],
+    outfits: { default: ["white_dress","black_coat"] }
+  },
+  13008: {
+    characterTag: 'kuromi_serika_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","twintails"],
+    eyes: ["red_eyes"],
+    features: ["cat_ears"],
+    outfits: { default: ["white_shirt","blue_necktie","pleated_skirt"] }
+  },
+  13004: {
+    characterTag: 'izayoi_nonomi_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blonde_hair","long_hair"],
+    eyes: ["green_eyes"],
+    features: ["hair_ribbon"],
+    outfits: { default: ["white_shirt","blue_necktie","pleated_skirt"] }
+  },
   // 1. Shiroko (砂狼シロコ)
   10010: {
     characterTag: 'sunaookami_shiroko_(blue_archive)',
@@ -332,6 +396,71 @@ export const DEFAULT_FALLBACK_PROFILE: CharacterVisualProfile = {
  * Multilingual aliases for resolving student names/variations to their canonical ID.
  */
 export const STUDENT_NAME_ALIASES: Record<string, number> = {
+  'カヨコ': 13005,
+  '鬼方カヨコ': 13005,
+  'kayoko': 13005,
+  'onikata kayoko': 13005,
+  '카요코': 13005,
+  '佳代子': 13005,
+  '佳世子': 13005,
+  'onikata_kayoko': 13005,
+  'キサキ': 20039,
+  '竜華キサキ': 20039,
+  'kisaki': 20039,
+  'ryuuge kisaki': 20039,
+  '키사키': 20039,
+  '妃咲': 20039,
+  '妃姬': 20039,
+  'ryuuge_kisaki': 20039,
+  'リオ': 20041,
+  '調月リオ': 20041,
+  'rio': 20041,
+  'tsukatsuki rio': 20041,
+  '리오': 20041,
+  '莉音': 20041,
+  '莉央': 20041,
+  'tsukatsuki_rio': 20041,
+  'アリス': 10015,
+  '天童アリス': 10015,
+  'aris': 10015,
+  'tendou aris': 10015,
+  'alice': 10015,
+  'tendou alice': 10015,
+  '아리스': 10015,
+  '爱丽丝': 10015,
+  '愛麗絲': 10015,
+  'tendou_arisu': 10015,
+  'ワカモ': 10033,
+  '狐坂ワカモ': 10033,
+  'wakamo': 10033,
+  'kosaka wakamo': 10033,
+  '와카모': 10033,
+  '若藻': 10033,
+  'kosaka_wakamo': 10033,
+  'ヒマリ': 20020,
+  '明星ヒマリ': 20020,
+  'himari': 20020,
+  'akeboshi himari': 20020,
+  '히마리': 20020,
+  '日鞠': 20020,
+  '陽葵': 20020,
+  'akeboshi_himari': 20020,
+  'セリカ': 13008,
+  '黒見セリカ': 13008,
+  'serika': 13008,
+  'kuromi serika': 13008,
+  '세리카': 13008,
+  '芹香': 13008,
+  '茜香': 13008,
+  'kuromi_serika': 13008,
+  'ノノミ': 13004,
+  '十六夜ノノミ': 13004,
+  'nonomi': 13004,
+  'izayoi nonomi': 13004,
+  '노노미': 13004,
+  '野宫': 13004,
+  '野乃美': 13004,
+  'izayoi_nonomi': 13004,
   // Shiroko
   'shiroko': 10010,
   'sunaookami_shiroko': 10010,

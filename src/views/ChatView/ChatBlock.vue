@@ -3,7 +3,7 @@
         v-if="mdUtils.checkFlag"
         v-html="props.element.content"
         :data-flag="true"
-        contenteditable
+        :contenteditable="props.element.type > 1"
         @focus="mdUtils.clicked($event, props.element.Id)"
         @blur="blur_($event)"
     ></span>
@@ -11,7 +11,7 @@
         v-else
         v-text="props.element.content"
         :data-flag="true"
-        contenteditable
+        :contenteditable="props.element.type > 1"
         @focus="mdUtils.clicked($event, props.element.Id)"
         @blur="blur_($event)"
     ></span>
