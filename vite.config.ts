@@ -28,8 +28,8 @@ export default defineConfig(({ command }) => {
     },
     base,
     build: {
-      outDir: 'docs',
-      emptyOutDir: false
+      outDir: 'dist',
+      emptyOutDir: true
     },
     server: {
       port: 5174,

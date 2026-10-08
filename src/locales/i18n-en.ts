@@ -39,6 +39,7 @@ export default {
     readStatus: 'Read',
     clearChat: 'Reset',
     resetChatConfirm: 'Reset conversation history with {name}?',
+    resetAllConfirm: 'Reset the view?\n- The list of recently selected students will be cleared\n- The sleep rhythm setting will be turned off\n(Your chat history with each student is kept.)',
     talkWith: 'Talk with {name}',
     chatInputPlaceholder: 'Send message to {name}...',
     apiKeyNotConfiguredNotice: '（API Key is not configured. Please enter your API Key from the top-right Settings ⚙️. ※ You can get a free Groq API Key at https://console.groq.com/keys）',

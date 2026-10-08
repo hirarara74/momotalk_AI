@@ -38,6 +38,7 @@ export default {
     readStatus: '已读',
     clearChat: '重置',
     resetChatConfirm: '确定要重置与{name}的对话记录吗？',
+    resetAllConfirm: '要重置显示吗？\n- 最近选择的学生列表将被清空\n- 作息时间设置将被关闭\n（与各学生的聊天记录会保留）',
     talkWith: '与 {name} 聊天',
     chatInputPlaceholder: '发送消息给 {name}...',
     apiKeyNotConfiguredNotice: '（API密钥尚未设置。请点击右上角设置 ⚙️ 输入API密钥。※ 免费的 Groq API Key 可在 https://console.groq.com/keys 申请）',
