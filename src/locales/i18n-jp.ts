@@ -39,6 +39,7 @@ export default {
     readStatus: '既読',
     clearChat: 'リセット',
     resetChatConfirm: '{name}との会話履歴をリセットしますか？',
+    resetAllConfirm: '表示をリセットしますか？\n・最近選んだ生徒の一覧が消えます\n・生活リズムの設定がオフになります\n（各生徒との会話履歴は残ります）',
     talkWith: '{name} とトークする',
     chatInputPlaceholder: '{name}にメッセージを送信...',
     apiKeyNotConfiguredNotice: '（APIキーが未設定です。画面右上の設定 ⚙️ からAPIキーを入力してください。※Groq API Key は https://console.groq.com/keys から無料で取得できます）',
