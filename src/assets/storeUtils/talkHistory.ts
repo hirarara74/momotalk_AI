@@ -142,6 +142,7 @@ export const talkHistory = reactive({
 
     deleteTalkByIndex(index: number) {
         const len = this.talkHistory.length
+        if (index < 0 || index >= len) return
         if (index >= 0 && index < len - 1 && this.talkHistory[index + 1].type <= 1)
             if (index === 0 || !this.isSameChar(index + 1, index - 1))
                 this.setTalkFlag(index + 1, 2)
@@ -264,11 +265,6 @@ export const talkHistory = reactive({
                 if (this.talkHistory.length > 0) {
                     const maxId = Math.max(...this.talkHistory.map((t) => t.Id || 0))
                     this.talkId = maxId + 1
-                    if (this.talkHistory.length === 1 && this.talkHistory[0].type === 0) {
-                        this.talkHistory[0].content = getStudentGreeting(student.Name)
-                        this.talkHistory[0].Name = student.Name
-                        this.saveCurrentStudentTalks()
-                    }
                 }
                 return
             } catch (e) {

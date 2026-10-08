@@ -1,4 +1,8 @@
 export default {
+    messageActions: '消息操作',
+    editMessage: '编辑',
+    deleteMessage: '撤回（删除）',
+    saveMessage: '保存',
     selectInfo: '请选择学生',
     relatedStudentTitle: '相关学生',
     noRelatedStudent: '暂无相关学生',

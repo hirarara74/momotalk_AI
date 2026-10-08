@@ -1,4 +1,8 @@
 export default {
+    messageActions: '메시지 작업',
+    editMessage: '수정',
+    deleteMessage: '전송 취소 (삭제)',
+    saveMessage: '저장',
     selectInfo: '학생을 선택해주세요',
     relatedStudentTitle: '관련 학생',
     noRelatedStudent: '관련 학생이 없습니다',

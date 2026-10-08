@@ -6,6 +6,7 @@ import { talkHistory, recordStudentInteraction, type PendingWakeupItem } from '.
 import { selectList } from '../storeUtils/selectList'
 import { myReExp } from '../utils/markdown'
 import { getAIProvider, buildSystemPrompt, type ChatMessage } from '../ai'
+import { normalizeStudentReply } from '../ai/normalizeStudentReply'
 import { isStudentSleeping, getWakeupSystemPromptModifier } from '../ai/sleepSchedule'
 import { playMomoTalkSound } from '../utils/sound'
 import { getStickerDescription } from '../utils/stickers'
@@ -369,7 +370,7 @@ export async function triggerBackgroundWakeupReply(
             )
 
             const { cleanText } = extractPhotoDirective(fullResponse)
-            finalDialogue = cleanText || fullResponse
+            finalDialogue = normalizeStudentReply(cleanText || fullResponse)
         } catch (error) {
             console.error(`[Wakeup] Background AI reply failed for ${item.studentName}:`, error)
             finalDialogue = '……ん、先生？（通信エラーが発生しました）'
@@ -671,7 +672,7 @@ export async function triggerAIReply(
                 if (signal.aborted || talkHistory.currentStudentId !== replyingStudentId) return
                 accumulatedText = chunk
                 const { cleanText } = extractPhotoDirective(accumulatedText)
-                talkHistory.setTalkContent(replyTalk.Id, re.md2html(cleanText || accumulatedText))
+                talkHistory.setTalkContent(replyTalk.Id, re.md2html(normalizeStudentReply(cleanText || accumulatedText)))
                 if (scroll_to_bottom) {
                     scroll_to_bottom.scrollTop = scroll_to_bottom.scrollHeight
                 }
@@ -682,7 +683,7 @@ export async function triggerAIReply(
         if (signal.aborted || talkHistory.currentStudentId !== replyingStudentId) return
 
         const { cleanText, photoTags } = extractPhotoDirective(accumulatedText)
-        const finalDialogue = cleanText || accumulatedText
+        const finalDialogue = normalizeStudentReply(cleanText || accumulatedText)
 
         // 完了
         talkHistory.setTalkContent(replyTalk.Id, re.md2html(finalDialogue))
