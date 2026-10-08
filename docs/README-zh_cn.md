@@ -27,19 +27,23 @@
 - 📸 **多模态图像识别**: 支持向学生发送图片或截图，学生能辨识图像内容并做出贴合人设的个性化反应。
 - 💖 **羁绊等级系统**: 与学生日常对话累积亲密度提升羁绊等级，伴有专属羁绊升级音效。
 - 🌐 **五国语言国际化**: 完整支持简体中文、繁体中文、日语、英语、韩语的界面与帮助说明。
-- 🖼️ **长截图一键导出**: 侧边栏专属保存按钮，一键将聊天记录导出为高清 PNG 图片。
+- 😊 **学生能看懂的贴图**: 发送 MomoTalk 贴图后，学生会理解贴图的含义（「OK」「谢谢」、惊讶、害羞等）并作出相应回复。
 - 📱 **响应式适配**: 完美自适应桌面宽屏与移动端竖屏操作。
 
 ---
 
 ## 📸 预览
 
-![学生选择](./assets/演示1.webp)
-![聊天界面](./assets/演示2.webp)
+![聊天界面（电脑）](./images/preview-chat.webp)
+
+<img src="./images/preview-mobile.webp" alt="聊天界面（手机）" width="300">
 
 ---
 
 ## 🚀 快速开始
+
+### 在线使用
+- **https://hirarara74.github.io/momotalk_AI/** — 在右上角设置 ⚙️ 中填写 API 密钥即可使用（免费的 Groq API Key 可在 [console.groq.com/keys](https://console.groq.com/keys) 申请）。
 
 ### 源码仓库
 - GitHub: [hirarara74/momotalk_AI](https://github.com/hirarara74/momotalk_AI)
@@ -77,6 +81,7 @@ npm run build
 本项目基于 U1805 创作的开源对话生成器 [U1805/momotalk](https://github.com/U1805/momotalk) 架构发展并扩展了 AI 实时互动功能。
 
 学生数据与素材来源:
+- [BlueArcbox/resources](https://github.com/BlueArcbox/resources)
 - [kivo.wiki](https://kivo.wiki/)
 - [ba.gamekee](https://ba.gamekee.com/)
 - [bluearchive.fandom](https://bluearchive.fandom.com)

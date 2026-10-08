@@ -66,6 +66,7 @@ export default {
     kizunaRankTitle: 'Bond Rank',
     removeImage: 'Remove attached image',
     sendSticker: 'Send sticker',
+    openProfile: 'View profile',
     sendImage: 'Attach and send image',
     sharefile: 'Data',
     renderStyle: 'Theme',
@@ -136,7 +137,7 @@ An interactive AI chat application to talk in real-time with Blue Archive studen
 
 ### 2. Open Source Attribution & Gratitude
 - The user interface and foundational structure of this project are based on the open-source repository **[U1805/momotalk](https://github.com/U1805/momotalk)** (MIT License by U1805), modified and extended to integrate pluggable real-time LLM chat and vision multimodal intelligence. We express our deepest gratitude to U1805 and all contributors for their wonderful MomoTalk web simulator.
-- Student metadata and asset references are supported by the community database **[SchaleDB](https://schaledb.com/)** ([lonqix/SchaleDB](https://github.com/lonqix/SchaleDB)).
+- Student data and assets are loaded from **[BlueArcbox/resources](https://github.com/BlueArcbox/resources)** and **[kivo.wiki](https://kivo.wiki/)**.
 
 ### 3. Built with Vibe Coding
 - This project was developed through interactive AI pair programming (**Vibe Coding**) powered by Google DeepMind's autonomous AI coding assistant, **Antigravity**.

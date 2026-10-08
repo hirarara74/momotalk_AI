@@ -1,4 +1,4 @@
-![Banner](./assets/演示2.webp)
+![Chat screen](./images/preview-chat.webp)
 
 # MomoTalk AI User Guide
 
@@ -19,11 +19,14 @@ MomoTalk AI is an interactive AI chat web application inspired by the MomoTalk m
 ### 2. Chat View
 - **Sending Messages**: Type your message into the input field at the bottom and press `Enter` (or click Send).
   - Use `Shift + Enter` for a line break.
+  - Pressing `Enter` to confirm an IME conversion (e.g. Japanese input) does not send the message.
 - **In-Universe Typing Indicator**: When Sensei sends a message, a realistic "..." typing animation indicates the student is replying.
 - **Read Receipts ("既読")**: Messages sent by Sensei display a "Read" status once processed.
 - **Vision & Image Upload**:
-  - Attach images using the paperclip button or drag-and-drop.
+  - Attach images with the image icon to the right of the input box, or paste an image (`Ctrl + V`).
   - Students visually inspect the image content and comment on it in-character.
+- **Stickers**: Open the sticker list from the icon on the left of the input box and tap one to send it. Use the "1" / "2" buttons below to switch pages. Students understand what each sticker means ("OK", "Thank you", surprise, embarrassment…) and reply accordingly.
+- **View Profile**: Tap a student's avatar in the chat (in the header or next to their messages) to open their profile.
 
 ### 3. Life Rhythm & Sleep Simulation
 - Each student follows a lore-accurate circadian rhythm (with distinct wake-up times for weekdays vs. weekends, regular vs. irregular sleep patterns).
@@ -37,8 +40,7 @@ MomoTalk AI is an interactive AI chat web application inspired by the MomoTalk m
 
 ### 5. Sidebar Bottom Actions
 - **🌐 Language Switcher**: Switch between Japanese, English, Korean, Simplified Chinese, and Traditional Chinese.
-- **🧹 Reset Chat**: Clear conversation history with the current student to start fresh.
-- **💾 Download Screenshot**: Save your entire chat history as a high-resolution PNG image.
+- **🧹 Reset Chat**: Use the "Reset" button at the top right of the chat to clear your history with that student (asks for confirmation).
 
 ---
 
@@ -52,8 +54,7 @@ Click the gear icon in the top right to open Settings:
    - **OpenAI Compatible**: Connect any OpenAI-compatible API endpoint or custom model.
    - **Anthropic Claude**: State-of-the-art conversational Claude models.
 2. **Sleep Simulation Toggle**: Enable or disable the circadian rhythm mechanic.
-3. **Theme**: Toggle between MomoTalk and YuzuTalk themes.
-4. **Full Screen**: Toggle distraction-free full-screen mode.
+3. **Basic Settings**: Sound effects on/off and volume, full screen, zoom, and message dragging.
 
 ---
 
