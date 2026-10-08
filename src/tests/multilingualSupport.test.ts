@@ -217,6 +217,7 @@ describe('Multilingual AI Prompts & UI Localization (TDD)', () => {
                 'kizunaRankTitle',
                 'removeImage',
                 'sendSticker',
+                'openProfile',
                 'sendImage'
             ]
             for (const { code, data } of locales) {

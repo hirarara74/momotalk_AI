@@ -27,22 +27,23 @@
 - 📸 **Multimodal Vision**: Send photos or drawings to students; students look at the image contents and react in-character.
 - 💖 **Kizuna Relationship Rank**: Interactive chatting increases your relationship rank (Lv.1+) with each student, tracked with celebratory rank-up sound effects.
 - 🌐 **5-Language Internationalization**: Full UI and in-app user guides in Japanese, English, Korean, Simplified Chinese, and Traditional Chinese.
-- 🖼️ **One-Click Screenshot Export**: Save your chat history as a high-resolution PNG image directly from the sidebar.
+- 😊 **Stickers Students Understand**: Send MomoTalk stickers and students read their meaning ("OK", "Thank you", surprise, embarrassment…) and reply accordingly.
 - 📱 **Responsive Design**: Flawlessly adapts to desktop layouts and mobile viewports.
 
 ---
 
 ## 📸 Preview
 
-![Preview 1](./docs/assets/演示1.webp)
-![Preview 2](./docs/assets/演示2.webp)
+![Chat on desktop](./docs/images/preview-chat.webp)
+
+<img src="./docs/images/preview-mobile.webp" alt="Chat on mobile" width="300">
 
 ---
 
 ## 🚀 Quick Start
 
-### Online Demo
-- Repository: [hirarara74/momotalk_AI](https://github.com/hirarara74/momotalk_AI)
+### Online
+- **https://hirarara74.github.io/momotalk_AI/** — open the ⚙️ Settings and enter your API key (a free Groq key is available at [console.groq.com/keys](https://console.groq.com/keys)).
 
 ### Local Development
 
@@ -77,6 +78,7 @@ For detailed instructions and shortcuts, please see the [User Guide](./docs/How-
 This project was forked and evolved from the original [U1805/momotalk](https://github.com/U1805/momotalk) editor by U1805.
 
 Character metadata and assets from:
+- [BlueArcbox/resources](https://github.com/BlueArcbox/resources)
 - [kivo.wiki](https://kivo.wiki/)
 - [ba.gamekee](https://ba.gamekee.com/)
 - [bluearchive.fandom](https://bluearchive.fandom.com)

@@ -34,13 +34,19 @@ import { isPromptSupported } from '@/assets/ai/prompts'
 import { normalizeLanguageCode } from '@/assets/storeUtils/store'
 import Popper from 'vue3-popper'
 
-// true "vh" on mobile 
-let vh = window.innerHeight * 0.01
-document.documentElement.style.setProperty('--vh', `${vh}px`)
-window.addEventListener('resize', () => {
-    let vh = window.innerHeight * 0.01
-    document.documentElement.style.setProperty('--vh', `${vh}px`)
-})
+// Fit the app to the visible area: mobile keyboards shrink only visualViewport, not innerHeight,
+// so sizing by innerHeight let the keyboard cover the newest messages.
+const fitToVisibleViewport = () => {
+    const height = window.visualViewport?.height ?? window.innerHeight
+    document.documentElement.style.setProperty('--vh', `${height * 0.01}px`)
+    window.scrollTo(0, 0)
+    // ponytail: always jumps to the newest message on resize, even if the user had scrolled up
+    const talkList = document.getElementById('talkList')
+    if (talkList) talkList.scrollTop = talkList.scrollHeight
+}
+fitToVisibleViewport()
+window.visualViewport?.addEventListener('resize', fitToVisibleViewport)
+window.addEventListener('resize', fitToVisibleViewport)
 
 const route = useRoute()
 const router = useRouter()
