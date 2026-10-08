@@ -39,6 +39,7 @@ export default {
     readStatus: '읽음',
     clearChat: '초기화',
     resetChatConfirm: '{name} 학생과의 대화 기록을 초기화하시겠습니까?',
+    resetAllConfirm: '화면을 초기화하시겠습니까?\n- 최근 선택한 학생 목록이 삭제됩니다\n- 생활 리듬 설정이 꺼집니다\n(각 학생과의 대화 기록은 유지됩니다)',
     talkWith: '{name} 학생과 대화하기',
     chatInputPlaceholder: '{name}에게 메시지 보내기...',
     apiKeyNotConfiguredNotice: '（API 키가 설정되지 않았습니다. 화면 우측 상단의 설정 ⚙️ 에서 API 키를 입력해 주세요. ※ Groq API Key는 https://console.groq.com/keys 에서 무료로 발급받을 수 있습니다）',

@@ -38,6 +38,7 @@ export default {
     readStatus: '已讀',
     clearChat: '重設',
     resetChatConfirm: '確定要重設與{name}的對話記錄嗎？',
+    resetAllConfirm: '要重設顯示嗎？\n- 最近選擇的學生清單將被清空\n- 作息時間設定將被關閉\n（與各學生的聊天記錄會保留）',
     talkWith: '與 {name} 聊天',
     chatInputPlaceholder: '發送訊息給 {name}...',
     apiKeyNotConfiguredNotice: '（API金鑰尚未設定。請點擊右上角設定 ⚙️ 輸入API金鑰。※ 免費的 Groq API Key 可在 https://console.groq.com/keys 申請）',

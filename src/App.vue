@@ -265,6 +265,10 @@ const changeLanguageTo = async (targetLang: SupportedLanguage) => {
     deactiveStudent()
 }
 
+const confirmReset = () => {
+    if (confirm(i18n.global.t('resetAllConfirm'))) store.resetData()
+}
+
 const changeLanguage = async () => {
     const languageList = i18n.global.availableLocales
     const currentLngIdx = languageList.findIndex((ele) => ele === store.language)
@@ -364,7 +368,7 @@ document.onkeyup = (e) => {
                 </RouterLink>
             </div>
             <div id="sidebar__down">
-                <div style="cursor: pointer" @click="store.resetData()" title="Reset">
+                <div style="cursor: pointer" @click="confirmReset" title="Reset">
                     <ResetIcon class="icon reset" />
                 </div>
                 <div style="cursor: pointer" @click="changeLanguage" title="Switch Language">
