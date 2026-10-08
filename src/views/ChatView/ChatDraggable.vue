@@ -50,7 +50,12 @@ const shouldShowDateDivider = (index: number, element: any, tasks: any[]) => {
                         @click="splitTalks(element)"
                     ></div>
                     <div class="avatar" v-if="element.type === 0 && element.flag > 0">
-                        <img v-lazy="element.Avatar" @click="splitTalks(element)" />
+                        <img
+                            v-lazy="element.Avatar"
+                            style="cursor: pointer"
+                            :title="$t('openProfile')"
+                            @click="$router.push({ path: '/', query: { id: talkHistory.currentStudentId } })"
+                        />
                     </div>
                     <div
                         class="name"
