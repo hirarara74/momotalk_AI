@@ -404,7 +404,7 @@ document.onkeyup = (e) => {
                 </Popper>
             </header>
             <div id="listbody">
-                <div class="list-item" v-for="(item, index) in dataDisplay" :key="index" :id="item.Id.toString()"
+                <div class="list-item" v-for="item in dataDisplay" :key="item.Id" :id="item.Id.toString()"
                     :class="{ active: item === studentSelected }" @click="selectStudent(item)">
                     <div class="list-item__avatar" @click.stop="" @click="showAvatars(item)" role="button" tabindex="0"
                         @keydown.enter="showAvatars(item)">
