@@ -28,6 +28,7 @@ export default class Lazy {
     }
 
     private _images: WeakMap<HTMLElement, IntersectionObserver> = new WeakMap()
+    private _sources: WeakMap<HTMLElement, string> = new WeakMap()
 
     /**
      * mount
@@ -44,10 +45,12 @@ export default class Lazy {
         const { src, loading, error, delay } = this._valueFormatter(
             typeof binding === 'string' ? binding : binding.value
         )
+        this._sources.set(el, src)
         this._lifecycle(LifecycleEnum.LOADING, el)
         el.setAttribute('src', loading || DEFAULT_LOADING)
         if (!hasIntersectionObserver) {
             this.loadImages(el, src, error)
+            return
         }
         this._initIntersectionObserver(el, src, error, delay)
     }
@@ -63,10 +66,18 @@ export default class Lazy {
         binding: string | DirectiveBinding<string | ValueFormatterObject>
     ): void {
         if (!el) return
-        this._realObserver(el)?.unobserve(el)
-        const { src, error, delay } = this._valueFormatter(
+        const { src, loading, error, delay } = this._valueFormatter(
             typeof binding === 'string' ? binding : binding.value
         )
+        if (this._sources.get(el) === src) return
+        this.unmount(el)
+        this._sources.set(el, src)
+        this._lifecycle(LifecycleEnum.LOADING, el)
+        el.setAttribute('src', loading || DEFAULT_LOADING)
+        if (!hasIntersectionObserver) {
+            this.loadImages(el, src, error)
+            return
+        }
         this._initIntersectionObserver(el, src, error, delay)
     }
 
@@ -78,8 +89,11 @@ export default class Lazy {
      */
     public unmount(el: HTMLElement): void {
         if (!el) return
-        this._realObserver(el)?.unobserve(el)
+        this._realObserver(el)?.disconnect()
+        clearTimeout(Number(el.getAttribute(TIMEOUT_ID_DATA_ATTR)))
+        el.removeAttribute(TIMEOUT_ID_DATA_ATTR)
         this._images.delete(el)
+        this._sources.delete(el)
     }
 
     /**
@@ -90,6 +104,7 @@ export default class Lazy {
      * @memberof Lazy
      */
     public loadImages(el: HTMLElement, src: string, error?: string): void {
+        this._sources.set(el, src)
         this._setImageSrc(el, src, error)
     }
 
@@ -137,12 +152,14 @@ export default class Lazy {
      * @memberof Lazy
      */
     private _setImageSrc(el: HTMLElement, src: string, error?: string): void {
+        if (this._sources.get(el) !== src) return
         if (el.tagName.toLowerCase() === 'img') {
             if (src) {
                 const preSrc = el.getAttribute('src')
                 if (preSrc !== src)
-                    this._loadImage(src).then((src) => {
-                        el.setAttribute('src', src)
+                    this._loadImage(src).then((imageSrc) => {
+                        // A previous student's slow request must not overwrite the current avatar.
+                        if (this._sources.get(el) === src) el.setAttribute('src', imageSrc)
                     })
             }
             this._listenImageStatus(
