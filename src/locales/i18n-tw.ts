@@ -65,6 +65,7 @@ export default {
     kizunaRankTitle: '羈絆等級',
     removeImage: '刪除附加圖片',
     sendSticker: '發送貼圖',
+    openProfile: '查看資料',
     sendImage: '附加並發送圖片',
     sharefile: '資料管理',
     renderStyle: '主題風格',
@@ -135,7 +136,7 @@ export default {
 
 ### 2. 開源專案致謝
 - 本應用的 UI 介面與基本框架 Fork 自開源專案 **[U1805/momotalk](https://github.com/U1805/momotalk)**（MIT License / 作者: U1805），並在此基礎上整合了多模型大語言模型（LLM）對話引擎與多模態視覺識別能力。衷心感謝 U1805 優秀的 MomoTalk 原作還原工程及對開源社群的貢獻！
-- 部分學生資料與素材資源引用自社群專案 **[SchaleDB](https://schaledb.com/)**（[lonqix/SchaleDB](https://github.com/lonqix/SchaleDB)）。
+- 學生資料與素材資源載入自 **[BlueArcbox/resources](https://github.com/BlueArcbox/resources)** 與 **[kivo.wiki](https://kivo.wiki/)**。
 
 ### 3. 基於 Vibe Coding（氛圍編程）打造
 - 本專案由人類開發者與 Google DeepMind 自主型智慧代理 AI **Antigravity** 深度協同，透過互動式結對編程（**Vibe Coding**）完成了架構設計、角色深度提示詞構建、測試驅動開發（TDD）及程式碼實現。

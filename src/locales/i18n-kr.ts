@@ -66,6 +66,7 @@ export default {
     kizunaRankTitle: '인연 랭크',
     removeImage: '첨부 이미지 삭제',
     sendSticker: '스티커 전송',
+    openProfile: '프로필 보기',
     sendImage: '이미지 첨부 및 전송',
     sharefile: '데이터 관리',
     renderStyle: '테마 스타일',
@@ -136,7 +137,7 @@ export default {
 
 ### 2. 원본 오픈소스 프로젝트 크레딧
 - 본 프로젝트의 UI 및 기본 프레임워크는 오픈소스 프로젝트 **[U1805/momotalk](https://github.com/U1805/momotalk)**(MIT License / 제작자: U1805 님)의 코드를 포크 및 확장하여 AI 대화 엔진과 멀티모달 기능을 통합 구현하였습니다. 훌륭한 MomoTalk UI와 오픈소스 기여에 깊이 감사드립니다.
-- 학생 데이터 및 에셋 일부는 팬 커뮤니티 프로젝트인 **[SchaleDB](https://schaledb.com/)**([lonqix/SchaleDB](https://github.com/lonqix/SchaleDB))의 데이터를 참조·활용하였습니다.
+- 학생 데이터 및 에셋은 **[BlueArcbox/resources](https://github.com/BlueArcbox/resources)**와 **[kivo.wiki](https://kivo.wiki/)**에서 불러옵니다.
 
 ### 3. 바이브 코딩 (Vibe Coding)을 통한 제작
 - 본 프로젝트는 Google DeepMind의 자율형 에이전트 AI인 **Antigravity**를 페어 프로그래밍 파트너로 삼아, 대화형 코딩(**바이브 코딩 / Vibe Coding**) 방식으로 기능 기획, 프롬프트 엔지니어링, TDD(테스트 주도 개발), 코드 구현 및 성능 최적화를 진행하였습니다.
