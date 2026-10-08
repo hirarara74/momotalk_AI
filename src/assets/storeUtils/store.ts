@@ -3,6 +3,11 @@ import i18n from '@/locales/i18n'
 import { talkHistory } from './talkHistory'
 import { selectList } from './selectList'
 
+// The help button opens on touchend.prevent, which keeps focus (and the phone keyboard) on the chat input
+const dismissKeyboard = () => {
+    if (typeof document !== 'undefined') (document.activeElement as HTMLElement | null)?.blur?.()
+}
+
 export const store = reactive({
     language: 'jp',
     theme: 'momotalk',
@@ -35,11 +40,13 @@ export const store = reactive({
     sleepSimulationEnabled: false,
 
     openSettingDialog(page: number = 1) {
+        dismissKeyboard()
         this.settingDialogPage = Math.min(Math.max(1, page), 2)
         this.showSettingDialog = true
     },
 
     openHelpDialog() {
+        dismissKeyboard()
         this.showSettingDialog = false
         this.showHelpDialog = true
     },

@@ -4,7 +4,9 @@
         <div class="chat-header-bar" v-if="activeStudentInfo">
             <div class="chat-header-bar__left">
                 <button class="chat-header-bar__back" @click="handleGoBack" :title="$t('back')">‹</button>
-                <img class="chat-header-bar__avatar" :src="activeStudentAvatar" :alt="activeStudentInfo.Name" />
+                <RouterLink :to="{ path: '/', query: { id: activeStudentInfo.Id } }" :title="$t('openProfile')">
+                    <img class="chat-header-bar__avatar" :src="activeStudentAvatar" :alt="activeStudentInfo.Name" />
+                </RouterLink>
                 <div class="chat-header-bar__meta">
                     <div class="chat-header-bar__name-row">
                         <span class="chat-header-bar__name">{{ activeStudentInfo.Name }}</span>
