@@ -27,19 +27,23 @@
 - 📸 **画像認識（マルチモーダル）対応**: 先生から写真や画像を送信すると、生徒が画像の内容を見てコメントを返します。
 - 💖 **絆ランク機能**: 会話を重ねることで生徒との絆ランクが上昇。おなじみの絆アップ演出・効果音を搭載。
 - 🌐 **5言語対応**: 日本語、英語、韓国語、簡体字中国語、繁体字中国語の完全UI・ヘルプ対応。
-- 🖼️ **会話画像のワンクリック保存**: サイドバーのダウンロードボタンから、チャット履歴を高解像度画像として保存可能。
+- 😊 **生徒に伝わるスタンプ**: MomoTalk のスタンプを送ると、生徒がその意味（「OK」「ありがとう」、驚き・照れ など）を理解して返事をします。
 - 📱 **レスポンシブデザイン**: PCの大画面からスマートフォンの縦画面まで快適に操作可能。
 
 ---
 
 ## 📸 プレビュー
 
-![生徒選択](./assets/演示1.webp)
-![チャット画面](./assets/演示2.webp)
+![チャット画面（PC）](./images/preview-chat.webp)
+
+<img src="./images/preview-mobile.webp" alt="チャット画面（スマホ）" width="300">
 
 ---
 
 ## 🚀 クイックスタート
+
+### オンラインで使う
+- **https://hirarara74.github.io/momotalk_AI/** — 右上の設定 ⚙️ で API キーを入力して使います（Groq の API キーは [console.groq.com/keys](https://console.groq.com/keys) で無料取得できます）。
 
 ### リポジトリ
 - GitHub: [hirarara74/momotalk_AI](https://github.com/hirarara74/momotalk_AI)
@@ -77,6 +81,7 @@ npm run build
 本プロジェクトは、U1805氏が制作したオープンソースプロジェクト [U1805/momotalk](https://github.com/U1805/momotalk) をベースにAI対話機能を追加・発展させたものです。
 
 キャラクターのメタデータとアセット:
+- [BlueArcbox/resources](https://github.com/BlueArcbox/resources)
 - [kivo.wiki](https://kivo.wiki/)
 - [ba.gamekee](https://ba.gamekee.com/)
 - [bluearchive.fandom](https://bluearchive.fandom.com)
