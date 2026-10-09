@@ -2,6 +2,7 @@ import { Resource } from './cache'
 import { studentInfo, LocalStudent } from './interface'
 import { Traditionalized } from '../utils/tw_cn'
 import { dateFormat, SupportedLanguage } from './dateFormat'
+import { foldOutfitStudents } from './outfits'
 
 const resourceInstance = new Resource()
 await resourceInstance.loadConfig()
@@ -34,6 +35,10 @@ const getStickers = async (student: number) => {
     return (await getData(`/api/Stories/${student}/Stickers.json`)) as any[]
 }
 
+/** 衣装違いの Id → 基本生徒の Id（getStudents の実行後に設定される） */
+let outfitBaseIdOf: Record<number, number> = {}
+const getOutfitBaseIdOf = () => outfitBaseIdOf
+
 const getStudents = async (rawLng: string) => {
     const lng = (rawLng === 'ja' ? 'jp' : rawLng) as SupportedLanguage
     const tools = {
@@ -42,7 +47,7 @@ const getStudents = async (rawLng: string) => {
             Avatars: proxy(localItem.Avatar),
             Name: tools.fixStudentField(localItem, 'Name'),
             Bio: tools.fixStudentField(localItem, 'Bio'),
-            Nickname: localItem.Nickname,
+            Nickname: [...localItem.Nickname], // cached source is shared across language reloads; never push into it
             Birthday: dateFormat(localItem.Birthday, lng) || '???',
             Age: localItem.Age || '',
             School: localItem.School || 'ETC',
@@ -102,17 +107,27 @@ const getStudents = async (rawLng: string) => {
         }
     }
 
-    const [local, prefixTable] = await Promise.all([
+    const [allLocal, prefixTable] = await Promise.all([
         getData<LocalStudent[]>('/api/Momotalk/students.json'),
         getData<Record<string, string[]>>('/api/Momotalk/prefixTable.json')
     ])
 
+    // 衣装違いは別の生徒にせず、基本生徒のアイコン候補（プラスボタンで選択）として統合する
+    const { students: local, outfits, baseIdOf } = foldOutfitStudents(allLocal)
+    outfitBaseIdOf = baseIdOf
+
     return local.map((localItem) => {
         const newStudent = tools.initStudentObject(localItem)
+        newStudent.hasOutfits = outfits.has(localItem.Id)
         tools.fillNickname(newStudent, localItem)
+        // 衣装違いの呼び名でも検索できるように、基本生徒の呼び名へ追加する
+        for (const outfit of outfits.get(localItem.Id) || []) {
+            tools.fillNickname(newStudent, outfit)
+            newStudent.Nickname.push(tools.fixStudentField(outfit, 'Name'), ...outfit.Nickname)
+        }
         tools.fillRelatedStudent(newStudent, localItem)
         return newStudent
     })
 }
 
-export { getStudents, getMessage, getSchoolIcon, getAvatarImg, getStickers, proxy }
+export { getStudents, getOutfitBaseIdOf, getMessage, getSchoolIcon, getAvatarImg, getStickers, proxy }
