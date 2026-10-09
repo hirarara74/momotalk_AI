@@ -1,3 +1,4 @@
+import { resolveCanonicalStudent } from './prompts'
 /**
  * 生徒ごとの生活リズム（就寝・起床時間・平日休日差・ランダム性）管理モジュール
  */
@@ -548,9 +549,14 @@ export function getStudentSleepSchedule(student: any): SleepScheduleConfig {
         ? student.trim()
         : (typeof student === 'object' && student.Name ? student.Name.trim() : '')
 
-    for (const [key, config] of Object.entries(STUDENT_SLEEP_SCHEDULES)) {
-        if (name.includes(key) || key.includes(name)) {
-            return config
+    // Exact names only. A substring match gave ウミカ the schedule of ミカ (and サキ that of ミサキ).
+    if (STUDENT_SLEEP_SCHEDULES[name]) return STUDENT_SLEEP_SCHEDULES[name]
+
+    // Outfit suffixes (「ミカ（水着）」「シロコ＊テラー」) and other-language names resolve to the base student.
+    const canonical = resolveCanonicalStudent(name)
+    if (canonical) {
+        for (const key of canonical.names.jp) {
+            if (STUDENT_SLEEP_SCHEDULES[key]) return STUDENT_SLEEP_SCHEDULES[key]
         }
     }
 
