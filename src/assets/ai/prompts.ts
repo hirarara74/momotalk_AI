@@ -1,6 +1,7 @@
 import { KAYOKO_PROMPT, KISAKI_PROMPT, RIO_PROMPT, ARIS_PROMPT, WAKAMO_PROMPT, HIMARI_PROMPT, SERIKA_PROMPT, NONOMI_PROMPT } from './additionalStudentPrompts'
 import type { baseStudent, studentInfo } from '../requestUtils/interface'
 import { getOutfitForAvatar } from '../requestUtils/outfitRegistry'
+import { ROSTER_STUDENTS } from './rosterStudents'
 import {
     HOSHINO_PROMPT,
     HINA_PROMPT,
@@ -1386,6 +1387,19 @@ export const PROMPT_SUPPORTED_STUDENT_NAMES: string[] = [
     'サオリ', '錠前サオリ', 'Saori', '사오리', '죠마에 사오리', '纱织', '锭前纱织', '紗織', '錠前紗織',
     'シュン', '春原シュン', 'Shun', '슌', '스노하라 슌', '瞬', '春原瞬'
 ]
+
+// rosterStudents.ts の生徒を、既存の登録先（正規データ・専用プロンプト・対応リスト）へ組み込む
+for (const r of ROSTER_STUDENTS) {
+    STUDENT_CANONICAL_DATA.push({
+        id: r.id,
+        names: r.names,
+        callSensei: { jp: '先生', en: 'Sensei', kr: '선생님', zh: '老师', tw: '老師' },
+        greetings: r.greetings
+    })
+    for (const key of r.promptKeys) SPECIAL_PROMPTS[key] = r.prompt
+    PROMPT_SUPPORTED_STUDENT_IDS.push(r.id)
+    PROMPT_SUPPORTED_STUDENT_NAMES.push(...Object.values(r.names).flat())
+}
 
 /**
  * 生徒がAIプロンプト対応済みかどうかを判定する
