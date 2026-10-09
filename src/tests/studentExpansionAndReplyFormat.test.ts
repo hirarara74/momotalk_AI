@@ -31,7 +31,7 @@ describe('Distinct student expansion and dialogue formatting', () => {
         expect(getCharacterVisualProfile(id).characterTag).not.toContain('kivotos_student')
     })
     it('keeps the same output rules for every existing student and generic fallbacks', () => {
-        expect(new Set(STUDENT_CANONICAL_DATA.map(s => s.id)).size).toBe(31)
+        expect(new Set(STUDENT_CANONICAL_DATA.map(s => s.id)).size).toBe(43)
         for (const student of [...STUDENT_CANONICAL_DATA.map(s => ({ Id: s.id, Name: s.names.jp[0], Avatar: '' })),
             { Id: 99999, Name: '未知の生徒', Avatar: '' }]) {
             for (const lang of ['jp', 'en', 'kr', 'zh', 'tw']) {

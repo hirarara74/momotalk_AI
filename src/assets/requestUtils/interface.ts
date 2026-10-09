@@ -24,6 +24,8 @@ interface studentInfo {
     cnt: number
     /** 衣装違いのアイコンが Avatars に統合されている */
     hasOutfits?: boolean
+    /** Avatars と同じ並びの衣装名。基本のアイコンは空文字 */
+    AvatarOutfits?: string[]
 }
 
 interface LocalStudent {

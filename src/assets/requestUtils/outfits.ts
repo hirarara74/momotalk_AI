@@ -7,6 +7,8 @@ export interface FoldedStudents {
     outfits: Map<number, LocalStudent[]>
     /** 衣装違いの Id → 基本生徒の Id */
     baseIdOf: Record<number, number>
+    /** 基本生徒の Id → Avatar と同じ並びの衣装名（基本のアイコンは空文字） */
+    avatarOutfits: Map<number, string[]>
 }
 
 /**
@@ -27,21 +29,26 @@ export function foldOutfitStudents(local: LocalStudent[]): FoldedStudents {
         outfits.set(baseId, list)
     }
 
+    const avatarOutfits = new Map<number, string[]>()
     const students = local
         .filter((item) => !(item.Id in baseIdOf))
         .map((item) => {
             const variants = outfits.get(item.Id)
             if (!variants) return item
             const avatars = [...item.Avatar]
+            const labels = avatars.map(() => '')
             for (const variant of variants) {
                 for (const avatar of variant.Avatar) {
-                    if (!avatars.includes(avatar)) avatars.push(avatar)
+                    if (avatars.includes(avatar)) continue
+                    avatars.push(avatar)
+                    labels.push(variant.Related?.ItemType || '')
                 }
             }
+            avatarOutfits.set(item.Id, labels)
             return { ...item, Avatar: avatars }
         })
 
-    return { students, outfits, baseIdOf }
+    return { students, outfits, baseIdOf, avatarOutfits }
 }
 
 export interface OutfitMigrationTargets {
