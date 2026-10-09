@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 import { Talk, baseStudent, studentInfo } from '../requestUtils/interface'
 import { historyState } from './historyState'
-import { getStudentGreeting } from '../ai/prompts'
+import { getStudentGreeting, isPromptSupported } from '../ai/prompts'
 import { abortStreaming } from '../chatUtils/send'
 import { isStudentSleeping } from '../ai/sleepSchedule'
 
@@ -372,13 +372,37 @@ export function randomAwakeTime(student: { Name: string }, now: number = Date.no
 }
 
 /**
- * 初回アクセス時に、まだチャットのない全生徒の最初のメッセージを一括生成して未読にする
+ * 初回アクセス時に、まだチャットのない「プロンプト対応済みの生徒」の最初のメッセージを生成して未読にする。
+ * 対応していない生徒には未読を付けない。
+ * 既に保存済みで、挨拶だけの（やり取りのない）チャットは、現在の生徒名の挨拶に直す。
  */
 export function seedInitialGreetings(students: any[]) {
     if (typeof localStorage === 'undefined') return
     for (const s of students) {
         const key = 'momotalk_chat_' + s.Id
-        if (localStorage.getItem(key) != null) continue
+        const supported = isPromptSupported(s)
+        const saved = localStorage.getItem(key)
+
+        if (saved != null) {
+            try {
+                const talks = JSON.parse(saved)
+                const untouched = Array.isArray(talks) && talks.length === 1 && talks[0]?.type === 0
+                if (untouched) {
+                    // 部分一致で別の生徒の挨拶が保存されていた場合などを直す
+                    const greeting = getStudentGreeting(s.Name)
+                    if (talks[0].content !== greeting) {
+                        talks[0].content = greeting
+                        localStorage.setItem(key, JSON.stringify(talks))
+                    }
+                    if (!supported && talkHistory.unreadStudents[s.Id]) delete talkHistory.unreadStudents[s.Id]
+                }
+            } catch {
+                // 壊れたデータには触れない
+            }
+            continue
+        }
+
+        if (!supported) continue
         const talk: Talk = {
             Id: 0,
             Name: s.Name,

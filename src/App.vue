@@ -187,10 +187,10 @@ const sortOrderTrigger = () => {
 }
 
 const isChatRoute = computed(() => isChatPath(route?.path))
-// Count only students that exist in the list, so stale ids from old saves are not included.
-// The number is shown as-is (no "99+" cap).
+// Count only prompt-supported students in the list, so stale ids and students who never get
+// a reply do not inflate the number. The number is shown as-is (no "99+" cap).
 const totalUnread = computed(() => {
-    const knownIds = new Set(database.value.map((s) => s.Id))
+    const knownIds = new Set(database.value.filter((s) => isPromptSupported(s)).map((s) => s.Id))
     return Object.entries(talkHistory.unreadStudents).reduce(
         (sum, [id, n]) => (knownIds.has(Number(id)) ? sum + (Number(n) || 0) : sum),
         0
