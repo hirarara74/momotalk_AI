@@ -3,6 +3,7 @@ import { Talk, baseStudent, studentInfo } from '../requestUtils/interface'
 import { historyState } from './historyState'
 import { getStudentGreeting } from '../ai/prompts'
 import { abortStreaming } from '../chatUtils/send'
+import { isStudentSleeping } from '../ai/sleepSchedule'
 
 const isSameChar_ = (talk0: Talk, talk1: Talk) => {
     if (talk0.type !== talk1.type) return false
@@ -40,13 +41,45 @@ const initPendingWakeups = (): Record<number, PendingWakeupItem> => {
     return {}
 }
 
+const initUnread = (): Record<number, number> => {
+    try {
+        if (typeof localStorage !== 'undefined') {
+            const item = localStorage.getItem('momotalk_unread')
+            return item ? JSON.parse(item) : {}
+        }
+    } catch {
+        // ignore
+    }
+    return {}
+}
+
 export const talkHistory = reactive({
     talkHistory: [] as Talk[],
     talkId: 0,
     currentStudentId: 0,
     studentChatTimes: initChatTimes(),
     pendingWakeups: initPendingWakeups(),
+    unreadStudents: initUnread(),
     lastChatUpdate: 0,
+
+    markUnread(studentId: number) {
+        this.unreadStudents[studentId] = (Number(this.unreadStudents[studentId]) || 0) + 1
+        this.saveUnread()
+    },
+
+    clearUnread(studentId: number) {
+        if (!this.unreadStudents[studentId]) return
+        delete this.unreadStudents[studentId]
+        this.saveUnread()
+    },
+
+    saveUnread() {
+        try {
+            localStorage.setItem('momotalk_unread', JSON.stringify(this.unreadStudents))
+        } catch {
+            // ignore
+        }
+    },
 
     enqueuePendingWakeup(studentId: number, studentName: string, userMessage: string, scheduledWakeTime: number) {
         if (!this.pendingWakeups[studentId]) {
@@ -142,6 +175,7 @@ export const talkHistory = reactive({
 
     deleteTalkByIndex(index: number) {
         const len = this.talkHistory.length
+        if (index < 0 || index >= len) return
         if (index >= 0 && index < len - 1 && this.talkHistory[index + 1].type <= 1)
             if (index === 0 || !this.isSameChar(index + 1, index - 1))
                 this.setTalkFlag(index + 1, 2)
@@ -256,6 +290,7 @@ export const talkHistory = reactive({
         }
 
         this.currentStudentId = student.Id
+        this.clearUnread(student.Id)
         const savedData = localStorage.getItem('momotalk_chat_' + student.Id)
 
         if (savedData != null) {
@@ -264,11 +299,6 @@ export const talkHistory = reactive({
                 if (this.talkHistory.length > 0) {
                     const maxId = Math.max(...this.talkHistory.map((t) => t.Id || 0))
                     this.talkId = maxId + 1
-                    if (this.talkHistory.length === 1 && this.talkHistory[0].type === 0) {
-                        this.talkHistory[0].content = getStudentGreeting(student.Name)
-                        this.talkHistory[0].Name = student.Name
-                        this.saveCurrentStudentTalks()
-                    }
                 }
                 return
             } catch (e) {
@@ -329,6 +359,44 @@ export const talkHistory = reactive({
         this.saveCurrentStudentTalks()
     }
 })
+
+/**
+ * 生徒が起きている時間帯（直近24時間）のランダムな時刻を返す
+ */
+export function randomAwakeTime(student: { Name: string }, now: number = Date.now()): number {
+    for (let i = 0; i < 30; i++) {
+        const t = now - Math.floor(Math.random() * 24 * 3600 * 1000)
+        if (!isStudentSleeping(student, new Date(t)).isSleeping) return t
+    }
+    return now // ponytail: 30回外れたら現在時刻。就寝中の可能性は残る
+}
+
+/**
+ * 初回アクセス時に、まだチャットのない全生徒の最初のメッセージを一括生成して未読にする
+ */
+export function seedInitialGreetings(students: any[]) {
+    if (typeof localStorage === 'undefined') return
+    for (const s of students) {
+        const key = 'momotalk_chat_' + s.Id
+        if (localStorage.getItem(key) != null) continue
+        const talk: Talk = {
+            Id: 0,
+            Name: s.Name,
+            Avatar: Array.isArray(s.Avatars) ? s.Avatars[s.cnt || 0] : s.Avatar || '',
+            type: 0,
+            flag: 2,
+            content: getStudentGreeting(s.Name),
+            time: randomAwakeTime(s)
+        }
+        try {
+            localStorage.setItem(key, JSON.stringify([talk]))
+        } catch {
+            return // 容量超過
+        }
+        talkHistory.unreadStudents[s.Id] = 1
+    }
+    talkHistory.saveUnread()
+}
 
 export function recordStudentInteraction(studentId: number, timestamp: number = Date.now()) {
     if (!studentId) return

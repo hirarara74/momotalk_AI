@@ -1,4 +1,8 @@
 export default {
+    messageActions: '메시지 작업',
+    editMessage: '수정',
+    deleteMessage: '전송 취소 (삭제)',
+    saveMessage: '저장',
     selectInfo: '학생을 선택해주세요',
     relatedStudentTitle: '관련 학생',
     noRelatedStudent: '관련 학생이 없습니다',
@@ -37,6 +41,7 @@ export default {
     sleepingBadge: '취침 중 ({time} 기상 예정)',
     sleepingPlaceholder: '{name} 학생은 취침 중입니다 (메시지는 기상 후 도착합니다)...',
     readStatus: '읽음',
+    unreadMessages: '읽지 않은 메시지',
     clearChat: '초기화',
     resetChatConfirm: '{name} 학생과의 대화 기록을 초기화하시겠습니까?',
     resetAllConfirm: '화면을 초기화하시겠습니까?\n- 최근 선택한 학생 목록이 삭제됩니다\n- 생활 리듬 설정이 꺼집니다\n(각 학생과의 대화 기록은 유지됩니다)',

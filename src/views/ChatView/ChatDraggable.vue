@@ -3,6 +3,7 @@ import TypingAnimation from '@/components/TypingAnimation.vue'
 import ImageModalViewer from '@/components/ImageModalViewer.vue'
 import ChatBlock from './ChatBlock.vue'
 import ReplyBlock from './ReplyBlock.vue'
+import MessageActions from './MessageActions.vue'
 import { isMessageTyping } from '@/assets/chatUtils/send'
 import { formatChatTime, formatChatDate, isDifferentDay } from '@/assets/storeUtils/talkHistory'
 import { resolveCanonicalStudent } from '@/assets/ai/prompts'
@@ -78,7 +79,7 @@ const shouldShowDateDivider = (index: number, element: any, tasks: any[]) => {
                         {{ getLocalizedStudentName(element.Name) }}
                     </div>
 
-                    <div class="container">
+                    <message-actions class="container" :element="element">
                         <!-- 羁绊剧情 -->
                         <div class="box-story" v-if="element.type === 2">
                             <div
@@ -161,18 +162,10 @@ const shouldShowDateDivider = (index: number, element: any, tasks: any[]) => {
                             </template>
                         </div>
                         <div class="chat-meta" v-if="element.time && !isMessageTyping(element)">
-                            <span class="chat-read" v-if="element.type === 1">{{ $t('readStatus') }}</span>
+                            <span class="chat-read" v-if="element.type === 1 && !element.unread">{{ $t('readStatus') }}</span>
                             <span class="chat-time">{{ formatChatTime(element.time) }}</span>
                         </div>
-                        <span class="action-block" >
-                            <span @click="talkHistory.deleteTalkById(element.Id)" title="削除">x</span>
-                            <!-- 【割り込み編集機能の復元用メモ】
-                                 割り込み編集機能（↲）を復活させる場合は、下記のコメントを解除し、
-                                 直下の insert-indicator および methods の setInsert を有効化してください。
-                                 <span @click="setInsert(element.Id)">↲</span>
-                            -->
-                        </span>
-                    </div>
+                    </message-actions>
                     <!-- 【割り込み編集機能の復元用メモ】
                          割り込み挿入ガイド表示（insert here）を復活させる場合は、下記コメントを解除してください。
                          <div class="insert-indicator" v-if="store.insertId === element.Id">insert here</div>
@@ -203,6 +196,7 @@ export default {
         TypingAnimation,
         ChatBlock,
         ReplyBlock,
+        MessageActions,
         ImageModalViewer
     },
     methods: {

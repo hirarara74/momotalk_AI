@@ -1,4 +1,8 @@
 export default {
+    messageActions: '訊息操作',
+    editMessage: '編輯',
+    deleteMessage: '收回（刪除）',
+    saveMessage: '儲存',
     selectInfo: '請選擇學生',
     relatedStudentTitle: '相關學生',
     noRelatedStudent: '暫無相關學生',
@@ -36,6 +40,7 @@ export default {
     sleepingBadge: '就寢中 (預計 {time} 起床)',
     sleepingPlaceholder: '{name}正在就寢中（訊息將在起床後回覆）...',
     readStatus: '已讀',
+    unreadMessages: '未讀訊息',
     clearChat: '重設',
     resetChatConfirm: '確定要重設與{name}的對話記錄嗎？',
     resetAllConfirm: '要重設顯示嗎？\n- 最近選擇的學生清單將被清空\n- 作息時間設定將被關閉\n（與各學生的聊天記錄會保留）',

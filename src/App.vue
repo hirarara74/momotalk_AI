@@ -3,13 +3,16 @@ import { ref } from 'vue'
 import type { studentInfo } from '@/assets/requestUtils/interface'
 import { getStudents } from '@/assets/requestUtils/request'
 import { store } from '@/assets/storeUtils/store'
+import { seedInitialGreetings } from '@/assets/storeUtils/talkHistory'
 
 store.getData()
 export const database = ref<studentInfo[]>(await getStudents(store.language))
+// 初回アクセス時、全生徒の最初のメッセージを一括生成（選択中の生徒より先に）
+seedInitialGreetings(database.value)
 </script>
 
 <script setup lang="ts">
-import { watch } from 'vue'
+import { computed, watch } from 'vue'
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
 import MomoIcon from './components/icons/IconMomo.vue'
 import SettingIcon from './components/icons/IconSetting.vue'
@@ -27,7 +30,7 @@ import i18n from '@/locales/i18n'
 import type { baseStudent, studentInfo as StudentInfoType } from '@/assets/requestUtils/interface'
 import { getSchoolIcon } from '@/assets/requestUtils/request'
 import { birthday_sort, SupportedLanguage } from '@/assets/requestUtils/dateFormat'
-import { talkHistory, getStudentLatestSnippet, getStudentSubline } from '@/assets/storeUtils/talkHistory'
+import { talkHistory, getStudentLatestSnippet, getStudentSubline, isChatPath } from '@/assets/storeUtils/talkHistory'
 import { selectList } from '@/assets/storeUtils/selectList'
 import { debounce, search } from '@/assets/utils/search'
 import { isPromptSupported } from '@/assets/ai/prompts'
@@ -173,6 +176,12 @@ const sortOrderTrigger = () => {
     filter_condition.value.sort_asc = !filter_condition.value.sort_asc
     processData()
 }
+
+const isChatRoute = computed(() => isChatPath(route?.path))
+const totalUnread = computed(() =>
+    Object.values(talkHistory.unreadStudents).reduce((sum, n) => sum + (Number(n) || 0), 0)
+)
+const formatBadge = (n: number) => (n > 99 ? '99+' : String(n))
 
 /************************* */
 /*  select student         */
@@ -365,6 +374,7 @@ document.onkeyup = (e) => {
                 </RouterLink>
                 <RouterLink :to="{ path: '/chat', query: { id: studentSelected?.Id || 10010 } }" title="Chat">
                     <MessageIcon class="icon message" />
+                    <span class="badge sidebar-badge" v-if="totalUnread > 0">{{ formatBadge(totalUnread) }}</span>
                 </RouterLink>
             </div>
             <div id="sidebar__down">
@@ -403,8 +413,11 @@ document.onkeyup = (e) => {
                     </template>
                 </Popper>
             </header>
+            <div class="list-title" v-if="isChatRoute">
+                {{ $t('unreadMessages') }} ({{ totalUnread }})
+            </div>
             <div id="listbody">
-                <div class="list-item" v-for="(item, index) in dataDisplay" :key="index" :id="item.Id.toString()"
+                <div class="list-item" v-for="item in dataDisplay" :key="item.Id" :id="item.Id.toString()"
                     :class="{ active: item === studentSelected }" @click="selectStudent(item)">
                     <div class="list-item__avatar" @click.stop="" @click="showAvatars(item)" role="button" tabindex="0"
                         @keydown.enter="showAvatars(item)">
@@ -414,9 +427,12 @@ document.onkeyup = (e) => {
                     </div>
                     <span class="list-item__name">{{ item.Name }}</span>
                     <span class="list-item__bio">{{ getStudentSubline(item, route?.path || $route?.path) }}</span>
-                    <div class="list-item__mark" v-if="item.School" @click.stop="" @click="filter_school(item)"
-                        role="button" tabindex="0" @keydown.enter=" filter_school(item)">
-                        <img v-lazy="getSchoolIcon(item.School)" :alt="`${item.School} icon`" />
+                    <div class="list-item__mark" v-if="isChatRoute">
+                        <span class="badge" v-if="talkHistory.unreadStudents[item.Id]">{{ formatBadge(talkHistory.unreadStudents[item.Id]) }}</span>
+                    </div>
+                    <div class="list-item__mark list-item__rank" v-else :title="`Lv.${store.getRelationshipRank(item.Id)}`">
+                        <svg viewBox="0 0 24 22" aria-hidden="true"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.500-4 8-11 14z"/></svg>
+                        <span>{{ store.getRelationshipRank(item.Id) }}</span>
                     </div>
                     <div class="list-item__avatars" @click.stop="" v-show="item === studentShowAvatars">
                         <img v-for="(avatar, index) in item.Avatars" :key="index" v-lazy="avatar"

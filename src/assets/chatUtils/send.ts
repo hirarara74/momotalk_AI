@@ -6,6 +6,7 @@ import { talkHistory, recordStudentInteraction, type PendingWakeupItem } from '.
 import { selectList } from '../storeUtils/selectList'
 import { myReExp } from '../utils/markdown'
 import { getAIProvider, buildSystemPrompt, type ChatMessage } from '../ai'
+import { normalizeStudentReply } from '../ai/normalizeStudentReply'
 import { isStudentSleeping, getWakeupSystemPromptModifier } from '../ai/sleepSchedule'
 import { playMomoTalkSound } from '../utils/sound'
 import { getStickerDescription } from '../utils/stickers'
@@ -281,6 +282,10 @@ export async function handleAIReplyTrigger(
             userMessageText,
             sleepCheck.wakeTime.getTime()
         )
+        // 就寝中は既読を付けない（起床時に外す）
+        for (let i = talkHistory.talkHistory.length - 1; i >= 0 && talkHistory.talkHistory[i].type === 1; i--) {
+            talkHistory.talkHistory[i].unread = true
+        }
         store.typing = 0
         talkHistory.saveCurrentStudentTalks()
         return
@@ -369,7 +374,7 @@ export async function triggerBackgroundWakeupReply(
             )
 
             const { cleanText } = extractPhotoDirective(fullResponse)
-            finalDialogue = cleanText || fullResponse
+            finalDialogue = normalizeStudentReply(cleanText || fullResponse)
         } catch (error) {
             console.error(`[Wakeup] Background AI reply failed for ${item.studentName}:`, error)
             finalDialogue = '……ん、先生？（通信エラーが発生しました）'
@@ -387,6 +392,7 @@ export async function triggerBackgroundWakeupReply(
         content: re.md2html(finalDialogue),
         time: Date.now()
     }
+    talks.forEach(t => delete t.unread)
     talks.push(replyTalk)
 
     if (typeof localStorage !== 'undefined') {
@@ -395,6 +401,7 @@ export async function triggerBackgroundWakeupReply(
 
     // 生徒との最終対話時刻を記録（生徒一覧の並び順・未読通知を更新）
     recordStudentInteraction(studentId, replyTalk.time)
+    talkHistory.markUnread(studentId)
 
     // 受信音を再生
     playMomoTalkSound('receive')
@@ -426,6 +433,8 @@ export async function checkAndTriggerPendingWakeups(now: Date = new Date()): Pro
 
             if (activeStudentId === studentId) {
                 // 現在開いているチャットの生徒
+                talkHistory.talkHistory.forEach(t => delete t.unread)
+                talkHistory.saveCurrentStudentTalks()
                 if (!store.isAiResponding) {
                     triggerAIReply(userMessages[userMessages.length - 1], {
                         isWakeUp: true,
@@ -671,7 +680,7 @@ export async function triggerAIReply(
                 if (signal.aborted || talkHistory.currentStudentId !== replyingStudentId) return
                 accumulatedText = chunk
                 const { cleanText } = extractPhotoDirective(accumulatedText)
-                talkHistory.setTalkContent(replyTalk.Id, re.md2html(cleanText || accumulatedText))
+                talkHistory.setTalkContent(replyTalk.Id, re.md2html(normalizeStudentReply(cleanText || accumulatedText)))
                 if (scroll_to_bottom) {
                     scroll_to_bottom.scrollTop = scroll_to_bottom.scrollHeight
                 }
@@ -682,7 +691,7 @@ export async function triggerAIReply(
         if (signal.aborted || talkHistory.currentStudentId !== replyingStudentId) return
 
         const { cleanText, photoTags } = extractPhotoDirective(accumulatedText)
-        const finalDialogue = cleanText || accumulatedText
+        const finalDialogue = normalizeStudentReply(cleanText || accumulatedText)
 
         // 完了
         talkHistory.setTalkContent(replyTalk.Id, re.md2html(finalDialogue))
