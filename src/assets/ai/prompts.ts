@@ -1,5 +1,6 @@
 import { KAYOKO_PROMPT, KISAKI_PROMPT, RIO_PROMPT, ARIS_PROMPT, WAKAMO_PROMPT, HIMARI_PROMPT, SERIKA_PROMPT, NONOMI_PROMPT } from './additionalStudentPrompts'
 import type { baseStudent, studentInfo } from '../requestUtils/interface'
+import { getOutfitForAvatar } from '../requestUtils/outfitRegistry'
 import {
     HOSHINO_PROMPT,
     HINA_PROMPT,
@@ -1134,6 +1135,45 @@ export function getStickerDirective(lang?: string): string {
 }
 
 /**
+ * 衣装ごとの追加設定。性格・口調・一人称は変えず、格好と場面の雰囲気だけを足す。
+ */
+const OUTFIT_SCENES: Record<string, string> = {
+    '水着': '夏の海やプール、ビーチで過ごしている気分。水着姿を少し意識して照れたり、はしゃいだりする',
+    'バニーガール': 'バニーガールの衣装を着ている。慣れない格好に恥ずかしがったり、張り切ったりする',
+    '温泉': '温泉旅行で浴衣姿でくつろいでいる。湯上がりののんびりした雰囲気',
+    '正月': '晴れ着姿でお正月を過ごしている。初詣やお年玉、新年の挨拶の空気',
+    '応援団': '応援団の衣装で気合が入っている。声を張って元気に応援する雰囲気',
+    '体操服': '体操服姿で運動している。体育や運動会、汗をかいた後のような雰囲気',
+    'クリスマス': 'クリスマスの衣装。ツリーやプレゼント、イルミネーションなど冬の楽しい雰囲気',
+    'メイド': 'メイド服姿で給仕している。「ご奉仕」の立場を少し意識した丁寧さや照れ',
+    'キャンプ': 'キャンプに来ている。焚き火や星空、アウトドアの空気',
+    'ドレス': 'ドレス姿で華やかな場にいる。いつもより少し背伸びした落ち着き',
+    'ガイド': 'ガイドの衣装で案内役をしている。説明したり先導したりする雰囲気',
+    'バンド': 'バンドの衣装でライブや練習をしている。音楽と熱気の空気',
+    '臨戦': '戦闘用の装いで臨戦態勢。緊張感や集中、頼もしさを少し滲ませる',
+    'テラー': '少し物々しい、ダークな装い。不穏でクールな雰囲気を少しだけ纏う',
+    'チーパオ': 'チャイナドレス（チーパオ）姿。いつもと違う装いを少し意識する',
+    'アイドル': 'アイドルの衣装でステージに立つ気分。キラキラした華やかな雰囲気',
+    'パジャマ': 'パジャマ姿でくつろいでいる。夜のゆるい雰囲気で、眠そうにしてもよい',
+    '制服': '制服姿。学校生活や放課後の雰囲気',
+    'アルバイト': 'アルバイト先の制服で働いている。仕事中の忙しさや接客の意識',
+    'マジカル': '魔法少女のような衣装。変身した気分で少し格好つける',
+    'ライディング': 'ライディングスーツ姿で出かけている。風を切って走るような気分',
+    '幼女': '幼い頃のような姿。無邪気で素直な雰囲気',
+    '私服': '私服姿。普段の制服とは違うプライベートな雰囲気'
+}
+
+export function getOutfitDirective(outfit: string): string {
+    if (!outfit) return ''
+    const scene = OUTFIT_SCENES[outfit] || `${outfit}の衣装を着ている`
+    return `#現在の衣装設定
+*今のあなたは「${outfit}」の姿です。${scene}。
+*先生に服装を聞かれたり、話の流れで自然な時だけ衣装や場面に触れる。毎回の返信で必ず触れる必要はない。
+*衣装が変わっても、あなたの性格・口調・一人称・先生への呼び方は一切変えない。
+*衣装に合わない設定（季節外れの話題など）を無理に持ち込まない。`
+}
+
+/**
  * 生徒情報からシステムプロンプトを動的に構築
  */
 export function buildSystemPrompt(student: baseStudent | studentInfo, targetLang?: string): string {
@@ -1186,6 +1226,13 @@ Please strictly adhere to the following rules:
 *Reply in natural Japanese as a MomoTalk chat message (1-3 sentences).
 *lang:ja`
     }
+
+    // 選択中のアイコンが衣装違いなら、その衣装の設定を足す（基本のアイコンでは何も足さない）
+    const selectedAvatar =
+        (student as baseStudent).Avatar ||
+        (Array.isArray((student as studentInfo).Avatars) ? (student as studentInfo).Avatars[(student as studentInfo).cnt || 0] : '')
+    const outfitDirective = getOutfitDirective(getOutfitForAvatar(selectedAvatar))
+    if (outfitDirective) basePrompt += `\n\n${outfitDirective}`
 
     basePrompt += '\n\n[OUTPUT FORMAT — applies to every student and language]\nSend only the actual MomoTalk message in 1–3 natural sentences. Do not wrap your reply or individual sentences in Japanese corner brackets, double corner brackets, or quotation marks. Do not add speaker names, stage directions, narration, or Markdown/code fences. Dialogue examples demonstrate voice; never copy their list markers or surrounding punctuation. Quotation marks are allowed only when quoting someone or a title inside your message. Preserve any requested [PHOTO: ...] directive. Use the selected language while preserving character voice.'
 
