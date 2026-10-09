@@ -525,6 +525,21 @@ export const STUDENT_SLEEP_SCHEDULES: Record<string, SleepScheduleConfig> = {
     }
 }
 
+// rosterStudents.ts の生徒の生活リズム（公式プロフィールの趣味・役割に合わせた設定）
+const add = (names: string[], config: SleepScheduleConfig) => names.forEach((n) => (STUDENT_SLEEP_SCHEDULES[n] = config))
+add(["ケイ","天童ケイ"], { bedtimeHour: 23, bedtimeMinute: 30, weekdayWakeHour: 8, weekdayWakeMinute: 0, weekendWakeHour: 9, weekendWakeMinute: 30, varianceMinutes: 20, notes: 'アリスの世話やゲームで夜更かし気味' })
+add(["セイア","百合園セイア"], { bedtimeHour: 22, bedtimeMinute: 0, weekdayWakeHour: 7, weekdayWakeMinute: 0, weekendWakeHour: 8, weekendWakeMinute: 0, varianceMinutes: 10, notes: '本を読んで早めに休み、朝はゆっくり' })
+add(["ナギサ","桐藤ナギサ"], { bedtimeHour: 22, bedtimeMinute: 30, weekdayWakeHour: 6, weekdayWakeMinute: 30, weekendWakeHour: 7, weekendWakeMinute: 30, varianceMinutes: 10, notes: '朝のお茶会の準備や庭の手入れで早起き' })
+add(["カンナ","尾刃カンナ"], { bedtimeHour: 23, bedtimeMinute: 30, weekdayWakeHour: 6, weekdayWakeMinute: 0, weekendWakeHour: 7, weekendWakeMinute: 0, varianceMinutes: 10, notes: '推理映画や読書で少し夜更かし、朝は規律正しく起きる' })
+add(["スズミ","守月スズミ"], { bedtimeHour: 22, bedtimeMinute: 30, weekdayWakeHour: 6, weekdayWakeMinute: 0, weekendWakeHour: 7, weekendWakeMinute: 0, varianceMinutes: 5, notes: '朝の巡回のために規則正しく早起き' })
+add(["レイサ","宇沢レイサ"], { bedtimeHour: 22, bedtimeMinute: 0, weekdayWakeHour: 6, weekdayWakeMinute: 30, weekendWakeHour: 7, weekendWakeMinute: 30, varianceMinutes: 15, notes: '元気に早寝早起き' })
+add(["ニコ","吉野ニコ"], { bedtimeHour: 22, bedtimeMinute: 30, weekdayWakeHour: 5, weekdayWakeMinute: 30, weekendWakeHour: 7, weekendWakeMinute: 0, varianceMinutes: 10, notes: '小隊のお弁当作りのため平日は早起き' })
+add(["ミヨ","桜井ミヨ"], { bedtimeHour: 0, bedtimeMinute: 30, weekdayWakeHour: 8, weekdayWakeMinute: 0, weekendWakeHour: 10, weekendWakeMinute: 0, varianceMinutes: 30, notes: '夜に小説を書くため遅寝' })
+add(["モモイ","才羽モモイ"], { bedtimeHour: 1, bedtimeMinute: 0, weekdayWakeHour: 8, weekdayWakeMinute: 30, weekendWakeHour: 11, weekendWakeMinute: 0, varianceMinutes: 40, notes: 'ゲームで夜更かしし、休日は昼近くまで寝る' })
+add(["イロハ","棗イロハ"], { bedtimeHour: 0, bedtimeMinute: 0, weekdayWakeHour: 9, weekdayWakeMinute: 0, weekendWakeHour: 11, weekendWakeMinute: 30, varianceMinutes: 30, notes: '読書で夜更かし、極度のサボり魔で朝は弱い' })
+add(["フウカ","愛清フウカ"], { bedtimeHour: 22, bedtimeMinute: 0, weekdayWakeHour: 4, weekdayWakeMinute: 30, weekendWakeHour: 6, weekendWakeMinute: 30, varianceMinutes: 10, notes: '学園全体の給食の仕込みのため早起き' })
+add(["ハナコ","浦和ハナコ"], { bedtimeHour: 0, bedtimeMinute: 30, weekdayWakeHour: 8, weekdayWakeMinute: 30, weekendWakeHour: 10, weekendWakeMinute: 30, varianceMinutes: 30, notes: '夜の散歩（徘徊）をするため遅寝' })
+
 /**
  * 未登録生徒向けのデフォルト生活リズム
  */

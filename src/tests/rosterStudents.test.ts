@@ -28,3 +28,25 @@ describe('rosterStudents: 人気上位の12人', () => {
         expect(isPromptSupported('ニコニコ')).toBe(false)
     })
 })
+
+import { isSupportedVisualStudent, getCharacterVisualProfile } from '../assets/imageGen/characterDictionary'
+import { getStudentSleepSchedule, DEFAULT_SLEEP_SCHEDULE } from '../assets/ai/sleepSchedule'
+
+describe('rosterStudents: 見た目タグと就寝スケジュール', () => {
+    it('12人すべてが見た目辞書に載り、名前（全言語）からも引ける', () => {
+        for (const r of ROSTER_STUDENTS) {
+            expect(isSupportedVisualStudent(r.id)).toBe(true)
+            for (const n of Object.values(r.names).flat()) {
+                expect(getCharacterVisualProfile(n).characterTag).toBe(getCharacterVisualProfile(r.id).characterTag)
+            }
+        }
+    })
+
+    it('12人すべてが既定ではない専用の就寝スケジュールを持つ', () => {
+        for (const r of ROSTER_STUDENTS) {
+            const s = getStudentSleepSchedule({ Name: r.jpName })
+            expect(s).not.toBe(DEFAULT_SLEEP_SCHEDULE)
+            expect(getStudentSleepSchedule(r.names.jp[1])).toBe(s)
+        }
+    })
+})
