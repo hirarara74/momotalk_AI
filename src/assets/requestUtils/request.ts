@@ -3,6 +3,7 @@ import { studentInfo, LocalStudent } from './interface'
 import { Traditionalized } from '../utils/tw_cn'
 import { dateFormat, SupportedLanguage } from './dateFormat'
 import { foldOutfitStudents } from './outfits'
+import { registerOutfitAvatars } from './outfitRegistry'
 
 const resourceInstance = new Resource()
 await resourceInstance.loadConfig()
@@ -113,12 +114,18 @@ const getStudents = async (rawLng: string) => {
     ])
 
     // 衣装違いは別の生徒にせず、基本生徒のアイコン候補（プラスボタンで選択）として統合する
-    const { students: local, outfits, baseIdOf } = foldOutfitStudents(allLocal)
+    const { students: local, outfits, baseIdOf, avatarOutfits } = foldOutfitStudents(allLocal)
     outfitBaseIdOf = baseIdOf
 
     return local.map((localItem) => {
         const newStudent = tools.initStudentObject(localItem)
         newStudent.hasOutfits = outfits.has(localItem.Id)
+        const labels = avatarOutfits.get(localItem.Id)
+        if (labels) {
+            newStudent.AvatarOutfits = labels
+            // 選んだアイコンの衣装をプロンプトへ反映できるよう、アイコンURL→衣装名を登録する
+            newStudent.Avatars.forEach((avatar, i) => registerOutfitAvatars(avatar, labels[i]))
+        }
         tools.fillNickname(newStudent, localItem)
         // 衣装違いの呼び名でも検索できるように、基本生徒の呼び名へ追加する
         for (const outfit of outfits.get(localItem.Id) || []) {
