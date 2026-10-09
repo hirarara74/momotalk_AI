@@ -52,3 +52,15 @@
 - 衣装違い（`Related` を持つエントリ）は別の生徒として一覧に出さず、基本生徒の `Avatars` に統合する。一覧のプラスボタンから衣装のアイコンを選べる。
 - 以前の衣装違いIDのチャット履歴・未読・親密度・選択履歴は、起動時に基本生徒へ移す（`migrateOutfitStorage`）。
 - `feature/outfit-icons-prompt` ブランチでは、選択中のアイコンが衣装違いなら、システムプロンプトに「現在の衣装設定」を足す。基本のアイコンでは変化しない。性格・口調・一人称は衣装によらず固定。
+
+## 人気上位の12人を追加（2026-10-10）
+
+専用プロンプトを持つ生徒を31人から43人へ拡大した。実装は `src/assets/ai/rosterStudents.ts`（`prompts.ts` が既存の登録先へ組み込む）。
+
+追加: ケイ、セイア、ナギサ、カンナ、スズミ、レイサ、ニコ、ミヨ、モモイ、イロハ、フウカ、ハナコ。
+
+選定: [電撃オンラインの2026年人気投票](https://dengekionline.com/article/202607/80633)の上位10位と[中間結果の25人](https://dengekionline.com/article/202605/76017)、[ranking.net](https://ranking.net/rankings/best-bluearchive-characters)の上位から、未対応だった生徒を選んだ。
+
+設定の出典（公式プロフィールの要約を掲載したページ）: [game8のケイ](https://game8.jp/blue-archive/699441)、[セイア](https://game8.jp/blue-archive/664363)、[ナギサ](https://game8.jp/blue-archive/643625)、[カンナ](https://game8.jp/blue-archive/655207)、[スズミ・レイサ](https://game8.jp/blue-archive/655220)、[ミヨ](https://game8.jp/blue-archive/722292)、[モモイ](https://game8.jp/blue-archive/643734)、[フウカ](https://game8.jp/blue-archive/643661)、[ハナコ](https://game8.jp/blue-archive/643639)、[レイサ](https://gameranbu.jp/bluearchive/f25960ae7f6376d78d33)、[イロハ](https://gameranbu.jp/bluearchive/e9ba47ef574d366566db)、[ニコ](https://zh.moegirl.org.cn/ja/%E5%90%89%E9%87%8E%E5%A6%AE%E5%8F%AF)（検索結果の要約）。
+
+注意: 取得できたのは性格・所属・趣味・関係性の公式プロフィールまで。一人称・語尾・会話例は、プロフィールに合わせた創作で未確認。残りの未対応生徒は GitHub Issue で管理する。
