@@ -417,6 +417,23 @@ export async function triggerBackgroundWakeupReply(
 }
 
 /**
+ * 生徒の現在のアイコンを探す（選択中のアイコン → 直近の返信のアイコン → 選択履歴の順）
+ */
+export function resolveStudentAvatar(studentId: number): string {
+    const current = store.currentChatStudent as (baseStudent & { Avatars?: string[]; cnt?: number }) | null
+    if (current && current.Id === studentId) {
+        const avatar = current.Avatar || (Array.isArray(current.Avatars) ? current.Avatars[current.cnt || 0] : '')
+        if (avatar) return avatar
+    }
+    if (talkHistory.currentStudentId === studentId) {
+        const lastStudentTalk = [...talkHistory.talkHistory].reverse().find((t) => t.type === 0 && t.Avatar)
+        if (lastStudentTalk) return lastStudentTalk.Avatar
+    }
+    const selected = selectList.selectList.find((s) => s.Id === studentId)
+    return selected?.Avatar || ''
+}
+
+/**
  * 保留中の就寝メッセージの起床時間をチェックし、起床返信をトリガー
  */
 export async function checkAndTriggerPendingWakeups(now: Date = new Date()): Promise<void> {
@@ -428,6 +445,9 @@ export async function checkAndTriggerPendingWakeups(now: Date = new Date()): Pro
     for (const [studentIdStr, item] of Object.entries(talkHistory.pendingWakeups)) {
         const studentId = Number(studentIdStr)
         if (nowTime >= item.scheduledWakeTime) {
+            // 別の返信を生成中なら、保留を消さずに次の確認まで待つ（返信が失われないように）
+            if (activeStudentId === studentId && store.isAiResponding) continue
+
             const userMessages = [...item.userMessages]
             talkHistory.removePendingWakeup(studentId)
 
@@ -435,13 +455,12 @@ export async function checkAndTriggerPendingWakeups(now: Date = new Date()): Pro
                 // 現在開いているチャットの生徒
                 talkHistory.talkHistory.forEach(t => delete t.unread)
                 talkHistory.saveCurrentStudentTalks()
-                if (!store.isAiResponding) {
-                    triggerAIReply(userMessages[userMessages.length - 1], {
-                        isWakeUp: true,
-                        userMessages,
-                        student: { Id: studentId, Name: item.studentName, Avatar: '' }
-                    })
-                }
+                triggerAIReply(userMessages[userMessages.length - 1], {
+                    isWakeUp: true,
+                    userMessages,
+                    // アイコンが空だと返信にアイコンが表示されないため、選択中のアイコンを渡す
+                    student: { Id: studentId, Name: item.studentName, Avatar: resolveStudentAvatar(studentId) }
+                })
             } else {
                 // バックグラウンドの生徒：開いていなくても起床返信を生成・保存
                 await triggerBackgroundWakeupReply(item, userMessages)
