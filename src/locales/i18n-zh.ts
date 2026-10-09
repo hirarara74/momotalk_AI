@@ -40,6 +40,7 @@ export default {
     sleepingBadge: '就寝中 (预计 {time} 起床)',
     sleepingPlaceholder: '{name}正在就寝中（消息将在起床后回复）...',
     readStatus: '已读',
+    unreadMessages: '未读消息',
     clearChat: '重置',
     resetChatConfirm: '确定要重置与{name}的对话记录吗？',
     resetAllConfirm: '要重置显示吗？\n- 最近选择的学生列表将被清空\n- 作息时间设置将被关闭\n（与各学生的聊天记录会保留）',
