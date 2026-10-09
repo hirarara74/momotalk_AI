@@ -3,9 +3,12 @@ import { ref } from 'vue'
 import type { studentInfo } from '@/assets/requestUtils/interface'
 import { getStudents } from '@/assets/requestUtils/request'
 import { store } from '@/assets/storeUtils/store'
+import { seedInitialGreetings } from '@/assets/storeUtils/talkHistory'
 
 store.getData()
 export const database = ref<studentInfo[]>(await getStudents(store.language))
+// 初回アクセス時、全生徒の最初のメッセージを一括生成（選択中の生徒より先に）
+seedInitialGreetings(database.value)
 </script>
 
 <script setup lang="ts">
@@ -404,7 +407,7 @@ document.onkeyup = (e) => {
                 </Popper>
             </header>
             <div id="listbody">
-                <div class="list-item" v-for="(item, index) in dataDisplay" :key="index" :id="item.Id.toString()"
+                <div class="list-item" v-for="item in dataDisplay" :key="item.Id" :id="item.Id.toString()"
                     :class="{ active: item === studentSelected }" @click="selectStudent(item)">
                     <div class="list-item__avatar" @click.stop="" @click="showAvatars(item)" role="button" tabindex="0"
                         @keydown.enter="showAvatars(item)">
@@ -413,6 +416,7 @@ document.onkeyup = (e) => {
                             aria-label="Toggle Avatar View"></button>
                     </div>
                     <span class="list-item__name">{{ item.Name }}</span>
+                    <span class="list-item__unread" v-if="talkHistory.unreadStudents[item.Id]" aria-label="unread"></span>
                     <span class="list-item__bio">{{ getStudentSubline(item, route?.path || $route?.path) }}</span>
                     <div class="list-item__mark" v-if="item.School" @click.stop="" @click="filter_school(item)"
                         role="button" tabindex="0" @keydown.enter=" filter_school(item)">

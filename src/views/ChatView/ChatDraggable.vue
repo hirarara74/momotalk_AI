@@ -162,7 +162,7 @@ const shouldShowDateDivider = (index: number, element: any, tasks: any[]) => {
                             </template>
                         </div>
                         <div class="chat-meta" v-if="element.time && !isMessageTyping(element)">
-                            <span class="chat-read" v-if="element.type === 1">{{ $t('readStatus') }}</span>
+                            <span class="chat-read" v-if="element.type === 1 && !element.unread">{{ $t('readStatus') }}</span>
                             <span class="chat-time">{{ formatChatTime(element.time) }}</span>
                         </div>
                     </message-actions>
