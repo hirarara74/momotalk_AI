@@ -282,6 +282,10 @@ export async function handleAIReplyTrigger(
             userMessageText,
             sleepCheck.wakeTime.getTime()
         )
+        // 就寝中は既読を付けない（起床時に外す）
+        for (let i = talkHistory.talkHistory.length - 1; i >= 0 && talkHistory.talkHistory[i].type === 1; i--) {
+            talkHistory.talkHistory[i].unread = true
+        }
         store.typing = 0
         talkHistory.saveCurrentStudentTalks()
         return
@@ -388,6 +392,7 @@ export async function triggerBackgroundWakeupReply(
         content: re.md2html(finalDialogue),
         time: Date.now()
     }
+    talks.forEach(t => delete t.unread)
     talks.push(replyTalk)
 
     if (typeof localStorage !== 'undefined') {
@@ -396,6 +401,7 @@ export async function triggerBackgroundWakeupReply(
 
     // 生徒との最終対話時刻を記録（生徒一覧の並び順・未読通知を更新）
     recordStudentInteraction(studentId, replyTalk.time)
+    talkHistory.markUnread(studentId)
 
     // 受信音を再生
     playMomoTalkSound('receive')
@@ -427,6 +433,8 @@ export async function checkAndTriggerPendingWakeups(now: Date = new Date()): Pro
 
             if (activeStudentId === studentId) {
                 // 現在開いているチャットの生徒
+                talkHistory.talkHistory.forEach(t => delete t.unread)
+                talkHistory.saveCurrentStudentTalks()
                 if (!store.isAiResponding) {
                     triggerAIReply(userMessages[userMessages.length - 1], {
                         isWakeUp: true,
