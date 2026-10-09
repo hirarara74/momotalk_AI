@@ -1,7 +1,8 @@
 import type { CharacterVisualProfile } from './types'
+import { ROSTER_STUDENTS } from '../ai/rosterStudents'
 
 /**
- * Danbooru visual profile dictionary for all 31 prompt-supported Blue Archive students + Arona.
+ * Danbooru visual profile dictionary for the prompt-supported Blue Archive students + Arona.
  * Each entry provides canonical tags for character copyright, halo geometry, hair, eyes,
  * unique anatomical traits (kemomimi, wings, horns), and outfits.
  */
@@ -375,7 +376,103 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
     outfits: {
       default: ['shittim_chest_uniform', 'sleeveless_white_sailor_suit', 'sailor_collar', 'blue_necktie', 'bare_shoulders']
     }
-  }
+  },
+  10135: {
+    characterTag: 'kei_(student)_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["white_hair","very_long_hair","black_hairband"],
+    eyes: ["pink_eyes","ringed_eyes"],
+    features: ["black_bow"],
+    outfits: { default: ["white_jacket","white_shirt","blue_necktie","black_skirt"] }
+  },
+  10110: {
+    characterTag: 'seia_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blonde_hair","long_hair"],
+    eyes: ["yellow_eyes"],
+    features: ["fox_ears","fox_tail","animal_ears"],
+    outfits: { default: ["white_dress","yellow_jacket"] }
+  },
+  20024: {
+    characterTag: 'nagisa_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["brown_hair","long_hair"],
+    eyes: ["yellow_eyes"],
+    features: ["white_wings","feathered_wings","hair_ornament"],
+    outfits: { default: ["white_dress","capelet"] }
+  },
+  20023: {
+    characterTag: 'kanna_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blonde_hair","long_hair","hair_over_one_eye"],
+    eyes: ["blue_eyes"],
+    features: ["dog_ears","animal_ears"],
+    outfits: { default: ["blue_jacket","blue_shirt","blue_necktie","black_gloves"] }
+  },
+  16003: {
+    characterTag: 'suzumi_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["white_hair","long_hair"],
+    eyes: ["red_eyes"],
+    features: ["head_wings","white_wings"],
+    outfits: { default: ["school_uniform","sailor_collar","skirt"] }
+  },
+  10068: {
+    characterTag: 'reisa_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["pink_hair","blue_hair","multicolored_hair","twintails","ahoge"],
+    eyes: ["purple_eyes"],
+    features: ["star_hair_ornament"],
+    outfits: { default: ["school_uniform","sailor_collar","grey_skirt","black_jacket"] }
+  },
+  10139: {
+    characterTag: 'niko_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["pink_hair","short_hair"],
+    eyes: ["blue_eyes"],
+    features: ["fox_ears","animal_ears"],
+    outfits: { default: ["school_uniform","white_shirt","sailor_collar","red_armband"] }
+  },
+  10127: {
+    characterTag: 'miyo_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["grey_hair","long_hair","braid"],
+    eyes: ["yellow_eyes"],
+    features: ["hair_bow","white_bow"],
+    outfits: { default: ["green_jacket","white_shirt","grey_skirt","bowtie"] }
+  },
+  13011: {
+    characterTag: 'momoi_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blonde_hair","short_hair"],
+    eyes: ["pink_eyes"],
+    features: ["cat_ear_headphones","red_bow"],
+    outfits: { default: ["white_jacket","white_shirt","blue_necktie","black_skirt"] }
+  },
+  20016: {
+    characterTag: 'iroha_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["red_hair","long_hair"],
+    eyes: ["grey_eyes"],
+    features: ["black_hat","military_hat"],
+    outfits: { default: ["black_coat","black_shirt","red_necktie","red_armband"] }
+  },
+  23001: {
+    characterTag: 'fuuka_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","long_hair","twintails"],
+    eyes: ["red_eyes"],
+    features: ["horns","demon_horns"],
+    outfits: { default: ["white_shirt","necktie","skirt"] }
+  },
+  23007: {
+    characterTag: 'hanako_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["pink_hair","long_hair","single_braid","ahoge"],
+    eyes: ["green_eyes"],
+    features: ["white_bow","hair_bow"],
+    outfits: { default: ["white_shirt","school_uniform","skirt"] }
+  },
 }
 
 /**
@@ -859,6 +956,14 @@ export function getCharacterVisualProfile(studentIdOrName: string | number): Cha
     return STUDENT_VISUAL_PROFILES[id]
   }
   return DEFAULT_FALLBACK_PROFILE
+}
+
+// rosterStudents.ts の生徒は、全言語の名前を別名として登録する
+for (const r of ROSTER_STUDENTS) {
+  for (const n of Object.values(r.names).flat()) {
+    const key = n.toLowerCase()
+    if (STUDENT_NAME_ALIASES[key] == null) STUDENT_NAME_ALIASES[key] = r.id
+  }
 }
 
 /**
