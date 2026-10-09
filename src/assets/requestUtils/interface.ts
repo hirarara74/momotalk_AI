@@ -48,6 +48,7 @@ interface Talk extends baseStudent {
     // 显示头像的标记 flag  0: 非同类型第一条，不显示| 1: 非同类型第一条，显示 |2: 同类型第一条，显示
     flag: number
     time?: number // 消息时间戳 (ミリ秒)
+    unread?: boolean // 生徒が就寝中で未読（既読を表示しない）
 }
 
 interface ProxyConfig {
