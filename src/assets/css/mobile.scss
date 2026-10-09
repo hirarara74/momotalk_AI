@@ -27,9 +27,6 @@
 
     #listcard {
         grid-area: 2/1/2/2;
-        #listbody {
-            height: calc(var(--vh) * 100 - $header-height - $listheader-height - $sider-width);
-        }
         scroll-snap-align: center;
     }
 
