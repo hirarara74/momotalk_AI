@@ -41,7 +41,7 @@ const initPendingWakeups = (): Record<number, PendingWakeupItem> => {
     return {}
 }
 
-const initUnread = (): Record<number, boolean> => {
+const initUnread = (): Record<number, number> => {
     try {
         if (typeof localStorage !== 'undefined') {
             const item = localStorage.getItem('momotalk_unread')
@@ -63,7 +63,7 @@ export const talkHistory = reactive({
     lastChatUpdate: 0,
 
     markUnread(studentId: number) {
-        this.unreadStudents[studentId] = true
+        this.unreadStudents[studentId] = (Number(this.unreadStudents[studentId]) || 0) + 1
         this.saveUnread()
     },
 
@@ -393,7 +393,7 @@ export function seedInitialGreetings(students: any[]) {
         } catch {
             return // 容量超過
         }
-        talkHistory.unreadStudents[s.Id] = true
+        talkHistory.unreadStudents[s.Id] = 1
     }
     talkHistory.saveUnread()
 }

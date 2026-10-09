@@ -41,6 +41,7 @@ export default {
     sleepingBadge: '就寝中 ({time} 起床予定)',
     sleepingPlaceholder: '{name}は就寝中です（メッセージは起床時に届きます）...',
     readStatus: '既読',
+    unreadMessages: '未読メッセージ',
     clearChat: 'リセット',
     resetChatConfirm: '{name}との会話履歴をリセットしますか？',
     resetAllConfirm: '表示をリセットしますか？\n・最近選んだ生徒の一覧が消えます\n・生活リズムの設定がオフになります\n（各生徒との会話履歴は残ります）',

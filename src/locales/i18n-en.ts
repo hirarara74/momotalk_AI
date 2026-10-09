@@ -41,6 +41,7 @@ export default {
     sleepingBadge: 'Asleep (Wakes up at {time})',
     sleepingPlaceholder: '{name} is currently asleep (messages will be delivered upon waking)...',
     readStatus: 'Read',
+    unreadMessages: 'Unread messages',
     clearChat: 'Reset',
     resetChatConfirm: 'Reset conversation history with {name}?',
     resetAllConfirm: 'Reset the view?\n- The list of recently selected students will be cleared\n- The sleep rhythm setting will be turned off\n(Your chat history with each student is kept.)',

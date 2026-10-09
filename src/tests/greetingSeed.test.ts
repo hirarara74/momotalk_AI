@@ -13,7 +13,7 @@ describe('initial greeting seeding', () => {
         expect(talks).toHaveLength(1)
         expect(talks[0].time).toBeLessThanOrEqual(Date.now())
         expect(isStudentSleeping('シロコ', new Date(talks[0].time)).isSleeping).toBe(false)
-        expect(talkHistory.unreadStudents[1]).toBe(true)
+        expect(talkHistory.unreadStudents[1]).toBe(1)
         expect(localStorage.getItem('momotalk_chat_2')).toBe('[]')
         expect(talkHistory.unreadStudents[2]).toBeUndefined()
     })
