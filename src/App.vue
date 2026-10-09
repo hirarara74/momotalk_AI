@@ -1,12 +1,21 @@
 <script lang="ts">
 import { ref } from 'vue'
 import type { studentInfo } from '@/assets/requestUtils/interface'
-import { getStudents } from '@/assets/requestUtils/request'
+import { getStudents, getOutfitBaseIdOf } from '@/assets/requestUtils/request'
+import { migrateOutfitStorage } from '@/assets/requestUtils/outfits'
 import { store } from '@/assets/storeUtils/store'
-import { seedInitialGreetings } from '@/assets/storeUtils/talkHistory'
+import { talkHistory as talkHistoryStore, seedInitialGreetings } from '@/assets/storeUtils/talkHistory'
+import { selectList as selectListStore } from '@/assets/storeUtils/selectList'
 
 store.getData()
 export const database = ref<studentInfo[]>(await getStudents(store.language))
+// 衣装違いは基本生徒のアイコンとして統合したため、以前の衣装違い用の保存データを基本生徒へ移す
+export const outfitBaseIdOf = getOutfitBaseIdOf()
+migrateOutfitStorage(
+    outfitBaseIdOf,
+    Object.fromEntries(database.value.map((s) => [s.Id, s.Name])),
+    { talkHistory: talkHistoryStore, selectList: selectListStore, ranks: store.studentRanks }
+)
 // 初回アクセス時、全生徒の最初のメッセージを一括生成（選択中の生徒より先に）
 seedInitialGreetings(database.value)
 </script>
@@ -69,7 +78,7 @@ if (typeof window !== 'undefined') {
     const idParam = urlParams.get('id')
     if (idParam) {
         const idNum = parseInt(idParam, 10)
-        initialStudent = database.value.find((s) => s.Id === idNum)
+        initialStudent = database.value.find((s) => s.Id === (outfitBaseIdOf[idNum] ?? idNum))
     }
 }
 if (!initialStudent && database.value && database.value.length > 0) {
@@ -212,7 +221,7 @@ watch(
     () => route?.query?.id,
     (newId) => {
         if (newId && database.value && database.value.length > 0) {
-            const targetId = Number(newId)
+            const targetId = outfitBaseIdOf[Number(newId)] ?? Number(newId)
             const target = database.value.find((s) => s.Id === targetId)
             if (target && (!studentSelected.value || studentSelected.value.Id !== target.Id)) {
                 selectStudent(target, false)
@@ -422,7 +431,7 @@ document.onkeyup = (e) => {
                     <div class="list-item__avatar" @click.stop="" @click="showAvatars(item)" role="button" tabindex="0"
                         @keydown.enter="showAvatars(item)">
                         <img v-lazy="item.Avatars[item.cnt]" :alt="`${item.Name}'s avatar`" />
-                        <button :class="item === studentShowAvatars ? 'minus' : 'add'" v-if="item.Avatars.length > 2"
+                        <button :class="item === studentShowAvatars ? 'minus' : 'add'" v-if="item.Avatars.length > 2 || (item.hasOutfits && item.Avatars.length > 1)"
                             aria-label="Toggle Avatar View"></button>
                     </div>
                     <span class="list-item__name">{{ item.Name }}</span>

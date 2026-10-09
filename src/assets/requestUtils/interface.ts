@@ -22,6 +22,8 @@ interface studentInfo {
         Avatar: string
     }>
     cnt: number
+    /** 衣装違いのアイコンが Avatars に統合されている */
+    hasOutfits?: boolean
 }
 
 interface LocalStudent {
