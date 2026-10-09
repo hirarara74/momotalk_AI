@@ -140,12 +140,18 @@
     @include font-heavy(22px);
     color: $font-black;
     border-bottom: 2px solid $list-active-color;
+    flex-shrink: 0;
 }
 
 #listcard {
     grid-area: 2 / 2 / 3 / 3;
     background-color: $list-color;
+    // The header and the unread title sit above the list; the list takes the remaining height
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
     &__header {
+        flex-shrink: 0;
         @include center;
         border-bottom: 2px solid $list-active-color;
         width: 100%;
@@ -264,7 +270,8 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: calc(var(--view-height) - $header-height - $listheader-height);
+    flex: 1 1 0;
+    min-height: 0;
     @include hide-scrollbar;
 }
 
