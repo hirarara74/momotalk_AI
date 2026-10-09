@@ -111,6 +111,37 @@
     transition: 0.4s;
 }
 
+.badge {
+    min-width: 28px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: #ff4d1f;
+    color: #fff;
+    text-align: center;
+    @include font-heavy(18px);
+}
+
+.sidebar-badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    min-width: 22px;
+    font-size: 14px;
+    line-height: 1.2;
+    border-radius: 11px;
+}
+
+#sidebar__up > a {
+    position: relative;
+}
+
+.list-title {
+    padding: 10px 16px;
+    @include font-heavy(22px);
+    color: $font-black;
+    border-bottom: 2px solid $list-active-color;
+}
+
 #listcard {
     grid-area: 2 / 2 / 3 / 3;
     background-color: $list-color;
@@ -253,6 +284,7 @@
     }
     width: 100%;
     padding: 15px 25px;
+    position: relative;
     &:hover {
         @extend .active;
     }
@@ -316,10 +348,21 @@
     }
     &__mark {
         grid-area: 1 / 5 / 3 / 6;
-        img {
-            -webkit-filter: brightness(15%);
-            filter: brightness(15%);
-            scale: 0.8;
+        @include center;
+    }
+    &__rank {
+        position: relative;
+        svg {
+            width: 60px;
+            height: 55px;
+            fill: #ffc8d8;
+            stroke: #f26d8f;
+            stroke-width: 1.5;
+        }
+        span {
+            position: absolute;
+            @include font-heavy(22px);
+            color: #e8527a;
         }
     }
     &__avatars {
