@@ -373,3 +373,14 @@ describe('sleep schedule lookup uses exact student names', () => {
         expect(getStudentSleepSchedule({ Name: '聖園ミカ' })).toBe(STUDENT_SLEEP_SCHEDULES['聖園ミカ'] ?? STUDENT_SLEEP_SCHEDULES['ミカ'])
     })
 })
+
+describe('wake-up prompt does not lend one student\'s verbal tics to everyone', () => {
+    it('contains no example greeting from a specific student', async () => {
+        const { getWakeupSystemPromptModifier } = await import('../assets/ai/sleepSchedule')
+        const text = getWakeupSystemPromptModifier('アスナ', ['おはー'])
+        expect(text).not.toContain('うへ')
+        expect(text).not.toContain('ん、おはよう')
+        expect(text).toContain('アスナ')
+        expect(text).toContain('おはー')
+    })
+})
