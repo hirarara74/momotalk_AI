@@ -65,8 +65,6 @@ export default {
     modelChipGeminiPro: '进阶 (3.5-flash)',
     modelChipGeminiLite: '标准 (3.5-flash-lite)',
     customBaseUrlLabel: '自定义 Base URL (可选)',
-    filterPromptSupportedOnly: '🤖 仅显示适配Prompt学生',
-    filterAllStudents: '👥 显示全部学生',
     back: '返回',
     kizunaRankTitle: '羁绊等级',
     removeImage: '删除附加图片',
