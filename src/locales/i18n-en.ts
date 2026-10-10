@@ -66,8 +66,6 @@ export default {
     modelChipGeminiPro: 'Pro (3.5-flash)',
     modelChipGeminiLite: 'Standard (3.5-flash-lite)',
     customBaseUrlLabel: 'Custom Base URL (Optional)',
-    filterPromptSupportedOnly: '🤖 Prompt Supported Only',
-    filterAllStudents: '👥 Show All Students',
     back: 'Back',
     kizunaRankTitle: 'Bond Rank',
     removeImage: 'Remove attached image',

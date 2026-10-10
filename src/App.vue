@@ -108,7 +108,6 @@ const filter_condition = ref(
         filter_released: true,  // 已实装 true false
         search_text: '',        // 搜索内容
         search_school: '',      // 搜索学校
-        only_prompt_supported: true, // プロンプト対応済みの生徒のみ表示
     }
 )
 const filter_condition_copy = ref(filter_condition.value)
@@ -128,7 +127,8 @@ const processData = debounce(() => {
     dataDisplay.value = database.value
         // filter
         .filter(item => {
-            if (filter_condition.value.only_prompt_supported && !isPromptSupported(item)) return false
+            // 実装済み＝プロンプト対応済みのみ一覧に出す
+            if (!isPromptSupported(item)) return false
             if ((filter_condition.value.filter_star > 0 && item.Star !== filter_condition.value.filter_star) ||
                 (filter_condition.value.search_school && !item.School.includes(filter_condition.value.search_school)) ||
                 (item.Released !== filter_condition.value.filter_released)) return false
