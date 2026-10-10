@@ -66,8 +66,6 @@ export default {
     modelChipGeminiPro: '上位 (3.5-flash)',
     modelChipGeminiLite: '標準 (3.5-flash-lite)',
     customBaseUrlLabel: 'Custom Base URL (任意)',
-    filterPromptSupportedOnly: '🤖 プロンプト対応のみ',
-    filterAllStudents: '👥 全生徒表示',
     back: '戻る',
     kizunaRankTitle: '絆ランク',
     removeImage: '添付画像を削除',
