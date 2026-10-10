@@ -211,8 +211,6 @@ describe('Multilingual AI Prompts & UI Localization (TDD)', () => {
                 'modelChipGeminiPro',
                 'modelChipGeminiLite',
                 'customBaseUrlLabel',
-                'filterPromptSupportedOnly',
-                'filterAllStudents',
                 'back',
                 'kizunaRankTitle',
                 'removeImage',
