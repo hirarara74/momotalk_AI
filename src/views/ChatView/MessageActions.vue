@@ -27,8 +27,8 @@ function cancelHold() {
 function openMenu(x: number, y: number) {
     if (!available.value) return
     position.value = {
-        x: Math.max(8, Math.min(x, window.innerWidth - 208)),
-        y: Math.max(8, Math.min(y, window.innerHeight - 152))
+        x: Math.max(8, Math.min(x, window.innerWidth - 240)),
+        y: Math.max(8, Math.min(y, window.innerHeight - 184))
     }
     menu.value = true
     nextTick(() => actions.value?.focus())
@@ -129,18 +129,30 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
+/* アプリ共通のポップアップ（フィルター等）と同じフォント・角丸・配色に揃える */
 .message-actions { position: relative; -webkit-touch-callout: none; }
 @media (pointer: coarse) { .message-actions { user-select: none; } }
-.message-options { border: 0; background: transparent; color: #526677; font-size: 22px; cursor: pointer; min-width: 44px; min-height: 44px; }
+.message-options { border: 0; background: transparent; color: #87929e; font-size: 22px; cursor: pointer; min-width: 44px; min-height: 44px; }
 .message-overlay { position: fixed; inset: 0; z-index: 10000; }
-.message-menu, .message-editor { background: white; color: #263747; border-radius: 12px; box-shadow: 0 4px 24px #0003; padding: 8px; }
-.message-menu { position: absolute; width: 192px; }
-.message-menu button { display: block; width: 100%; text-align: left; padding: 12px; border: 0; background: white; cursor: pointer; }
-.message-menu button:hover { background: #eef5fc; }
+.message-menu, .message-editor {
+    font-family: 'Blueaka', 'Blueaka-kr-medium', sans-serif; font-weight: 600;
+    background: #fff; color: #4b5a6f; border-radius: 11px; box-shadow: rgb(45 35 66 / 15%) 0 0 4px 2px; padding: 8px;
+}
+.message-menu { position: absolute; width: 224px; user-select: none; }
+.message-menu button, .message-editor button {
+    font-family: inherit; font-weight: inherit; font-size: 17px;
+    color: #87929e; background: #fff; border: 1px solid #cdd3dc; border-radius: 5px; cursor: pointer;
+}
+.message-menu button:active, .message-editor button:active { transform: scale(0.95); transition: 0.08s; }
+.message-menu button { display: block; white-space: nowrap; width: 100%; height: 44px; margin: 5px 0; text-align: center; }
+.message-menu button:hover, .message-editor button:hover { background: #f3f7f8; }
 .message-menu .delete { color: #bc3434; }
 .editor-overlay { display: flex; align-items: center; justify-content: center; background: #0005; }
 .message-editor { width: min(420px, calc(100vw - 32px)); padding: 16px; }
-.message-editor textarea { box-sizing: border-box; width: 100%; margin: 12px 0; padding: 8px; font: inherit; }
+.message-editor label { font-size: 18px; }
+.message-editor textarea { box-sizing: border-box; width: 100%; margin: 12px 0; padding: 8px; font: inherit; font-weight: 400; border: 1px solid #cdd3dc; border-radius: 5px; }
 .message-editor div { display: flex; justify-content: flex-end; gap: 12px; }
-.message-editor button { min-height: 44px; padding: 8px 16px; cursor: pointer; }
+.message-editor button { min-height: 44px; padding: 8px 16px; }
+.message-editor button[type='submit'] { color: #fff; background: var(--theme_title_color, rgb(252, 150, 171)); border-color: var(--theme_title_color, rgb(252, 150, 171)); }
+.message-editor button[type='submit']:disabled { opacity: 0.5; cursor: default; }
 </style>
