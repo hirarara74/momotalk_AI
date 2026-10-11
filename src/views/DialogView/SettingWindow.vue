@@ -113,8 +113,8 @@ const onProviderChange = () => {
                         {{ $t('aiSetting') || 'AI' }}
                     </li>
                     <li class="divider">/</li>
-                    <li class="page-btn" :class="{ active: activePage === 3 }">
-                        <button class="tab-button" :class="{ active: activePage === 3 }" @click="store.setSettingDialogPage(3)">{{ $t('imageGenSetting') }}</button>
+                    <li @click="showPage(3)" class="page-btn" :class="{ active: activePage === 3 }" id="page-3">
+                        {{ $t('imageGenSetting') }}
                     </li>
                 </ul>
 
@@ -382,7 +382,7 @@ const onProviderChange = () => {
                             <!-- 1. Enable / Disable Photo Generation Switch -->
                             <div class="settings-row" style="justify-content: space-between; align-items: center;">
                                 <div style="display: flex; flex-direction: column; gap: 3px; max-width: 80%;">
-                                    <span class="row-label" style="font-size: 14px;">{{ $t('imageGenEnabled') }}</span>
+                                    <span class="row-label" style="font-size: 14px; width: auto;">{{ $t('imageGenEnabled') }}</span>
                                     <span style="font-size: 11px; color: #7f8c8d; line-height: 1.4;">{{ $t('imageGenEnabledDesc') }}</span>
                                 </div>
                                 <div class="row-controls" style="justify-content: flex-end; flex: 0 0 auto;">
@@ -402,7 +402,7 @@ const onProviderChange = () => {
                             <!-- 2. Provider Selection -->
                             <div class="settings-row settings-row--column" style="margin-top: 10px;">
                                 <span class="row-label">{{ $t('imageGenProvider') }}</span>
-                                <div class="row-controls" style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px;">
+                                <div class="row-controls" style="display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 8px;">
                                     <label class="custom-radio" style="align-items: flex-start;">
                                         <input
                                             type="radio"
@@ -709,21 +709,6 @@ const onProviderChange = () => {
     border-color: var(--theme_title_color) !important;
 }
 
-.tab-button {
-    background: transparent;
-    border: none;
-    padding: 0;
-    font: inherit;
-    color: inherit;
-    cursor: pointer;
-    white-space: nowrap;
-    outline: none;
-
-    &.active {
-        color: var(--theme_title_color);
-        font-weight: bold;
-    }
-}
 
 .featured .page {
     width: 100%;
