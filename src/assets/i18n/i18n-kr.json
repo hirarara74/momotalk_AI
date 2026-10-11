@@ -52,6 +52,6 @@
   "studentFallbackName": "학생",
   "photoSendFailed": "(📷 {name}: 사진을 주고받는 데 실패했습니다. 카메라나 회선 상태가 좋지 않은 것 같아요.)",
   "testFailed": "테스트 실패: {message}",
-  "shareOnX": "X로 공유",
-  "shareText": "MomoTalk AI #블루아카 #MomoTalkAI"
+  "shareText": "MomoTalk AI #블루아카 #MomoTalkAI",
+  "share": "공유"
 }
