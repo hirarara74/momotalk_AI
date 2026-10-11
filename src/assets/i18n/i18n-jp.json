@@ -19,6 +19,7 @@
   "imageGenKeySecurityReassurance": "APIキーはお使いのブラウザ内（localStorage）にのみ安全に保存され、外部サーバーへ送信・収集されることはありません。",
   "testConnection": "接続テスト (残高確認)",
   "testingConnection": "テスト中...",
-  "creditChargeLink": "Stability AI クレジットをチャージ"
+  "creditChargeLink": "Stability AI クレジットをチャージ",
+  "imageGenBetaBadge": "β版（テスト中）",
+  "imageGenBetaNotice": "この機能はβ版（テスト中）です。画像の生成に時間がかかったり、失敗したり、意図と違う絵になることがあります。外部の画像生成サービスを利用するため、初期状態ではオフになっています。"
 }
-
