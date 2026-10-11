@@ -7,6 +7,7 @@ import { selectList } from '../storeUtils/selectList'
 import { myReExp } from '../utils/markdown'
 import { getAIProvider, buildSystemPrompt, type ChatMessage } from '../ai'
 import { normalizeStudentReply } from '../ai/normalizeStudentReply'
+import { streamStudentReply } from '../ai/streamStudentReply'
 import { isStudentSleeping, getWakeupSystemPromptModifier } from '../ai/sleepSchedule'
 import { playMomoTalkSound } from '../utils/sound'
 import { getStickerDescription } from '../utils/stickers'
@@ -367,7 +368,8 @@ export async function triggerBackgroundWakeupReply(
             const promptInput = `（先生からの昨晩のメッセージ: 「${userMessages.join('」「')}」。朝起きたあなたのキャラクターとして、朝の挨拶と返信をしてください）`
 
             let fullResponse = ''
-            await aiProvider.streamChat(
+            fullResponse = await streamStudentReply(
+                aiProvider,
                 systemPrompt,
                 history,
                 promptInput,
@@ -673,7 +675,9 @@ export async function triggerAIReply(
 
         // 過去の会話履歴をChatMessage形式に変換（直近10件）
         const history: ChatMessage[] = []
-        const relevantTalks = talkHistory.talkHistory.slice(-12, -2) // 直前の発言まで
+        const previousTalks = talkHistory.talkHistory.slice(0, -1) // 空の返信枠を除く
+        if (!options?.isWakeUp && previousTalks.at(-1)?.type === 1) previousTalks.pop()
+        const relevantTalks = previousTalks.slice(-10)
         for (const t of relevantTalks) {
             const sDesc = getStickerDescription(t.content)
             if (t.type === 1) {
@@ -694,7 +698,8 @@ export async function triggerAIReply(
             }
         })
 
-        await aiProvider.streamChat(
+        accumulatedText = await streamStudentReply(
+            aiProvider,
             systemPrompt,
             history,
             promptInput,

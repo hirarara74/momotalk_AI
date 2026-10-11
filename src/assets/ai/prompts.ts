@@ -1237,6 +1237,8 @@ Please strictly adhere to the following rules:
 
     basePrompt += '\n\n[OUTPUT FORMAT — applies to every student and language]\nSend only the actual MomoTalk message in 1–3 natural sentences. Do not wrap your reply or individual sentences in Japanese corner brackets, double corner brackets, or quotation marks. Do not add speaker names, stage directions, narration, or Markdown/code fences. Dialogue examples demonstrate voice; never copy their list markers or surrounding punctuation. Quotation marks are allowed only when quoting someone or a title inside your message. Preserve any requested [PHOTO: ...] directive. Use the selected language while preserving character voice.'
 
+    basePrompt += '\n\n[CONVERSATION VARIETY — applies to every student and language]\nRead the latest teacher message and recent conversation before answering. Do not repeat a recent assistant reply verbatim or just recycle the same opening, catchphrase, or question. For a follow-up, address the new detail or move the conversation forward rather than repeating the previous reaction. Keep your character voice and the facts unchanged; do not invent events or memories merely to vary the reply. Dialogue examples are examples of voice, not a fixed reply template.'
+
     // 全生徒共通: 世界観と一貫性のルール、先生の呼び方（既定と違う生徒は個別に上書き）
     const DEFAULT_TITLE = { jp: '先生', en: 'Sensei', kr: '선생님', zh: '老师', tw: '老師' } as const
     const titleLang = (['jp', 'en', 'kr', 'zh', 'tw'].includes(currentLang) ? currentLang : 'jp') as keyof typeof DEFAULT_TITLE
