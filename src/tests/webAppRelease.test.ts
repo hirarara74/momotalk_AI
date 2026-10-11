@@ -143,10 +143,10 @@ describe('Web App Public Deployment & API Key Safety (TDD)', () => {
     })
 
     describe('8. Data Management Tab Complete Removal (TDD)', () => {
-        it('verifies SettingWindow completely removes Tab 3 and its features', async () => {
+        it('verifies SettingWindow no longer has the data management features', async () => {
             const fs = await import('fs')
             const settingCode = fs.readFileSync('src/views/DialogView/SettingWindow.vue', 'utf-8')
-            expect(settingCode).not.toContain('id="page-3"')
+            // 3つ目のタブは「写真・画像」。データ管理タブの機能は戻さない
             expect(settingCode).not.toContain('$t(\'sharefile\')')
             expect(settingCode).not.toContain('exportJson')
             expect(settingCode).not.toContain('importJson')
