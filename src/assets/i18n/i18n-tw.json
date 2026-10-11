@@ -19,6 +19,7 @@
   "imageGenKeySecurityReassurance": "API金鑰僅保存在您的瀏覽器（localStorage）中，絕不會發送或收集至外部伺服器。",
   "testConnection": "測試連線 (查詢餘額)",
   "testingConnection": "測試中...",
-  "creditChargeLink": "儲值 Stability AI 餘額"
+  "creditChargeLink": "儲值 Stability AI 餘額",
+  "imageGenBetaBadge": "測試版（β）",
+  "imageGenBetaNotice": "此功能為測試版（β）。生成可能較慢、失敗或與預期不符，並會使用外部圖像生成服務，因此預設關閉。"
 }
-

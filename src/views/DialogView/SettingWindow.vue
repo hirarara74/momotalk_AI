@@ -114,7 +114,7 @@ const onProviderChange = () => {
                     </li>
                     <li class="divider">/</li>
                     <li @click="showPage(3)" class="page-btn" :class="{ active: activePage === 3 }" id="page-3">
-                        {{ $t('imageGenSetting') }}
+                        {{ $t('imageGenSetting') }}<span class="beta-badge" :title="$t('imageGenBetaBadge')">β</span>
                     </li>
                 </ul>
 
@@ -379,6 +379,11 @@ const onProviderChange = () => {
                     <!-- Page 3: 写真・画像設定 -->
                     <div class="page" :style="{ transform: `translateX(${(activePage - 1) * -100}%)` }">
                         <div class="dialog-content left-align" style="padding-top: 20px">
+                            <!-- β版の注意書き（この機能は初期状態でオフ） -->
+                            <div class="beta-notice" role="note">
+                                <strong>{{ $t('imageGenBetaBadge') }}</strong>
+                                <span>{{ $t('imageGenBetaNotice') }}</span>
+                            </div>
                             <!-- 1. Enable / Disable Photo Generation Switch -->
                             <div class="settings-row" style="justify-content: space-between; align-items: center;">
                                 <div style="display: flex; flex-direction: column; gap: 3px; max-width: 80%;">
@@ -709,6 +714,32 @@ const onProviderChange = () => {
     border-color: var(--theme_title_color) !important;
 }
 
+
+.beta-badge {
+    display: inline-block;
+    margin-left: 4px;
+    padding: 0 5px;
+    border-radius: 8px;
+    background: #f5a623;
+    color: #fff;
+    font-size: 10px;
+    line-height: 16px;
+    vertical-align: middle;
+}
+
+.beta-notice {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 14px;
+    padding: 8px 10px;
+    border: 1px solid #f1d58a;
+    border-radius: 6px;
+    background: #fff8e1;
+    color: #8a6d1d;
+    font-size: 12px;
+    line-height: 1.5;
+}
 
 .featured .page {
     width: 100%;
