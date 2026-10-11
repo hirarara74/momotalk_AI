@@ -5,6 +5,7 @@ import { historyState } from './historyState'
 import { getStudentGreeting, isPromptSupported } from '../ai/prompts'
 import { abortStreaming } from '../chatUtils/send'
 import { isStudentSleeping } from '../ai/sleepSchedule'
+import { getStickerDescription } from '../utils/stickers'
 
 const isSameChar_ = (talk0: Talk, talk1: Talk) => {
     if (talk0.type !== talk1.type) return false
@@ -388,6 +389,7 @@ export function seedInitialGreetings(students: any[]) {
             try {
                 const talks = JSON.parse(saved)
                 const untouched = Array.isArray(talks) && talks.length === 1 && talks[0]?.type === 0
+                    && !getStickerDescription(talks[0].content)
                 if (untouched) {
                     // 部分一致で別の生徒の挨拶が保存されていた場合などを直す
                     const greeting = getStudentGreeting(s.Name)

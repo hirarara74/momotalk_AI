@@ -8,6 +8,7 @@ import { myReExp } from '../utils/markdown'
 import { getAIProvider, buildSystemPrompt, type ChatMessage } from '../ai'
 import { normalizeStudentReply } from '../ai/normalizeStudentReply'
 import { streamStudentReply } from '../ai/streamStudentReply'
+import { extractStudentSticker } from '../ai/studentStickers'
 import { isStudentSleeping, getWakeupSystemPromptModifier } from '../ai/sleepSchedule'
 import { playMomoTalkSound } from '../utils/sound'
 import { getStickerDescription } from '../utils/stickers'
@@ -340,6 +341,7 @@ export async function triggerBackgroundWakeupReply(
     }
 
     let finalDialogue = ''
+    let stickerUrl: string | undefined
     if (!apiKey) {
         finalDialogue = getApiKeyWarningNotice(store.language)
     } else {
@@ -378,8 +380,10 @@ export async function triggerBackgroundWakeupReply(
                 }
             )
 
-            const { cleanText } = extractPhotoDirective(fullResponse)
-            finalDialogue = normalizeStudentReply(cleanText || fullResponse)
+            const sticker = extractStudentSticker(fullResponse)
+            stickerUrl = sticker.stickerUrl
+            const { cleanText } = extractPhotoDirective(sticker.cleanText)
+            finalDialogue = normalizeStudentReply(cleanText)
         } catch (error) {
             console.error(`[Wakeup] Background AI reply failed for ${item.studentName}:`, error)
             finalDialogue = '……ん、先生？（通信エラーが発生しました）'
@@ -394,11 +398,14 @@ export async function triggerBackgroundWakeupReply(
         Avatar: avatar,
         type: 0,
         flag: 2,
-        content: re.md2html(finalDialogue),
+        content: finalDialogue ? re.md2html(finalDialogue) : (stickerUrl || ''),
         time: Date.now()
     }
     talks.forEach(t => delete t.unread)
     talks.push(replyTalk)
+    if (stickerUrl && finalDialogue) {
+        talks.push({ ...replyTalk, Id: replyTalk.Id + 1, flag: 0, content: stickerUrl })
+    }
 
     if (typeof localStorage !== 'undefined') {
         localStorage.setItem(storageKey, JSON.stringify(talks))
@@ -706,8 +713,9 @@ export async function triggerAIReply(
             (chunk) => {
                 if (signal.aborted || talkHistory.currentStudentId !== replyingStudentId) return
                 accumulatedText = chunk
-                const { cleanText } = extractPhotoDirective(accumulatedText)
-                talkHistory.setTalkContent(replyTalk.Id, re.md2html(normalizeStudentReply(cleanText || accumulatedText)))
+                const sticker = extractStudentSticker(accumulatedText)
+                const { cleanText } = extractPhotoDirective(sticker.cleanText)
+                talkHistory.setTalkContent(replyTalk.Id, re.md2html(normalizeStudentReply(cleanText)))
                 if (scroll_to_bottom) {
                     scroll_to_bottom.scrollTop = scroll_to_bottom.scrollHeight
                 }
@@ -717,11 +725,15 @@ export async function triggerAIReply(
 
         if (signal.aborted || talkHistory.currentStudentId !== replyingStudentId) return
 
-        const { cleanText, photoTags } = extractPhotoDirective(accumulatedText)
-        const finalDialogue = normalizeStudentReply(cleanText || accumulatedText)
+        const sticker = extractStudentSticker(accumulatedText)
+        const { cleanText, photoTags } = extractPhotoDirective(sticker.cleanText)
+        const finalDialogue = normalizeStudentReply(cleanText)
 
         // 完了
-        talkHistory.setTalkContent(replyTalk.Id, re.md2html(finalDialogue))
+        talkHistory.setTalkContent(replyTalk.Id, finalDialogue ? re.md2html(finalDialogue) : (sticker.stickerUrl || ''))
+        if (sticker.stickerUrl && finalDialogue) {
+            talkHistory.pushTalk({ ...replyTalk, Id: talkHistory.talkId++, flag: 0, content: sticker.stickerUrl })
+        }
         talkHistory.saveCurrentStudentTalks()
         recordStudentInteraction(replyingStudentId, Date.now())
 
@@ -837,7 +849,7 @@ export async function triggerAIReply(
     } catch (err: any) {
         if (err.name === 'AbortError' || err.message === 'Aborted' || signal.aborted) {
             console.log('[AI] Stream aborted.')
-            if (!accumulatedText) {
+            if (talkHistory.currentStudentId === replyingStudentId && !replyTalk.content) {
                 talkHistory.deleteTalkById(replyTalk.Id)
             }
         } else {

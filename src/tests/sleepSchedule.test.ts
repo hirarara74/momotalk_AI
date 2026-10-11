@@ -316,7 +316,7 @@ describe('Student Sleep & Wakeup Schedule (TDD)', () => {
             store.aiApiKey = 'mock_api_key'
 
             vi.spyOn(GroqProvider.prototype, 'streamChat').mockImplementation(async (sys, _hist, _prompt, onChunk) => {
-                const reply = sys.includes('シロコ') ? 'ん、先生おはよ。' : '……おはよう、先生。'
+                const reply = _prompt.includes('シロコ') ? 'ん、先生おはよ。' : '……おはよう、先生。'
                 onChunk?.(reply)
                 return reply
             })
