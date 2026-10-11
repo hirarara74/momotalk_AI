@@ -9,6 +9,14 @@ import { selectList as selectListStore } from '@/assets/storeUtils/selectList'
 
 store.getData()
 export const database = ref<studentInfo[]>(await getStudents(store.language))
+// 選んだアイコンを復元する（保存された番号が範囲外なら既定のまま）
+const restoreAvatarIndex = (list: studentInfo[]) => {
+    for (const s of list) {
+        const saved = store.studentAvatarIndex[s.Id]
+        if (Number.isInteger(saved) && saved >= 0 && saved < (s.Avatars?.length || 0)) s.cnt = saved
+    }
+}
+restoreAvatarIndex(database.value)
 // 衣装違いは基本生徒のアイコンとして統合したため、以前の衣装違い用の保存データを基本生徒へ移す
 export const outfitBaseIdOf = getOutfitBaseIdOf()
 migrateOutfitStorage(
@@ -250,6 +258,7 @@ const showAvatars = (item: any) => {
 }
 const selectAvatar = (item: studentInfo, index: number) => {
     item.cnt = index
+    store.setStudentAvatarIndex(item.Id, index)
     selectStudent(item)
 }
 
@@ -260,6 +269,7 @@ const changeLanguageTo = async (targetLang: SupportedLanguage) => {
     store.language = targetLang
     i18n.global.locale = targetLang as any
     database.value = await getStudents(store.language)
+    restoreAvatarIndex(database.value)
     processData()
 
     // Sync selected student with new language data

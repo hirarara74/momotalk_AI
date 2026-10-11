@@ -60,6 +60,8 @@ export const store = reactive({
     imageGenProvider: 'pollinations' as 'pollinations' | 'fal' | 'together' | 'openai' | 'stability',
     imageGenApiKey: '',
     imageGenModel: '',
+    /** 生徒ごとに選んだアイコンの番号（Avatars の添字）。過去のメッセージにも反映するため保存する */
+    studentAvatarIndex: {} as Record<number, number>,
     showImageModal: false,
     modalImageUrl: '',
     modalStudentName: '',
@@ -94,6 +96,12 @@ export const store = reactive({
         return false
     },
 
+    setStudentAvatarIndex(studentId: number, index: number) {
+        this.studentAvatarIndex[studentId] = index
+        try {
+            localStorage.setItem('student-avatar-index', JSON.stringify(this.studentAvatarIndex))
+        } catch {}
+    },
     getRelationshipRank(studentId: number): number {
         return (this.studentRanks && this.studentRanks[studentId]) || 1
     },
@@ -199,6 +207,12 @@ export const store = reactive({
         } else {
             this.sleepSimulationEnabled = false
         }
+        try {
+            const savedAvatars = JSON.parse(localStorage.getItem('student-avatar-index') || '{}')
+            this.studentAvatarIndex = savedAvatars && typeof savedAvatars === 'object' ? savedAvatars : {}
+        } catch {
+            this.studentAvatarIndex = {}
+        }
         const savedRanks = localStorage.getItem('student-ranks')
         if (savedRanks != null) {
             try { this.studentRanks = JSON.parse(savedRanks) } catch {}
@@ -253,6 +267,8 @@ export const store = reactive({
     resetData() {
         talkHistory.resetData()
         selectList.resetData()
+        this.studentAvatarIndex = {}
+        try { localStorage.removeItem('student-avatar-index') } catch {}
         this.sleepSimulationEnabled = false
         this.imageGenEnabled = false
         this.imageGenProvider = 'pollinations'

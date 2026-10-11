@@ -64,7 +64,7 @@ const shouldShowDateDivider = (index: number, element: any, tasks: any[]) => {
                     ></div>
                     <div class="avatar" v-if="element.type === 0 && element.flag > 0">
                         <img
-                            v-lazy="element.Avatar"
+                            v-lazy="avatarOf(element)"
                             style="cursor: pointer"
                             :title="$t('openProfile')"
                             @click="$router.push({ path: '/', query: { id: talkHistory.currentStudentId } })"
@@ -200,6 +200,15 @@ export default {
         ImageModalViewer
     },
     methods: {
+        // 生徒のアイコンは、メッセージに保存された値ではなく、今選んでいるアイコンを表示する（過去の発言も揃える）
+        avatarOf(element: any): string {
+            const s: any = store.currentChatStudent
+            if (element?.type === 0 && s && s.Id === talkHistory.currentStudentId && Array.isArray(s.Avatars)) {
+                const current = s.Avatars[s.cnt || 0]
+                if (current) return current
+            }
+            return element?.Avatar || ''
+        },
         changeImage(evt: Event, id: number) {
             var reader = new FileReader()
             reader.addEventListener('load', () => {
