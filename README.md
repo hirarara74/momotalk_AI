@@ -43,6 +43,7 @@
 ## 🚀 Quick Start
 
 ### Online
+- **Try it without an API key:** https://momotalk-ai-free.momotalk-ai.workers.dev/ — a free edition with a shared daily quota. When the quota runs out, enter your own free Groq key in ⚙️ Settings to keep going.
 - **https://hirarara74.github.io/momotalk_AI/** — open the ⚙️ Settings and enter your API key (a free Groq key is available at [console.groq.com/keys](https://console.groq.com/keys)).
 
 ### Local Development
