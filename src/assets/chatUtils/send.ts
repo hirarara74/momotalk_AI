@@ -650,7 +650,7 @@ export async function triggerAIReply(
     let accumulatedText = ''
 
     try {
-        const isPhotoFeatureActive = store.imageGenEnabled !== false
+        const isPhotoFeatureActive = store.imageGenEnabled === true
         const photoIntent = isPhotoFeatureActive
             ? detectPhotoIntent(userMessageText)
             : { isPhotoRequested: false, triggerType: 'none' as const }
@@ -767,7 +767,7 @@ export async function triggerAIReply(
                     locale: store.language
                 },
                 {
-                    enabled: store.imageGenEnabled !== false,
+                    enabled: store.imageGenEnabled === true,
                     provider: store.imageGenProvider || 'pollinations',
                     apiKey: store.imageGenApiKey,
                     model: store.imageGenModel

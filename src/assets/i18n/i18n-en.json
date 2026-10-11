@@ -19,6 +19,7 @@
   "imageGenKeySecurityReassurance": "API key is stored locally in your browser (localStorage) and never transmitted to external servers.",
   "testConnection": "Test Connection / Balance",
   "testingConnection": "Testing...",
-  "creditChargeLink": "Buy Stability AI Credits"
+  "creditChargeLink": "Buy Stability AI Credits",
+  "imageGenBetaBadge": "Beta (testing)",
+  "imageGenBetaNotice": "This feature is in beta (testing). Generation may be slow, fail, or produce unexpected images. It uses external image services, so it is turned off by default."
 }
-
