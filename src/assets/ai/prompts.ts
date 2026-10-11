@@ -1237,6 +1237,15 @@ Please strictly adhere to the following rules:
 
     basePrompt += '\n\n[OUTPUT FORMAT — applies to every student and language]\nSend only the actual MomoTalk message in 1–3 natural sentences. Do not wrap your reply or individual sentences in Japanese corner brackets, double corner brackets, or quotation marks. Do not add speaker names, stage directions, narration, or Markdown/code fences. Dialogue examples demonstrate voice; never copy their list markers or surrounding punctuation. Quotation marks are allowed only when quoting someone or a title inside your message. Preserve any requested [PHOTO: ...] directive. Use the selected language while preserving character voice.'
 
+    // 全生徒共通: 世界観と一貫性のルール、先生の呼び方（既定と違う生徒は個別に上書き）
+    const DEFAULT_TITLE = { jp: '先生', en: 'Sensei', kr: '선생님', zh: '老师', tw: '老師' } as const
+    const titleLang = (['jp', 'en', 'kr', 'zh', 'tw'].includes(currentLang) ? currentLang : 'jp') as keyof typeof DEFAULT_TITLE
+    const title = canonical?.callSensei?.[titleLang] || DEFAULT_TITLE[titleLang]
+    basePrompt += '\n\n[WORLD & CONSISTENCY — applies to every student]\nYou live in Kivotos, a huge school city made of many academies. Students carry halos and firearms are an everyday sight. The user is the teacher (Sensei), a consultant of the SCHALE office. Stay consistent with your profile above (affiliation, year, hobbies, relationships). If asked about facts that are not in your profile, answer vaguely in character instead of inventing specifics. Refer to other students by their own names and never attribute your own traits to them.'
+    if (title !== DEFAULT_TITLE[titleLang]) {
+        basePrompt += `\n\n[ADDRESS — overrides the default form of address]\nYou call the user "${title}" (your own special way of addressing the teacher) instead of the usual title.`
+    }
+
     // 3. 多言語プロンプトの構築
     if (currentLang === 'kr') {
         const studentDisplayName = canonical?.names.kr[0] || studentName
@@ -1245,7 +1254,7 @@ Please strictly adhere to the following rules:
 - Conversation Language: KOREAN (한국어).
 - You MUST generate ALL your responses entirely in natural, fluent, native Korean as spoken in the Korean version of Blue Archive (블루 아카이브).
 - NEVER speak in Japanese, English, or Chinese unless explicitly instructed by the teacher.
-- Always call the user "선생님" (Seonsaengnim / Sensei).
+- Always call the user "${title}" (Seonsaengnim / Sensei).
 - Your character identity is ${studentDisplayName}. Keep your character's distinctive personality, tone, speech tics, and emotional quirks faithfully intact in Korean.
 `
         let localizedPrompt = basePrompt
@@ -1253,7 +1262,7 @@ Please strictly adhere to the following rules:
             .replace(/\*Reply in Japanese/gi, '*Reply in natural, authentic Korean as spoken in the Korean version of Blue Archive.')
             .replace(/\*Reply in natural Japanese as a MomoTalk chat message \(1-3 sentences\)\./gi, '*Reply in natural Korean as a MomoTalk chat message (1-3 sentences).')
 
-        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('kr')}\n\n[REITERATION: Always reply in natural KOREAN, call user "선생님"!]`
+        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('kr')}\n\n[REITERATION: Always reply in natural KOREAN, call user "${title}"!]`
     }
 
     if (currentLang === 'en') {
@@ -1263,7 +1272,7 @@ Please strictly adhere to the following rules:
 - Conversation Language: ENGLISH.
 - You MUST generate ALL your responses entirely in natural, engaging English as localized in the official Global/English version of Blue Archive.
 - NEVER speak in Japanese unless explicitly instructed by the teacher.
-- Always call the user "Sensei".
+- Always call the user "${title}".
 - Your character identity is ${studentDisplayName}. Keep your character's distinctive personality, tone, catchphrases, and emotional quirks faithfully intact in English.
 `
         let localizedPrompt = basePrompt
@@ -1271,7 +1280,7 @@ Please strictly adhere to the following rules:
             .replace(/\*Reply in Japanese/gi, '*Reply in natural, authentic English as localized in Blue Archive.')
             .replace(/\*Reply in natural Japanese as a MomoTalk chat message \(1-3 sentences\)\./gi, '*Reply in natural English as a MomoTalk chat message (1-3 sentences).')
 
-        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('en')}\n\n[REITERATION: Always reply in natural ENGLISH, call user "Sensei"!]`
+        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('en')}\n\n[REITERATION: Always reply in natural ENGLISH, call user "${title}"!]`
     }
 
     if (currentLang === 'zh') {
@@ -1281,7 +1290,7 @@ Please strictly adhere to the following rules:
 - 交流语言: 简体中文 (Simplified Chinese).
 - 必须全部使用地道、自然、生动的简体中文进行回复，严格遵循《蔚蓝档案》国服/简中服的官方人设口吻与用词习惯。
 - 严禁使用日语回复（除非老师明确要求）。
-- 始终称呼玩家为“老师”。
+- 始终称呼玩家为“${title}”。
 - 你的身份是${studentDisplayName}。完整保留角色的第一人称、口头禅、标志性性格与说话习惯。
 `
         let localizedPrompt = basePrompt
@@ -1289,7 +1298,7 @@ Please strictly adhere to the following rules:
             .replace(/\*Reply in Japanese/gi, '*必须使用简体中文进行回复。')
             .replace(/\*Reply in natural Japanese as a MomoTalk chat message \(1-3 sentences\)\./gi, '*使用自然地道的简体中文发送MomoTalk短消息（1-3句）。')
 
-        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('zh')}\n\n[REITERATION: 必须严格使用简体中文回复，称呼用户为“老师”！]`
+        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('zh')}\n\n[REITERATION: 必须严格使用简体中文回复，称呼用户为“${title}”！]`
     }
 
     if (currentLang === 'tw') {
@@ -1299,7 +1308,7 @@ Please strictly adhere to the following rules:
 - 交流語言: 繁體中文 (Traditional Chinese).
 - 必須全部使用道地、自然、生動的繁體中文進行回覆，嚴格遵循《蔚藍檔案》繁中服（台服）的官方人設語氣與用詞習慣。
 - 嚴禁使用日語回覆（除非老師明確要求）。
-- 始終稱呼玩家為「老師」。
+- 始終稱呼玩家為「${title}」。
 - 你的身份是${studentDisplayName}。完整保留角色的第一人稱、口頭禪、標誌性性格與說話習慣。
 `
         let localizedPrompt = basePrompt
@@ -1307,7 +1316,7 @@ Please strictly adhere to the following rules:
             .replace(/\*Reply in Japanese/gi, '*必須使用繁體中文進行回覆。')
             .replace(/\*Reply in natural Japanese as a MomoTalk chat message \(1-3 sentences\)\./gi, '*使用自然道地的繁體中文發送MomoTalk短訊息（1-3句）。')
 
-        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('tw')}\n\n[REITERATION: 必須嚴格使用繁體中文回覆，稱呼用戶為「老師」！]`
+        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('tw')}\n\n[REITERATION: 必須嚴格使用繁體中文回覆，稱呼用戶為「${title}」！]`
     }
 
     // デフォルト（日本語）
@@ -1393,7 +1402,7 @@ for (const r of ROSTER_STUDENTS) {
     STUDENT_CANONICAL_DATA.push({
         id: r.id,
         names: r.names,
-        callSensei: { jp: '先生', en: 'Sensei', kr: '선생님', zh: '老师', tw: '老師' },
+        callSensei: r.callSensei ?? { jp: '先生', en: 'Sensei', kr: '선생님', zh: '老师', tw: '老師' },
         greetings: r.greetings
     })
     for (const key of r.promptKeys) SPECIAL_PROMPTS[key] = r.prompt

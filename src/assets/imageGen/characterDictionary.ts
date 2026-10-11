@@ -501,7 +501,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   13000: {
     characterTag: 'akane_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["brown_hair","long_hair"],
+    hair: ["blonde_hair","long_hair"],
     eyes: ["brown_eyes"],
     features: ["glasses","animal_ears"],
     outfits: { default: ['school_uniform'] }
@@ -509,7 +509,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   16002: {
     characterTag: 'kotori_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["blonde_hair","ahoge","twintails"],
+    hair: ["orange_hair","ahoge","twintails"],
     eyes: ["red_eyes"],
     features: ["glasses"],
     outfits: { default: ['school_uniform'] }
@@ -518,14 +518,14 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
     characterTag: 'hibiki_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
     hair: ["black_hair","long_hair"],
-    eyes: ["blue_eyes"],
+    eyes: ["grey_eyes"],
     features: ["animal_ears","dog_ears"],
     outfits: { default: ['school_uniform'] }
   },
   23003: {
     characterTag: 'hare_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["grey_hair","long_hair","ponytail"],
+    hair: ["silver_hair","long_hair","ponytail"],
     eyes: ["green_eyes"],
     features: ["hair_ornament","hood"],
     outfits: { default: ['school_uniform'] }
@@ -557,7 +557,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   10018: {
     characterTag: 'yuzu_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["red_hair","long_hair","very_long_hair"],
+    hair: ["pink_hair","long_hair","very_long_hair"],
     eyes: ["blue_eyes"],
     features: [],
     outfits: { default: ['school_uniform'] }
@@ -574,15 +574,15 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
     characterTag: 'rei_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
     hair: ["orange_hair","long_hair"],
-    eyes: ["purple_eyes"],
+    eyes: ["pink_eyes"],
     features: ["hat","hood"],
     outfits: { default: ['school_uniform'] }
   },
   10009: {
     characterTag: 'izumi_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["grey_hair","long_hair","ahoge"],
-    eyes: ["yellow_eyes"],
+    hair: ["brown_hair","long_hair","ahoge"],
+    eyes: ["orange_eyes"],
     features: ["horns","hair_ornament"],
     outfits: { default: ['school_uniform'] }
   },
@@ -613,8 +613,8 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   26000: {
     characterTag: 'chinatsu_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["brown_hair","long_hair"],
-    eyes: ["yellow_eyes"],
+    hair: ["blonde_hair","long_hair"],
+    eyes: ["orange_eyes"],
     features: ["pointy_ears","glasses"],
     outfits: { default: ['school_uniform'] }
   },
@@ -645,7 +645,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   10078: {
     characterTag: 'kasumi_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["black_hair","ahoge","long_hair"],
+    hair: ["brown_hair","ahoge","long_hair"],
     eyes: ["yellow_eyes"],
     features: ["horns","demon_horns"],
     outfits: { default: ['school_uniform'] }
@@ -661,7 +661,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   20033: {
     characterTag: 'makoto_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["grey_hair","long_hair","hair_over_one_eye"],
+    hair: ["white_hair","long_hair","hair_over_one_eye"],
     eyes: ["blue_eyes"],
     features: ["horns","demon_horns"],
     outfits: { default: ['school_uniform'] }
@@ -669,8 +669,8 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   10093: {
     characterTag: 'kirara_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["pink_hair","long_hair","hair_bun"],
-    eyes: ["pink_eyes"],
+    hair: ["blonde_hair","long_hair","hair_bun"],
+    eyes: ["yellow_eyes"],
     features: ["horns"],
     outfits: { default: ['school_uniform'] }
   },
@@ -678,7 +678,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
     characterTag: 'satsuki_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
     hair: ["pink_hair","long_hair"],
-    eyes: ["yellow_eyes"],
+    eyes: ["orange_eyes"],
     features: ["horns","mole"],
     outfits: { default: ['school_uniform'] }
   },
@@ -758,7 +758,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
     characterTag: 'mashiro_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
     hair: ["black_hair","short_hair"],
-    eyes: ["purple_eyes"],
+    eyes: ["black_eyes"],
     features: ["wings","black_wings"],
     outfits: { default: ['school_uniform'] }
   },
@@ -773,7 +773,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   10035: {
     characterTag: 'ui_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["black_hair","long_hair","very_long_hair"],
+    hair: ["grey_hair","long_hair","very_long_hair"],
     eyes: ["blue_eyes"],
     features: ["hairband"],
     outfits: { default: ['school_uniform'] }
@@ -789,7 +789,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   10058: {
     characterTag: 'mine_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["blue_hair","long_hair"],
+    hair: ["light_blue_hair","long_hair"],
     eyes: ["green_eyes"],
     features: ["wings","hat"],
     outfits: { default: ['school_uniform'] }
@@ -797,8 +797,8 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   10061: {
     characterTag: 'sakurako_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["grey_hair","long_hair"],
-    eyes: ["purple_eyes"],
+    hair: ["silver_hair","long_hair"],
+    eyes: ["pink_eyes"],
     features: [],
     outfits: { default: ['school_uniform'] }
   },
@@ -806,7 +806,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
     characterTag: 'ichika_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
     hair: ["black_hair","long_hair"],
-    eyes: ["blue_eyes"],
+    eyes: ["grey_eyes"],
     features: ["wings","black_wings"],
     outfits: { default: ['school_uniform'] }
   },
@@ -821,7 +821,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   13001: {
     characterTag: 'chise_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["blue_hair","long_hair"],
+    hair: ["light_blue_hair","long_hair"],
     eyes: ["red_eyes"],
     features: ["horns","hair_ornament"],
     outfits: { default: ['school_uniform'] }
@@ -830,7 +830,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
     characterTag: 'tsubaki_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
     hair: ["black_hair","short_hair"],
-    eyes: ["black_eyes"],
+    eyes: ["blue_eyes"],
     features: ["animal_ears","raccoon_ears"],
     outfits: { default: ['school_uniform'] }
   },
@@ -854,7 +854,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
     characterTag: 'izuna_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
     hair: ["brown_hair","short_hair"],
-    eyes: ["yellow_eyes"],
+    eyes: ["orange_eyes"],
     features: ["animal_ears","fox_ears"],
     outfits: { default: ['school_uniform'] }
   },
@@ -869,7 +869,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   20015: {
     characterTag: 'kaede_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["black_hair","hair_bun","ahoge"],
+    hair: ["purple_hair","hair_bun","ahoge"],
     eyes: ["yellow_eyes"],
     features: ["animal_ears"],
     outfits: { default: ['school_uniform'] }
@@ -894,7 +894,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
     characterTag: 'kaho_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
     hair: ["blonde_hair","long_hair","hair_over_one_eye"],
-    eyes: ["yellow_eyes"],
+    eyes: ["orange_eyes"],
     features: ["animal_ears","mole"],
     outfits: { default: ['school_uniform'] }
   },
@@ -925,7 +925,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   10090: {
     characterTag: 'umika_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["grey_hair","long_hair"],
+    hair: ["green_hair","long_hair"],
     eyes: ["brown_eyes"],
     features: ["animal_ears","dog_ears"],
     outfits: { default: ['school_uniform'] }
@@ -942,7 +942,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
     characterTag: 'niya_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
     hair: ["black_hair","short_hair"],
-    eyes: ["blue_eyes"],
+    eyes: ["red_eyes"],
     features: ["horns","mole"],
     outfits: { default: ['school_uniform'] }
   },
@@ -957,7 +957,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   10050: {
     characterTag: 'kokona_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["grey_hair","long_hair","very_long_hair"],
+    hair: ["silver_hair","long_hair","very_long_hair"],
     eyes: ["brown_eyes"],
     features: ["animal_ears"],
     outfits: { default: ['school_uniform'] }
@@ -981,7 +981,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   10104: {
     characterTag: 'reijo_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["red_hair","hair_bun","long_hair"],
+    hair: ["white_hair","hair_bun","long_hair"],
     eyes: ["red_eyes"],
     features: ["mole"],
     outfits: { default: ['school_uniform'] }
@@ -990,7 +990,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
     characterTag: 'ayane_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
     hair: ["black_hair","short_hair"],
-    eyes: ["yellow_eyes"],
+    eyes: ["orange_eyes"],
     features: ["pointy_ears","glasses"],
     outfits: { default: ['school_uniform'] }
   },
@@ -1054,7 +1054,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
     characterTag: 'momiji_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
     hair: ["green_hair","long_hair"],
-    eyes: ["green_eyes"],
+    eyes: ["yellow_eyes"],
     features: ["hood"],
     outfits: { default: ['school_uniform'] }
   },
@@ -1101,7 +1101,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   16008: {
     characterTag: 'fubuki_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["blue_hair","long_hair","hair_bun"],
+    hair: ["light_blue_hair","long_hair","hair_bun"],
     eyes: ["red_eyes"],
     features: [],
     outfits: { default: ['school_uniform'] }
@@ -1117,16 +1117,16 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   20007: {
     characterTag: 'hatsune_miku',
     halo: ['halo', 'glowing_halo'],
-    hair: ["aqua_hair","long_hair","twintails"],
-    eyes: ["aqua_eyes"],
+    hair: ["light_blue_hair","long_hair","twintails"],
+    eyes: ["blue_eyes"],
     features: [],
     outfits: { default: ['school_uniform'] }
   },
   10038: {
     characterTag: 'miyako_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["white_hair","long_hair"],
-    eyes: ["purple_eyes"],
+    hair: ["silver_hair","long_hair"],
+    eyes: ["pink_eyes"],
     features: ["animal_ears"],
     outfits: { default: ['school_uniform'] }
   },
@@ -1165,7 +1165,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   16020: {
     characterTag: 'otogi_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["brown_hair","long_hair","ahoge"],
+    hair: ["light_brown_hair","long_hair","ahoge"],
     eyes: ["green_eyes"],
     features: ["animal_ears","fox_ears"],
     outfits: { default: ['school_uniform'] }
@@ -1173,8 +1173,8 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   10041: {
     characterTag: 'misaki_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["black_hair","short_hair"],
-    eyes: ["red_eyes"],
+    hair: ["brown_hair","short_hair"],
+    eyes: ["brown_eyes"],
     features: [],
     outfits: { default: ['school_uniform'] }
   },
@@ -1182,7 +1182,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
     characterTag: 'hiyori_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
     hair: ["aqua_hair","long_hair","hair_over_one_eye"],
-    eyes: ["blue_eyes"],
+    eyes: ["aqua_eyes"],
     features: ["hair_ornament","hat"],
     outfits: { default: ['school_uniform'] }
   },
@@ -1261,7 +1261,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   10126: {
     characterTag: 'kanoe_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["grey_hair","long_hair","hair_over_one_eye"],
+    hair: ["purple_hair","long_hair","hair_over_one_eye"],
     eyes: ["brown_eyes"],
     features: [],
     outfits: { default: ['school_uniform'] }
@@ -1270,7 +1270,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
     characterTag: 'fuyu_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
     hair: ["green_hair","short_hair"],
-    eyes: ["green_eyes"],
+    eyes: ["yellow_eyes"],
     features: ["mole"],
     outfits: { default: ['school_uniform'] }
   },
@@ -1285,7 +1285,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
   10138: {
     characterTag: 'rena_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
-    hair: ["multicolored_hair","twintails","long_hair"],
+    hair: ["light_brown_hair","twintails","long_hair"],
     eyes: ["purple_eyes"],
     features: ["hair_ornament","ribbon"],
     outfits: { default: ['school_uniform'] }
@@ -1310,7 +1310,7 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
     characterTag: 'kotone_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
     hair: ["grey_hair","short_hair"],
-    eyes: ["black_eyes"],
+    eyes: ["grey_eyes"],
     features: ["headphones","tail"],
     outfits: { default: ['school_uniform'] }
   },

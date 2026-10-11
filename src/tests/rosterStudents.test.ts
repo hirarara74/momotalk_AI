@@ -50,3 +50,32 @@ describe('rosterStudents: 見た目タグと就寝スケジュール', () => {
         }
     })
 })
+
+describe('Wiki 照合の反映: 先生の呼び方と共通ルール', () => {
+    it('呼び方が違う生徒には、全言語で既定の呼び名ではなく専用の呼び名を使わせる', () => {
+        const eri = buildSystemPrompt({ Id: 10125, Name: 'エリ', Avatar: '' } as any, 'jp')
+        expect(eri).toContain('[ADDRESS')
+        expect(eri).toContain('"マスター"')
+        const sumireEn = buildSystemPrompt({ Id: 10012, Name: 'スミレ', Avatar: '' } as any, 'en')
+        expect(sumireEn).toContain('Always call the user "Trainer"')
+        expect(sumireEn).toContain('call user "Trainer"!')
+        expect(sumireEn).not.toContain('call user "Sensei"')
+    })
+
+    it('既定の呼び方の生徒には上書きを入れず、全員に世界観・一貫性のルールを入れる', () => {
+        const kei = buildSystemPrompt({ Id: 10135, Name: 'ケイ', Avatar: '' } as any, 'jp')
+        expect(kei).not.toContain('[ADDRESS')
+        expect(kei).toContain('[WORLD & CONSISTENCY')
+        const shiroko = buildSystemPrompt({ Id: 10010, Name: 'シロコ', Avatar: '' } as any, 'kr')
+        expect(shiroko).toContain('[WORLD & CONSISTENCY')
+        expect(shiroko).toContain('Always call the user "선생님"')
+    })
+
+    it('Wiki の記述に合わせた修正が入っている（部活名・学年・性格）', () => {
+        const get = (id: number) => buildSystemPrompt({ Id: id, Name: ROSTER_STUDENTS.find((r) => r.id === id)!.jpName, Avatar: '' } as any, 'jp')
+        expect(get(13009)).toContain('行儀見習い部')
+        expect(get(10037)).toContain('クーデター')
+        expect(get(10128)).not.toContain('芸術家気取り')
+        expect(get(10117)).toContain('丁寧で落ち着いた')
+    })
+})
