@@ -141,7 +141,8 @@ const processData = debounce(() => {
             if (!isPromptSupported(item)) return false
             if ((filter_condition.value.filter_star > 0 && item.Star !== filter_condition.value.filter_star) ||
                 (filter_condition.value.search_school && !item.School.includes(filter_condition.value.search_school)) ||
-                (item.Released !== filter_condition.value.filter_released)) return false
+                // シッテムの箱の補佐役はプレイ可能・未実装の区分に左右されず表示する。
+                (item.Id !== 104 && item.Id !== 173 && item.Released !== filter_condition.value.filter_released)) return false
             return true
         })
         // search
