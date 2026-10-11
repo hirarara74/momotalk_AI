@@ -57,7 +57,11 @@ describe('Groq reply completion', () => {
     it('uses the supplied Aru reaction for surprises without inventing an event to trigger it', () => {
         const prompt = buildSystemPrompt({ Id: 10000, Name: 'アル', Avatar: '' }, 'jp')
         expect(prompt).toContain('なななな、なっ、何ですってーーーーーー！！！？？？')
-        expect(prompt).toContain('驚く内容の時に使い')
+        expect(prompt).toContain('長い叫びを必須の冒頭にしない')
+        expect(prompt).toContain('何ですってー！')
+        expect(prompt).toContain('続けて繰り返さず')
+        expect(prompt).toContain('先生との普段の会話へ持ち込まない')
+        expect(prompt).toContain('過去の返信が敬語でも')
         expect(prompt).toContain('事件・請求・他の生徒の行動を作って驚かない')
     })
 })
