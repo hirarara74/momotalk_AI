@@ -138,7 +138,7 @@ onUnmounted(() => {
           <button
             class="photo-modal-close-btn"
             @click="closeModal"
-            title="閉じる"
+            :title="$t('photoClose')"
             aria-label="Close"
           >
             ✕
@@ -153,7 +153,7 @@ onUnmounted(() => {
           <div class="photo-viewport">
             <div v-if="hasLoadError" class="photo-load-error">
               <span class="error-icon">⚠️</span>
-              <p class="error-msg">画像を読み込めませんでした（通信エラーまたは提供元の制限）</p>
+              <p class="error-msg">{{ $t('photoLoadError') }}</p>
             </div>
             <img
               v-else-if="store.modalImageUrl"
@@ -203,7 +203,7 @@ onUnmounted(() => {
               :disabled="isDownloading"
             >
               <span class="save-icon">💾</span>
-              <span class="save-text">{{ $t('savePhoto') || '保存' }}</span>
+              <span class="save-text">{{ $t('savePhoto') }}</span>
             </button>
           </div>
         </div>

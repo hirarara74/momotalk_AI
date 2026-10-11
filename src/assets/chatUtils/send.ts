@@ -191,6 +191,9 @@ export function resolveReplyStudent(): baseStudent | null {
 /**
  * AI通信エラーメッセージをユーザー向けの親切な案内文に整形する
  */
+// 画面の言語に合わせた文言を返す（言語を切り替えると i18n.global.locale が更新される）
+const tr = (key: string, params?: Record<string, string>): string => String((i18n.global as any).t(key, params || {}))
+
 export function formatAiErrorMessage(err: any): string {
     const rawMsg = err?.message || String(err || '')
 
@@ -202,7 +205,7 @@ export function formatAiErrorMessage(err: any): string {
         rawMsg.includes('over capacity') ||
         rawMsg.includes('internal_server_error')
     ) {
-        return '（回線が一時的に混み合っています。サーバーの混雑が緩和されるまで少し待つか、設定から「★ 最上位モデル (120B)」に切り替えてお試しください）'
+        return tr('errServerBusy', { model: tr('modelChipTop120b') })
     }
 
     // 429 / Rate limit / OTPM
@@ -212,7 +215,7 @@ export function formatAiErrorMessage(err: any): string {
         rawMsg.includes('OTPM') ||
         rawMsg.includes('quota')
     ) {
-        return '（短時間のメッセージ送信制限（レートリミット）に達しました。10〜20秒ほど待ってから送信するか、設定から「★ 最上位モデル (120B)」をお試しください）'
+        return tr('errRateLimit', { model: tr('modelChipTop120b') })
     }
 
     // 401 / 403 / API Key
@@ -223,7 +226,7 @@ export function formatAiErrorMessage(err: any): string {
         rawMsg.includes('API key') ||
         rawMsg.includes('auth')
     ) {
-        return '（APIキーの認証に失敗しました。右上の設定画面（歯車）でAPIキーが正しく入力されているかご確認ください）'
+        return tr('errAuthFailed')
     }
 
     // Aborted
@@ -238,7 +241,7 @@ export function formatAiErrorMessage(err: any): string {
         .replace(/Groq API error \(\d+\):/g, '')
         .trim()
 
-    return `（通信エラーが発生しました: ${cleaned || '時間をおいて再度お試しください'}）`
+    return tr('errComm', { detail: cleaned || tr('errRetryLater') })
 }
 
 /**

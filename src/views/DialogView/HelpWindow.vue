@@ -41,7 +41,7 @@ onUnmounted(() => {
                 <div class="popper-content__title">
                     <header>
                         <span class="help-title-badge">?</span>
-                        <span>{{ $t('helpTitle') || 'MomoTalk AI 利用ガイド' }}</span>
+                        <span>{{ $t('helpTitle') }}</span>
                     </header>
                     <button class="close-btn" @click="closeDialog" aria-label="Close" title="Close">
                         <IconClose class="icon close" />

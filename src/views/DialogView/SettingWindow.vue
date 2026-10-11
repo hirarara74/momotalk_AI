@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { store } from '@/assets/storeUtils/store'
+import i18n from '@/locales/i18n'
 import IconClose from '@/components/icons/IconClose.vue'
 import IconGithub from '@/components/icons/IconGithub.vue'
 import IconLog from '@/components/icons/IconLog.vue'
@@ -30,7 +31,7 @@ const runImageKeyTest = async () => {
     } catch (err: any) {
         imageKeyTestResult.value = {
             success: false,
-            message: `テスト失敗: ${err?.message || String(err)}`
+            message: String(i18n.global.t('testFailed', { message: err?.message || String(err) }))
         }
     } finally {
         isTestingImageKey.value = false
@@ -564,7 +565,7 @@ const onProviderChange = () => {
                                     <div v-if="imageKeyTestResult.warning && store.imageGenProvider === 'stability'" style="margin-top: 2px;">
                                         <span>👉 </span>
                                         <a href="https://platform.stability.ai/account/credits" target="_blank" rel="noopener noreferrer" style="color: #d84315; text-decoration: underline; font-weight: 500;">
-                                            Stability AI ダッシュボードでクレジットを購入する
+                                            {{ $t('stabilityCreditPurchase') }}
                                         </a>
                                     </div>
                                 </div>
@@ -588,7 +589,7 @@ const onProviderChange = () => {
                                         :class="{ active: store.imageGenModel === 'flux' || !store.imageGenModel }"
                                         @click="store.imageGenModel = 'flux'; store.setData()"
                                     >
-                                        flux (推奨・安定アニメ)
+                                        flux ({{ $t('modelNoteRecommendedAnime') }})
                                     </button>
                                     <button
                                         type="button"
@@ -596,7 +597,7 @@ const onProviderChange = () => {
                                         :class="{ active: store.imageGenModel === 'sana' }"
                                         @click="store.imageGenModel = 'sana'; store.setData()"
                                     >
-                                        sana (イラスト調)
+                                        sana ({{ $t('modelNoteIllustration') }})
                                     </button>
                                     <button
                                         type="button"
@@ -604,7 +605,7 @@ const onProviderChange = () => {
                                         :class="{ active: store.imageGenModel === 'turbo' }"
                                         @click="store.imageGenModel = 'turbo'; store.setData()"
                                     >
-                                        turbo (超高速)
+                                        turbo ({{ $t('modelNoteUltraFast') }})
                                     </button>
                                 </div>
                                 <div v-else-if="store.imageGenProvider === 'fal'" style="display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
@@ -614,7 +615,7 @@ const onProviderChange = () => {
                                         :class="{ active: store.imageGenModel === 'fal-ai/illustrious' || (!store.imageGenModel && store.imageGenProvider === 'fal') }"
                                         @click="store.imageGenModel = 'fal-ai/illustrious'; store.setData()"
                                     >
-                                        illustrious (★ アニメ最高峰)
+                                        illustrious ({{ $t('modelNoteAnimeBest') }})
                                     </button>
                                     <button
                                         type="button"
@@ -622,7 +623,7 @@ const onProviderChange = () => {
                                         :class="{ active: store.imageGenModel === 'fal-ai/animagine-xl-3.1' }"
                                         @click="store.imageGenModel = 'fal-ai/animagine-xl-3.1'; store.setData()"
                                     >
-                                        animagine-xl-3.1 (アニメ特化)
+                                        animagine-xl-3.1 ({{ $t('modelNoteAnimeFocused') }})
                                     </button>
                                     <button
                                         type="button"
@@ -630,7 +631,7 @@ const onProviderChange = () => {
                                         :class="{ active: store.imageGenModel === 'fal-ai/flux/schnell' }"
                                         @click="store.imageGenModel = 'fal-ai/flux/schnell'; store.setData()"
                                     >
-                                        flux/schnell (超高速)
+                                        flux/schnell ({{ $t('modelNoteUltraFast') }})
                                     </button>
                                 </div>
                                 <div v-else-if="store.imageGenProvider === 'together'" style="display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
@@ -648,7 +649,7 @@ const onProviderChange = () => {
                                         :class="{ active: store.imageGenModel === 'stabilityai/stable-diffusion-xl-base-1.0' }"
                                         @click="store.imageGenModel = 'stabilityai/stable-diffusion-xl-base-1.0'; store.setData()"
                                     >
-                                        SDXL 1.0 (イラスト調)
+                                        SDXL 1.0 ({{ $t('modelNoteIllustration') }})
                                     </button>
                                 </div>
                                 <div v-else-if="store.imageGenProvider === 'openai'" style="display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
@@ -658,7 +659,7 @@ const onProviderChange = () => {
                                         :class="{ active: store.imageGenModel === 'dall-e-3' || !store.imageGenModel }"
                                         @click="store.imageGenModel = 'dall-e-3'; store.setData()"
                                     >
-                                        dall-e-3 (★ 超美麗・高精細)
+                                        dall-e-3 ({{ $t('modelNoteBeautiful') }})
                                     </button>
                                     <button
                                         type="button"
@@ -666,7 +667,7 @@ const onProviderChange = () => {
                                         :class="{ active: store.imageGenModel === 'dall-e-2' }"
                                         @click="store.imageGenModel = 'dall-e-2'; store.setData()"
                                     >
-                                        dall-e-2 (標準/高速)
+                                        dall-e-2 ({{ $t('modelNoteStandardFast') }})
                                     </button>
                                 </div>
                                 <div v-else-if="store.imageGenProvider === 'stability'" style="display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
@@ -676,7 +677,7 @@ const onProviderChange = () => {
                                         :class="{ active: store.imageGenModel === 'stable-diffusion-xl-1024-v1-0' || !store.imageGenModel }"
                                         @click="store.imageGenModel = 'stable-diffusion-xl-1024-v1-0'; store.setData()"
                                     >
-                                        SDXL 1.0 (★ アニメプリセット)
+                                        SDXL 1.0 ({{ $t('modelNoteAnimePreset') }})
                                     </button>
                                 </div>
                             </div>

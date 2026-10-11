@@ -121,7 +121,7 @@ const shouldShowDateDivider = (index: number, element: any, tasks: any[]) => {
                         >
                             <div class="shooting-indicator">
                                 <span class="camera-icon">📷</span>
-                                <span class="shooting-text">{{ $t('takingPhotoPlaceholder') || '📷 撮影中...' }}</span>
+                                <span class="shooting-text">{{ $t('takingPhotoPlaceholder') }}</span>
                                 <typing-animation class="shooting-dots" />
                             </div>
                         </div>
@@ -157,7 +157,7 @@ const shouldShowDateDivider = (index: number, element: any, tasks: any[]) => {
                                     @click="retryPhoto(element)"
                                     style="margin-top: 6px; font-size: 11px; color: #2888e2; cursor: pointer; display: flex; align-items: center; gap: 4px; user-select: none;"
                                 >
-                                    <span>🔄 写真を再読み込みする</span>
+                                    <span>{{ $t('photoReload') }}</span>
                                 </div>
                             </template>
                         </div>
@@ -264,7 +264,7 @@ export default {
                 }
 
                 const studentName = element.Name || ''
-                element.content = `（📷 ${studentName}: 写真の送受信に失敗しました。カメラまたは回線の調子が悪いようです）`
+                element.content = this.$t('photoSendFailed', { name: studentName })
                 talkHistory.setData()
             }
         },
