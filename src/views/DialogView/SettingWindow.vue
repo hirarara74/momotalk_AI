@@ -5,6 +5,7 @@ import i18n from '@/locales/i18n'
 import IconClose from '@/components/icons/IconClose.vue'
 import IconGithub from '@/components/icons/IconGithub.vue'
 import IconLog from '@/components/icons/IconLog.vue'
+import IconX from '@/components/icons/IconX.vue'
 import { testImageProviderConnection } from '@/assets/imageGen'
 
 const activePage = computed(() => store.settingDialogPage || 1)
@@ -701,6 +702,14 @@ const onProviderChange = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         ><IconLog
+                    /></a>
+                    <a
+                        href="https://x.com/jurakiyottan"
+                        class="icon-link"
+                        title="X (@jurakiyottan)"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        ><IconX
                     /></a>
                 </div>
             </div>
