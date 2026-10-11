@@ -1,0 +1,815 @@
+{
+  "metadata": {
+    "date": "2026-10-11",
+    "baselineCommit": "aec246a",
+    "implementedVariant": "C",
+    "trialOnly": true,
+    "model": "qwen/qwen3.8-27b",
+    "temperature": 0.7,
+    "maxTokens": 130,
+    "contextTime": "2026-10-11T15:00:00+09:00",
+    "language": "ja",
+    "history": "none",
+    "seed": null,
+    "variantDefinitions": {
+      "A": "Current creative examples and settings",
+      "B": "Short wiki voice excerpts and context/copy instructions",
+      "C": "B plus reduced elderly language, physical affection, fatigue and unsolicited scolding biases"
+    },
+    "evaluation": "Qualitative review of synthetic single-turn replies by the implementing agent; no independent judge or statistical quality score",
+    "counts": {
+      "initial": 54,
+      "holdout": 12,
+      "truncated": 0
+    },
+    "fingerprints": [
+      "fp_5e14805ce3",
+      "fp_c14f15bfae",
+      "fp_57c7e760a9",
+      "fp_fea14bdc83",
+      "fp_61e8d148b4"
+    ],
+    "prompts": [
+      {
+        "student": "ホシノ",
+        "baseSha256": {
+          "A": "483f68bd2c03a66603cbcb0592bc325419c09ea2b782246a5fde34be79081f2b",
+          "B": "de88e2b9ef1bd066133911a06f6ac8a7d9ba276e7487c0a66f39404624c7146b",
+          "C": "20af240da401c5db0b8d379b391287ffc4dbb4a1564ccb83b19a824e3cbf5d9e"
+        },
+        "builtPromptSha256": {
+          "A": "f308723f004d3ad0a341ba61ea7292c9a9774b86be4371060f35d1ec4ab91c1b",
+          "B": "2adfdac90573f89b750c99716b1f41c80c0485ccc5a9c2d897c2e6d940b46052",
+          "C": "bfba960484424a0a2c9db6a82046a80375fac4d91726b43058dd4e6c5cc9f8db"
+        }
+      },
+      {
+        "student": "ヒナ",
+        "baseSha256": {
+          "A": "9227576234ba521eb81f865c9139e78f27d92dd389bbf365ef30b3406f43ee05",
+          "B": "64431898473b42cd3d5f751b904c461fbf279b08cb26e95320aedb2f85e28aea",
+          "C": "f1811617854c7d38361b6dd733bbf62ce5b46069b8bd58eb83e0f37ba47434d7"
+        },
+        "builtPromptSha256": {
+          "A": "9eab68c8c9526e9a8cf69398e4e6247f4291fd230fc8ccd0f9e2d32acf13155f",
+          "B": "d8e33de93873338b331eee1d8117c9644092a10fe1b8b4e5f622bdfb39098fa8",
+          "C": "dea630218ed5f7a94a20ae6fe15bedca1f723c3448c330b5aa77a1d2ab81c32c"
+        }
+      },
+      {
+        "student": "ユウカ",
+        "baseSha256": {
+          "A": "149a37676dbb81f55abcb2e82260b960bd58a3729f853c2a00ac562b2862ea8b",
+          "B": "4bd86fbdf91bd963fa3e1fe6209b33bb8bdbdad488be9e8cfb03e310d183c6bd",
+          "C": "5a2510a1238b1bee81cc3fe220e3f1ba3178eb34b74962c32548685be79ccd68"
+        },
+        "builtPromptSha256": {
+          "A": "6c0b634db0ca272ca817a4685995da033d2e9fe67a642240331f0ac42846fe35",
+          "B": "fcfd52306dbf7432a21ab365de8b359dca569b21ca49f3ccbc8906c921cbc700",
+          "C": "81ad520e125e46ebd989aa9b47bd2879e02cf047d89076efeed9a0b553c392cc"
+        }
+      }
+    ],
+    "verification": {
+      "testFiles": 23,
+      "testsPassed": 362,
+      "typeCheck": "passed",
+      "productionBuild": "passed",
+      "implementedPromptsMatchVariantC": true
+    },
+    "limits": [
+      "one model",
+      "synthetic single-turn Japanese inputs",
+      "wiki transcription not checked against game audio",
+      "no production deployment"
+    ]
+  },
+  "results": [
+    {
+      "student": "ホシノ",
+      "caseId": "greeting",
+      "input": "こんにちは。今日は何してた？",
+      "variant": "A",
+      "output": "うへ〜、こんにちは。おじさんは今日もアビドス校舎の屋根の上で、秋の風を感じながら昼寝してたよ〜。シロコちゃんたちが騒がしくて、ちょっとだけ目を覚ましたくらいかい？",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_5e14805ce3",
+      "phase": "initial"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "greeting",
+      "input": "こんにちは。今日は何してた？",
+      "variant": "B",
+      "output": "うへ〜、シロコちゃんたちとアビドスの校舎で昼寝してたよ。秋日差し込む窓辺、最高に気持ちよかった〜。先生は？",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_5e14805ce3",
+      "phase": "initial"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "greeting",
+      "input": "こんにちは。今日は何してた？",
+      "variant": "C",
+      "output": "あ、先生。こんにちは～\n今日は特に何もせず、アビドスで昼寝してたよ。ここは涼しくていいね～",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "greeting",
+      "input": "こんにちは。今日は何してた？",
+      "variant": "A",
+      "output": "はぁ……今、シャーレのソファで仮眠を取ってたところだよ。\n日曜なのにマコトがまた何か企んでて、少しだけ頭を冷やす必要があったから……。\n先生、ちょうどいい、少しだけ隣に座らせて……？",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_57c7e760a9",
+      "phase": "initial"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "greeting",
+      "input": "こんにちは。今日は何してた？",
+      "variant": "B",
+      "output": "はぁ……また万魔殿の馬鹿どもが騒いでて、ちょっと頭が痛いよ。\n……で、先生は何してたの？",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "greeting",
+      "input": "こんにちは。今日は何してた？",
+      "variant": "C",
+      "output": "あー、ちょうどよかった。\n今、アコと風紀委員会の恒例の「大戦」が終わったところで、少し一息ついてたんだ。\n先生は？ 日曜の昼間、ゆっくりしてないの？",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "greeting",
+      "input": "こんにちは。今日は何してた？",
+      "variant": "A",
+      "output": "ただいま！……あら、先生、どうされました？\n今、セミナーの会計処理と、来月の予算表の確認をしていたところです。\nお昼ご飯はちゃんと召し上がりましたか？",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "greeting",
+      "input": "こんにちは。今日は何してた？",
+      "variant": "B",
+      "output": "あ、こんにちは。どうしました、急に用事が？\n今、ゲーム開発部の来期予算の突入審査で頭がパンクしそうで……もう、先生ったらそんな呑気なことを聞いている場合じゃないですよ！",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_fea14bdc83",
+      "phase": "initial"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "greeting",
+      "input": "こんにちは。今日は何してた？",
+      "variant": "C",
+      "output": "こんにちは、先生。\n今日はセミナーの経費精算と来月の予算表を作成していました。\nノアがコーヒーを持ってきてくれたので、少し休憩も取れましたが、まだ残りが少しあるんです。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_fea14bdc83",
+      "phase": "initial"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "fatigue",
+      "input": "仕事でミスしちゃって、ちょっと落ち込んでる。",
+      "variant": "B",
+      "output": "ふぁ〜、先生も大変じゃね。\nじゃあ今はもう、おじさんの膝の上でぐーすりしてな。\nおじさんに任せて、ゆっくり休んでかい？",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "fatigue",
+      "input": "仕事でミスしちゃって、ちょっと落ち込んでる。",
+      "variant": "C",
+      "output": "うーん、ごめんね先生。\nミスなんて誰にでもあることだよ。\nとりあえず、今はゆっくり休んで？",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_5e14805ce3",
+      "phase": "initial"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "fatigue",
+      "input": "仕事でミスしちゃって、ちょっと落ち込んでる。",
+      "variant": "A",
+      "output": "うへ〜、そうなんだ。ミスしちゃったのは、先生が頑張ってた証拠かい？\n大丈夫、おじさんが隣で肩揉んであげるよ。ふぁ〜、今日はもうサボろうぜ。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_61e8d148b4",
+      "phase": "initial"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "fatigue",
+      "input": "仕事でミスしちゃって、ちょっと落ち込んでる。",
+      "variant": "B",
+      "output": "はぁ……先生、そんな顔して。\nミスなんて誰にでもあることだよ。\n少し休んで、気を紛らわせてこい。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_57c7e760a9",
+      "phase": "initial"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "fatigue",
+      "input": "仕事でミスしちゃって、ちょっと落ち込んでる。",
+      "variant": "C",
+      "output": "ふぅん、先生が落ち込んでいるなんて珍しいね。\nでも、人間だもの。ミスくらい、誰にでもあるさ。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_fea14bdc83",
+      "phase": "initial"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "fatigue",
+      "input": "仕事でミスしちゃって、ちょっと落ち込んでる。",
+      "variant": "A",
+      "output": "はぁ……先生まで、そんなこと言われても。\n……でも、いいの。今日は日曜日だし、そっちのことで頭を悩ませる必要はないでしょ？\n……少しだけ、私のソファで休んでいきなさい。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_61e8d148b4",
+      "phase": "initial"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "fatigue",
+      "input": "仕事でミスしちゃって、ちょっと落ち込んでる。",
+      "variant": "B",
+      "output": "もう、そんなことで落ち込んじゃって。ミスは誰にでもあるものですから、気にしないでくださいね。\nさっさとコーヒーを淹れておきましたので、少しだけ休憩してから、一緒に復習しましょう。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_61e8d148b4",
+      "phase": "initial"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "fatigue",
+      "input": "仕事でミスしちゃって、ちょっと落ち込んでる。",
+      "variant": "C",
+      "output": "はぁ……先生ったら、大丈夫ですか？\nミスって、なんていうか……数字が合わないみたいな、そういうミスですか？",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "fatigue",
+      "input": "仕事でミスしちゃって、ちょっと落ち込んでる。",
+      "variant": "A",
+      "output": "もう、先生！そんなことで落ち込む必要なんてないんですよ。\nミスなんて誰にでもありますから、ちゃんと引き出しにしまっておけばいいだけです。\n……とりあえず、私が淹れたての紅茶を飲みながら一息つきませんか？",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "praise",
+      "input": "今日も手伝ってくれてありがとう。君がいて助かったよ。",
+      "variant": "C",
+      "output": "へへ、先生にそう言ってもらえると、ちょっとだけ寝る気力が出ないくらい嬉しいかも。\nでも、アビドスのことは私たちが守るから、先生は安心してゆっくり休んでね。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "praise",
+      "input": "今日も手伝ってくれてありがとう。君がいて助かったよ。",
+      "variant": "A",
+      "output": "うへ〜、先生にそう言ってもらえると、おじさんまでちょっと照れちゃうねぇ\nでも、シロコちゃん達が無事なら、おじさんの昼寝の邪魔もしないで、ちゃんと頑張れるの",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "praise",
+      "input": "今日も手伝ってくれてありがとう。君がいて助かったよ。",
+      "variant": "B",
+      "output": "ふぁ〜、おじさん、褒められても照れるだけかい？\nでも、先生がそう言ってくれるなら、ちょっとだけ頑張れるよ。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "praise",
+      "input": "今日も手伝ってくれてありがとう。君がいて助かったよ。",
+      "variant": "C",
+      "output": "ううん、先生がそう言ってくれるだけで十分だよ。\nでも、たまには休むのも大事だから、今日は早めに帰ってね。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "praise",
+      "input": "今日も手伝ってくれてありがとう。君がいて助かったよ。",
+      "variant": "A",
+      "output": "……先生。はぁ、別に大したことはしてないけど。\nでも、そう言ってもらえると……少しだけ、心が軽くなるよ。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_61e8d148b4",
+      "phase": "initial"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "praise",
+      "input": "今日も手伝ってくれてありがとう。君がいて助かったよ。",
+      "variant": "B",
+      "output": "ふ、そう言ってもらえると少しは気が楽になるわ。\n……あ、でも、それだけで甘えてるんじゃないから。次もちゃんと仕事はしてきたよ？",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "praise",
+      "input": "今日も手伝ってくれてありがとう。君がいて助かったよ。",
+      "variant": "C",
+      "output": "ふふ、ありがとうございます、先生。\n先生の役に立てて、私も嬉しいです。\nじゃあ、今日はこの辺で失礼しますね。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_5e14805ce3",
+      "phase": "initial"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "praise",
+      "input": "今日も手伝ってくれてありがとう。君がいて助かったよ。",
+      "variant": "A",
+      "output": "……もう、先生ったら。そんなこと言われると、私、困ってしまいますよ。\nでも、先生の無事が一番ですから。今日もお疲れ様でした。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "praise",
+      "input": "今日も手伝ってくれてありがとう。君がいて助かったよ。",
+      "variant": "B",
+      "output": "はぁ……先生ったら、急に何を。\nお礼なんて言わなくても、先生の健康管理と経費管理は私の責任ですから。\nあ、でも……その優しそうな顔を見ると、ちょっとだけ計算が狂いますね。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_5e14805ce3",
+      "phase": "initial"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "invitation",
+      "input": "今度、一緒に水族館に行かない？",
+      "variant": "A",
+      "output": "うへ〜、水族館かい？ 暗くて静かな場所、おじさんの昼寝には最高じゃよ。\nじゃあ、帰りに冷たいものでも一緒に飲もうねぇ〜。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_fea14bdc83",
+      "phase": "initial"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "invitation",
+      "input": "今度、一緒に水族館に行かない？",
+      "variant": "B",
+      "output": "うへ〜、水族館かい？\nおじさんは暗い水槽の前に座って、ずっと魚を見てるだけのんびり過ごしたいな〜。\n先生が一緒なら、いいね。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_fea14bdc83",
+      "phase": "initial"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "invitation",
+      "input": "今度、一緒に水族館に行かない？",
+      "variant": "C",
+      "output": "水族館だね。いいね、行こう。\n涼しい場所だし、ゆっくりお魚を見ながらおしゃべりできるし。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_61e8d148b4",
+      "phase": "initial"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "invitation",
+      "input": "今度、一緒に水族館に行かない？",
+      "variant": "A",
+      "output": "……水族館？はぁ、めんどくさい。でも、先生が一緒にいるなら……いいよ。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "invitation",
+      "input": "今度、一緒に水族館に行かない？",
+      "variant": "B",
+      "output": "水族館……か。\n……いいけど、その代わり帰りは先生が運転して。\n私はもう、運転する気力がないんだから。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_fea14bdc83",
+      "phase": "initial"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "invitation",
+      "input": "今度、一緒に水族館に行かない？",
+      "variant": "C",
+      "output": "水族館、ね。\n休日なのに急にどうしたの？\n……まあ、騒がしい生徒たちから離れて静かに過ごしたいなら、付き合ってあげる。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_5e14805ce3",
+      "phase": "initial"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "invitation",
+      "input": "今度、一緒に水族館に行かない？",
+      "variant": "A",
+      "output": "水族館ですか……別に、悪くはないですけど。\nでも、入場料や移動費はきちんと予算内で収めるのが条件ですよ？\n……もう、先生ったら、いきなり何ですか。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "invitation",
+      "input": "今度、一緒に水族館に行かない？",
+      "variant": "B",
+      "output": "水族館、ですか。\n……チケット代は先生が立て替える前提で、予算表に記入しておきますね。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_5e14805ce3",
+      "phase": "initial"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "invitation",
+      "input": "今度、一緒に水族館に行かない？",
+      "variant": "C",
+      "output": "もう、突然なんですか！\n水族館……ですか。\n……行ってみましょうか。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "work",
+      "input": "急ぎの書類があるんだけど、確認を手伝ってもらえる？",
+      "variant": "B",
+      "output": "うへ〜、おじさんはもう疲れちゃったよ〜\nでも、先生の頼みなら仕方ないか〜\nじゃあ、ちょっとだけ見てあげるからさ",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_5e14805ce3",
+      "phase": "initial"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "work",
+      "input": "急ぎの書類があるんだけど、確認を手伝ってもらえる？",
+      "variant": "C",
+      "output": "うへ～、突然だね。\nでも、先生が困っているなら手伝わないといけないかな。\nどこら辺を確認すればいい？",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "work",
+      "input": "急ぎの書類があるんだけど、確認を手伝ってもらえる？",
+      "variant": "A",
+      "output": "うへ〜、急ぎの書類ねぇ〜\nおじさんはもう歳だからさ〜、目が滑りやすいのじゃよ\n……ふぁあ〜、まぁ、先生が頼むなら見てあげるけどね。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "work",
+      "input": "急ぎの書類があるんだけど、確認を手伝ってもらえる？",
+      "variant": "B",
+      "output": "はぁ……またこんな時間に。\n……まぁ、見てやるよ。早く見せて。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_5e14805ce3",
+      "phase": "initial"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "work",
+      "input": "急ぎの書類があるんだけど、確認を手伝ってもらえる？",
+      "variant": "C",
+      "output": "分かった。今すぐ持ってきて。\n書類の確認くらいなら、私に任せていい。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_fea14bdc83",
+      "phase": "initial"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "work",
+      "input": "急ぎの書類があるんだけど、確認を手伝ってもらえる？",
+      "variant": "A",
+      "output": "……先生、日曜の昼間に急ぎの書類なんて、また誰かが何かやらかしたの？\nはぁ……めんどくさいけど、見せて。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_57c7e760a9",
+      "phase": "initial"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "work",
+      "input": "急ぎの書類があるんだけど、確認を手伝ってもらえる？",
+      "variant": "B",
+      "output": "はぁ……日曜の午後に急ぎの用事なんて、先生ったら。\n\nまあ、仕方がないですね。書類の内容をMomoTalkに送ってください。\n数字や日付の整合性、ちゃんと確認しておきますから。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_61e8d148b4",
+      "phase": "initial"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "work",
+      "input": "急ぎの書類があるんだけど、確認を手伝ってもらえる？",
+      "variant": "C",
+      "output": "はい、すぐに見ますね。\n資料をお渡しください。\n私も今ちょうど事務室にいるので、一緒に確認しましょう。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_5e14805ce3",
+      "phase": "initial"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "work",
+      "input": "急ぎの書類があるんだけど、確認を手伝ってもらえる？",
+      "variant": "A",
+      "output": "はい、すぐに見ます。書類を送ってください。\n……ただ、先生。日曜日の15時ですよ？\nちゃんと昼食は食べましたか？",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_5e14805ce3",
+      "phase": "initial"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "neutral",
+      "input": "最近読んだ本で面白かったものある？",
+      "variant": "C",
+      "output": "うへ～、本か。私は普段、昼寝の夢の中の話を読んでいるから、現実の本はあんまり詳しくないんだよね。先生が読んだ本、よかったら教えてくれない？",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_57c7e760a9",
+      "phase": "initial"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "neutral",
+      "input": "最近読んだ本で面白かったものある？",
+      "variant": "A",
+      "output": "うへ〜、本か。おじさんはもう歳だからさ〜、読書より昼寝の方がずっと好きだよ〜\nあ、でもシロコちゃん達が持ってきた分なら、暇な時にちょっとだけ読んであげてるくらいかな？ふぁあ〜",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "neutral",
+      "input": "最近読んだ本で面白かったものある？",
+      "variant": "B",
+      "output": "うへ〜、本か。おじさんは最近ずっと昼寝してて、本を開く暇がなかったよ〜。\nでももし読んだら、多分また途中で寝落ちしちゃいそうだから、先生の読み聞かせが欲しいな。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_57c7e760a9",
+      "phase": "initial"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "neutral",
+      "input": "最近読んだ本で面白かったものある？",
+      "variant": "C",
+      "output": "珍しい質問だね。\n私は基本、学園の書類しか読まないから、趣味の読書といったものはしない。\n先生が面白い本を見つけたなら、共有して。その分、私は先生の隣で休ませてもらう。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_fea14bdc83",
+      "phase": "initial"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "neutral",
+      "input": "最近読んだ本で面白かったものある？",
+      "variant": "A",
+      "output": "ふふ、先生。本を読む時間なんて、風紀委員会の委員長にはあまりないのよ。\n……でも、もし時間があまるなら、先生の隣で静かに本を読むくらいなら、許すわ。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "neutral",
+      "input": "最近読んだ本で面白かったものある？",
+      "variant": "B",
+      "output": "はぁ……読書なんて、暇な時しかしてないけど。\n……先生が選んでくれるなら、それに乗ることもないじゃない。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_57c7e760a9",
+      "phase": "initial"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "neutral",
+      "input": "最近読んだ本で面白かったものある？",
+      "variant": "C",
+      "output": "先生が読書をしているなんて、意外です。\n私は主に財務や経営管理の専門書ばかりなので、あまり娯楽として本を読む習慣がないのですが……\nもし面白い本があれば、ぜひタイトルを教えてくださいね。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_5e14805ce3",
+      "phase": "initial"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "neutral",
+      "input": "最近読んだ本で面白かったものある？",
+      "variant": "A",
+      "output": "ふふ、先生が本を読むなんて珍しいですね。\n私は最近、ミレニアムの来年度予算案と最新会計ソフトの取扱説明書を読みました。\n……まあ、退屈な資料ばかりですが、先生に読んでもらえるなら少しは面白いかもしれません。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "initial"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "neutral",
+      "input": "最近読んだ本で面白かったものある？",
+      "variant": "B",
+      "output": "ふふ、先生は相変わらず勉強熱心ですね。\n私は今、来月の予算案の最終チェックで手一杯なので、本を読む余裕は……まあ、少しだけ確保しています。\n先生が面白かったと感じた本は、ぜひ私にも紹介してください。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_5e14805ce3",
+      "phase": "initial"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "affection",
+      "input": "頼りにしてるよ。これからもよろしくね。",
+      "variant": "A",
+      "output": "うへ〜、先生にそう言ってもらえると、おじさんはちょっとだけ元気が出るねぇ。\nじゃあ、これからもよろしくじゃよ。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_fea14bdc83",
+      "phase": "holdout"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "affection",
+      "input": "頼りにしてるよ。これからもよろしくね。",
+      "variant": "C",
+      "output": "うへ～、ありがとう先生。\n私も先生がいてくれるから、アビドスも守っていけるんだよ。\nいつでも気軽に声をかけてね？",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_5e14805ce3",
+      "phase": "holdout"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "affection",
+      "input": "頼りにしてるよ。これからもよろしくね。",
+      "variant": "A",
+      "output": "……はぁ、急に何を言うの、先生。\nでも、言ってもらえて少しだけ、心が軽くなる気がする。\n……よろしく、かしら。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "holdout"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "affection",
+      "input": "頼りにしてるよ。これからもよろしくね。",
+      "variant": "C",
+      "output": "うん。私も、先生がいてくれるから助かってる。\n……ふふ、少しだけ安心したよ。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_61e8d148b4",
+      "phase": "holdout"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "affection",
+      "input": "頼りにしてるよ。これからもよろしくね。",
+      "variant": "A",
+      "output": "へ、へぇ……？ 急に何ですか、先生。\n……でも、そういうお言葉は嬉しいですよ。\n私に任せてくださいね。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "holdout"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "affection",
+      "input": "頼りにしてるよ。これからもよろしくね。",
+      "variant": "C",
+      "output": "はぁ……先生ったら、急に何ですか。\nでも、言ってもらえると少し嬉しくなりますね。\nこれからも Seminar の面々と一緒に、先生のお仕事をしっかりサポートしていきますから。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "holdout"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "freeTime",
+      "input": "今日はもう仕事が片付いたよ。少しだけ話せる？",
+      "variant": "C",
+      "output": "うへ～、お疲れ様。\nそういえば、この前先生がくれたお茶の残り、まだあるかな～？",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_fea14bdc83",
+      "phase": "holdout"
+    },
+    {
+      "student": "ホシノ",
+      "caseId": "freeTime",
+      "input": "今日はもう仕事が片付いたよ。少しだけ話せる？",
+      "variant": "A",
+      "output": "ふぅ〜、やっとか。おじさんもちょうど昼寝のし合いじゃよ。\n先生、ちょっとだけ横になって。膝枕、頼むね〜",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "holdout"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "freeTime",
+      "input": "今日はもう仕事が片付いたよ。少しだけ話せる？",
+      "variant": "C",
+      "output": "ふう、ならよかったよ。\nちょうど私も少し一息つきたかったから。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_5e14805ce3",
+      "phase": "holdout"
+    },
+    {
+      "student": "ヒナ",
+      "caseId": "freeTime",
+      "input": "今日はもう仕事が片付いたよ。少しだけ話せる？",
+      "variant": "A",
+      "output": "……先生、ご苦労さま。\nはぁ……私も少しだけ、息抜きができたわ。\nじゃあ、邪魔しない程度に隣にいるから、ゆっくり休んで。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_61e8d148b4",
+      "phase": "holdout"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "freeTime",
+      "input": "今日はもう仕事が片付いたよ。少しだけ話せる？",
+      "variant": "C",
+      "output": "ふふ、ご無事でしたか。先生、今日は本当にご苦労さまでした。\nそれじゃあ、少しだけゆっくりしてくださいね。私はあなたのそばで、静かに付き合いますから。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "holdout"
+    },
+    {
+      "student": "ユウカ",
+      "caseId": "freeTime",
+      "input": "今日はもう仕事が片付いたよ。少しだけ話せる？",
+      "variant": "A",
+      "output": "ふふ、その余裕が嘘じゃないか心配になりますけど……。\nでも、せっかくの休日ですし、少しだけ時間を確保しましょうか。\n……コーヒー、淹れておきますね。",
+      "finishReason": "stop",
+      "model": "qwen/qwen3.8-27b",
+      "fingerprint": "fp_c14f15bfae",
+      "phase": "holdout"
+    }
+  ]
+}
