@@ -6,17 +6,13 @@ import IconClose from '@/components/icons/IconClose.vue'
 import IconGithub from '@/components/icons/IconGithub.vue'
 import IconLog from '@/components/icons/IconLog.vue'
 import IconX from '@/components/icons/IconX.vue'
+import IconShare from '@/components/icons/IconShare.vue'
+import { getShareIntentUrl, shareApp } from '@/assets/utils/share'
 import { testImageProviderConnection } from '@/assets/imageGen'
 
 const activePage = computed(() => store.settingDialogPage || 1)
 
-const shareUrl = computed(
-    () =>
-        'https://x.com/intent/post?text=' +
-        encodeURIComponent(String(i18n.global.t('shareText'))) +
-        '&url=' +
-        encodeURIComponent(location.origin + import.meta.env.BASE_URL)
-)
+const shareUrl = computed(() => getShareIntentUrl())
 
 const showPage = (num: number) => {
     store.setSettingDialogPage(num)
@@ -722,11 +718,13 @@ const onProviderChange = () => {
                     <a
                         :href="shareUrl"
                         class="icon-link"
-                        :title="$t('shareOnX')"
+                        :title="$t('share')"
+                        :aria-label="$t('share')"
                         target="_blank"
                         rel="noopener noreferrer"
-                        >{{ $t('shareOnX') }}</a
-                    >
+                        @click.prevent="shareApp()"
+                        ><IconShare
+                    /></a>
                 </div>
             </div>
         </div>

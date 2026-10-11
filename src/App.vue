@@ -38,6 +38,8 @@ import MessageIcon from './components/icons/IconMessage.vue'
 import ListUpIcon from './components/icons/IconListUp.vue'
 import ListDownIcon from './components/icons/IconListDown.vue'
 import ResetIcon from './components/icons/IconReset.vue'
+import ShareIcon from './components/icons/IconShare.vue'
+import { shareApp } from '@/assets/utils/share'
 import LanguageIcon from './components/icons/IconLanguage.vue'
 import PlayerDialog from '@/views/DialogView/PlayerWindow.vue'
 import SettingDialog from '@/views/DialogView/SettingWindow.vue'
@@ -403,6 +405,9 @@ document.onkeyup = (e) => {
                 </RouterLink>
             </div>
             <div id="sidebar__down">
+                <div style="cursor: pointer" @click="shareApp()" :title="$t('share')">
+                    <ShareIcon class="icon share" />
+                </div>
                 <div style="cursor: pointer" @click="confirmReset" title="Reset">
                     <ResetIcon class="icon reset" />
                 </div>
