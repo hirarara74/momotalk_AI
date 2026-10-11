@@ -44,7 +44,7 @@
             <!-- 添付画像プレビュー -->
             <div class="attachment-bar" v-if="attachedImage">
                 <div class="attachment-preview-wrapper">
-                    <img :src="attachedImage" class="attachment-preview-img" alt="添付画像" />
+                    <img :src="attachedImage" class="attachment-preview-img" :alt="$t('attachedImageAlt')" />
                     <button class="attachment-remove-btn" @click="removeAttachedImage" :title="$t('removeImage')">×</button>
                 </div>
             </div>
@@ -78,7 +78,7 @@
                 <!-- 发送 -->
                 <textarea
                     class="text"
-                    :placeholder="attachedImage ? $t('imageMessagePlaceholder') : (store.sleepSimulationEnabled && studentSleepStatus.isSleeping ? $t('sleepingPlaceholder', { name: activeStudentInfo?.Name || '生徒' }) : (activeStudentInfo ? $t('chatInputPlaceholder', { name: activeStudentInfo.Name }) : 'Aa'))"
+                    :placeholder="attachedImage ? $t('imageMessagePlaceholder') : (store.sleepSimulationEnabled && studentSleepStatus.isSleeping ? $t('sleepingPlaceholder', { name: activeStudentInfo?.Name || $t('studentFallbackName') }) : (activeStudentInfo ? $t('chatInputPlaceholder', { name: activeStudentInfo.Name }) : 'Aa'))"
                     v-model="store.text"
                     id="textarea"
                     @keydown.enter.exact="onEnter"
@@ -221,7 +221,7 @@ const handleGoBack = () => {
 
 const handleClearChat = () => {
     if (activeStudentInfo.value) {
-        const studentName = activeStudentInfo.value.Name || '生徒'
+        const studentName = activeStudentInfo.value.Name || String(i18n.global.t('studentFallbackName'))
         if (confirm(i18n.global.t('resetChatConfirm', { name: studentName }))) {
             talkHistory.clearStudentTalks(activeStudentInfo.value)
         }

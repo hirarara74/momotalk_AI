@@ -4,6 +4,7 @@ import path from 'path'
 import { getStudentGreeting, SPECIAL_PROMPTS, buildSystemPrompt, isPromptSupported, getCurrentTimeContext } from '../assets/ai/prompts'
 import { talkHistory } from '../assets/storeUtils/talkHistory'
 import { store } from '../assets/storeUtils/store'
+import i18n from '../locales/i18n'
 import { selectList } from '../assets/storeUtils/selectList'
 import { resolveReplyStudent, abortStreaming, sendSenseiMessage, isMessageTyping, sendImagePayload, detectInteractionSentiment } from '../assets/chatUtils/send'
 import { playMomoTalkSound } from '../assets/utils/sound'
@@ -478,6 +479,7 @@ describe('Chat List Newest Interaction Sorting & Latest Message Preview (TDD)', 
         expect(getStudentLatestSnippet(aru)).toBe('手伝ってほしい')
 
         // If latest message is an image, returns [画像]
+        i18n.global.locale = 'jp' as any
         localStorage.setItem(
             'momotalk_chat_10000',
             JSON.stringify([
@@ -1071,6 +1073,28 @@ describe('Groq AI Provider Integration (TDD)', () => {
     })
 
     describe('formatAiErrorMessage (TDD)', () => {
+        // 文言は画面の言語に合わせて切り替わる。ここでは日本語表示のときの内容を確認する
+        beforeEach(() => {
+            i18n.global.locale = 'jp' as any
+        })
+        afterEach(() => {
+            i18n.global.locale = 'jp' as any
+        })
+
+        it('英語・韓国語・中国語の画面では、それぞれの言語で案内する', async () => {
+            const { formatAiErrorMessage } = await import('../assets/chatUtils/send')
+            const KANA = /[぀-ヿ]/
+            for (const lang of ['en', 'kr', 'zh', 'tw']) {
+                i18n.global.locale = lang as any
+                for (const raw of ['Groq API error (503): over capacity', 'Rate limit reached (429)', 'Invalid API key (401)', 'boom']) {
+                    const m = formatAiErrorMessage(new Error(raw))
+                    expect(m.length, `${lang}: ${raw}`).toBeGreaterThan(5)
+                    expect(KANA.test(m), `${lang}: ${raw} -> ${m}`).toBe(false)
+                    expect(m, `${lang}: ${raw}`).not.toMatch(/^[a-zA-Z]+[A-Z][a-z]+$/) // キー名がそのまま出ていない
+                }
+            }
+        })
+
         it('formats 503 over capacity error into friendly guidance message', async () => {
             const { formatAiErrorMessage } = await import('../assets/chatUtils/send')
             const err503 = new Error('Groq API error (503): {"error":{"message":"qwen/qwen3.8-27b is currently over capacity. Please try again and back off exponentially. Visit https://groqstatus.com to see if there is an active incident.","type":"internal_server_error"}}')
@@ -1224,6 +1248,7 @@ describe('Route-Aware Sidebar Sublines: Bio on Root/Info, Latest Snippet on Chat
         })
 
         it('returns [画像] on chat path when latest message is an image', () => {
+            i18n.global.locale = 'jp' as any
             const chatTalks: Talk[] = [
                 { Id: 1, type: 1, flag: 2, Name: 'Sensei', Avatar: '', content: 'data:image/png;base64,xxxx', time: 1000 }
             ]
