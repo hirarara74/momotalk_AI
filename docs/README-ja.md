@@ -43,6 +43,7 @@
 ## 🚀 クイックスタート
 
 ### オンラインで使う
+- **APIキーなしで試す:** https://momotalk-ai-free.momotalk-ai.workers.dev/ — 1日の利用枠を皆で共有する無料版です。枠が尽きたら、設定 ⚙️ に自分の無料 Groq キーを入れると続けて使えます。
 - **https://hirarara74.github.io/momotalk_AI/** — 右上の設定 ⚙️ で API キーを入力して使います（Groq の API キーは [console.groq.com/keys](https://console.groq.com/keys) で無料取得できます）。
 
 ### リポジトリ

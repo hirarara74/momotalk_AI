@@ -1,17 +1,20 @@
 import { fileURLToPath, URL } from 'node:url'
 
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import topLevelAwait from "vite-plugin-top-level-await";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command }) => {
+export default defineConfig(({ command, mode }) => {
   const isDev = command === 'serve'
+  // Absolute URL for og:image / twitter:image (crawlers ignore relative paths); the free edition overrides it in .env.free
+  const siteUrl = (loadEnv(mode, process.cwd(), 'VITE_').VITE_SITE_URL || 'https://hirarara74.github.io/momotalk_AI').replace(/\/$/, '')
   const base = process.env.VITE_BASE || (isDev ? '/momotalk/' : '/momotalk_AI/')
 
   return {
     plugins: [
+      { name: 'site-url', transformIndexHtml: (html: string) => html.replaceAll('__SITE_URL__', siteUrl) },
       vue(),
       vueJsx(),
       topLevelAwait({

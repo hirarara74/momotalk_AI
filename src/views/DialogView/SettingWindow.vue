@@ -10,6 +10,14 @@ import { testImageProviderConnection } from '@/assets/imageGen'
 
 const activePage = computed(() => store.settingDialogPage || 1)
 
+const shareUrl = computed(
+    () =>
+        'https://x.com/intent/post?text=' +
+        encodeURIComponent(String(i18n.global.t('shareText'))) +
+        '&url=' +
+        encodeURIComponent(location.origin + import.meta.env.BASE_URL)
+)
+
 const showPage = (num: number) => {
     store.setSettingDialogPage(num)
 }
@@ -711,6 +719,14 @@ const onProviderChange = () => {
                         rel="noopener noreferrer"
                         ><IconX
                     /></a>
+                    <a
+                        :href="shareUrl"
+                        class="icon-link"
+                        :title="$t('shareOnX')"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >{{ $t('shareOnX') }}</a
+                    >
                 </div>
             </div>
         </div>
