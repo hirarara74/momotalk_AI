@@ -1,4 +1,5 @@
 import { reactive } from 'vue'
+import i18n from '@/locales/i18n'
 import { Talk, baseStudent, studentInfo } from '../requestUtils/interface'
 import { historyState } from './historyState'
 import { getStudentGreeting, isPromptSupported } from '../ai/prompts'
@@ -518,7 +519,7 @@ export function getStudentLatestSnippet(student: { Id: number; Bio?: string }): 
             const content = (item && item.content) || ''
             if (content.trim()) {
                 if (content.startsWith('data:image/') || content.includes('<img')) {
-                    return '[画像]'
+                    return String((i18n.global as any).t('imagePlaceholderLabel'))
                 }
                 const plainText = content.replace(/<[^>]*>/g, '').trim()
                 if (plainText) {

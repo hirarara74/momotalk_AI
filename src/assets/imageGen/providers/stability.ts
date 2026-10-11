@@ -4,6 +4,10 @@
  *
  * Endpoint: POST https://api.stability.ai/v1/generation/{engine_id}/text-to-image
  */
+import i18n from '@/locales/i18n'
+
+// 画面の言語に合わせた文言（言語を切り替えると i18n.global.locale が更新される）
+const tr = (key: string, params?: Record<string, string>): string => String((i18n.global as any).t(key, params || {}))
 
 export interface StabilityAiOptions {
   engineId?: string // default: 'stable-diffusion-xl-1024-v1-0'
@@ -79,18 +83,18 @@ export function parseStabilityErrorMessage(status: number, rawError: string): st
   const message = parsed?.message || rawError
 
   if (status === 429 && (name === 'insufficient_balance' || message.includes('not have enough balance') || message.includes('insufficient_balance'))) {
-    return 'Stability AIのクレジット残高が不足しています (1回の生成に約 $0.009 / 0.9 credits 必要です)。Stability AI ダッシュボード (https://platform.stability.ai/account/credits) でクレジットをチャージするか、他の画像生成プロバイダーをご利用ください。'
+    return tr('stabilityNoCredit')
   }
 
   if (status === 401 || message.includes('Unauthorized') || message.includes('Invalid API Key') || message.includes('invalid_api_key')) {
-    return 'Stability AI の APIキーが無効です。APIキーを確認してください。'
+    return tr('stabilityInvalidKey')
   }
 
   if (status === 429) {
-    return 'Stability AI のリクエスト上限（レート制限）に達しました。しばらく待ってから再試行してください。'
+    return tr('stabilityRateLimit')
   }
 
-  return `Stability AI API エラー (${status}): ${message}`.trim()
+  return tr('stabilityApiError', { status: String(status), message }).trim()
 }
 
 export interface StabilityBalanceResult {
@@ -111,7 +115,7 @@ export async function checkStabilityBalance(apiKey: string): Promise<StabilityBa
       valid: false,
       credits: 0,
       hasEnoughCredits: false,
-      message: 'APIキーが入力されていません。'
+      message: tr('stabilityKeyMissing')
     }
   }
 
@@ -144,15 +148,15 @@ export async function checkStabilityBalance(apiKey: string): Promise<StabilityBa
       credits,
       hasEnoughCredits: hasEnough,
       message: hasEnough
-        ? `Stability AI 接続成功！残高: ${credits} credits`
-        : `Stability AI 接続成功ですが、残高が不足しています (残高: ${credits} credits / 必要: 約0.9 credits)。チャージが必要です。`
+        ? tr('stabilityConnectOk', { credits: String(credits) })
+        : tr('stabilityConnectLow', { credits: String(credits) })
     }
   } catch (error: any) {
     return {
       valid: false,
       credits: 0,
       hasEnoughCredits: false,
-      message: `Stability AI 接続エラー: ${error?.message || String(error)}`
+      message: tr('stabilityConnectError', { message: error?.message || String(error) })
     }
   }
 }
