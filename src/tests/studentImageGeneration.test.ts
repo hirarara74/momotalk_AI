@@ -441,7 +441,7 @@ describe('Dynamic Student Photo Generation Test Suite', () => {
           const profile = STUDENT_VISUAL_PROFILES[id]
           expect(profile, `Missing profile for student ID ${id}`).toBeDefined()
           expect(profile.characterTag, `Invalid characterTag for student ${id}`).toBeTruthy()
-          expect(profile.characterTag).toContain('blue_archive')
+          expect(profile.characterTag).toMatch(/blue_archive\)$|^(hatsune_miku|misaka_mikoto|shokuhou_misaki|saten_ruiko)$/)
           expect(Array.isArray(profile.halo), `Halo tags not array for ${id}`).toBe(true)
           expect(profile.halo.length).toBeGreaterThanOrEqual(1)
           expect(profile.halo).toContain('halo')

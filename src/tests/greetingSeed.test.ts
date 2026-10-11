@@ -19,20 +19,20 @@ describe('initial greeting seeding', () => {
     })
 
     it('seeds only prompt-supported students', () => {
-        seedInitialGreetings([{ Id: 10010, Name: 'シロコ', Avatars: ['a'] }, { Id: 10090, Name: 'ウミカ', Avatars: ['b'] }])
+        seedInitialGreetings([{ Id: 10010, Name: 'シロコ', Avatars: ['a'] }, { Id: 104, Name: 'アロナ', Avatars: ['b'] }])
         expect(localStorage.getItem('momotalk_chat_10010')).not.toBeNull()
-        expect(localStorage.getItem('momotalk_chat_10090')).toBeNull()
-        expect(talkHistory.unreadStudents[10090]).toBeUndefined()
+        expect(localStorage.getItem('momotalk_chat_104')).toBeNull()
+        expect(talkHistory.unreadStudents[104]).toBeUndefined()
     })
 
     it('replaces a greeting of another student left by old partial matching', () => {
-        const stale = [{ Id: 0, Name: 'ウミカ', Avatar: 'b', type: 0, flag: 2, content: '先生、ヤッホー☆ 私に会いに来てくれたの？', time: 1 }]
-        localStorage.setItem('momotalk_chat_10090', JSON.stringify(stale))
-        talkHistory.unreadStudents[10090] = 1
-        seedInitialGreetings([{ Id: 10090, Name: 'ウミカ', Avatars: ['b'] }])
-        const talks = JSON.parse(localStorage.getItem('momotalk_chat_10090')!)
+        const stale = [{ Id: 0, Name: 'アロナ', Avatar: 'b', type: 0, flag: 2, content: '先生、ヤッホー☆ 私に会いに来てくれたの？', time: 1 }]
+        localStorage.setItem('momotalk_chat_104', JSON.stringify(stale))
+        talkHistory.unreadStudents[104] = 1
+        seedInitialGreetings([{ Id: 104, Name: 'アロナ', Avatars: ['b'] }])
+        const talks = JSON.parse(localStorage.getItem('momotalk_chat_104')!)
         expect(talks[0].content).not.toContain('ヤッホー')
-        expect(talkHistory.unreadStudents[10090]).toBeUndefined()
+        expect(talkHistory.unreadStudents[104]).toBeUndefined()
     })
 
     it('does not touch a chat the user has replied in', () => {

@@ -473,6 +473,847 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
     features: ["white_bow","hair_bow"],
     outfits: { default: ["white_shirt","school_uniform","skirt"] }
   },
+  // 自動取得: Danbooru の関連タグ頻度から髪色・目の色・特徴を選んだ簡易プロフィール（衣装は制服で統一）
+  10001: {
+    characterTag: 'eimi_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["pink_hair","long_hair"],
+    eyes: ["pink_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  10007: {
+    characterTag: 'maki_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["red_hair","long_hair","ahoge"],
+    eyes: ["blue_eyes"],
+    features: ["hat"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10012: {
+    characterTag: 'sumire_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","long_hair","ponytail"],
+    eyes: ["purple_eyes"],
+    features: ["hair_ornament"],
+    outfits: { default: ['school_uniform'] }
+  },
+  13000: {
+    characterTag: 'akane_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["brown_hair","long_hair"],
+    eyes: ["brown_eyes"],
+    features: ["glasses","animal_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  16002: {
+    characterTag: 'kotori_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blonde_hair","ahoge","twintails"],
+    eyes: ["red_eyes"],
+    features: ["glasses"],
+    outfits: { default: ['school_uniform'] }
+  },
+  20000: {
+    characterTag: 'hibiki_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","long_hair"],
+    eyes: ["blue_eyes"],
+    features: ["animal_ears","dog_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  23003: {
+    characterTag: 'hare_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["grey_hair","long_hair","ponytail"],
+    eyes: ["green_eyes"],
+    features: ["hair_ornament","hood"],
+    outfits: { default: ['school_uniform'] }
+  },
+  23004: {
+    characterTag: 'utaha_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["purple_hair","long_hair"],
+    eyes: ["purple_eyes"],
+    features: ["animal_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  26001: {
+    characterTag: 'kotama_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blonde_hair","long_hair","ahoge"],
+    eyes: ["purple_eyes"],
+    features: ["glasses","hair_ornament"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10016: {
+    characterTag: 'midori_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blonde_hair","short_hair"],
+    eyes: ["green_eyes"],
+    features: ["animal_ears","headphones"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10018: {
+    characterTag: 'yuzu_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["red_hair","long_hair","very_long_hair"],
+    eyes: ["blue_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  20013: {
+    characterTag: 'chihiro_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","short_hair"],
+    eyes: ["green_eyes"],
+    features: ["glasses","hair_ornament"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10115: {
+    characterTag: 'rei_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["orange_hair","long_hair"],
+    eyes: ["purple_eyes"],
+    features: ["hat","hood"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10009: {
+    characterTag: 'izumi_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["grey_hair","long_hair","ahoge"],
+    eyes: ["yellow_eyes"],
+    features: ["horns","hair_ornament"],
+    outfits: { default: ['school_uniform'] }
+  },
+  13002: {
+    characterTag: 'akari_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blonde_hair","long_hair","ahoge"],
+    eyes: ["blue_eyes"],
+    features: ["horns","demon_horns"],
+    outfits: { default: ['school_uniform'] }
+  },
+  13007: {
+    characterTag: 'junko_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["red_hair","long_hair","twintails"],
+    eyes: ["red_eyes"],
+    features: ["horns","demon_horns"],
+    outfits: { default: ['school_uniform'] }
+  },
+  16000: {
+    characterTag: 'haruka_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["purple_hair","long_hair"],
+    eyes: ["purple_eyes"],
+    features: ["hair_ornament"],
+    outfits: { default: ['school_uniform'] }
+  },
+  26000: {
+    characterTag: 'chinatsu_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["brown_hair","long_hair"],
+    eyes: ["yellow_eyes"],
+    features: ["pointy_ears","glasses"],
+    outfits: { default: ['school_uniform'] }
+  },
+  26002: {
+    characterTag: 'juri_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["pink_hair","long_hair"],
+    eyes: ["green_eyes"],
+    features: ["horns","demon_horns"],
+    outfits: { default: ['school_uniform'] }
+  },
+  20012: {
+    characterTag: 'sena_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["white_hair","short_hair"],
+    eyes: ["yellow_eyes"],
+    features: ["horns","hat"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10060: {
+    characterTag: 'megu_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["red_hair","long_hair","ponytail"],
+    eyes: ["blue_eyes"],
+    features: ["horns","tail"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10078: {
+    characterTag: 'kasumi_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","ahoge","long_hair"],
+    eyes: ["yellow_eyes"],
+    features: ["horns","demon_horns"],
+    outfits: { default: ['school_uniform'] }
+  },
+  16014: {
+    characterTag: 'ibuki_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blonde_hair","long_hair"],
+    eyes: ["yellow_eyes"],
+    features: ["horns","demon_horns"],
+    outfits: { default: ['school_uniform'] }
+  },
+  20033: {
+    characterTag: 'makoto_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["grey_hair","long_hair","hair_over_one_eye"],
+    eyes: ["blue_eyes"],
+    features: ["horns","demon_horns"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10093: {
+    characterTag: 'kirara_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["pink_hair","long_hair","hair_bun"],
+    eyes: ["pink_eyes"],
+    features: ["horns"],
+    outfits: { default: ['school_uniform'] }
+  },
+  20040: {
+    characterTag: 'satsuki_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["pink_hair","long_hair"],
+    eyes: ["yellow_eyes"],
+    features: ["horns","mole"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10107: {
+    characterTag: 'chiaki_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","long_hair"],
+    eyes: ["red_eyes"],
+    features: ["horns","demon_horns"],
+    outfits: { default: ['school_uniform'] }
+  },
+  20058: {
+    characterTag: 'erika_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["white_hair","short_hair"],
+    eyes: ["blue_eyes"],
+    features: ["horns","demon_horns"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10013: {
+    characterTag: 'tsurugi_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","long_hair","very_long_hair"],
+    eyes: ["red_eyes"],
+    features: ["wings","black_wings"],
+    outfits: { default: ['school_uniform'] }
+  },
+  13003: {
+    characterTag: 'hasumi_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","long_hair","very_long_hair"],
+    eyes: ["red_eyes"],
+    features: ["wings","black_wings"],
+    outfits: { default: ['school_uniform'] }
+  },
+  23000: {
+    characterTag: 'airi_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","long_hair"],
+    eyes: ["green_eyes"],
+    features: ["animal_ears","cat_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  23002: {
+    characterTag: 'hanae_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["purple_hair","long_hair","twintails"],
+    eyes: ["blue_eyes"],
+    features: ["hair_ornament","hat"],
+    outfits: { default: ['school_uniform'] }
+  },
+  26003: {
+    characterTag: 'serina_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["pink_hair"],
+    eyes: ["pink_eyes"],
+    features: ["hat"],
+    outfits: { default: ['school_uniform'] }
+  },
+  26004: {
+    characterTag: 'shimiko_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["orange_hair","long_hair","very_long_hair"],
+    eyes: ["blue_eyes"],
+    features: ["glasses"],
+    outfits: { default: ['school_uniform'] }
+  },
+  26005: {
+    characterTag: 'yoshimi_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blonde_hair","long_hair","twintails"],
+    eyes: ["brown_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  20003: {
+    characterTag: 'mashiro_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","short_hair"],
+    eyes: ["purple_eyes"],
+    features: ["wings","black_wings"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10029: {
+    characterTag: 'natsu_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["pink_hair","long_hair","ahoge"],
+    eyes: ["red_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  10035: {
+    characterTag: 'ui_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","long_hair","very_long_hair"],
+    eyes: ["blue_eyes"],
+    features: ["hairband"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10036: {
+    characterTag: 'hinata_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","long_hair","hair_over_one_eye"],
+    eyes: ["red_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  10058: {
+    characterTag: 'mine_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blue_hair","long_hair"],
+    eyes: ["green_eyes"],
+    features: ["wings","hat"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10061: {
+    characterTag: 'sakurako_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["grey_hair","long_hair"],
+    eyes: ["purple_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  10077: {
+    characterTag: 'ichika_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","long_hair"],
+    eyes: ["blue_eyes"],
+    features: ["wings","black_wings"],
+    outfits: { default: ['school_uniform'] }
+  },
+  16018: {
+    characterTag: 'rabu_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["red_hair","long_hair","very_long_hair"],
+    eyes: ["red_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  13001: {
+    characterTag: 'chise_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blue_hair","long_hair"],
+    eyes: ["red_eyes"],
+    features: ["horns","hair_ornament"],
+    outfits: { default: ['school_uniform'] }
+  },
+  13009: {
+    characterTag: 'tsubaki_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","short_hair"],
+    eyes: ["black_eyes"],
+    features: ["animal_ears","raccoon_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  16004: {
+    characterTag: 'pina_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blonde_hair","long_hair"],
+    eyes: ["blue_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  23006: {
+    characterTag: 'shizuko_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["brown_hair","long_hair","twintails"],
+    eyes: ["purple_eyes"],
+    features: ["hair_ornament","animal_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10014: {
+    characterTag: 'izuna_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["brown_hair","short_hair"],
+    eyes: ["yellow_eyes"],
+    features: ["animal_ears","fox_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10034: {
+    characterTag: 'mimori_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["pink_hair","long_hair","hair_bun"],
+    eyes: ["blue_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  20015: {
+    characterTag: 'kaede_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","hair_bun","ahoge"],
+    eyes: ["yellow_eyes"],
+    features: ["animal_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10040: {
+    characterTag: 'tsukuyo_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["purple_hair","hair_over_one_eye","long_hair"],
+    eyes: ["purple_eyes"],
+    features: ["animal_ears","rabbit_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  16009: {
+    characterTag: 'michiru_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["grey_hair","long_hair","twintails"],
+    eyes: ["yellow_eyes"],
+    features: ["animal_ears","raccoon_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10065: {
+    characterTag: 'kaho_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blonde_hair","long_hair","hair_over_one_eye"],
+    eyes: ["yellow_eyes"],
+    features: ["animal_ears","mole"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10081: {
+    characterTag: 'yukari_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["purple_hair","long_hair"],
+    eyes: ["purple_eyes"],
+    features: ["hair_ornament","hair_flower"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10082: {
+    characterTag: 'renge_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["red_hair","long_hair","ponytail"],
+    eyes: ["red_eyes"],
+    features: ["horns","tail"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10083: {
+    characterTag: 'kikyou_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","short_hair"],
+    eyes: ["black_eyes"],
+    features: ["animal_ears","cat_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10090: {
+    characterTag: 'umika_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["grey_hair","long_hair"],
+    eyes: ["brown_eyes"],
+    features: ["animal_ears","dog_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10119: {
+    characterTag: 'nagusa_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["white_hair","long_hair"],
+    eyes: ["grey_eyes"],
+    features: ["hair_ornament"],
+    outfits: { default: ['school_uniform'] }
+  },
+  20046: {
+    characterTag: 'niya_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","short_hair"],
+    eyes: ["blue_eyes"],
+    features: ["horns","mole"],
+    outfits: { default: ['school_uniform'] }
+  },
+  20002: {
+    characterTag: 'saya_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["grey_hair","long_hair"],
+    eyes: ["red_eyes"],
+    features: ["animal_ears","tail"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10050: {
+    characterTag: 'kokona_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["grey_hair","long_hair","very_long_hair"],
+    eyes: ["brown_eyes"],
+    features: ["animal_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10069: {
+    characterTag: 'rumi_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["brown_hair","long_hair"],
+    eyes: ["purple_eyes"],
+    features: ["animal_ears","fox_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10070: {
+    characterTag: 'mina_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["green_hair","long_hair","hair_over_one_eye"],
+    eyes: ["red_eyes"],
+    features: ["sunglasses"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10104: {
+    characterTag: 'reijo_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["red_hair","hair_bun","long_hair"],
+    eyes: ["red_eyes"],
+    features: ["mole"],
+    outfits: { default: ['school_uniform'] }
+  },
+  23005: {
+    characterTag: 'ayane_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","short_hair"],
+    eyes: ["yellow_eyes"],
+    features: ["pointy_ears","glasses"],
+    outfits: { default: ['school_uniform'] }
+  },
+  26006: {
+    characterTag: 'nodoka_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blonde_hair","long_hair"],
+    eyes: ["red_eyes"],
+    features: ["animal_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10017: {
+    characterTag: 'cherino_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["white_hair","long_hair"],
+    eyes: ["blue_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  16007: {
+    characterTag: 'tomoe_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["pink_hair","long_hair","hair_bun"],
+    eyes: ["pink_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  10037: {
+    characterTag: 'marina_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blonde_hair","short_hair"],
+    eyes: ["yellow_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  10055: {
+    characterTag: 'shigure_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["green_hair","short_hair"],
+    eyes: ["purple_eyes"],
+    features: ["animal_ears","tail"],
+    outfits: { default: ['school_uniform'] }
+  },
+  20026: {
+    characterTag: 'minori_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","long_hair"],
+    eyes: ["green_eyes"],
+    features: ["scarf"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10075: {
+    characterTag: 'meru_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["green_hair","long_hair"],
+    eyes: ["blue_eyes"],
+    features: ["glasses","hair_ornament"],
+    outfits: { default: ['school_uniform'] }
+  },
+  13013: {
+    characterTag: 'momiji_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["green_hair","long_hair"],
+    eyes: ["green_eyes"],
+    features: ["hood"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10131: {
+    characterTag: 'takane_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["red_hair","long_hair","very_long_hair"],
+    eyes: ["yellow_eyes"],
+    features: ["hairband"],
+    outfits: { default: ['school_uniform'] }
+  },
+  20052: {
+    characterTag: 'yakumo_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["green_hair"],
+    eyes: ["green_eyes"],
+    features: ["hat","animal_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10151: {
+    characterTag: 'anna_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["grey_hair","long_hair"],
+    eyes: ["blue_eyes"],
+    features: ["hat"],
+    outfits: { default: ['school_uniform'] }
+  },
+  20062: {
+    characterTag: 'erina_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["grey_hair","long_hair"],
+    eyes: ["purple_eyes"],
+    features: ["hat","scarf"],
+    outfits: { default: ['school_uniform'] }
+  },
+  13012: {
+    characterTag: 'kirino_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["white_hair","long_hair","braid"],
+    eyes: ["blue_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  16008: {
+    characterTag: 'fubuki_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blue_hair","long_hair","hair_bun"],
+    eyes: ["red_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  10137: {
+    characterTag: 'konoka_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["grey_hair","long_hair"],
+    eyes: ["grey_eyes"],
+    features: ["mask"],
+    outfits: { default: ['school_uniform'] }
+  },
+  20007: {
+    characterTag: 'hatsune_miku',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["aqua_hair","long_hair","twintails"],
+    eyes: ["aqua_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  10038: {
+    characterTag: 'miyako_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["white_hair","long_hair"],
+    eyes: ["purple_eyes"],
+    features: ["animal_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  20014: {
+    characterTag: 'saki_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["purple_hair","short_hair"],
+    eyes: ["blue_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  10039: {
+    characterTag: 'miyu_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","long_hair","ahoge"],
+    eyes: ["red_eyes"],
+    features: ["animal_ears","rabbit_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  20018: {
+    characterTag: 'moe_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["brown_hair","twintails","long_hair"],
+    eyes: ["yellow_eyes"],
+    features: ["glasses","animal_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10140: {
+    characterTag: 'kurumi_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blonde_hair","long_hair","very_long_hair"],
+    eyes: ["green_eyes"],
+    features: ["animal_ears","fox_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  16020: {
+    characterTag: 'otogi_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["brown_hair","long_hair","ahoge"],
+    eyes: ["green_eyes"],
+    features: ["animal_ears","fox_ears"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10041: {
+    characterTag: 'misaki_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","short_hair"],
+    eyes: ["red_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  20017: {
+    characterTag: 'hiyori_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["aqua_hair","long_hair","hair_over_one_eye"],
+    eyes: ["blue_eyes"],
+    features: ["hair_ornament","hat"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10042: {
+    characterTag: 'atsuko_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["purple_hair","long_hair"],
+    eyes: ["red_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  10130: {
+    characterTag: 'subaru_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","short_hair"],
+    eyes: ["purple_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  10079: {
+    characterTag: 'misaka_mikoto',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["brown_hair","short_hair","medium_hair"],
+    eyes: ["brown_eyes"],
+    features: ["hair_ornament"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10080: {
+    characterTag: 'shokuhou_misaki',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blonde_hair","long_hair"],
+    eyes: ["yellow_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  26011: {
+    characterTag: 'saten_ruiko',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["black_hair","long_hair"],
+    eyes: ["blue_eyes"],
+    features: ["hair_ornament","hair_flower"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10117: {
+    characterTag: 'hikari_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["green_hair","long_hair","twintails"],
+    eyes: ["yellow_eyes"],
+    features: ["pointy_ears","tail"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10118: {
+    characterTag: 'nozomi_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["green_hair","long_hair","twintails"],
+    eyes: ["yellow_eyes"],
+    features: ["pointy_ears","tail"],
+    outfits: { default: ['school_uniform'] }
+  },
+  16017: {
+    characterTag: 'aoba_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["blonde_hair","long_hair","twintails"],
+    eyes: ["red_eyes"],
+    features: ["hat"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10125: {
+    characterTag: 'eri_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["white_hair","long_hair","braid"],
+    eyes: ["orange_eyes"],
+    features: ["hat"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10126: {
+    characterTag: 'kanoe_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["grey_hair","long_hair","hair_over_one_eye"],
+    eyes: ["brown_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  10128: {
+    characterTag: 'fuyu_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["green_hair","short_hair"],
+    eyes: ["green_eyes"],
+    features: ["mole"],
+    outfits: { default: ['school_uniform'] }
+  },
+  20050: {
+    characterTag: 'ritsu_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["green_hair","ahoge","short_hair"],
+    eyes: ["green_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  10138: {
+    characterTag: 'rena_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["multicolored_hair","twintails","long_hair"],
+    eyes: ["purple_eyes"],
+    features: ["hair_ornament","ribbon"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10152: {
+    characterTag: 'tsumugi_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["green_hair","long_hair"],
+    eyes: ["blue_eyes"],
+    features: ["hairband"],
+    outfits: { default: ['school_uniform'] }
+  },
+  10149: {
+    characterTag: 'kokoro_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["pink_hair","ahoge","hair_bun"],
+    eyes: ["pink_eyes"],
+    features: [],
+    outfits: { default: ['school_uniform'] }
+  },
+  10150: {
+    characterTag: 'kotone_(blue_archive)',
+    halo: ['halo', 'glowing_halo'],
+    hair: ["grey_hair","short_hair"],
+    eyes: ["black_eyes"],
+    features: ["headphones","tail"],
+    outfits: { default: ['school_uniform'] }
+  },
 }
 
 /**

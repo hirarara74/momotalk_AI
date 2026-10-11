@@ -64,3 +64,20 @@
 設定の出典（公式プロフィールの要約を掲載したページ）: [game8のケイ](https://game8.jp/blue-archive/699441)、[セイア](https://game8.jp/blue-archive/664363)、[ナギサ](https://game8.jp/blue-archive/643625)、[カンナ](https://game8.jp/blue-archive/655207)、[スズミ・レイサ](https://game8.jp/blue-archive/655220)、[ミヨ](https://game8.jp/blue-archive/722292)、[モモイ](https://game8.jp/blue-archive/643734)、[フウカ](https://game8.jp/blue-archive/643661)、[ハナコ](https://game8.jp/blue-archive/643639)、[レイサ](https://gameranbu.jp/bluearchive/f25960ae7f6376d78d33)、[イロハ](https://gameranbu.jp/bluearchive/e9ba47ef574d366566db)、[ニコ](https://zh.moegirl.org.cn/ja/%E5%90%89%E9%87%8E%E5%A6%AE%E5%8F%AF)（検索結果の要約）。
 
 注意: 取得できたのは性格・所属・趣味・関係性の公式プロフィールまで。一人称・語尾・会話例は、プロフィールに合わせた創作で未確認。残りの未対応生徒は GitHub Issue で管理する。
+
+## 残りの実装済み生徒105人を追加（2026-10-11）
+
+実装済み（Released）の基本生徒148人のうち、専用プロンプト未対応だった105人を追加し、全員が専用プロンプト・5言語の名前と挨拶・見た目タグ・就寝スケジュールを持つ。専用プロンプトを持つ生徒は43人から148人になった。
+
+- データ: `src/assets/ai/rosterExtra.ts`（105人）。`rosterStudents.ts` が人気上位12人と合わせて既存の登録先へ組み込む。
+- 見た目タグ: `characterDictionary.ts` に追加。Danbooru の関連タグの頻度から髪色・目の色・髪型・特徴を機械的に選んだ簡易版で、衣装は制服で統一している。
+- 就寝スケジュール: `sleepSchedule.ts` に追加。趣味・所属・口癖から決めた設定。
+
+出典: [game8の各部活ページ](https://game8.jp/blue-archive/655185)（連番655185〜655229）に掲載された公式プロフィールの要約（性格・趣味・学年）。ミサキ・ヒヨリ・アツコは[アリウススクワッドのページ](https://game8.jp/blue-archive/655194)、ヒカリ・ノゾミは[game8のヒカリ](https://game8.jp/blue-archive/711372)、エリ・カノエは[エリ](https://game8.jp/blue-archive/710949)・[カノエ](https://game8.jp/blue-archive/710950)から。
+
+### 公式プロフィールを確認できなかった生徒
+次の生徒は性格の記載がページに無い、またはページが見つからなかったため、モモトークのひとこと・所属・趣味・本人の既知の設定から控えめに書いた。実機での確認を推奨する。
+- 趣味のみ確認: ノドカ、シグレ、メル、モミジ、ココナ
+- プロフィールを確認できず: エリカ、ラブ、コノカ、スバル、タカネ、ヤクモ、アンナ、エリナ、レナ、フユ、リツ、クルミ、オトギ、ココロ、コトネ（ココロ・コトネは非公式Wikiの記述）、初音ミク、御坂美琴、食蜂操祈、佐天涙子（コラボ作品の既知の人物像に基づく）
+
+一人称・語尾・会話例は全員、設定に合わせた創作で未確認。

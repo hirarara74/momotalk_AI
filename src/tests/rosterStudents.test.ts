@@ -2,10 +2,10 @@ import { describe, it, expect } from 'vitest'
 import { buildSystemPrompt, getStudentGreeting, isPromptSupported, SPECIAL_PROMPTS } from '../assets/ai/prompts'
 import { ROSTER_STUDENTS } from '../assets/ai/rosterStudents'
 
-describe('rosterStudents: 人気上位の12人', () => {
+describe('rosterStudents: 追加した117人', () => {
     it('12人が一意で、対応済みと判定される', () => {
-        expect(ROSTER_STUDENTS).toHaveLength(12)
-        expect(new Set(ROSTER_STUDENTS.map((r) => r.id)).size).toBe(12)
+        expect(ROSTER_STUDENTS).toHaveLength(117)
+        expect(new Set(ROSTER_STUDENTS.map((r) => r.id)).size).toBe(117)
         for (const r of ROSTER_STUDENTS) {
             expect(isPromptSupported(r.id)).toBe(true)
             expect(isPromptSupported({ Id: r.id, Name: r.jpName })).toBe(true)
@@ -33,7 +33,7 @@ import { isSupportedVisualStudent, getCharacterVisualProfile } from '../assets/i
 import { getStudentSleepSchedule, DEFAULT_SLEEP_SCHEDULE } from '../assets/ai/sleepSchedule'
 
 describe('rosterStudents: 見た目タグと就寝スケジュール', () => {
-    it('12人すべてが見た目辞書に載り、名前（全言語）からも引ける', () => {
+    it('追加した全員が見た目辞書に載り、名前（全言語）からも引ける', () => {
         for (const r of ROSTER_STUDENTS) {
             expect(isSupportedVisualStudent(r.id)).toBe(true)
             for (const n of Object.values(r.names).flat()) {
@@ -42,11 +42,11 @@ describe('rosterStudents: 見た目タグと就寝スケジュール', () => {
         }
     })
 
-    it('12人すべてが既定ではない専用の就寝スケジュールを持つ', () => {
+    it('追加した全員が既定ではない専用の就寝スケジュールを持つ', () => {
         for (const r of ROSTER_STUDENTS) {
             const s = getStudentSleepSchedule({ Name: r.jpName })
             expect(s).not.toBe(DEFAULT_SLEEP_SCHEDULE)
-            expect(getStudentSleepSchedule(r.names.jp[1])).toBe(s)
+            expect(getStudentSleepSchedule(r.names.jp[r.names.jp.length - 1])).toBe(s)
         }
     })
 })
