@@ -2,21 +2,8 @@ import { reactive } from 'vue'
 import i18n from '@/locales/i18n'
 import { talkHistory } from './talkHistory'
 import { selectList } from './selectList'
-import i18nJpJson from '../i18n/i18n-jp.json'
-import i18nEnJson from '../i18n/i18n-en.json'
-import i18nKrJson from '../i18n/i18n-kr.json'
-import i18nZhJson from '../i18n/i18n-zh.json'
-import i18nTwJson from '../i18n/i18n-tw.json'
 
-try {
-    i18n.global.mergeLocaleMessage('jp', i18nJpJson)
-    i18n.global.mergeLocaleMessage('en', i18nEnJson)
-    i18n.global.mergeLocaleMessage('kr', i18nKrJson)
-    i18n.global.mergeLocaleMessage('zh', i18nZhJson)
-    i18n.global.mergeLocaleMessage('tw', i18nTwJson)
-} catch (e) {
-    console.warn('Failed to merge imageGen locale messages:', e)
-}
+// 写真・画像などの追加文言（src/assets/i18n/*.json）は locales/i18n.ts で統合している
 
 // The help button opens on touchend.prevent, which keeps focus (and the phone keyboard) on the chat input
 const dismissKeyboard = () => {
