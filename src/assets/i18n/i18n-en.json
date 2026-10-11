@@ -52,6 +52,6 @@
   "studentFallbackName": "Student",
   "photoSendFailed": "(📷 {name}: Sending or receiving the photo failed. The camera or the connection seems to be acting up.)",
   "testFailed": "Test failed: {message}",
-  "shareOnX": "Share on X",
-  "shareText": "MomoTalk AI #BlueArchive #MomoTalkAI"
+  "shareText": "MomoTalk AI #BlueArchive #MomoTalkAI",
+  "share": "Share"
 }
