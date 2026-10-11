@@ -104,7 +104,7 @@ export class GroqProvider implements AIProvider {
             }
 
             // Reasoning models require larger max_tokens to accommodate internal reasoning tokens
-            const maxTokens = modelName.includes('gpt-oss') ? 450 : 130
+            const maxTokens = modelName.includes('gpt-oss') ? 2048 : 512
             const maxAttempts = imgInfo ? 3 : 2
 
             for (let attempt = 1; attempt <= maxAttempts; attempt++) {
@@ -121,7 +121,7 @@ export class GroqProvider implements AIProvider {
                             model: modelName,
                             messages,
                             stream: true,
-                            max_tokens: maxTokens,
+                            max_tokens: maxTokens * attempt,
                             temperature: 0.7
                         }),
                         signal
@@ -151,21 +151,24 @@ export class GroqProvider implements AIProvider {
                     const decoder = new TextDecoder()
                     let fullText = ''
                     let buffer = ''
+                    let finishReason: string | null = null
+                    let sawDone = false
 
                     while (true) {
                         const { done, value } = await reader.read()
-                        if (done) break
-
-                        buffer += decoder.decode(value, { stream: true })
+                        // EOFでも最後の改行なしのイベントとUTF-8の残りを処理する。
+                        buffer += done ? decoder.decode() + '\n' : decoder.decode(value, { stream: true })
                         const lines = buffer.split('\n')
                         buffer = lines.pop() || ''
 
                         for (const line of lines) {
                             const trimmed = line.trim()
-                            if (!trimmed || trimmed === 'data: [DONE]') continue
+                            if (trimmed === 'data: [DONE]') { sawDone = true; continue }
+                            if (!trimmed) continue
                             if (trimmed.startsWith('data: ')) {
                                 try {
                                     const json = JSON.parse(trimmed.slice(6))
+                                    finishReason = json.choices?.[0]?.finish_reason ?? finishReason
                                     const delta = json.choices?.[0]?.delta?.content || ''
                                     fullText += delta
                                     onChunk(fullText)
@@ -174,7 +177,12 @@ export class GroqProvider implements AIProvider {
                                 }
                             }
                         }
+                        if (done) break
                     }
+
+                    // 途中までの文章を成功として保存しない。既存の再試行で生成枠を広げる。
+                    if (finishReason === 'length') throw new Error('返信が生成上限に達しました。もう一度お試しください。')
+                    if (!sawDone && finishReason !== 'stop') throw new Error('返信の受信が途中で途切れました。もう一度お試しください。')
 
                     // If output was generated successfully, return
                     if (fullText.trim()) {
