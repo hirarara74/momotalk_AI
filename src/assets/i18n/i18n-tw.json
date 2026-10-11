@@ -52,6 +52,6 @@
   "studentFallbackName": "學生",
   "photoSendFailed": "（📷 {name}：照片收發失敗。相機或網路似乎出了問題。）",
   "testFailed": "測試失敗：{message}",
-  "shareOnX": "在 X 上分享",
-  "shareText": "MomoTalk AI #蔚藍檔案 #MomoTalkAI"
+  "shareText": "MomoTalk AI #蔚藍檔案 #MomoTalkAI",
+  "share": "分享"
 }

@@ -12,6 +12,10 @@
         height: 30px;
         @include setColor(#fff);
     }
+    &.share {
+        height: 30px;
+        @include setColor(#fff);
+    }
     &.language,
     &.setting {
         height: 35px;
