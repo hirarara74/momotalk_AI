@@ -183,7 +183,9 @@ export const STUDENT_SIGNATURE_TRAITS: Record<number, { preferredPreset: string;
   10049: { preferredPreset: 'cafe_break', extraSceneTags: ['tsundere_expression', 'slight_blush', 'sweets'] }, // Kazusa
   10048: { preferredPreset: 'outdoor_patrol', extraSceneTags: ['serious_gaze', 'calm'] }, // Saori
   10011: { preferredPreset: 'selfie_standard', extraSceneTags: ['gentle_smile', 'mature_expression', 'tea'] }, // Shun
-  9999: { preferredPreset: 'selfie_cute', extraSceneTags: ['cheerful_smile', 'sparkling_eyes'] } // Arona
+  104: { preferredPreset: 'selfie_cute', extraSceneTags: ['cheerful_smile', 'sparkling_eyes'] }, // Arona
+  173: { preferredPreset: 'selfie_standard', extraSceneTags: ['calm'] }, // Plana
+  9999: { preferredPreset: 'selfie_cute', extraSceneTags: ['cheerful_smile', 'sparkling_eyes'] } // Arona (legacy ID)
 }
 
 /**

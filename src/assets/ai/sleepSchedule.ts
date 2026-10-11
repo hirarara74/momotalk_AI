@@ -650,6 +650,10 @@ add(["コトネ","淵上琴音"], { bedtimeHour: 23, bedtimeMinute: 0, weekdayWa
 /**
  * 未登録生徒向けのデフォルト生活リズム
  */
+// アプリ用の生活リズム。公式の就寝・起床時刻ではない。
+add(['アロナ'], { bedtimeHour: 22, weekdayWakeHour: 8, weekdayWakeMinute: 0, weekendWakeHour: 8, weekendWakeMinute: 0, varianceMinutes: 15, notes: 'アプリ用: 夜は休んで朝から先生を補佐' })
+add(['プラナ'], { bedtimeHour: 23, weekdayWakeHour: 7, weekdayWakeMinute: 0, weekendWakeHour: 7, weekendWakeMinute: 0, varianceMinutes: 0, notes: 'アプリ用: 規則正しく先生を補佐' })
+
 export const DEFAULT_SLEEP_SCHEDULE: SleepScheduleConfig = {
     bedtimeHour: 23,
     bedtimeMinute: 0,

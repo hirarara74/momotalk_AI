@@ -2,10 +2,10 @@ import { describe, it, expect } from 'vitest'
 import { buildSystemPrompt, getStudentGreeting, isPromptSupported, SPECIAL_PROMPTS } from '../assets/ai/prompts'
 import { ROSTER_STUDENTS } from '../assets/ai/rosterStudents'
 
-describe('rosterStudents: 追加した117人', () => {
-    it('12人が一意で、対応済みと判定される', () => {
-        expect(ROSTER_STUDENTS).toHaveLength(117)
-        expect(new Set(ROSTER_STUDENTS.map((r) => r.id)).size).toBe(117)
+describe('rosterStudents: 追加した119人', () => {
+    it('全員が一意で、対応済みと判定される', () => {
+        expect(ROSTER_STUDENTS).toHaveLength(119)
+        expect(new Set(ROSTER_STUDENTS.map((r) => r.id)).size).toBe(119)
         for (const r of ROSTER_STUDENTS) {
             expect(isPromptSupported(r.id)).toBe(true)
             expect(isPromptSupported({ Id: r.id, Name: r.jpName })).toBe(true)
@@ -31,8 +31,15 @@ describe('rosterStudents: 追加した117人', () => {
 
 import { isSupportedVisualStudent, getCharacterVisualProfile } from '../assets/imageGen/characterDictionary'
 import { getStudentSleepSchedule, DEFAULT_SLEEP_SCHEDULE } from '../assets/ai/sleepSchedule'
+import { getStudentApologyMessage } from '../assets/imageGen/imageService'
 
 describe('rosterStudents: 見た目タグと就寝スケジュール', () => {
+    it('アロナの旧IDとの互換性を保ち、プラナの写真失敗時にも別人の口調を使わない', () => {
+        expect(getCharacterVisualProfile(104)).toBe(getCharacterVisualProfile(9999))
+        expect(getCharacterVisualProfile(173).characterTag).not.toBe(getCharacterVisualProfile(104).characterTag)
+        expect(getStudentApologyMessage(104, 'jp')).toBe(getStudentApologyMessage(9999, 'jp'))
+        expect(getStudentApologyMessage(173, 'jp')).toContain('申し訳ありません')
+    })
     it('追加した全員が見た目辞書に載り、名前（全言語）からも引ける', () => {
         for (const r of ROSTER_STUDENTS) {
             expect(isSupportedVisualStudent(r.id)).toBe(true)

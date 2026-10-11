@@ -64,8 +64,11 @@ export function getStudentApologyMessage(
       return '「……カメラの調子が悪いみたい。ごめんなさい先生、また後で撮り直すから。」'
     case 13010: // Yuuka
       return '「あれ、カメラの調子が悪いみたい……？もう、先生、また後で撮り直しますからね！」'
+    case 104:
     case 9999: // Arona
       return '「先生！カメラの調子が悪いみたいです……ごめんなさい、後でもう一度撮りますね！」'
+    case 173: // Plana
+      return '先生、撮影に失敗しました。申し訳ありません。後ほど、もう一度試します。'
     default:
       return 'ごめんね先生、ちょっとカメラの調子が悪いみたい……また後で撮るね！'
   }

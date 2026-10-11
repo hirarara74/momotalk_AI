@@ -377,6 +377,14 @@ export const STUDENT_VISUAL_PROFILES: Record<number, CharacterVisualProfile> = {
       default: ['shittim_chest_uniform', 'sleeveless_white_sailor_suit', 'sailor_collar', 'blue_necktie', 'bare_shoulders']
     }
   },
+  173: {
+    characterTag: 'plana_(blue_archive)',
+    halo: ['halo', 'pink_halo'],
+    hair: ['white_hair', 'long_hair', 'side_braid', 'hair_over_one_eye', 'black_hairband', 'white_hair_bow'],
+    eyes: ['purple_eyes'],
+    features: ['black_choker'],
+    outfits: { default: ['black_sailor_uniform', 'white_necktie'] }
+  },
   10135: {
     characterTag: 'kei_(student)_(blue_archive)',
     halo: ['halo', 'glowing_halo'],
@@ -1333,6 +1341,9 @@ export const DEFAULT_FALLBACK_PROFILE: CharacterVisualProfile = {
 /**
  * Multilingual aliases for resolving student names/variations to their canonical ID.
  */
+// 一覧の104と既存の画像用ID9999は同じアロナ。
+STUDENT_VISUAL_PROFILES[104] = STUDENT_VISUAL_PROFILES[9999]
+
 export const STUDENT_NAME_ALIASES: Record<string, number> = {
   'カヨコ': 13005,
   '鬼方カヨコ': 13005,
