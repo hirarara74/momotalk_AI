@@ -368,7 +368,9 @@ describe('sleep schedule lookup uses exact student names', () => {
     it('does not give ウミカ the schedule of ミカ (exact names only), but keeps outfit suffixes', async () => {
         const { getStudentSleepSchedule, DEFAULT_SLEEP_SCHEDULE, STUDENT_SLEEP_SCHEDULES } = await import('../assets/ai/sleepSchedule')
         expect(getStudentSleepSchedule('ウミカ')).not.toBe(STUDENT_SLEEP_SCHEDULES['ミカ'])
-        expect(getStudentSleepSchedule('アロナ')).toBe(DEFAULT_SLEEP_SCHEDULE)
+        expect(getStudentSleepSchedule('未知の生徒')).toBe(DEFAULT_SLEEP_SCHEDULE)
+        expect(getStudentSleepSchedule('Arona')).toBe(STUDENT_SLEEP_SCHEDULES['アロナ'])
+        expect(getStudentSleepSchedule('A.R.O.N.A')).toBe(STUDENT_SLEEP_SCHEDULES['プラナ'])
         expect(getStudentSleepSchedule('ミカ')).toBe(STUDENT_SLEEP_SCHEDULES['ミカ'])
         expect(getStudentSleepSchedule('ミカ（水着）')).toBe(STUDENT_SLEEP_SCHEDULES['ミカ'])
         expect(getStudentSleepSchedule({ Name: '聖園ミカ' })).toBe(STUDENT_SLEEP_SCHEDULES['聖園ミカ'] ?? STUDENT_SLEEP_SCHEDULES['ミカ'])

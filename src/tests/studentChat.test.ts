@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import fs from 'fs'
 import path from 'path'
-import { getStudentGreeting, SPECIAL_PROMPTS, buildSystemPrompt, isPromptSupported, getCurrentTimeContext } from '../assets/ai/prompts'
+import { getStudentGreeting, SPECIAL_PROMPTS, buildSystemPrompt, isPromptSupported, getCurrentTimeContext, resolveCanonicalStudent } from '../assets/ai/prompts'
 import { talkHistory } from '../assets/storeUtils/talkHistory'
 import { store } from '../assets/storeUtils/store'
 import i18n from '../locales/i18n'
@@ -281,7 +281,8 @@ describe('Prompt Supported Student Filtering (TDD)', () => {
         expect(isPromptSupported({ Id: 10011, Name: '春原シュン' })).toBe(true)
 
         // Non-supported students must be false
-        expect(isPromptSupported({ Id: 104, Name: 'アロナ' } as any)).toBe(false)
+        expect(isPromptSupported({ Id: 104, Name: 'アロナ' } as any)).toBe(true)
+        expect(isPromptSupported({ Id: 173, Name: 'プラナ' } as any)).toBe(true)
         expect(isPromptSupported({ Id: 99999, Name: 'ミカン' } as any)).toBe(false)
         expect(isPromptSupported({ Id: 99998, Name: 'サ' } as any)).toBe(false)
         expect(isPromptSupported('未知の生徒')).toBe(false)
@@ -296,8 +297,30 @@ describe('Prompt Supported Student Filtering (TDD)', () => {
             { Id: 13010, Name: 'ユウカ' },
         ]
         const filtered = roster.filter(isPromptSupported)
-        expect(filtered.length).toBe(3)
-        expect(filtered.map(s => s.Name)).toEqual(['シロコ', 'ホシノ', 'ユウカ'])
+        expect(filtered.length).toBe(4)
+        expect(filtered.map(s => s.Name)).toEqual(['シロコ', 'アロナ', 'ホシノ', 'ユウカ'])
+    })
+
+    it('resolves Shittim Chest assistants across roster IDs and localized aliases with distinct prompts', () => {
+        for (const alias of [104, 'アロナ', 'Arona', '아로나', '阿罗娜', '彩奈']) {
+            expect(resolveCanonicalStudent(alias)?.id).toBe(104)
+            expect(isPromptSupported(alias)).toBe(true)
+        }
+        for (const alias of [173, 'プラナ', 'Plana', 'Purana', 'A.R.O.N.A', '프라나', '普拉娜', '星奈']) {
+            expect(resolveCanonicalStudent(alias)?.id).toBe(173)
+            expect(isPromptSupported(alias)).toBe(true)
+        }
+        const arona = buildSystemPrompt({ Id: 104, Name: 'Arona', Avatar: '' }, 'jp')
+        const plana = buildSystemPrompt({ Id: 173, Name: 'A.R.O.N.A', Avatar: '' }, 'jp')
+        expect(arona).toContain('プラナちゃん')
+        expect(plana).toContain('アロナ先輩')
+        for (const prompt of [arona, plana]) {
+            expect(prompt).toContain('シッテムの箱')
+            expect(prompt).toContain('[FACTS & SHARED MEMORY')
+            expect(prompt).not.toContain('a student from')
+        }
+        expect(getStudentGreeting(104, 'jp')).not.toBe(getStudentGreeting(173, 'jp'))
+        expect(buildSystemPrompt({ Id: 173, Name: 'Purana', Avatar: '' }, 'en')).toContain('[LANGUAGE DIRECTIVE: ENGLISH]')
     })
 })
 
