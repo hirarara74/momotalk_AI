@@ -10,11 +10,21 @@ export default defineConfig(({ command, mode }) => {
   const isDev = command === 'serve'
   // Absolute URL for og:image / twitter:image (crawlers ignore relative paths); the free edition overrides it in .env.free
   const siteUrl = (loadEnv(mode, process.cwd(), 'VITE_').VITE_SITE_URL || 'https://hirarara74.github.io/momotalk_AI').replace(/\/$/, '')
+  // Cloudflare Web Analytics site token (public by design; it is visible in the served HTML). The free edition overrides it in .env.free.
+  const beaconToken = loadEnv(mode, process.cwd(), 'VITE_').VITE_CF_BEACON_TOKEN || 'be3702350e794c55a6a5d483400495e7'
   const base = process.env.VITE_BASE || (isDev ? '/momotalk/' : '/momotalk_AI/')
 
   return {
     plugins: [
-      { name: 'site-url', transformIndexHtml: (html: string) => html.replaceAll('__SITE_URL__', siteUrl) },
+      {
+        name: 'site-url',
+        transformIndexHtml: (html: string) => {
+          const withUrl = html.replaceAll('__SITE_URL__', siteUrl)
+          // No analytics beacon while developing locally
+          if (isDev) return withUrl.replace(/<!-- cf-beacon -->[\s\S]*?<!-- \/cf-beacon -->/, '')
+          return withUrl.replaceAll('__CF_BEACON_TOKEN__', beaconToken)
+        }
+      },
       vue(),
       vueJsx(),
       topLevelAwait({
