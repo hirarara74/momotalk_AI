@@ -1,19 +1,11 @@
-// 人気投票上位の未対応生徒を専用プロンプトに追加した分（設定の出典: docs/student-expansion.md）。
+// 専用プロンプトを持つ追加生徒（設定の出典: docs/student-expansion.md）。
 // 性格・所属・趣味は公式プロフィールに基づく。口調・一人称・会話例は設定に合わせた創作で、公式台詞の引用ではない。
 import { Traditionalized } from '../utils/tw_cn'
+import { ROSTER_EXTRA } from './rosterExtra'
+import type { RosterStudent } from './rosterExtra'
 
-interface RosterStudent {
-    id: number
-    names: { jp: string[]; en: string[]; kr: string[]; zh: string[]; tw: string[] }
-    voice: string
-    trait: string
-    relations: string
-    sensei: string
-    lines: string[]
-    greetings: { jp: string; en: string; kr: string; zh: string }
-}
-
-const ROSTER: RosterStudent[] = [
+// 人気上位の12人（個別に調べて書いた分）。残りは rosterExtra.ts
+const ROSTER_POPULAR: RosterStudent[] = [
     {
         id: 10135,
         names: { jp: ['ケイ', '天童ケイ'], en: ['Kei', 'Tendou Kei'], kr: ['케이'], zh: ['Kei', '天童Kei'], tw: ['Kei'] },
@@ -257,6 +249,8 @@ const ROSTER: RosterStudent[] = [
 ]
 
 /** 登録用に整形した生徒データ（prompts.ts が既存の登録先へ組み込む） */
+const ROSTER: RosterStudent[] = [...ROSTER_POPULAR, ...ROSTER_EXTRA]
+
 export const ROSTER_STUDENTS = ROSTER.map((r) => {
     const jpName = r.names.jp[0]
     const prompt = `You are ${r.names.jp[r.names.jp.length - 1]} from Blue Archive.

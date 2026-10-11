@@ -280,18 +280,18 @@ describe('Prompt Supported Student Filtering (TDD)', () => {
         expect(isPromptSupported({ Id: 10011, Name: '春原シュン' })).toBe(true)
 
         // Non-supported students must be false
-        expect(isPromptSupported({ Id: 10007, Name: 'ジュンコ' } as any)).toBe(false)
-        expect(isPromptSupported({ Id: 10009, Name: 'イズミ' } as any)).toBe(false)
-        expect(isPromptSupported({ Id: 10012, Name: 'ハレ' } as any)).toBe(false)
+        expect(isPromptSupported({ Id: 104, Name: 'アロナ' } as any)).toBe(false)
+        expect(isPromptSupported({ Id: 99999, Name: 'ミカン' } as any)).toBe(false)
+        expect(isPromptSupported({ Id: 99998, Name: 'サ' } as any)).toBe(false)
         expect(isPromptSupported('未知の生徒')).toBe(false)
     })
 
     it('filters a roster of students to only include prompt-supported students', () => {
         const roster = [
             { Id: 10010, Name: 'シロコ' },
-            { Id: 10009, Name: 'イズミ' },
+            { Id: 104, Name: 'アロナ' },
             { Id: 10005, Name: 'ホシノ' },
-            { Id: 10007, Name: 'ジュンコ' },
+            { Id: 99999, Name: 'ミカン' },
             { Id: 13010, Name: 'ユウカ' },
         ]
         const filtered = roster.filter(isPromptSupported)

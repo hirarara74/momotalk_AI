@@ -85,9 +85,9 @@ describe('Defect Remediation Verification Suite (Challenger 1 & 2 Fixes)', () =>
     })
 
     it('Prevents substring matching poisoning on short queries', () => {
-      expect(resolveStudentId('hinata')).toBeUndefined()
-      expect(resolveStudentId('haruka')).toBeUndefined()
-      expect(resolveStudentId('marina')).toBeUndefined()
+      expect(resolveStudentId('hinatax')).toBeUndefined()
+      expect(resolveStudentId('harukaze')).toBeUndefined()
+      expect(resolveStudentId('marinate')).toBeUndefined()
       expect(resolveStudentId('no')).toBeUndefined()
       expect(resolveStudentId('ar')).toBeUndefined()
       expect(resolveStudentId('ka')).toBeUndefined()

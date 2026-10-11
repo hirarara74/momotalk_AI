@@ -7,7 +7,7 @@ import { normalizeStudentReply } from '../assets/ai/normalizeStudentReply'
 describe('Distinct student expansion and dialogue formatting', () => {
     const ids = [13005, 20039, 20041, 10015, 10033, 20020, 13008, 13004]
     it('does not confuse distinct students with partial names or words in outfit names', () => {
-        for (const name of ['サキ', 'ヒナタ', 'ウミカ', 'ジュリ（アルバイト）']) {
+        for (const name of ['サ', 'ナタ', 'ミカン', 'アルバイト']) {
             expect(isPromptSupported(name)).toBe(false)
             expect(resolveCanonicalStudent(name)).toBeUndefined()
         }
@@ -31,7 +31,7 @@ describe('Distinct student expansion and dialogue formatting', () => {
         expect(getCharacterVisualProfile(id).characterTag).not.toContain('kivotos_student')
     })
     it('keeps the same output rules for every existing student and generic fallbacks', () => {
-        expect(new Set(STUDENT_CANONICAL_DATA.map(s => s.id)).size).toBe(43)
+        expect(new Set(STUDENT_CANONICAL_DATA.map(s => s.id)).size).toBe(148)
         for (const student of [...STUDENT_CANONICAL_DATA.map(s => ({ Id: s.id, Name: s.names.jp[0], Avatar: '' })),
             { Id: 99999, Name: '未知の生徒', Avatar: '' }]) {
             for (const lang of ['jp', 'en', 'kr', 'zh', 'tw']) {
