@@ -705,7 +705,9 @@ describe('Dynamic Student Photo Generation Test Suite', () => {
       'imageGenModel',
       'takingPhotoPlaceholder',
       'savePhoto',
-      'photoGenerationFailed'
+      'photoGenerationFailed',
+      'imageGenBetaBadge',
+      'imageGenBetaNotice'
     ]
 
     const locales = [

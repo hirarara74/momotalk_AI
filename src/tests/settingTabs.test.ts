@@ -79,7 +79,54 @@ describe('設定ページの内容が混ざらない', () => {
     it('3つ目のタブの名前は「写真・画像」', async () => {
         await mount()
         const tabs = [...host.querySelectorAll('.popper-content__tabs > li.page-btn')]
-        expect(tabs[2].textContent?.trim()).toBe(t('imageGenSetting'))
+        expect(tabs[2].textContent?.trim()).toBe(t('imageGenSetting') + 'β')
         expect(t('imageGenSetting')).toBe('写真・画像')
+    })
+})
+
+describe('写真・画像はβ版で、初期状態ではオフ', () => {
+    it('タブと設定ページにβ版（テスト中）の表記がある', async () => {
+        await mount()
+        const tab = host.querySelector('.popper-content__tabs > li:last-child')!
+        expect(tab.querySelector('.beta-badge')?.textContent).toBe('β')
+        expect(tab.querySelector('.beta-badge')?.getAttribute('title')).toBe(t('imageGenBetaBadge'))
+        const notice = host.querySelectorAll('.featured > .page')[2].querySelector('.beta-notice')
+        expect(notice?.textContent).toContain(t('imageGenBetaNotice'))
+        // 他のページには出さない
+        expect(host.querySelectorAll('.featured > .page')[0].querySelector('.beta-notice')).toBeNull()
+        expect(host.querySelectorAll('.featured > .page')[1].querySelector('.beta-notice')).toBeNull()
+    })
+
+    it('5言語すべてにβ版の文言があり、「β」「Beta」「베타」「测试」「測試」のいずれかを含む', async () => {
+        for (const lang of ['jp', 'en', 'kr', 'zh', 'tw']) {
+            const badge = String((i18n.global as any).t('imageGenBetaBadge', {}, { locale: lang }))
+            expect(badge).toMatch(/β|Beta|베타|测试|測試/)
+            expect(String((i18n.global as any).t('imageGenBetaNotice', {}, { locale: lang })).length).toBeGreaterThan(20)
+        }
+    })
+
+    it('初期状態では写真生成はオフ', () => {
+        localStorage.clear()
+        store.getData()
+        expect(store.imageGenEnabled).toBe(false)
+    })
+
+    it('以前オンで保存されていた設定は一度だけオフに戻し、その後の選択は保持する', () => {
+        localStorage.clear()
+        localStorage.setItem('image-gen-enabled', JSON.stringify(true)) // 旧バージョンの初期値で保存されていた
+        store.getData()
+        expect(store.imageGenEnabled).toBe(false)
+        // 利用者が自分でオンにした場合は、次回以降も保持される
+        store.imageGenEnabled = true
+        store.setData()
+        store.imageGenEnabled = false
+        store.getData()
+        expect(store.imageGenEnabled).toBe(true)
+    })
+
+    it('リセットするとオフに戻る', () => {
+        store.imageGenEnabled = true
+        store.resetData()
+        expect(store.imageGenEnabled).toBe(false)
     })
 })

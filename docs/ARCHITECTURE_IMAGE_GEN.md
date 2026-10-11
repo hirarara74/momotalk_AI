@@ -616,3 +616,9 @@ describe('Student Image Generation Feature Suite', () => {
 
 ## 9. Conclusion
 This architecture establishes a robust, highly responsive, and immersion-preserving dynamic photo generation system for Blue Archive MomoTalk AI. By pairing the **Danbooru Visual Dictionary** with a **Two-Phase Dialogue-First UX Flow** and a **Dual-Tier Zero-Key + BYOK Provider Strategy**, MomoTalk AI delivers instantaneous perceived responsiveness while honoring the authentic visual identity of Kivotos students.
+
+## β版としての扱い（2026-10-11）
+- 写真・画像（生徒の写真生成）は **β版（テスト中）** として公開している。設定画面の「写真・画像」タブに「β」バッジと注意書きを表示する。
+- **初期状態はオフ**。以前は初期状態でオンだったため、保存済みの設定は一度だけオフに戻し（`image-gen-beta-notice` で判定）、その後の利用者の選択は保持する。
+- オフの間は、写真の依頼の検出・プロンプトへの指示・画像生成の呼び出しを行わない（`send.ts` は `imageGenEnabled === true` のときだけ動く）。
+- 外部の画像生成サービス（Pollinations 等）を利用するため、オンにしたときだけ通信が発生する。

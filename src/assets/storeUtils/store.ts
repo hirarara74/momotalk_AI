@@ -55,7 +55,8 @@ export const store = reactive({
     sleepSimulationEnabled: false,
 
     // Image Generation Extension Settings
-    imageGenEnabled: true,
+    // β版機能。初期状態はオフ
+    imageGenEnabled: false,
     imageGenProvider: 'pollinations' as 'pollinations' | 'fal' | 'together' | 'openai' | 'stability',
     imageGenApiKey: '',
     imageGenModel: '',
@@ -203,11 +204,17 @@ export const store = reactive({
             try { this.studentRanks = JSON.parse(savedRanks) } catch {}
         }
 
+        // 写真生成はβ版。以前は初期状態でオンだったため、一度だけオフに戻す（その後の選択は保持する）
+        const imageGenBetaAck = localStorage.getItem('image-gen-beta-notice')
         const imageGenEnabledData = localStorage.getItem('image-gen-enabled')
-        if (imageGenEnabledData != null) {
-            try { this.imageGenEnabled = JSON.parse(imageGenEnabledData) } catch { this.imageGenEnabled = true }
+        if (imageGenBetaAck == null) {
+            this.imageGenEnabled = false
+            localStorage.setItem('image-gen-enabled', JSON.stringify(false))
+            localStorage.setItem('image-gen-beta-notice', '1')
+        } else if (imageGenEnabledData != null) {
+            try { this.imageGenEnabled = JSON.parse(imageGenEnabledData) === true } catch { this.imageGenEnabled = false }
         } else {
-            this.imageGenEnabled = true
+            this.imageGenEnabled = false
         }
 
         const imageGenProviderData = localStorage.getItem('image-gen-provider')
@@ -247,7 +254,7 @@ export const store = reactive({
         talkHistory.resetData()
         selectList.resetData()
         this.sleepSimulationEnabled = false
-        this.imageGenEnabled = true
+        this.imageGenEnabled = false
         this.imageGenProvider = 'pollinations'
         this.imageGenApiKey = ''
         this.imageGenModel = ''
