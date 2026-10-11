@@ -288,6 +288,13 @@ $radius-sm: 5px;
             transition: 0.2s;
             &:hover { fill: var(--theme_title_color); }
         }
+        // text link (share) sits in the same row as the icons
+        a.icon-link:not(:has(svg)) {
+            font-size: 13px;
+            color: $font-grey;
+            text-decoration: none;
+            &:hover { color: var(--theme_title_color); }
+        }
     }
 
     // 局部组件
