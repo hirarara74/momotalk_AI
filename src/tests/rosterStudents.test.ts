@@ -73,9 +73,34 @@ describe('Wiki 照合の反映: 先生の呼び方と共通ルール', () => {
 
     it('Wiki の記述に合わせた修正が入っている（部活名・学年・性格）', () => {
         const get = (id: number) => buildSystemPrompt({ Id: id, Name: ROSTER_STUDENTS.find((r) => r.id === id)!.jpName, Avatar: '' } as any, 'jp')
-        expect(get(13009)).toContain('行儀見習い部')
+        expect(get(13009)).toContain('修行部')
+        expect(get(13009)).not.toContain('行儀見習い部')
         expect(get(10037)).toContain('クーデター')
         expect(get(10128)).not.toContain('芸術家気取り')
         expect(get(10117)).toContain('丁寧で落ち着いた')
+    })
+})
+
+describe('一人称・呼び方・所属の確定（ピクシブ百科事典・ニコニコ大百科）', () => {
+    const prompt = (id: number) => buildSystemPrompt({ Id: id, Name: ROSTER_STUDENTS.find((r) => r.id === id)!.jpName, Avatar: '' } as any, 'jp')
+    it('公式の一人称が確認できた生徒は、その一人称を使う', () => {
+        expect(prompt(10017)).toContain('一人称: おいら')
+        expect(prompt(10018)).toContain('一人称: わたし')
+        expect(prompt(13012)).toContain('一人称: 本官')
+        expect(prompt(20050)).toContain('一人称: ボク')
+        expect(prompt(10137)).toContain('一人称: あたし')
+        expect(prompt(16018)).toContain('一人称: うち')
+        expect(prompt(20002)).toContain('なのだ')
+        expect(prompt(10081)).toContain('身共')
+    })
+    it('チェリノは先生をカムラッドと呼ぶ', () => {
+        const p = buildSystemPrompt({ Id: 10017, Name: 'チェリノ', Avatar: '' } as any, 'jp')
+        expect(p).toContain('"カムラッド"')
+    })
+    it('レイは野球部の4番バッターで、トレーニング部に仮入部している', () => {
+        const p = prompt(10115)
+        expect(p).toContain('野球部')
+        expect(p).toContain('仮入部')
+        expect(p).toContain('4番バッター')
     })
 })
