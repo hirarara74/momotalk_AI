@@ -53,5 +53,14 @@
   "photoSendFailed": "(📷 {name}: Sending or receiving the photo failed. The camera or the connection seems to be acting up.)",
   "testFailed": "Test failed: {message}",
   "shareText": "MomoTalk AI #BlueArchive #MomoTalkAI",
-  "share": "Share"
+  "share": "Share",
+  "groqUsageTitle": "Groq token usage (organization · per minute)",
+  "groqUsageTokens": "Used {used} / {limit} tokens",
+  "groqUsageRemaining": "Remaining: {remaining} tokens",
+  "groqUsageReset": "Resets in {minutes}m {seconds}s",
+  "groqUsageResetUnknown": "Reset time unavailable",
+  "groqUsageExpired": "Recovery time has passed. The next response will update this.",
+  "groqUsageEmpty": "Not available yet. Updated after a chat response; connections without readable rate-limit headers cannot show this.",
+  "groqUsageScope": "Organization-wide quota for the last response model. Check Groq Console for cumulative and daily usage.",
+  "groqUsageObserved": "Last checked: {time}"
 }

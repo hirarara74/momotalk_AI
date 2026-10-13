@@ -53,5 +53,14 @@
   "photoSendFailed": "（📷 {name}: 写真の送受信に失敗しました。カメラまたは回線の調子が悪いようです）",
   "testFailed": "テスト失敗: {message}",
   "shareText": "MomoTalk AI #ブルアカ #MomoTalkAI",
-  "share": "共有"
+  "share": "共有",
+  "groqUsageTitle": "Groq トークン使用量（組織全体・1分枠）",
+  "groqUsageTokens": "消費済み {used} / {limit} トークン",
+  "groqUsageRemaining": "残り {remaining} トークン",
+  "groqUsageReset": "リセットまで {minutes}分 {seconds}秒",
+  "groqUsageResetUnknown": "リセット時刻は取得できませんでした",
+  "groqUsageExpired": "回復予定時刻を過ぎました。次の応答で更新します",
+  "groqUsageEmpty": "まだ取得できていません。会話の応答後に更新します。ヘッダーを取得できない接続先では表示できません。",
+  "groqUsageScope": "直近の応答モデルの組織共有枠です。累計・1日分の使用量はGroq Consoleで確認してください。",
+  "groqUsageObserved": "最終取得 {time}"
 }

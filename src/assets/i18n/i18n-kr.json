@@ -53,5 +53,14 @@
   "photoSendFailed": "(📷 {name}: 사진을 주고받는 데 실패했습니다. 카메라나 회선 상태가 좋지 않은 것 같아요.)",
   "testFailed": "테스트 실패: {message}",
   "shareText": "MomoTalk AI #블루아카 #MomoTalkAI",
-  "share": "공유"
+  "share": "공유",
+  "groqUsageTitle": "Groq 토큰 사용량 (조직 전체 · 분당)",
+  "groqUsageTokens": "사용 {used} / {limit} 토큰",
+  "groqUsageRemaining": "잔여 {remaining} 토큰",
+  "groqUsageReset": "초기화까지 {minutes}분 {seconds}초",
+  "groqUsageResetUnknown": "초기화 시간을 확인할 수 없습니다",
+  "groqUsageExpired": "회복 예정 시간이 지났습니다. 다음 응답에서 갱신합니다.",
+  "groqUsageEmpty": "아직 확인되지 않았습니다. 대화 응답 후 갱신됩니다. 헤더를 읽을 수 없는 연결에서는 표시할 수 없습니다.",
+  "groqUsageScope": "마지막 응답 모델의 조직 공유 한도입니다. 누적 및 일일 사용량은 Groq Console에서 확인하세요.",
+  "groqUsageObserved": "마지막 확인 {time}"
 }

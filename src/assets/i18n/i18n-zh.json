@@ -53,5 +53,14 @@
   "photoSendFailed": "（📷 {name}：照片收发失败。相机或网络似乎出了问题。）",
   "testFailed": "测试失败：{message}",
   "shareText": "MomoTalk AI #蔚蓝档案 #MomoTalkAI",
-  "share": "分享"
+  "share": "分享",
+  "groqUsageTitle": "Groq 令牌用量（整个组织 · 每分钟）",
+  "groqUsageTokens": "已用 {used} / {limit} 令牌",
+  "groqUsageRemaining": "剩余 {remaining} 令牌",
+  "groqUsageReset": "距重置 {minutes}分 {seconds}秒",
+  "groqUsageResetUnknown": "无法获取重置时间",
+  "groqUsageExpired": "预计恢复时间已过，下次响应时更新。",
+  "groqUsageEmpty": "尚未获取。聊天响应后更新；无法读取限额标头的连接不能显示。",
+  "groqUsageScope": "这是最近响应模型的组织共享额度。累计和每日用量请查看 Groq Console。",
+  "groqUsageObserved": "最后获取 {time}"
 }
