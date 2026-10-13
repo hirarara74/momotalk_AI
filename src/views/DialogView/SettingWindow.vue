@@ -9,6 +9,8 @@ import IconX from '@/components/icons/IconX.vue'
 import IconShare from '@/components/icons/IconShare.vue'
 import { getShareIntentUrl, shareApp } from '@/assets/utils/share'
 import { testImageProviderConnection } from '@/assets/imageGen'
+import GroqUsage from '@/components/GroqUsage.vue'
+import { DEFAULT_GROQ_BASE_URL } from '@/assets/ai/groq'
 
 const activePage = computed(() => store.settingDialogPage || 1)
 
@@ -298,6 +300,11 @@ const onProviderChange = () => {
                                     <span>{{ $t('keySecurityReassurance') }}</span>
                                 </div>
                             </div>
+
+                            <GroqUsage v-if="store.aiProvider === 'groq'"
+                                :api-key="store.aiApiKey || ''"
+                                :base-url="store.aiBaseUrl || DEFAULT_GROQ_BASE_URL"
+                                :visible="store.showSettingDialog && activePage === 2" />
 
                             <div class="settings-row settings-row--column">
                                 <span class="row-label">{{ $t('modelLabel') }}</span>

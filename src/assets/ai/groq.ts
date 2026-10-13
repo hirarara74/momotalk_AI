@@ -1,3 +1,4 @@
+import { recordGroqUsage } from './groqUsage'
 import type { AIProvider, ChatMessage } from './types'
 import { parseImageDataUrl, extractTextAndImage } from './gemini'
 
@@ -127,6 +128,7 @@ export class GroqProvider implements AIProvider {
                         signal
                     })
 
+                    recordGroqUsage(response.headers, this.apiKey, this.baseUrl, response.headers?.get('x-groq-model') || modelName)
                     if (!response.ok) {
                         const errText = await response.text()
                         const isTransient = TRANSIENT_STATUS_CODES.has(response.status) || response.status === 404

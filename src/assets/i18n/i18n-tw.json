@@ -53,5 +53,14 @@
   "photoSendFailed": "（📷 {name}：照片收發失敗。相機或網路似乎出了問題。）",
   "testFailed": "測試失敗：{message}",
   "shareText": "MomoTalk AI #蔚藍檔案 #MomoTalkAI",
-  "share": "分享"
+  "share": "分享",
+  "groqUsageTitle": "Groq 權杖用量（整個組織 · 每分鐘）",
+  "groqUsageTokens": "已用 {used} / {limit} 權杖",
+  "groqUsageRemaining": "剩餘 {remaining} 權杖",
+  "groqUsageReset": "距重設 {minutes}分 {seconds}秒",
+  "groqUsageResetUnknown": "無法取得重設時間",
+  "groqUsageExpired": "預計恢復時間已過，下次回應時更新。",
+  "groqUsageEmpty": "尚未取得。聊天回應後更新；無法讀取限額標頭的連線不能顯示。",
+  "groqUsageScope": "這是最近回應模型的組織共用額度。累計及每日用量請查看 Groq Console。",
+  "groqUsageObserved": "最後取得 {time}"
 }
