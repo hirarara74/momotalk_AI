@@ -46,6 +46,9 @@ export const store = reactive({
     imageGenEnabled: false,
     imageGenProvider: 'pollinations' as 'pollinations' | 'fal' | 'together' | 'openai' | 'stability',
     imageGenApiKey: '',
+    /** 画像生成の鍵はプロバイダごとに分ける。imageGenApiKey は imageKeyOwner の鍵 */
+    imageGenKeys: {} as Record<string, string>,
+    imageKeyOwner: 'pollinations',
     imageGenModel: '',
     /** 生徒ごとに選んだアイコンの番号（Avatars の添字）。過去のメッセージにも反映するため保存する */
     studentAvatarIndex: {} as Record<number, number>,
@@ -129,7 +132,14 @@ export const store = reactive({
         localStorage.setItem('image-gen-enabled', JSON.stringify(this.imageGenEnabled))
         localStorage.setItem('image-gen-provider', JSON.stringify(this.imageGenProvider))
         localStorage.setItem('image-gen-api-key', JSON.stringify(this.imageGenApiKey))
+        localStorage.setItem('image-gen-api-keys', JSON.stringify({ ...this.imageGenKeys, [this.imageKeyOwner]: this.imageGenApiKey }))
         localStorage.setItem('image-gen-model', JSON.stringify(this.imageGenModel))
+    },
+    /** プロバイダ切替: 今の鍵を元のプロバイダへ退避し、新しいプロバイダの鍵（なければ空）を使う */
+    switchImageProviderKey() {
+        this.imageGenKeys[this.imageKeyOwner] = this.imageGenApiKey
+        this.imageGenApiKey = this.imageGenKeys[this.imageGenProvider] || ''
+        this.imageKeyOwner = this.imageGenProvider
     },
     getData(options?: { urlSearch?: string, navigatorLang?: string }) {
         talkHistory.getData()
@@ -160,7 +170,9 @@ export const store = reactive({
         const parsedBaseUrl = data[9] != null ? JSON.parse(data[9]) : 'https://api.groq.com/openai/v1'
 
         // Migration to Groq: if previously on gemini, or if using default/old Gemini key
-        if (parsedProvider === 'gemini' || !parsedProvider) {
+        // One-time migration: a Gemini choice made after the first run must survive reloads
+        const groqMigrated = localStorage.getItem('ai-groq-migrated') === '1'
+        if (!parsedProvider || (parsedProvider === 'gemini' && !groqMigrated)) {
             this.aiProvider = 'groq'
             this.aiApiKey = parsedApiKey && !parsedApiKey.startsWith('AIzaSy') ? parsedApiKey : defaultKey
             this.aiModel = 'qwen/qwen3.8-27b'
@@ -180,6 +192,7 @@ export const store = reactive({
             this.aiModel = parsedModel || (this.aiProvider === 'groq' ? 'qwen/qwen3.8-27b' : '')
             this.aiBaseUrl = parsedBaseUrl || (this.aiProvider === 'groq' ? 'https://api.groq.com/openai/v1' : '')
         }
+        localStorage.setItem('ai-groq-migrated', '1')
         const soundEnabledData = localStorage.getItem('sound-enabled')
         if (soundEnabledData != null) {
             try { this.soundEnabled = JSON.parse(soundEnabledData) } catch {}
@@ -240,6 +253,11 @@ export const store = reactive({
         } else {
             this.imageGenApiKey = ''
         }
+        this.imageKeyOwner = this.imageGenProvider
+        try {
+            const keys = JSON.parse(localStorage.getItem('image-gen-api-keys') || '{}')
+            this.imageGenKeys = keys && typeof keys === 'object' ? keys : {}
+        } catch { this.imageGenKeys = {} }
 
         const imageGenModelData = localStorage.getItem('image-gen-model')
         if (imageGenModelData != null) {
@@ -260,6 +278,8 @@ export const store = reactive({
         this.imageGenEnabled = false
         this.imageGenProvider = 'pollinations'
         this.imageGenApiKey = ''
+        this.imageGenKeys = {}
+        this.imageKeyOwner = 'pollinations'
         this.imageGenModel = ''
         this.setData()
     }

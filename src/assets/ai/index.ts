@@ -9,17 +9,19 @@ export function getAIProvider(): AIProvider {
     const provider = store.aiProvider || 'groq'
     const apiKey = (store.aiApiKey || '').trim()
     const model = store.aiModel || undefined
+    // A leftover Groq URL must never receive another provider's key
+    const customBaseUrl = /groq\.com/.test(store.aiBaseUrl || '') ? undefined : store.aiBaseUrl || undefined
 
     if (provider === 'groq') {
         return new GroqProvider(apiKey, model || DEFAULT_GROQ_MODEL, store.aiBaseUrl || DEFAULT_GROQ_BASE_URL)
     }
 
     if (provider === 'openai') {
-        return new OpenAIProvider(apiKey, model || 'gpt-4o-mini', store.aiBaseUrl || undefined)
+        return new OpenAIProvider(apiKey, model || 'gpt-4o-mini', customBaseUrl)
     }
 
     if (provider === 'claude') {
-        return new ClaudeProvider(apiKey, model || 'claude-3-5-sonnet-20241022', store.aiBaseUrl || undefined)
+        return new ClaudeProvider(apiKey, model || 'claude-3-5-sonnet-20241022', customBaseUrl)
     }
 
     // Default to Gemini

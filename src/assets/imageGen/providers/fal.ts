@@ -38,7 +38,11 @@ export function buildFalAiRequest(
     : String(apiKey || '').replace(/[\r\n]/g, '').trim()
 
   const model = options?.model || 'fal-ai/flux/schnell'
-  const endpoint = model.startsWith('http') ? model : `https://fal.run/${model}`
+  // Only fal.run URLs may receive the Fal key
+  if (/^https?:/i.test(model) && !model.startsWith('https://fal.run/')) {
+    throw new Error('Fal のモデル欄に指定できる URL は https://fal.run/ から始まるものだけです')
+  }
+  const endpoint = model.startsWith('https://fal.run/') ? model : `https://fal.run/${model}`
 
   return {
     url: endpoint,
