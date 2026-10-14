@@ -1,5 +1,5 @@
 export interface AIConfig {
-    provider: 'gemini' | 'openai' | 'claude'
+    provider: 'groq' | 'gemini' | 'openai' | 'claude'
     apiKey: string
     model?: string
     baseUrl?: string

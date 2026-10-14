@@ -213,10 +213,10 @@ Sensei (User in ChatView)
 | Component | File Path | Architectural Responsibilities |
 | :--- | :--- | :--- |
 | **Chat Interaction Controller** | `src/assets/chatUtils/send.ts` | Orchestrates two-phase reply: fast dialogue emission, placeholder push, background trigger, sound execution. |
-| **Photo Intent Classifier** | `src/assets/ai/imageGen/intentDetector.ts` | Detects photo/selfie intent from user text across 5 languages; parses and filters `[PHOTO: ...]` directives. |
-| **Character Visual Dictionary** | `src/assets/ai/imageGen/characterDictionary.ts` | Canonical Danbooru tags, halo geometry, hair/eye colors, kemomimi/horns/wings, and uniforms for 23 students + Arona. |
-| **Prompt Synthesizer** | `src/assets/ai/imageGen/promptSynthesizer.ts` | Merges 4 prompt layers (Quality + Character + Scene + Negative) into model-ready prompts. |
-| **Image Generation Service** | `src/assets/ai/imageGen/imageService.ts` | Directs API requests to Pollinations, Fal.ai, or Together AI; handles timeouts and in-character apologies. |
+| **Photo Intent Classifier** | `src/assets/imageGen/intentDetector.ts` | Detects photo/selfie intent from user text across 5 languages; parses and filters `[PHOTO: ...]` directives. |
+| **Character Visual Dictionary** | `src/assets/imageGen/characterDictionary.ts` | Canonical Danbooru tags, halo geometry, hair/eye colors, kemomimi/horns/wings, and uniforms for 23 students + Arona. |
+| **Prompt Synthesizer** | `src/assets/imageGen/promptSynthesizer.ts` | Merges 4 prompt layers (Quality + Character + Scene + Negative) into model-ready prompts. |
+| **Image Generation Service** | `src/assets/imageGen/imageService.ts` | Directs API requests to Pollinations, Fal.ai, Together AI, OpenAI, or Stability AI; handles timeouts and in-character apologies. |
 | **Reactive Store & Config** | `src/assets/storeUtils/store.ts` | Holds reactive state for `imageGenEnabled`, `imageGenProvider`, `imageGenApiKey`, `showImageModal`, `modalImageUrl`. |
 | **Talk Message Store** | `src/assets/storeUtils/talkHistory.ts` | Manages message history array, persistence to `localStorage`, reactive `setTalkContent()`. |
 | **Chat Message Renderer** | `src/views/ChatView/ChatDraggable.vue` | Renders message bubbles, detects `[SHOOTING_PHOTO]` state, routes photo clicks to `ImageModalViewer`. |
@@ -226,9 +226,9 @@ Sensei (User in ChatView)
 ### 3.3 Core Data Models & Type Contracts
 
 ```typescript
-// src/assets/ai/imageGen/types.ts
+// src/assets/imageGen/types.ts
 
-export type ImageGenProviderType = 'pollinations' | 'fal' | 'together'
+export type ImageGenProviderType = 'pollinations' | 'fal' | 'together' | 'openai' | 'stability'
 
 export interface CharacterVisualProfile {
     studentId: number
