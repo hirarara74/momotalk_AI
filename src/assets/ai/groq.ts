@@ -136,7 +136,7 @@ export class GroqProvider implements AIProvider {
                         if (isTransient) {
                             console.warn(`[Groq] Model ${modelName} returned HTTP ${response.status} (attempt ${attempt}/${maxAttempts}):`, errText)
                             lastError = new Error(`Groq ${modelName} (${response.status}): ${errText}`)
-                            if (attempt < maxAttempts) {
+                            if (attempt < maxAttempts && response.status !== 429) {
                                 const backoffMs = attempt === 1 ? 1500 : 2500
                                 await waitWithSignal(backoffMs, signal)
                                 continue

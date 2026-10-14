@@ -1197,6 +1197,18 @@ describe('Groq AI Provider Integration (TDD)', () => {
             expect(result).toBe('ん、大丈夫。')
             expect(receivedChunk).toBe('ん、大丈夫。')
         })
+
+        it('does not retry the same model on 429 and falls through to the next candidate', async () => {
+            const calledModels: string[] = []
+            global.fetch = (async (_url: string, opts: any) => {
+                calledModels.push(JSON.parse(opts.body).model)
+                return { ok: false, status: 429, text: async () => 'rate limit' } as any
+            }) as any
+
+            const groq = new GroqProvider('fake-key', 'qwen/qwen3.8-27b')
+            await expect(groq.streamChat('s', [], 'hi', () => {})).rejects.toThrow('429')
+            expect(calledModels).toEqual(['qwen/qwen3.8-27b', 'openai/gpt-oss-120b', 'openai/gpt-oss-20b'])
+        })
     })
 })
 
