@@ -40,7 +40,7 @@ describe('Stability AI Error Handling & Balance Checking Suite (TDD)', () => {
         json: async () => ({ credits: 0 })
       } as any)
 
-      const result = await checkStabilityBalance('sk-vO0Y7eJVJ97PCDBcu5iAuR09kvu1rfOtgTAx9cAJv06cpciL')
+      const result = await checkStabilityBalance('sk-test-dummy')
       expect(result.valid).toBe(true)
       expect(result.credits).toBe(0)
       expect(result.hasEnoughCredits).toBe(false)
@@ -89,7 +89,7 @@ describe('Stability AI Error Handling & Balance Checking Suite (TDD)', () => {
       } as any)
 
       await expect(
-        generateStabilityImage('Shiroko anime', 'sk-vO0Y7eJVJ97PCDBcu5iAuR09kvu1rfOtgTAx9cAJv06cpciL')
+        generateStabilityImage('Shiroko anime', 'sk-test-dummy')
       ).rejects.toThrow(/クレジット残高が不足/)
     })
   })
@@ -102,7 +102,7 @@ describe('Stability AI Error Handling & Balance Checking Suite (TDD)', () => {
         json: async () => ({ credits: 0 })
       } as any)
 
-      const res = await testImageProviderConnection('stability', 'sk-vO0Y7eJVJ97PCDBcu5iAuR09kvu1rfOtgTAx9cAJv06cpciL')
+      const res = await testImageProviderConnection('stability', 'sk-test-dummy')
       expect(res.success).toBe(true)
       expect(res.warning).toBe(true) // balance is 0
       expect(res.message).toContain('残高が不足')

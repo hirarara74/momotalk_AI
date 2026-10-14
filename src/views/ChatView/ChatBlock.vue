@@ -1,7 +1,7 @@
 <template>
     <span
         v-if="mdUtils.checkFlag"
-        v-html="props.element.content"
+        v-html="safeHtml(props.element.content)"
         :data-flag="true"
         :contenteditable="props.element.type > 1"
         @focus="mdUtils.clicked($event, props.element.Id)"
@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { saveEdit } from '@/assets/storeUtils/saveEdit'
-import { mdUtils } from '@/assets/utils/markdown'
+import { mdUtils, safeHtml } from '@/assets/utils/markdown'
 const props = defineProps(['element'])
 
 const blur_ = (event:Event)=>{
