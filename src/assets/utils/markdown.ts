@@ -97,6 +97,20 @@ class myReExp {
 }
 const re = new myReExp()
 
+// Render-time allow-list: md2html only ever emits <h1-6> and <span style="...">; escape every other '<'.
+// Style values may not contain quotes, parentheses or backslashes, so no url() or attribute breakout.
+const SAFE_TAG = /<\/?(?:h[1-6]|span)(?: style="[a-zA-Z0-9:;#%.,\s-]*")?>/y
+export function safeHtml(str: string): string {
+    let out = ''
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] !== '<') { out += str[i]; continue }
+        SAFE_TAG.lastIndex = i
+        const m = SAFE_TAG.exec(str)
+        if (m) { out += m[0]; i += m[0].length - 1 } else out += '&lt;'
+    }
+    return out
+}
+
 // 编辑markdown
 const mdUtils = {
     checkFlag: (event: Event) => {
