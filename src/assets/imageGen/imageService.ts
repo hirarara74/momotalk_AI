@@ -87,17 +87,17 @@ export function isPhotoUrl(url: string): boolean {
   }
 
   // Pollinations.ai image endpoint
-  if (/^https?:\/\/image\.pollinations\.ai\/prompt\//i.test(trimmed)) {
+  if (/^https:\/\/image\.pollinations\.ai\/prompt\//i.test(trimmed)) {
     return true
   }
 
   // Standard web image file extensions
-  if (/^https?:\/\/.*\.(jpe?g|png|webp|gif|svg|bmp)($|\?)/i.test(trimmed)) {
+  if (/^https:\/\/.*\.(jpe?g|png|webp|gif|svg|bmp)($|\?)/i.test(trimmed)) {
     return true
   }
 
   // Fal.ai / Together AI CDN endpoints
-  if (/^https?:\/\/(.*\.fal\.media|fal\.run|.*\.together\.xyz|api\.together\.ai)\//i.test(trimmed)) {
+  if (/^https:\/\/(.*\.fal\.media|fal\.run|.*\.together\.xyz|api\.together\.ai)\//i.test(trimmed)) {
     return true
   }
 

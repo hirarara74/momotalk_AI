@@ -1073,6 +1073,7 @@ describe('Groq AI Provider Integration (TDD)', () => {
     })
 
     it('automatically migrates legacy Gemini localStorage settings to Groq', () => {
+        localStorage.removeItem('ai-groq-migrated')
         localStorage.setItem('ai-provider', JSON.stringify('gemini'))
         localStorage.setItem('ai-api-key', JSON.stringify('AIzaSy_mock_legacy_key'))
 
@@ -1081,6 +1082,17 @@ describe('Groq AI Provider Integration (TDD)', () => {
         expect(store.aiProvider).toBe('groq')
         expect(store.aiModel).toBe('qwen/qwen3.8-27b')
         expect(store.aiBaseUrl).toBe('https://api.groq.com/openai/v1')
+    })
+
+    it('keeps Gemini when it is chosen after the one-time migration ran', () => {
+        localStorage.setItem('ai-groq-migrated', '1')
+        localStorage.setItem('ai-provider', JSON.stringify('gemini'))
+        localStorage.setItem('ai-api-key', JSON.stringify('AIzaSy_user_key'))
+
+        store.getData()
+
+        expect(store.aiProvider).toBe('gemini')
+        expect(store.aiApiKey).toBe('AIzaSy_user_key')
     })
 
     it('shows polite guidance when API key is not configured', async () => {

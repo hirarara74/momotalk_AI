@@ -47,6 +47,7 @@ const runImageKeyTest = async () => {
 
 
 const onImageProviderChange = () => {
+    store.switchImageProviderKey()
     if (store.imageGenProvider === 'pollinations') {
         if (!store.imageGenModel || store.imageGenModel.includes('fal-ai') || store.imageGenModel.includes('black-forest-labs')) {
             store.imageGenModel = 'flux'
@@ -90,6 +91,9 @@ const onProviderChange = () => {
         if (!store.aiBaseUrl || store.aiBaseUrl.includes('openai.com')) {
             store.aiBaseUrl = 'https://api.groq.com/openai/v1'
         }
+    } else if (/groq\.com/.test(store.aiBaseUrl || '')) {
+        // Never send another provider's key to Groq's endpoint
+        store.aiBaseUrl = ''
     }
     store.setData()
 }
