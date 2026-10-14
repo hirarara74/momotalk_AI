@@ -58,7 +58,7 @@ Sensei Input ("自撮り送って" / "今何してるの？")
 |---|------|-------|-------------|--------|
 | M1 | Architecture & Technical Selection Document | `docs/ARCHITECTURE_IMAGE_GEN.md` covering providers, latency, CORS, security, UI flow | none | DONE |
 | M2 | Danbooru Visual Dictionary & Prompt Synthesizer | `src/assets/imageGen/types.ts`, `characterDictionary.ts`, `sceneTags.ts`, `intentDetector.ts`, `promptSynthesizer.ts` | none | DONE |
-| M3 | Image Generation Providers & Client Service | `src/assets/imageGen/providers/pollinations.ts`, `fal.ts`, `together.ts`, `imageService.ts` | M2 | DONE |
+| M3 | Image Generation Providers & Client Service | `src/assets/imageGen/providers/pollinations.ts`, `fal.ts`, `together.ts`, `openai.ts`, `stability.ts`, `imageService.ts` | M2 | DONE |
 | M4 | Perceived Latency UX & Chat UI Integration | `src/assets/chatUtils/send.ts`, `src/views/ChatView/ChatDraggable.vue`, `src/components/ImageModalViewer.vue` | M2, M3 | DONE |
 | M5 | Settings UI & Multilingual BYOK Persistence | `src/assets/storeUtils/store.ts`, `src/views/DialogView/SettingWindow.vue`, `src/assets/i18n/*.json` | M3 | DONE |
 | M6 | Automated Testing & Build Hardening | `src/tests/studentImageGeneration.test.ts`, all Vitest tests passing, production build pass | M1, M2, M3, M4, M5 | DONE |
@@ -144,6 +144,8 @@ export async function generateStudentPhoto(
     - `pollinations.ts`: Zero-key Pollinations.ai generator
     - `fal.ts`: Fal.ai Flux Schnell browser caller
     - `together.ts`: Together AI browser caller
+    - `openai.ts`: OpenAI (DALL-E) browser caller
+    - `stability.ts`: Stability AI browser caller
 - `src/components/ImageModalViewer.vue`: Lightbox modal viewer for chat photos
 - `src/views/ChatView/ChatDraggable.vue`: Chat bubble rendering, placeholder detection, click-to-enlarge modal trigger
 - `src/assets/chatUtils/send.ts`: Two-stage dialogue-first photo trigger & reactive update
