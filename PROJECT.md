@@ -67,7 +67,7 @@ Sensei Input ("自撮り送って" / "今何してるの？")
 
 ### 1. `src/assets/imageGen/types.ts`
 ```typescript
-export type ImageGenProviderType = 'pollinations' | 'fal' | 'together';
+export type ImageGenProviderType = 'pollinations' | 'fal' | 'together' | 'openai' | 'stability';
 
 export interface CharacterVisualProfile {
   characterTag: string; // e.g., 'sunaookami_shiroko_(blue_archive)'
