@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["vite/client"],
+    "types": ["vite/client", "node"],
     "target": "esnext",
     "module": "esnext",
     "strict": true,
