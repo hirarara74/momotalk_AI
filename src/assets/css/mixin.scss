@@ -116,6 +116,16 @@ $button-color-active: #e1e7ec;
 
 .vuepress-markdown-body{
     background-color: var(--theme_bg_color) !important;
+    line-height: 1.65;
+    word-break: break-word;
+
+    h1, h2, h3 { font-weight: 600; margin: 1.2em 0 0.6em; }
+    h1 { font-size: 1.6em; border-bottom: 1px solid rgba(0, 0, 0, 0.1); padding-bottom: 0.3em; }
+    h2 { font-size: 1.3em; }
+    ul { padding-left: 1.4em; list-style: disc; }
+    ul ul { list-style: circle; }
+    a { color: #3493f9; }
+    code { background: rgba(0, 0, 0, 0.05); border-radius: 4px; padding: 0.1em 0.4em; }
 
     img{
         width: 100%;
