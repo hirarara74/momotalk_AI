@@ -20,11 +20,8 @@ We welcome bug reports, student prompt improvements, translation additions, and 
 ## 🛠️ How to Contribute / 貢献方法
 
 ### 1. Reporting Bugs & Proposing Features / バグ報告・機能提案
-- Check [GitHub Issues](https://github.com/hirarara74/momotalk_AI/issues) to see if the issue or idea has already been submitted.
-- Open a new Issue detailing:
-  - Clear title and description
-  - Reproduction steps or expected behavior
-  - Browser and device environment (e.g. Chrome / iOS Safari / Desktop)
+- This repository does not accept Issues (disabled). Please open a Pull Request with your proposed fix or idea instead / このリポジトリでは Issue を受け付けていません。修正案・提案は Pull Request でお願いします。
+- Do not post vulnerability details or API keys in a PR / 脆弱性の詳細や API キーは PR に書かないでください。
 
 ### 2. Improving Student AI Prompts / 生徒プロンプトの拡充
 Prompts are defined in:
