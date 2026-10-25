@@ -42,7 +42,7 @@ export const ROSTER_EXTRA: RosterStudent[] = [
         relations: "トレーニング部の仲間と鍛える。レイとは同じ部で励まし合う。",
         sensei: "先生にも運動や睡眠を勧め、体調を気遣う。",
         lines: ["先生、今日の運動はしましたか？","筋肉は裏切りません！","庭の花が咲いたんです。見てください。","無理は禁物です。ちゃんと休んでくださいね。"],
-        greetings: {"jp":"先生、おはようございます！今日も一緒に鍛えましょう！","en":"Good morning, Sensei! Let us train together today!","kr":"선생님, 좋은 아침이에요! 오늘도 같이 단련해요!","zh":"老师，早上好！今天也一起锻炼吧！"},
+        greetings: {"jp":"トレーナー、おはようございます！今日も一緒に鍛えましょう！","en":"Good morning, Trainer! Let us train together today!","kr":"트레이너, 좋은 아침이에요! 오늘도 같이 단련해요!","zh":"教练，早上好！今天也一起锻炼吧！"},
         callSensei: {"jp":"トレーナー","en":"Trainer","kr":"트레이너","zh":"教练","tw":"教練"}
     },
     {
@@ -474,7 +474,7 @@ export const ROSTER_EXTRA: RosterStudent[] = [
         relations: "お祭り運営委員会のシズコ、ウミカとはお祭りの準備をする。",
         sensei: "先生を兄貴分のように慕って、元気に報告する。",
         lines: ["センセイ、ワタシ、人助け、ガンバリマス！","任侠映画、観マシタか？お頭！","人助けは、フィーナの喜びデス！","お祭り、楽しみデスね！"],
-        greetings: {"jp":"センセイ、オツカレサマデス！ワタシ、今日も人助け、ガンバリマス！","en":"Good work, Sensei! Pina will help people again today!","kr":"선생님, 수고하십니다! 피나, 오늘도 사람 돕기 열심히 하겠습니다!","zh":"老师，辛苦了！皮娜今天也要努力助人为乐！"},
+        greetings: {"jp":"センセイ、オツカレサマデス！ワタシ、今日も人助け、ガンバリマス！","en":"Good work, Boss! Pina will help people again today!","kr":"보스, 수고하십니다! 피나, 오늘도 사람 돕기 열심히 하겠습니다!","zh":"老大，辛苦了！皮娜今天也要努力助人为乐！"},
         callSensei: {"jp":"センセイ","en":"Boss","kr":"보스","zh":"老大","tw":"老大"}
     },
     {
@@ -495,7 +495,7 @@ export const ROSTER_EXTRA: RosterStudent[] = [
         relations: "ミチル部長、ツクヨと忍術研究部で活動する。",
         sensei: "先生を主殿と呼び、全力で慕い、護衛したがる。",
         lines: ["主殿、イズナ、頑張るでござる！","ニンニン、参上でござる！","主殿のために修行するでござる。","隠れるのは得意でござるよ！"],
-        greetings: {"jp":"主殿！イズナ、参上でござる！今日も修行、頑張るでござる！ニンニン！","en":"Master! Izuna reporting in! I will train hard today! Ninja ninja!","kr":"주인님! 이즈나 참상이옵니다! 오늘도 수행 열심히 하겠사옵니다! 닌닌!","zh":"主公！伊树菜参上！今天也要努力修行！忍忍！"},
+        greetings: {"jp":"主殿！イズナ、参上でござる！今日も修行、頑張るでござる！ニンニン！","en":"My Lord! Izuna reporting in! I will train hard today! Ninja ninja!","kr":"주인님! 이즈나 참상이옵니다! 오늘도 수행 열심히 하겠사옵니다! 닌닌!","zh":"主公！伊树菜参上！今天也要努力修行！忍忍！"},
         callSensei: {"jp":"主殿","en":"My Lord","kr":"주인님","zh":"主公","tw":"主公"}
     },
     {
@@ -998,7 +998,7 @@ export const ROSTER_EXTRA: RosterStudent[] = [
         relations: "カノエ、ツムギ、レナと同じオカルト研究会。",
         sensei: "先生を「マスター」と呼び、タロットで占ってあげたがる。",
         lines: ["魔法はいつでもあなたと共に！","マスター、タロットで占ってあげます！","この絵も、魔法で上手くなるはずです……たぶん。","歴史に残る傑作を作るのが、私の目標なんです！"],
-        greetings: {"jp":"先生、こんにちは！魔法はいつでもあなたと共にありますよ！","en":"Hello, Sensei! Magic is always with you!","kr":"선생님, 안녕하세요! 마법은 언제나 당신과 함께해요!","zh":"老师，你好！魔法永远与你同在哦！"},
+        greetings: {"jp":"マスター、こんにちは！魔法はいつでもあなたと共にありますよ！","en":"Hello, Master! Magic is always with you!","kr":"마스터, 안녕하세요! 마법은 언제나 당신과 함께해요!","zh":"Master，你好！魔法永远与你同在哦！"},
         callSensei: {"jp":"マスター","en":"Master","kr":"마스터","zh":"Master","tw":"Master"}
     },
     {

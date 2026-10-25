@@ -80,7 +80,7 @@ export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
         zh: [ '妃咲' ],
         tw: [ '妃姬' ]
       },
-      callSensei: { jp: '先生', en: 'Sensei', kr: '선생님', zh: '老师', tw: '老師' },
+      callSensei: { jp: '先生', en: 'Sensei', kr: '선생', zh: '老师', tw: '老師' },
       greetings: {
         jp: '先生、来てくれたか。茶でも飲みながら話そうかの。',
         en: 'You have come, Sensei. Shall we talk over tea?',
@@ -128,7 +128,7 @@ export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
         zh: [ '若藻' ],
         tw: [ '若藻' ]
       },
-      callSensei: { jp: 'あなた様', en: 'Sensei', kr: '선생님', zh: '老师', tw: '老師' },
+      callSensei: { jp: 'あなた様', en: 'Sensei', kr: '당신', zh: '老师', tw: '老師' },
       greetings: {
         jp: 'あなた様、お待ちしておりました。今日はどのように過ごしましょうか？',
         en: 'My dear Sensei, I have been waiting. How shall we spend today?',
@@ -524,7 +524,7 @@ export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
             zh: ['一之濑明日奈', '明日奈'],
             tw: ['一之瀨明日奈', '明日奈']
         },
-        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        callSensei: { jp: 'ご主人様', kr: '주인님', en: 'Master', zh: '主人', tw: '主人' },
         greetings: {
             jp: 'ご主人様〜！えへへ、今日もい〜っぱい楽しいことしよっ！',
             kr: '주인님~! 에헤헤, 오늘도 재~미있는 일 잔뜩 하자!',
@@ -542,7 +542,7 @@ export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
             zh: ['美甘宁瑠', '宁瑠'],
             tw: ['美甘寧瑠', '寧瑠']
         },
-        callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
+        callSensei: { jp: '先生', kr: '선생', en: 'Sensei', zh: '老师', tw: '老師' },
         greetings: {
             jp: 'あぁ！？先生かよ……なんだ、アタシに何か用でもあんのか？',
             kr: '아앙!? 선생이냐…… 뭔데, 나한테 무슨 볼일이라도 있어?',
@@ -1175,6 +1175,37 @@ export function getOutfitDirective(outfit: string): string {
 }
 
 /**
+ * 日本語で書かれた人格設定を他言語で使うための補足。
+ * 設定(一人称・語尾・口癖)は日本語のままなので、同じ話し方・距離感を対象言語の言い回しへ移すよう指示し、
+ * その生徒の対象言語の挨拶を口調の見本として渡す。
+ */
+function getVoiceTransferDirective(lang: 'kr' | 'en' | 'zh' | 'tw', greeting?: string): string {
+    const anchor = greeting ? `
+- Voice reference (this character's own greeting in the target language; copy the register and attitude, not the wording): ${greeting}` : ''
+    const common = `The character profile below is written in Japanese. Treat its first-person, sentence endings, catchphrases, speech register (casual/polite/archaic/rough/formal) and attitude toward the teacher as the character's voice, and carry them over into equivalent natural expressions in the target language. Do not flatten every character into the same neutral polite tone.`
+    const tail: Record<string, string> = {
+        kr: `
+- Korean: choose 반말/존댓말/해라체/하오체 etc. to match the profile (e.g. rough or archaic speech stays rough or archaic; polite speech stays polite).`,
+        en: `
+- English: express the register through word choice and rhythm (clipped, archaic, bubbly, formal, blunt) rather than adding Japanese particles.`,
+        zh: `
+- 简体中文: 用语气词、句式和自称体现人设（如古风、傲娇、粗暴、礼貌），不要写成统一的客服口吻。`,
+        tw: `
+- 繁體中文: 用語氣詞、句式與自稱體現人設（如古風、傲嬌、粗暴、有禮），不要寫成統一的客服口吻。使用台灣慣用詞彙。`
+    }
+    return `- ${common}${tail[lang]}${anchor}
+`
+}
+
+/** 日本語の返信指示と lang タグを対象言語のものに置き換える */
+function localizeProfile(prompt: string, tag: string, replyLine: string): string {
+    return prompt
+        .replace(/lang:ja/gi, `lang:${tag}`)
+        .replace(/1〜3文程度の自然なチャットの長さで返答してください。/g, replyLine)
+        .replace(/MomoTalkの自然な短い返信を1〜3文で送る。/g, replyLine)
+}
+
+/**
  * 生徒情報からシステムプロンプトを動的に構築
  */
 export function buildSystemPrompt(student: baseStudent | studentInfo, targetLang?: string): string {
@@ -1266,12 +1297,10 @@ Ordinary present-moment flavor such as taking a break is allowed. Keep it modest
 - Always call the user "${title}" (Seonsaengnim / Sensei).
 - Your character identity is ${studentDisplayName}. Keep your character's distinctive personality, tone, speech tics, and emotional quirks faithfully intact in Korean.
 `
-        let localizedPrompt = basePrompt
-            .replace(/\*lang:ja/gi, '*lang:ko')
-            .replace(/\*Reply in Japanese/gi, '*Reply in natural, authentic Korean as spoken in the Korean version of Blue Archive.')
-            .replace(/\*Reply in natural Japanese as a MomoTalk chat message \(1-3 sentences\)\./gi, '*Reply in natural Korean as a MomoTalk chat message (1-3 sentences).')
+        const voiceDirective = getVoiceTransferDirective('kr', canonical?.greetings.kr)
+        const localizedPrompt = localizeProfile(basePrompt, 'ko', '*Reply in natural Korean as a MomoTalk chat message (1-3 sentences).')
 
-        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('kr')}\n\n[REITERATION: Always reply in natural KOREAN, call user "${title}"!]`
+        return `${directiveHeader}${voiceDirective}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('kr')}\n\n[REITERATION: Always reply in natural KOREAN, call user "${title}"!]`
     }
 
     if (currentLang === 'en') {
@@ -1284,12 +1313,10 @@ Ordinary present-moment flavor such as taking a break is allowed. Keep it modest
 - Always call the user "${title}".
 - Your character identity is ${studentDisplayName}. Keep your character's distinctive personality, tone, catchphrases, and emotional quirks faithfully intact in English.
 `
-        let localizedPrompt = basePrompt
-            .replace(/\*lang:ja/gi, '*lang:en')
-            .replace(/\*Reply in Japanese/gi, '*Reply in natural, authentic English as localized in Blue Archive.')
-            .replace(/\*Reply in natural Japanese as a MomoTalk chat message \(1-3 sentences\)\./gi, '*Reply in natural English as a MomoTalk chat message (1-3 sentences).')
+        const voiceDirective = getVoiceTransferDirective('en', canonical?.greetings.en)
+        const localizedPrompt = localizeProfile(basePrompt, 'en', '*Reply in natural English as a MomoTalk chat message (1-3 sentences).')
 
-        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('en')}\n\n[REITERATION: Always reply in natural ENGLISH, call user "${title}"!]`
+        return `${directiveHeader}${voiceDirective}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('en')}\n\n[REITERATION: Always reply in natural ENGLISH, call user "${title}"!]`
     }
 
     if (currentLang === 'zh') {
@@ -1302,12 +1329,10 @@ Ordinary present-moment flavor such as taking a break is allowed. Keep it modest
 - 始终称呼玩家为“${title}”。
 - 你的身份是${studentDisplayName}。完整保留角色的第一人称、口头禅、标志性性格与说话习惯。
 `
-        let localizedPrompt = basePrompt
-            .replace(/\*lang:ja/gi, '*lang:zh-CN')
-            .replace(/\*Reply in Japanese/gi, '*必须使用简体中文进行回复。')
-            .replace(/\*Reply in natural Japanese as a MomoTalk chat message \(1-3 sentences\)\./gi, '*使用自然地道的简体中文发送MomoTalk短消息（1-3句）。')
+        const voiceDirective = getVoiceTransferDirective('zh', canonical?.greetings.zh)
+        const localizedPrompt = localizeProfile(basePrompt, 'zh-CN', '*使用自然地道的简体中文发送MomoTalk短消息（1-3句）。')
 
-        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('zh')}\n\n[REITERATION: 必须严格使用简体中文回复，称呼用户为“${title}”！]`
+        return `${directiveHeader}${voiceDirective}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('zh')}\n\n[REITERATION: 必须严格使用简体中文回复，称呼用户为“${title}”！]`
     }
 
     if (currentLang === 'tw') {
@@ -1320,12 +1345,10 @@ Ordinary present-moment flavor such as taking a break is allowed. Keep it modest
 - 始終稱呼玩家為「${title}」。
 - 你的身份是${studentDisplayName}。完整保留角色的第一人稱、口頭禪、標誌性性格與說話習慣。
 `
-        let localizedPrompt = basePrompt
-            .replace(/\*lang:ja/gi, '*lang:zh-TW')
-            .replace(/\*Reply in Japanese/gi, '*必須使用繁體中文進行回覆。')
-            .replace(/\*Reply in natural Japanese as a MomoTalk chat message \(1-3 sentences\)\./gi, '*使用自然道地的繁體中文發送MomoTalk短訊息（1-3句）。')
+        const voiceDirective = getVoiceTransferDirective('tw', canonical?.greetings.tw)
+        const localizedPrompt = localizeProfile(basePrompt, 'zh-TW', '*使用自然道地的繁體中文發送MomoTalk短訊息（1-3句）。')
 
-        return `${directiveHeader}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('tw')}\n\n[REITERATION: 必須嚴格使用繁體中文回覆，稱呼用戶為「${title}」！]`
+        return `${directiveHeader}${voiceDirective}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('tw')}\n\n[REITERATION: 必須嚴格使用繁體中文回覆，稱呼用戶為「${title}」！]`
     }
 
     // デフォルト（日本語）
