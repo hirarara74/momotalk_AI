@@ -62,5 +62,14 @@
   "groqUsageExpired": "회복 예정 시간이 지났습니다. 다음 응답에서 갱신합니다.",
   "groqUsageEmpty": "아직 확인되지 않았습니다. 대화 응답 후 갱신됩니다. 헤더를 읽을 수 없는 연결에서는 표시할 수 없습니다.",
   "groqUsageScope": "마지막 응답 모델의 조직 공유 한도입니다. 누적 및 일일 사용량은 Groq Console에서 확인하세요.",
-  "groqUsageObserved": "마지막 확인 {time}"
+  "groqUsageObserved": "마지막 확인 {time}",
+  "errRateLimitWait": "(AI 사용 한도에 도달해 지금은 답장할 수 없습니다. 약 {time} 후에 다시 사용할 수 있습니다.)",
+  "rateLimitPopupTitle": "AI를 일시적으로 사용할 수 없습니다",
+  "rateLimitPopupBody": "사용 한도에 도달해 답장을 생성할 수 없습니다. 재개까지: {time}",
+  "rateLimitPopupShared": "이 한도는 같은 Groq 조직을 쓰는 모든 사용자가 함께 쓰므로 다른 사용자도 같은 상태입니다.",
+  "rateLimitPopupResumed": "다시 사용할 수 있는 시간이 되었습니다. 메시지를 다시 보내 주세요.",
+  "rateLimitPopupClose": "닫기",
+  "rlTimeH": "{n}시간",
+  "rlTimeM": "{n}분",
+  "rlTimeS": "{n}초"
 }

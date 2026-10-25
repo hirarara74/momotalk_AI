@@ -62,5 +62,14 @@
   "groqUsageExpired": "预计恢复时间已过，下次响应时更新。",
   "groqUsageEmpty": "尚未获取。聊天响应后更新；无法读取限额标头的连接不能显示。",
   "groqUsageScope": "这是最近响应模型的组织共享额度。累计和每日用量请查看 Groq Console。",
-  "groqUsageObserved": "最后获取 {time}"
+  "groqUsageObserved": "最后获取 {time}",
+  "errRateLimitWait": "（已达到 AI 使用上限，暂时无法回复。约 {time} 后恢复。）",
+  "rateLimitPopupTitle": "AI 暂时无法使用",
+  "rateLimitPopupBody": "已达到使用上限，无法生成回复。距离恢复：{time}",
+  "rateLimitPopupShared": "该上限由使用同一个 Groq 组织的所有用户共享，其他用户也处于同样状态。",
+  "rateLimitPopupResumed": "已到恢复时间，请重新发送消息。",
+  "rateLimitPopupClose": "关闭",
+  "rlTimeH": "{n}小时",
+  "rlTimeM": "{n}分钟",
+  "rlTimeS": "{n}秒"
 }

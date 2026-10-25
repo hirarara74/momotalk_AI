@@ -1,4 +1,5 @@
 import { recordGroqUsage } from './groqUsage'
+import { AiRateLimitError, earliestRetry, parseRetryAfterMs } from './rateLimit'
 import type { AIProvider, ChatMessage } from './types'
 import { parseImageDataUrl, extractTextAndImage } from './gemini'
 
@@ -97,6 +98,7 @@ export class GroqProvider implements AIProvider {
             : GROQ_CANDIDATE_MODELS
 
         let lastError: any = null
+        let rateLimited = null as AiRateLimitError | null
 
         for (const modelName of candidateModels) {
             // openai/gpt-oss models do not support image input; skip if image is present
@@ -136,6 +138,11 @@ export class GroqProvider implements AIProvider {
                         if (isTransient) {
                             console.warn(`[Groq] Model ${modelName} returned HTTP ${response.status} (attempt ${attempt}/${maxAttempts}):`, errText)
                             lastError = new Error(`Groq ${modelName} (${response.status}): ${errText}`)
+                            if (response.status === 429) {
+                                // Keep the earliest recovery across candidates: any one model working again is enough.
+                                rateLimited = new AiRateLimitError(lastError.message, earliestRetry(rateLimited?.retryAfterMs, parseRetryAfterMs(response.headers, errText)))
+                                lastError = rateLimited
+                            }
                             if (attempt < maxAttempts && response.status !== 429) {
                                 const backoffMs = attempt === 1 ? 1500 : 2500
                                 await waitWithSignal(backoffMs, signal)

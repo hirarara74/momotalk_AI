@@ -44,6 +44,7 @@ import LanguageIcon from './components/icons/IconLanguage.vue'
 import PlayerDialog from '@/views/DialogView/PlayerWindow.vue'
 import SettingDialog from '@/views/DialogView/SettingWindow.vue'
 import HelpDialog from '@/views/DialogView/HelpWindow.vue'
+import RateLimitDialog from '@/views/DialogView/RateLimitWindow.vue'
 import FilterDialog from '@/views/DialogView/FilterWindows.vue'
 import i18n from '@/locales/i18n'
 import type { baseStudent, studentInfo as StudentInfoType } from '@/assets/requestUtils/interface'
@@ -375,6 +376,7 @@ document.onkeyup = (e) => {
     <PlayerDialog></PlayerDialog>
     <SettingDialog></SettingDialog>
     <HelpDialog></HelpDialog>
+    <RateLimitDialog></RateLimitDialog>
     <div id="root">
         <header id="header" role="banner">
             <div id="header__left">

@@ -62,5 +62,14 @@
   "groqUsageExpired": "Recovery time has passed. The next response will update this.",
   "groqUsageEmpty": "Not available yet. Updated after a chat response; connections without readable rate-limit headers cannot show this.",
   "groqUsageScope": "Organization-wide quota for the last response model. Check Groq Console for cumulative and daily usage.",
-  "groqUsageObserved": "Last checked: {time}"
+  "groqUsageObserved": "Last checked: {time}",
+  "errRateLimitWait": "(The AI usage limit has been reached, so replies are unavailable for now. It resumes in about {time}.)",
+  "rateLimitPopupTitle": "AI is temporarily unavailable",
+  "rateLimitPopupBody": "The usage limit has been reached, so replies can't be generated. Resumes in: {time}",
+  "rateLimitPopupShared": "This limit is shared by everyone using the same Groq organization, so other users are affected too.",
+  "rateLimitPopupResumed": "It's time to resume. Please send your message again.",
+  "rateLimitPopupClose": "Close",
+  "rlTimeH": "{n}h",
+  "rlTimeM": "{n}m",
+  "rlTimeS": "{n}s"
 }

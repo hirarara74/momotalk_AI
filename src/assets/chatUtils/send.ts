@@ -7,6 +7,7 @@ import { selectList } from '../storeUtils/selectList'
 import { myReExp } from '../utils/markdown'
 import { getAIProvider, buildSystemPrompt, type ChatMessage } from '../ai'
 import { normalizeStudentReply } from '../ai/normalizeStudentReply'
+import { AiRateLimitError, formatWait, notifyRateLimit } from '../ai/rateLimit'
 import { streamStudentReply } from '../ai/streamStudentReply'
 import { extractStudentSticker } from '../ai/studentStickers'
 import { isStudentSleeping, getWakeupSystemPromptModifier } from '../ai/sleepSchedule'
@@ -208,6 +209,11 @@ export function formatAiErrorMessage(err: any): string {
         rawMsg.includes('internal_server_error')
     ) {
         return tr('errServerBusy', { model: tr('modelChipTop120b') })
+    }
+
+    // 429 with a known recovery time: say when it comes back (the popup is shown by notifyRateLimit)
+    if (err instanceof AiRateLimitError && err.retryAfterMs != null) {
+        return tr('errRateLimitWait', { time: formatWait(err.retryAfterMs, tr as any) })
     }
 
     // 429 / Rate limit / OTPM
@@ -858,6 +864,7 @@ export async function triggerAIReply(
                 replyTalk.Id,
                 formatAiErrorMessage(err)
             )
+            notifyRateLimit(err)
             talkHistory.saveCurrentStudentTalks()
         }
     } finally {

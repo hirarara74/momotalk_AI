@@ -62,5 +62,14 @@
   "groqUsageExpired": "回復予定時刻を過ぎました。次の応答で更新します",
   "groqUsageEmpty": "まだ取得できていません。会話の応答後に更新します。ヘッダーを取得できない接続先では表示できません。",
   "groqUsageScope": "直近の応答モデルの組織共有枠です。累計・1日分の使用量はGroq Consoleで確認してください。",
-  "groqUsageObserved": "最終取得 {time}"
+  "groqUsageObserved": "最終取得 {time}",
+  "errRateLimitWait": "（AIの利用上限に達したため、いまは返信できません。あと{time}ほどで再開します）",
+  "rateLimitPopupTitle": "AIが一時的に使えません",
+  "rateLimitPopupBody": "利用上限に達したため、返信を生成できません。再開まで: {time}",
+  "rateLimitPopupShared": "この上限は同じ Groq 組織を使う全員で共有されています。他の利用者も同じ状態です。",
+  "rateLimitPopupResumed": "再開できる時間になりました。もう一度メッセージを送ってください。",
+  "rateLimitPopupClose": "閉じる",
+  "rlTimeH": "{n}時間",
+  "rlTimeM": "{n}分",
+  "rlTimeS": "{n}秒"
 }
