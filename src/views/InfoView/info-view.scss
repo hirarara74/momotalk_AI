@@ -2,24 +2,28 @@
     @include center;
     @include font-heavy(20px);
     color: $font-grey;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    align-items: flex-start;
 
     > div {
-        display: grid;
+        display: flex;
+        flex-direction: column;
         width: 100%;
-        margin: 20px 40px;
-        grid-template-rows: 0px 160px 40px minmax(40px, 1fr) 55px;
+        margin: auto 40px;
+        padding: 16px 0;
+        gap: 10px;
     }
 
     &__play {
         display: flex;
         justify-content: center;
         width: 100%;
-        grid-row: 1 / 2;
+        height: 0;
     }
 
     &__avatar {
-        grid-row: 2 / 3;
+        flex-shrink: 0;
         @include center;
 
         img {
@@ -29,14 +33,14 @@
     }
 
     &__name {
-        grid-row: 3 / 4;
+        flex-shrink: 0;
         color: $font-black;
         @include center;
         @include font-light(23px);
     }
 
     &__bio {
-        grid-row: 4 / 5;
+        flex-shrink: 0;
         color: $font-grey;
         word-wrap: break-word;
         text-align: center;
@@ -44,7 +48,7 @@
     }
 
     &__birthday {
-        grid-row: 5 / 6;
+        flex-shrink: 0;
         @include center;
         @include font-light(20px);
         color: #5d7c8c;
@@ -52,7 +56,7 @@
         border-radius: 20px;
         place-self: center;
         width: fit-content;
-        margin: 5px auto auto;
+        margin: 0 auto;
         padding: 4px;
     }
 
@@ -67,7 +71,8 @@
         font-weight: bold;
         padding: 8px 20px;
         border-radius: 20px;
-        margin: 10px auto 0;
+        flex-shrink: 0;
+        margin: 0 auto;
         text-decoration: none;
         box-shadow: 0 2px 6px rgba(255, 123, 146, 0.35);
         transition: all 0.2s ease;
@@ -88,7 +93,8 @@
     }
 
     &__related {
-        margin-top: 20px;
+        flex-shrink: 0;
+        margin-top: 6px;
         overflow: hidden;
 
         &-title {
@@ -120,6 +126,27 @@
                     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
                 }
             }
+        }
+    }
+}
+@media (max-height: 800px) {
+    .student-info {
+        > div {
+            margin: auto 24px;
+            padding: 10px 0;
+            gap: 6px;
+        }
+
+        &__avatar img {
+            @include circle(110px);
+        }
+
+        &__bio {
+            @include font-light(19px);
+        }
+
+        &__related-list .student-info__related-avatar img {
+            @include circle(76px);
         }
     }
 }
