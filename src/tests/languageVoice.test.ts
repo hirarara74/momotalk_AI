@@ -18,11 +18,12 @@ describe('Traditionalized (zh -> tw)', () => {
 describe('non-Japanese system prompts', () => {
     for (const lang of ['kr', 'en', 'zh', 'tw']) {
         it(`${lang}: no leftover Japanese language tag or reply instruction`, () => {
-            for (const name of ['アル', 'ネル', 'キサキ', 'ホシノ', 'エイミ']) {
+            for (const name of ['アル', 'ネル', 'キサキ', 'ホシノ', 'エイミ', 'シロコ']) {
                 const p = buildSystemPrompt({ Id: 0, Name: name, Avatar: '' } as any, lang)
                 expect(p).not.toMatch(/lang:ja/)
                 expect(p).not.toContain('返答してください')
                 expect(p).not.toContain('返信を1〜3文で送る')
+                expect(p).not.toContain('MomoTalkチャットのメッセージとして返信してください')
                 expect(p).toContain('Voice reference')
             }
         })

@@ -48,7 +48,8 @@ describe('Distinct student expansion and dialogue formatting', () => {
         ['「先生、おはよう。\n今日はいい天気だね。」', '先生、おはよう。\n今日はいい天気だね。'],
         ['先生が「休んで」と言ってくれて嬉しいです。', '先生が「休んで」と言ってくれて嬉しいです。'],
         ['「おはよう」「先生」', '「おはよう」「先生」'],
-        ['先生！ [PHOTO: smile]', '先生！ [PHOTO: smile]']
+        ['先生！ [PHOTO: smile]', '先生！ [PHOTO: smile]'],
+        ["It’s fine, Sensei. Don’t overdo it.", "It's fine, Sensei. Don't overdo it."]
     ])('normalizes %s without losing embedded quotes or photo directives', (input, expected) => {
         expect(normalizeStudentReply(input)).toBe(expected)
     })

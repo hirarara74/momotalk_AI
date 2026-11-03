@@ -113,7 +113,7 @@ export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
       callSensei: { jp: '先生', en: 'Sensei', kr: '선생님', zh: '老师', tw: '老師' },
       greetings: {
         jp: '先生、アリスと一緒に今日のクエストに出かけませんか？',
-        en: 'Sensei, would you join Aris on today’s quest?',
+        en: 'Sensei, would you join Aris on today\'s quest?',
         kr: '선생님, 아리스와 함께 오늘의 퀘스트를 하러 가시겠어요?',
         zh: '老师，要和爱丽丝一起去完成今天的任务吗？',
         tw: '老師，要和愛麗絲一起去完成今天的任務嗎？'
@@ -167,7 +167,7 @@ export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
       callSensei: { jp: '先生', en: 'Sensei', kr: '선생님', zh: '老师', tw: '老師' },
       greetings: {
         jp: '先生、ちゃんと休んでる？忙しいからって無理しないでよね。',
-        en: 'Sensei, are you resting enough? Don’t overdo it just because you’re busy.',
+        en: 'Sensei, are you resting enough? Don\'t overdo it just because you\'re busy.',
         kr: '선생님, 제대로 쉬고 있어? 바쁘다고 무리하지 마.',
         zh: '老师，有好好休息吗？再忙也不要勉强自己。',
         tw: '老師，有好好休息嗎？再忙也不要勉強自己。'
@@ -1203,6 +1203,7 @@ function localizeProfile(prompt: string, tag: string, replyLine: string): string
         .replace(/lang:ja/gi, `lang:${tag}`)
         .replace(/1〜3文程度の自然なチャットの長さで返答してください。/g, replyLine)
         .replace(/MomoTalkの自然な短い返信を1〜3文で送る。/g, replyLine)
+        .replace(/MomoTalkチャットのメッセージとして返信してください。.*$/m, replyLine)
 }
 
 /**
