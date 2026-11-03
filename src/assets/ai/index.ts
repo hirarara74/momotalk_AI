@@ -1,3 +1,4 @@
+import { DEBUG_MODE, DEBUG_GROQ_URL } from './debugMode'
 import type { AIProvider } from './types'
 import { GeminiProvider } from './gemini'
 import { OpenAIProvider } from './openai'
@@ -6,6 +7,7 @@ import { GroqProvider, DEFAULT_GROQ_MODEL, DEFAULT_GROQ_BASE_URL } from './groq'
 import { store } from '../storeUtils/store'
 
 export function getAIProvider(): AIProvider {
+    if (DEBUG_MODE) return new GroqProvider('', DEFAULT_GROQ_MODEL, DEBUG_GROQ_URL)
     const provider = store.aiProvider || 'groq'
     const apiKey = (store.aiApiKey || '').trim()
     const model = store.aiModel || undefined

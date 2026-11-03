@@ -11,6 +11,7 @@
   "private": true,
   "scripts": {
     "dev": "vite --host",
+    "dev:debug": "vite --mode debug --host 127.0.0.1 --strictPort",
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "build-only": "vite build && node -e \"require('fs').copyFileSync('dist/index.html', 'dist/404.html')\"",

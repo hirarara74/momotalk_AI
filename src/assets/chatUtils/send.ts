@@ -1,3 +1,4 @@
+import { DEBUG_MODE } from '../ai/debugMode'
 import { readFile } from '../imgUtils/readFile'
 import i18n from '@/locales/i18n'
 import { baseStudent, Talk } from '../requestUtils/interface'
@@ -348,7 +349,7 @@ export async function triggerBackgroundWakeupReply(
 
     let finalDialogue = ''
     let stickerUrl: string | undefined
-    if (!apiKey) {
+    if (!apiKey && !DEBUG_MODE) {
         finalDialogue = getApiKeyWarningNotice(store.language)
     } else {
         try {
@@ -617,7 +618,7 @@ export async function triggerAIReply(
     }
 
     const apiKey = (store.aiApiKey || '').trim()
-    if (!apiKey) {
+    if (!apiKey && !DEBUG_MODE) {
         const replyTalk: Talk = {
             Id: talkHistory.talkId++,
             Name: targetStudent.Name,

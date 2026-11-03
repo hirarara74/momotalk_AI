@@ -1,9 +1,11 @@
+import { DEBUG_MODE } from '../ai/debugMode'
 import { store } from '../storeUtils/store'
 
 /**
  * ユーザーが自身のAPIキーを設定済みかどうかを判定
  */
 export function hasConfiguredApiKey(): boolean {
+    if (DEBUG_MODE) return true
     const key = (store.aiApiKey || '').trim()
     if (key.length > 0) {
         return true

@@ -1,3 +1,4 @@
+import { DEBUG_MODE } from '../ai/debugMode'
 import { reactive } from 'vue'
 import i18n from '@/locales/i18n'
 import { talkHistory } from './talkHistory'
@@ -77,6 +78,7 @@ export const store = reactive({
     },
 
     checkAndPromptApiKey(): boolean {
+        if (DEBUG_MODE) return false
         const hasKey = !!(this.aiApiKey && this.aiApiKey.trim() !== '' && !this.aiApiKey.startsWith('AIzaSy'))
         if (!hasKey) {
             this.showSettingDialog = true
