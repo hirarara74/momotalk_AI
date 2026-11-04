@@ -16,6 +16,7 @@ export default defineConfig(({ command, mode }) => {
   // Absolute URL for og:image / twitter:image (crawlers ignore relative paths); the free edition overrides it in .env.free
   const siteUrl = (loadEnv(mode, process.cwd(), 'VITE_').VITE_SITE_URL || 'https://hirarara74.github.io/momotalk_AI').replace(/\/$/, '')
   // Cloudflare Web Analytics site token (public by design; it is visible in the served HTML). The free edition overrides it in .env.free.
+  // Two sites, one per edition: this default = hirarara74.github.io, .env.free = *.workers.dev. `node scripts/cf-analytics.mjs` splits the numbers by host.
   const beaconToken = loadEnv(mode, process.cwd(), 'VITE_').VITE_CF_BEACON_TOKEN || 'be3702350e794c55a6a5d483400495e7'
   const base = process.env.VITE_BASE || (isDev ? '/momotalk/' : '/momotalk_AI/')
 
