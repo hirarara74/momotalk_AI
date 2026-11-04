@@ -2,10 +2,10 @@ import { describe, it, expect } from 'vitest'
 import { buildSystemPrompt, getStudentGreeting, isPromptSupported, SPECIAL_PROMPTS } from '../assets/ai/prompts'
 import { ROSTER_STUDENTS } from '../assets/ai/rosterStudents'
 
-describe('rosterStudents: 追加した119人', () => {
+describe('rosterStudents: 追加した143人', () => {
     it('全員が一意で、対応済みと判定される', () => {
-        expect(ROSTER_STUDENTS).toHaveLength(119)
-        expect(new Set(ROSTER_STUDENTS.map((r) => r.id)).size).toBe(119)
+        expect(ROSTER_STUDENTS).toHaveLength(143)
+        expect(new Set(ROSTER_STUDENTS.map((r) => r.id)).size).toBe(143)
         for (const r of ROSTER_STUDENTS) {
             expect(isPromptSupported(r.id)).toBe(true)
             expect(isPromptSupported({ Id: r.id, Name: r.jpName })).toBe(true)
@@ -84,7 +84,7 @@ describe('Wiki 照合の反映: 先生の呼び方と共通ルール', () => {
         expect(get(13009)).not.toContain('行儀見習い部')
         expect(get(10037)).toContain('クーデター')
         expect(get(10128)).not.toContain('芸術家気取り')
-        expect(get(10117)).toContain('丁寧で落ち着いた')
+        expect(get(10117)).toContain('間延びしたマイペースなタメ口')
     })
 })
 

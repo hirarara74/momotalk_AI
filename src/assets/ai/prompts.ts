@@ -234,7 +234,7 @@ export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
             kr: ['히나', '소라사키 히나'],
             en: ['Hina', 'Sorasaki Hina'],
             zh: ['空崎日奈', '日奈'],
-            tw: ['空崎日奈', '日奈']
+            tw: ['空崎陽奈', '陽奈', '空崎日奈', '日奈']
         },
         callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
         greetings: {
@@ -270,7 +270,7 @@ export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
             kr: ['아루', '리쿠하치마 아루'],
             en: ['Aru', 'Rikuhachima Aru'],
             zh: ['陆八魔阿露', '阿露'],
-            tw: ['陸八魔阿露', '阿露']
+            tw: ['陸八魔亞瑠', '亞瑠', '陸八魔阿露', '阿露']
         },
         callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
         greetings: {
@@ -306,7 +306,7 @@ export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
             kr: ['히후미', '아지타니 히후미'],
             en: ['Hifumi', 'Ajitani Hifumi'],
             zh: ['阿慈谷日富美', '日富美'],
-            tw: ['阿慈谷日富美', '日富美']
+            tw: ['阿慈谷日步美', '日步美', '阿慈谷日富美', '日富美']
         },
         callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
         greetings: {
@@ -396,7 +396,7 @@ export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
             kr: ['미카', '미소노 미카'],
             en: ['Mika', 'Misono Mika'],
             zh: ['圣园未花', '未花'],
-            tw: ['聖園未花', '未花']
+            tw: ['聖園彌香', '彌香', '聖園未花', '未花']
         },
         callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
         greetings: {
@@ -412,14 +412,14 @@ export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
         names: {
             jp: ['トキ', '飛鳥馬トキ'],
             kr: ['토키', '아스마 토키'],
-            en: ['Toki', 'Asuka Toki'],
+            en: ['Toki', 'Asuma Toki', 'Asuka Toki'],
             zh: ['飞鸟马时', '时'],
-            tw: ['飛鳥馬時', '時']
+            tw: ['飛鳥馬季', '飛鳥馬時', '時']
         },
         callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
         greetings: {
             jp: 'ピース、ピース。C&C所属、飛鳥馬トキです。先生の呼び出しに応じ参上しました。',
-            kr: '피스, 피스. C&C 소속, 아스마 토키입니다. 선생님의 호출에 응하여 참상했습니다.',
+            kr: '피스, 피스. C&C 소속, 아스마 토키입니다. 선생님의 호출에 응하여 도착했습니다.',
             en: 'Peace, peace. Asuma Toki from C&C. Reporting as requested, Sensei.',
             zh: '耶，耶。我是C&C所属的飞鸟马时。响应老师的召唤前来报到。',
             tw: '耶，耶。我是C&C所屬的飛鳥馬時。響應老師的召喚前來報到。'
@@ -432,7 +432,7 @@ export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
             kr: ['하루나', '쿠로다테 하루나'],
             en: ['Haruna', 'Kurodate Haruna'],
             zh: ['黑馆晴奈', '晴奈'],
-            tw: ['黑館晴奈', '晴奈']
+            tw: ['黑館羽留奈', '羽留奈', '黑館晴奈', '晴奈']
         },
         callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
         greetings: {
@@ -449,7 +449,7 @@ export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
             jp: ['ムツキ', '浅黄ムツキ'],
             kr: ['무츠키', '아사기 무츠키'],
             en: ['Mutsuki', 'Asagi Mutsuki'],
-            zh: ['浅黄无月', '无月'],
+            zh: ['浅黄睦月', '睦月', '浅黄无月', '无月'],
             tw: ['淺黃無月', '無月']
         },
         callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
@@ -468,7 +468,7 @@ export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
             kr: ['노아', '우시오 노아'],
             en: ['Noa', 'Ushio Noa'],
             zh: ['生盐诺亚', '诺亚'],
-            tw: ['生鹽諾亞', '諾亞']
+            tw: ['生鹽乃愛', '乃愛', '生鹽諾亞', '諾亞']
         },
         callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
         greetings: {
@@ -539,12 +539,12 @@ export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
             jp: ['ネル', '美甘ネル'],
             kr: ['네루', '미카모 네루'],
             en: ['Neru', 'Mikamo Neru'],
-            zh: ['美甘宁瑠', '宁瑠'],
+            zh: ['美甘妮禄', '妮禄', '美甘宁瑠', '宁瑠'],
             tw: ['美甘寧瑠', '寧瑠']
         },
         callSensei: { jp: '先生', kr: '선생', en: 'Sensei', zh: '老师', tw: '老師' },
         greetings: {
-            jp: 'あぁ！？先生かよ……なんだ、アタシに何か用でもあんのか？',
+            jp: 'あぁ！？先生かよ……なんだ、あたしに何か用でもあんのか？',
             kr: '아앙!? 선생이냐…… 뭔데, 나한테 무슨 볼일이라도 있어?',
             en: "Aah!? It's you, Sensei... What, you got some business with me?",
             zh: '啊！？是老师啊……搞什么，找我有何贵干啊？',
@@ -557,16 +557,16 @@ export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
             jp: ['カズサ', '杏山カズサ'],
             kr: ['카즈사', '쿄야마 카즈사'],
             en: ['Kazusa', 'Kyouyama Kazusa'],
-            zh: ['杏山一纱', '一纱'],
-            tw: ['杏山一紗', '一紗']
+            zh: ['杏山和纱', '和纱', '杏山一纱', '一纱'],
+            tw: ['杏山千紗', '千紗', '杏山一紗', '一紗']
         },
         callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
         greetings: {
-            jp: '……先生、お疲れ。何？……べ、別に待ってたわけじゃないし。',
-            kr: '……선생님, 수고했어. 왜? ……딱, 딱히 기다린 건 아니고.',
-            en: "...Good work, Sensei. What? ...It's not like I was waiting for you or anything.",
-            zh: '……老师，辛苦了。怎么？……才、才没有特意在等你呢。',
-            tw: '……老師，辛苦了。怎麼？……才、才沒有特意在等你呢。'
+            jp: '……先生、お疲れ。ちょうど甘いものが食べたかったところ。一緒にどう？',
+            kr: '……선생님, 수고했어. 마침 단 게 먹고 싶던 참인데, 같이 어때?',
+            en: "...Good work, Sensei. I was just craving something sweet. Want to join me?",
+            zh: '……老师，辛苦了。我正好想吃点甜的，要不要一起？',
+            tw: '……老師，辛苦了。我正好想吃點甜的，要不要一起？'
         }
     },
     {
@@ -576,7 +576,7 @@ export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
             kr: ['사오리', '죠마에 사오리'],
             en: ['Saori', 'Joumae Saori'],
             zh: ['锭前纱织', '纱织'],
-            tw: ['錠前紗織', '紗織']
+            tw: ['錠前沙織', '沙織', '錠前紗織', '紗織']
         },
         callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
         greetings: {
@@ -594,7 +594,7 @@ export const STUDENT_CANONICAL_DATA: CanonicalStudentData[] = [
             kr: ['슌', '스노하라 슌'],
             en: ['Shun', 'Sunohara Shun'],
             zh: ['春原瞬', '瞬'],
-            tw: ['春原瞬', '瞬']
+            tw: ['春原旬', '春原瞬', '瞬']
         },
         callSensei: { jp: '先生', kr: '선생님', en: 'Sensei', zh: '老师', tw: '老師' },
         greetings: {
@@ -695,10 +695,10 @@ export const STUDENT_GREETINGS: Record<string, string> = {
     '下江コハル': 'ちょ、先生！？いきなり何ですか……！？変なことしたら死刑ですからね！',
     'アスナ': 'ご主人様〜！えへへ、今日もい〜っぱい楽しいことしよっ！',
     '一之瀬アスナ': 'ご主人様〜！えへへ、今日もい〜っぱい楽しいことしよっ！',
-    'ネル': 'あぁ！？先生かよ……なんだ、アタシに何か用でもあんのか？',
-    '美甘ネル': 'あぁ！？先生かよ……なんだ、アタシに何か用でもあんのか？',
-    'カズサ': '……先生、お疲れ。何？……べ、別に待ってたわけじゃないし。',
-    '杏山カズサ': '……先生、お疲れ。何？……べ、別に待ってたわけじゃないし。',
+    'ネル': 'あぁ！？先生かよ……なんだ、あたしに何か用でもあんのか？',
+    '美甘ネル': 'あぁ！？先生かよ……なんだ、あたしに何か用でもあんのか？',
+    'カズサ': '……先生、お疲れ。ちょうど甘いものが食べたかったところ。一緒にどう？',
+    '杏山カズサ': '……先生、お疲れ。ちょうど甘いものが食べたかったところ。一緒にどう？',
     'サオリ': '先生……無事か？何か異常があれば、すぐに私を呼んでくれ。',
     '錠前サオリ': '先生……無事か？何か異常があれば、すぐに私を呼んでくれ。',
     'シュン': 'あらあら、先生。今日もお疲れ様です。少しお茶でもいかがですか？',
@@ -1179,9 +1179,23 @@ export function getOutfitDirective(outfit: string): string {
  * 設定(一人称・語尾・口癖)は日本語のままなので、同じ話し方・距離感を対象言語の言い回しへ移すよう指示し、
  * その生徒の対象言語の挨拶を口調の見本として渡す。
  */
-function getVoiceTransferDirective(lang: 'kr' | 'en' | 'zh' | 'tw', greeting?: string): string {
-    const anchor = greeting ? `
-- Voice reference (this character's own greeting in the target language; copy the register and attitude, not the wording): ${greeting}` : ''
+/** プロフィール中の他の生徒の日本語名を、対象言語の公式表記に対応づける（モデルが名前を自作するのを防ぐ） */
+function buildNameGlossary(lang: 'kr' | 'en' | 'zh' | 'tw', profile: string): string {
+    const pairs: string[] = []
+    for (const c of STUDENT_CANONICAL_DATA) {
+        const jp = c.names.jp[0]
+        const local = c.names[lang]?.[0]
+        if (!jp || !local || jp.length < 2 || pairs.length >= 10) continue
+        const escaped = jp.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+        if (new RegExp(`(?<![ァ-ヶー])${escaped}(?![ァ-ヶー])`).test(profile)) pairs.push(`${jp}=${local}`)
+    }
+    return pairs.length ? `
+- Names in this language (use exactly these spellings for other students; never invent a transliteration): ${pairs.join(', ')}` : ''
+}
+
+function getVoiceTransferDirective(lang: 'kr' | 'en' | 'zh' | 'tw', greeting?: string, profile = ''): string {
+    const anchor = (greeting ? `
+- Voice reference (this character's own greeting in the target language; copy the register and attitude, not the wording; never reply to a question by repeating this greeting): ${greeting}` : '') + buildNameGlossary(lang, profile)
     const common = `The character profile below is written in Japanese. Treat its first-person, sentence endings, catchphrases, speech register (casual/polite/archaic/rough/formal) and attitude toward the teacher as the character's voice, and carry them over into equivalent natural expressions in the target language. Do not flatten every character into the same neutral polite tone.`
     const tail: Record<string, string> = {
         kr: `
@@ -1298,7 +1312,7 @@ Ordinary present-moment flavor such as taking a break is allowed. Keep it modest
 - Always call the user "${title}" (Seonsaengnim / Sensei).
 - Your character identity is ${studentDisplayName}. Keep your character's distinctive personality, tone, speech tics, and emotional quirks faithfully intact in Korean.
 `
-        const voiceDirective = getVoiceTransferDirective('kr', canonical?.greetings.kr)
+        const voiceDirective = getVoiceTransferDirective('kr', canonical?.greetings.kr, basePrompt)
         const localizedPrompt = localizeProfile(basePrompt, 'ko', '*Reply in natural Korean as a MomoTalk chat message (1-3 sentences).')
 
         return `${directiveHeader}${voiceDirective}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('kr')}\n\n[REITERATION: Always reply in natural KOREAN, call user "${title}"!]`
@@ -1314,7 +1328,7 @@ Ordinary present-moment flavor such as taking a break is allowed. Keep it modest
 - Always call the user "${title}".
 - Your character identity is ${studentDisplayName}. Keep your character's distinctive personality, tone, catchphrases, and emotional quirks faithfully intact in English.
 `
-        const voiceDirective = getVoiceTransferDirective('en', canonical?.greetings.en)
+        const voiceDirective = getVoiceTransferDirective('en', canonical?.greetings.en, basePrompt)
         const localizedPrompt = localizeProfile(basePrompt, 'en', '*Reply in natural English as a MomoTalk chat message (1-3 sentences).')
 
         return `${directiveHeader}${voiceDirective}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('en')}\n\n[REITERATION: Always reply in natural ENGLISH, call user "${title}"!]`
@@ -1330,7 +1344,7 @@ Ordinary present-moment flavor such as taking a break is allowed. Keep it modest
 - 始终称呼玩家为“${title}”。
 - 你的身份是${studentDisplayName}。完整保留角色的第一人称、口头禅、标志性性格与说话习惯。
 `
-        const voiceDirective = getVoiceTransferDirective('zh', canonical?.greetings.zh)
+        const voiceDirective = getVoiceTransferDirective('zh', canonical?.greetings.zh, basePrompt)
         const localizedPrompt = localizeProfile(basePrompt, 'zh-CN', '*使用自然地道的简体中文发送MomoTalk短消息（1-3句）。')
 
         return `${directiveHeader}${voiceDirective}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('zh')}\n\n[REITERATION: 必须严格使用简体中文回复，称呼用户为“${title}”！]`
@@ -1346,7 +1360,7 @@ Ordinary present-moment flavor such as taking a break is allowed. Keep it modest
 - 始終稱呼玩家為「${title}」。
 - 你的身份是${studentDisplayName}。完整保留角色的第一人稱、口頭禪、標誌性性格與說話習慣。
 `
-        const voiceDirective = getVoiceTransferDirective('tw', canonical?.greetings.tw)
+        const voiceDirective = getVoiceTransferDirective('tw', canonical?.greetings.tw, basePrompt)
         const localizedPrompt = localizeProfile(basePrompt, 'zh-TW', '*使用自然道地的繁體中文發送MomoTalk短訊息（1-3句）。')
 
         return `${directiveHeader}${voiceDirective}\n${localizedPrompt}\n\n${timeContext}${getStickerDirective('tw')}\n\n[REITERATION: 必須嚴格使用繁體中文回覆，稱呼用戶為「${title}」！]`

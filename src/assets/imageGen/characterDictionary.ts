@@ -1,5 +1,11 @@
 import type { CharacterVisualProfile } from './types'
 import { ROSTER_STUDENTS } from '../ai/rosterStudents'
+import { NPC_A_LOOKS } from '../ai/rosterNpcA'
+import { NPC_B_LOOKS } from '../ai/rosterNpcB'
+import { NPC_C_LOOKS } from '../ai/rosterNpcC'
+import { NPC_D_LOOKS } from '../ai/rosterNpcD'
+import { NPC_E_LOOKS } from '../ai/rosterNpcE'
+import { NPC_F_LOOKS } from '../ai/rosterNpcF'
 
 /**
  * Danbooru visual profile dictionary for the prompt-supported Blue Archive students + Arona.
@@ -1343,6 +1349,9 @@ export const DEFAULT_FALLBACK_PROFILE: CharacterVisualProfile = {
  */
 // 一覧の104と既存の画像用ID9999は同じアロナ。
 STUDENT_VISUAL_PROFILES[104] = STUDENT_VISUAL_PROFILES[9999]
+
+// 非プレイアブル・出典が薄い生徒の見た目（docs/npc-research/）
+Object.assign(STUDENT_VISUAL_PROFILES, NPC_A_LOOKS, NPC_B_LOOKS, NPC_C_LOOKS, NPC_D_LOOKS, NPC_E_LOOKS, NPC_F_LOOKS)
 
 export const STUDENT_NAME_ALIASES: Record<string, number> = {
   'カヨコ': 13005,

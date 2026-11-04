@@ -1,4 +1,10 @@
 import { resolveCanonicalStudent } from './prompts'
+import { NPC_A_SLEEP } from './rosterNpcA'
+import { NPC_B_SLEEP } from './rosterNpcB'
+import { NPC_C_SLEEP } from './rosterNpcC'
+import { NPC_D_SLEEP } from './rosterNpcD'
+import { NPC_E_SLEEP } from './rosterNpcE'
+import { NPC_F_SLEEP } from './rosterNpcF'
 /**
  * 生徒ごとの生活リズム（就寝・起床時間・平日休日差・ランダム性）管理モジュール
  */
@@ -637,6 +643,8 @@ add(["食蜂操祈"], { bedtimeHour: 0, bedtimeMinute: 0, weekdayWakeHour: 8, we
 add(["佐天涙子"], { bedtimeHour: 23, bedtimeMinute: 30, weekdayWakeHour: 7, weekdayWakeMinute: 30, weekendWakeHour: 9, weekendWakeMinute: 0, varianceMinutes: 20, notes: '都市伝説を調べて夜更かし' })
 add(["ヒカリ","橘ヒカリ"], { bedtimeHour: 0, bedtimeMinute: 30, weekdayWakeHour: 9, weekdayWakeMinute: 0, weekendWakeHour: 11, weekendWakeMinute: 30, varianceMinutes: 30, notes: 'ゲームで夜更かしし、朝は弱い' })
 add(["ノゾミ","橘ノゾミ"], { bedtimeHour: 23, bedtimeMinute: 0, weekdayWakeHour: 7, weekdayWakeMinute: 0, weekendWakeHour: 8, weekendWakeMinute: 30, varianceMinutes: 15, notes: '元気に早起き' })
+// 非プレイアブル・出典が薄い生徒（docs/npc-research/）
+for (const [names, config] of [...NPC_A_SLEEP, ...NPC_B_SLEEP, ...NPC_C_SLEEP, ...NPC_D_SLEEP, ...NPC_E_SLEEP, ...NPC_F_SLEEP]) add(names, config)
 add(["アオバ"], { bedtimeHour: 23, bedtimeMinute: 30, weekdayWakeHour: 6, weekdayWakeMinute: 30, weekendWakeHour: 8, weekendWakeMinute: 0, varianceMinutes: 10, notes: '貨物管理の早朝作業がある' })
 add(["エリ","白尾エリ"], { bedtimeHour: 1, bedtimeMinute: 0, weekdayWakeHour: 9, weekdayWakeMinute: 0, weekendWakeHour: 11, weekendWakeMinute: 0, varianceMinutes: 35, notes: 'オカルトの研究で夜更かし' })
 add(["カノエ"], { bedtimeHour: 2, bedtimeMinute: 0, weekdayWakeHour: 10, weekdayWakeMinute: 0, weekendWakeHour: 12, weekendWakeMinute: 0, varianceMinutes: 40, notes: '妄想にふけって夜型' })
