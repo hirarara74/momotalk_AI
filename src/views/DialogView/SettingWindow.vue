@@ -81,10 +81,9 @@ const changeTheme = () => {
 }
 
 const onProviderChange = () => {
+    // The key belongs to the previous provider; never carry it to another one
+    store.aiApiKey = ''
     if (store.aiProvider === 'groq') {
-        if (!store.aiApiKey || store.aiApiKey.startsWith('AIzaSy')) {
-            store.aiApiKey = ''
-        }
         if (!store.aiModel || store.aiModel.includes('gemini') || store.aiModel.includes('gpt-')) {
             store.aiModel = 'qwen/qwen3.8-27b'
         }
